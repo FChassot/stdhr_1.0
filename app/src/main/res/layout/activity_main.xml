@@ -7,11 +7,54 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="hesso.mas.spatio_temporaldigitalheritagebrowsing.MainActivity">
+    tools:context="hesso.mas.stdhb.GUI.MainActivity">
 
     <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="HES-SO Médiathèque du Valais!"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="119dp" />
+
+    <TextView
+        android:id="@+id/title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="DIGITAL HERITAGE BROWSING!"
+        android:layout_below="@+id/btnpreferences"
+        android:layout_toRightOf="@+id/btnradar"
+        android:layout_toEndOf="@+id/btnradar"
+        android:layout_marginTop="116dp" />
+
+    <Button
+        android:id="@+id/btnpreferences"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:text="Préférences"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/title"
+        android:layout_alignEnd="@+id/title" />
+
+    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/btnradar"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:text="Radar"
+        android:onClick="Radar"
+        android:layout_alignTop="@+id/btnsearch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnsearch"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:text="Chercher"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/btnpreferences"
+        android:layout_alignEnd="@+id/btnpreferences" />
 
 </RelativeLayout>
