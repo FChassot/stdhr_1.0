@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import hesso.mas.spatio_temporaldigitalheritagebrowsing.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

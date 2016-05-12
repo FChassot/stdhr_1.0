@@ -11,7 +11,12 @@ import android.widget.Toast;
 
 import hesso.mas.spatio_temporaldigitalheritagebrowsing.R;
 
-public class RechercheActivity extends AppCompatActivity {
+/**
+ * Created by Frédéric Chassot on 11.05.2016.
+ * This is the Activity in which the user will be able to request the
+ * sematic datas stored on the external triplestore
+ */
+public class RechercheActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,7 @@ public class RechercheActivity extends AppCompatActivity {
 
     // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
     public void onClick(View view){
-        /*if (view.getId()==R.id.btnRSearch) { // C'est notre bouton ? oui, alors affichage d'un message
+        if (view.getId()==R.id.btnRSearch) { // C'est notre bouton ? oui, alors affichage d'un message
             HttpBinding request = new HttpBinding();
             EndPoint lEndPoint = new EndPoint();
 
@@ -36,6 +41,6 @@ public class RechercheActivity extends AppCompatActivity {
             Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
             //request.DoHttpBinding(lEndPoint.Uri());
 
-        }*/
+        }
     }
 }

@@ -10,6 +10,10 @@ import android.content.Intent;
 
 import hesso.mas.spatio_temporaldigitalheritagebrowsing.R;
 
+/**
+ * Created by Frédéric Chassot on 11.05.2016.
+ * This is the main Activity of this application
+ */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             startActivity(intent);
         }
         if (view.getId()==R.id.btnradar){ // C'est notre bouton ? oui, alors affichage d'un message
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
             startActivity(intent);
         }
         if (view.getId()==R.id.btnsearch){ // C'est notre bouton ? oui, alors affichage d'un message
