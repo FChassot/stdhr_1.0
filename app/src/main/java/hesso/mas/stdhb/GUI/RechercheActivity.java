@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import hesso.mas.spatio_temporaldigitalheritagebrowsing.R;
+import hesso.mas.stdhbtests.R;
 
 /**
  * Created by Frédéric Chassot on 11.05.2016.
@@ -36,10 +36,12 @@ public class RechercheActivity extends AppCompatActivity implements View.OnClick
             HttpBinding request = new HttpBinding();
             EndPoint lEndPoint = new EndPoint();
 
-            lEndPoint.Uri("http://www.android.com/");
+            lEndPoint.Uri("http://dbpedia.org/sparql");
 
-            Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
-            //request.DoHttpBinding(lEndPoint.Uri());
+            //Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
+            String lResponse = request.DoHttpBinding(lEndPoint.Uri());
+
+            Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
 
         }
     }

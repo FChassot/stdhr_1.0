@@ -64,4 +64,12 @@
         android:layout_alignRight="@+id/btnpreferences"
         android:layout_alignEnd="@+id/btnpreferences" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Google map"
+        android:id="@+id/btnMap"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

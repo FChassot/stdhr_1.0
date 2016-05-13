@@ -6,9 +6,8 @@ import android.os.Bundle;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import hesso.mas.spatio_temporaldigitalheritagebrowsing.R;
+import hesso.mas.stdhbtests.R;
 
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 

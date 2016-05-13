@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import hesso.mas.spatio_temporaldigitalheritagebrowsing.R;
+import hesso.mas.stdhbtests.R;
 
 public class DisplayActivity extends AppCompatActivity {
 

@@ -8,7 +8,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.content.Intent;
 
-import hesso.mas.spatio_temporaldigitalheritagebrowsing.R;
+import java.util.Map;
+
+import hesso.mas.stdhbtests.R;
 
 /**
  * Created by Frédéric Chassot on 11.05.2016.
@@ -25,11 +27,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Button mPreferencesButton = (Button)findViewById(R.id.btnpreferences);
         Button mRadarButton = (Button)findViewById(R.id.btnradar);
         Button mSearchButton = (Button)findViewById(R.id.btnsearch);
+        Button mMapButton = (Button)findViewById(R.id.btnMap);
 
         // Positionner un listener sur ce bouton
-        mPreferencesButton.setOnClickListener((OnClickListener)this);
-        mRadarButton.setOnClickListener((OnClickListener)this);
-        mSearchButton.setOnClickListener((OnClickListener)this);
+        mPreferencesButton.setOnClickListener(this);
+        mRadarButton.setOnClickListener(this);
+        mSearchButton.setOnClickListener(this);
+        mMapButton.setOnClickListener(this);
     }
 
     // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
@@ -44,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
         if (view.getId()==R.id.btnsearch){ // C'est notre bouton ? oui, alors affichage d'un message
             Intent intent = new Intent(MainActivity.this, RechercheActivity.class);
+            startActivity(intent);
+        }
+        if (view.getId()==R.id.btnMap){ // C'est notre bouton ? oui, alors affichage d'un message
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }
     }

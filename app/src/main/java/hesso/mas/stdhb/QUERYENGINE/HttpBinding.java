@@ -10,18 +10,28 @@ import java.net.URL;
  */
 public class HttpBinding {
 
-    public static void DoHttpBinding(String aUrl) {
+    public static String DoHttpBinding(EndPoint aEndPoint) {
 
-        String lUrl="http://www.android.com/";
+        // Db Pedia Request (HTTP Binding)
+        String strings = "London";
+        String service = "http://dbpedia.org/sparql";
+        String query = "PREFIX dbo:<http://dbpedia.org/ontology/>"
+                + "PREFIX : <http://dbpedia.org/resource/>"
+                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
+                + "select ?URI where {?URI rdfs:label "+strings+".}";
+
+        String lResult = "rien";
 
         try {
-            URL url = new URL(aUrl);
+            //QueryExecution qE =
+
+            URL url = new URL(aEndPoint.Uri());
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             try {
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                //readStream(in);
+                lResult = readStream(in);
             }
             finally {
                 urlConnection.disconnect();
@@ -31,5 +41,18 @@ public class HttpBinding {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            return lResult;
+        }
+    }
+
+    private static String readStream(InputStream is) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = new BufferedReader(new InputStreamReader(is),1000);
+        for (String line = r.readLine(); line != null; line =r.readLine()){
+            sb.append(line);
+        }
+        is.close();
+        return sb.toString();
     }
 }

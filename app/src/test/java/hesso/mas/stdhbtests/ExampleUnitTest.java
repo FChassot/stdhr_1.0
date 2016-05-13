@@ -1,4 +1,4 @@
-package hesso.mas.spatio_temporaldigitalheritagebrowsing;
+package hesso.mas.stdhbtests;
 
 import org.junit.Test;
 
