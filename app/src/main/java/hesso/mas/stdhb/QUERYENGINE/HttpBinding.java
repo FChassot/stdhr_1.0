@@ -4,14 +4,15 @@ import java.io.*;
 import java.net.*;
 import java.io.InputStream;
 import java.net.URL;
-import hesso.mas.stdhb.QueryEngine.*;
+
+import hesso.mas.stdhb.DataAccess.CitizenEndPoint;
 
 /**
  * Created by frede on 11.05.2016.
  */
 public class HttpBinding {
 
-    public static String DoHttpBinding(hesso.mas.stdhb.QueryEngine.EndPoint aEndPoint) {
+    public static String DoHttpBinding(CitizenEndPoint aCitizenEndPoint) {
 
         // Db Pedia Request (HTTP Binding)
         String strings = "London";
@@ -26,7 +27,7 @@ public class HttpBinding {
         try {
             //QueryExecution qE =
 
-            URL url = new URL(aEndPoint.Uri());
+            URL url = new URL(aCitizenEndPoint.Service());
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 

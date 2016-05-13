@@ -8,8 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.content.Intent;
 
-import java.util.Map;
-
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -47,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             startActivity(intent);
         }
         if (view.getId()==R.id.btnsearch){ // C'est notre bouton ? oui, alors affichage d'un message
-            Intent intent = new Intent(MainActivity.this, RechercheActivity.class);
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
         }
         if (view.getId()==R.id.btnMap){ // C'est notre bouton ? oui, alors affichage d'un message
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            Intent intent = new Intent(MainActivity.this, GMapActivity.class);
             startActivity(intent);
         }
     }
