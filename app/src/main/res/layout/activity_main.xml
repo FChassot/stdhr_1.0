@@ -17,7 +17,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="119dp" />
+        android:layout_marginTop="119dp"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:textIsSelectable="false" />
 
     <TextView
         android:id="@+id/title1"
@@ -26,8 +29,12 @@
         android:text="DIGITAL HERITAGE BROWSING!"
         android:layout_below="@+id/btnpreferences"
         android:layout_toRightOf="@+id/btnradar"
-        android:layout_toEndOf="@+id/btnradar"
-        android:layout_marginTop="116dp" />
+        android:layout_marginTop="116dp"
+        android:textColor="#d13b3b"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnpreferences"
