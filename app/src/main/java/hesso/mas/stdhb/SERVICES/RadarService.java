@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.SERVICES;
+package hesso.mas.stdhb.Services;
 
 import android.app.IntentService;
 import android.content.Intent;
