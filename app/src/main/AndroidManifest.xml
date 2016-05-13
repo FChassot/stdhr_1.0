@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="hesso.mas.stdhb.GUI.MainActivity">
+        <activity android:name="hesso.mas.stdhb.Gui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,9 +25,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="hesso.mas.stdhb.GUI.SettingsActivity"
+            android:name="hesso.mas.stdhb.Gui.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name="hesso.mas.stdhb.GUI.RechercheActivity" />
+        <activity android:name="hesso.mas.stdhb.Gui.RechercheActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,16 +41,16 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="hesso.mas.stdhb.GUI.DisplayActivity"
+            android:name="hesso.mas.stdhb.Gui.DisplayActivity"
             android:label="@string/title_activity_display"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name="hesso.mas.stdhb.SERVICES.RadarService"
+            android:name="hesso.mas.stdhb.Services.RadarService"
             android:exported="false" />
 
         <activity
-            android:name="hesso.mas.stdhb.GUI.MapsActivity"
+            android:name="hesso.mas.stdhb.Gui.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
 
         <!-- Added by chf-->

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.GUI;
+package hesso.mas.stdhb.Gui;
 
 import hesso.mas.stdhbtests.R;
 import android.support.v4.app.FragmentActivity;

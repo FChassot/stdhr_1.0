@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.GUI;
+package hesso.mas.stdhb.Gui;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

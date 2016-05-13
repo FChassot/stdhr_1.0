@@ -1,16 +1,17 @@
-package hesso.mas.stdhb.QUERYENGINE;
+package hesso.mas.stdhb.QueryEngine;
 
 import java.io.*;
 import java.net.*;
 import java.io.InputStream;
 import java.net.URL;
+import hesso.mas.stdhb.QueryEngine.*;
 
 /**
  * Created by frede on 11.05.2016.
  */
 public class HttpBinding {
 
-    public static String DoHttpBinding(EndPoint aEndPoint) {
+    public static String DoHttpBinding(hesso.mas.stdhb.QueryEngine.EndPoint aEndPoint) {
 
         // Db Pedia Request (HTTP Binding)
         String strings = "London";

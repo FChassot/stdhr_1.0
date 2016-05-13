@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.QUERYENGINE;
+package hesso.mas.stdhb.QueryEngine;
 
 
 /**

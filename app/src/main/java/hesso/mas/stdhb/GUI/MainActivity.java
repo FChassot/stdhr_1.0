@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.GUI;
+package hesso.mas.stdhb.Gui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

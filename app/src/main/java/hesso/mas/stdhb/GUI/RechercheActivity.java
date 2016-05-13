@@ -1,7 +1,7 @@
-package hesso.mas.stdhb.GUI;
+package hesso.mas.stdhb.Gui;
 
-import hesso.mas.stdhb.QUERYENGINE.EndPoint;
-import hesso.mas.stdhb.QUERYENGINE.HttpBinding;
+import hesso.mas.stdhb.QueryEngine.EndPoint;
+import hesso.mas.stdhb.QueryEngine.*;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +39,7 @@ public class RechercheActivity extends AppCompatActivity implements View.OnClick
             lEndPoint.Uri("http://dbpedia.org/sparql");
 
             //Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
-            String lResponse = request.DoHttpBinding(lEndPoint.Uri());
+            String lResponse = request.DoHttpBinding(lEndPoint);
 
             Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
 
