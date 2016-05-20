@@ -1,5 +1,6 @@
 package hesso.mas.stdhb.Gui;
 
+import hesso.mas.stdhb.Common.myString;
 import hesso.mas.stdhb.DataAccess.CitizenEndPoint;
 import hesso.mas.stdhb.QueryEngine.*;
 
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.os.Bundle;
 import android.view.View;
+
+import java.io.IOException;
 
 import hesso.mas.stdhbtests.R;
 
@@ -33,15 +36,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
     public void onClick(View view){
         if (view.getId()==R.id.btnRSearch) { // C'est notre bouton ? oui, alors affichage d'un message
-            HttpBinding request = new HttpBinding();
+            /*HttpBinding request = new HttpBinding();
             CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
             lCitizenEndPoint.Service("http://dbpedia.org/sparql");
 
             //Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
-            String lResponse = request.DoHttpBinding(lCitizenEndPoint);
+            String lResponse = request.DoHttpBinding(lCitizenEndPoint);*/
 
-            Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
+            OkHttpRClient lClient = new OkHttpRClient();
+            String getResponse = myString.Empty();
+
+            try {
+                getResponse = lClient.doGetRequest("http://www.vogella.com");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Toast.makeText(this, getResponse, Toast.LENGTH_SHORT).show();
         }
     }
 }

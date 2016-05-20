@@ -22,12 +22,13 @@ public class HttpBinding {
                 + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
                 + "select ?URI where {?URI rdfs:label "+strings+".}";
 
+        String serv = "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+*+where+%7B%0D%0A+++%3Fcategorie+rdfs%3Alabel+%22%C5%92uvre+conserv%C3%A9e+au+Louvre%22%40fr+.%0D%0A+++%3Foeuvre+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FwikiPageWikiLink%3E+%3Fcategorie%0D%0A+%7D+LIMIT+1000&format=text%2Fhtml&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=o";
         String lResult = "rien";
 
         try {
             //QueryExecution qE =
-
-            URL url = new URL(aCitizenEndPoint.Service());
+//aCitizenEndPoint.Service()
+            URL url = new URL(serv);
 
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -44,8 +45,9 @@ public class HttpBinding {
             e.printStackTrace();
         }
         finally {
-            return lResult;
         }
+
+        return lResult;
     }
 
     private static String readStream(InputStream is) throws IOException {

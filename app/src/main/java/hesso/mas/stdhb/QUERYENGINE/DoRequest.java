@@ -7,5 +7,4 @@ public class DoRequest {
 
     private void DoRequest() {}
 
-
 }
