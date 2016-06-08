@@ -1,6 +1,6 @@
 package hesso.mas.stdhb.DataAccess;
 
-import hesso.mas.stdhb.Common.myString;
+import hesso.mas.stdhb.Base.myString;
 
 /**
  * Created by Frédéric Chassot on 20.06.2016.

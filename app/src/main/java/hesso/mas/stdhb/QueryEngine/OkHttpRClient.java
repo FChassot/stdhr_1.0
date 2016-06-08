@@ -18,9 +18,9 @@ public class OkHttpRClient {
     // code request code here
     public String doGetRequest(String url) throws IOException {
         Request request =
-                new Request.Builder()
-                        .url(url)
-                        .build();
+           new Request.Builder()
+              .url(url)
+              .build();
 
         Response response = client.newCall(request).execute();
         return response.body().string();
@@ -32,7 +32,7 @@ public class OkHttpRClient {
             = MediaType.parse("application/json; charset=utf-8");
 
     // test data
-    String bowlingJson(String player1, String player2) {
+    public String bowlingJson(String player1, String player2) {
         return "{'winCondition':'HIGH_SCORE',"
                 + "'name':'Bowling',"
                 + "'round':4,"
@@ -44,7 +44,7 @@ public class OkHttpRClient {
                 + "]}";
     }
 
-    String doPostRequest(String url, String json) throws IOException {
+    public String doPostRequest(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)

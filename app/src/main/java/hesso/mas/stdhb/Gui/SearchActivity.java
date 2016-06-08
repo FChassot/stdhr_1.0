@@ -1,18 +1,21 @@
 package hesso.mas.stdhb.Gui;
 
-import hesso.mas.stdhb.Common.myString;
-import hesso.mas.stdhb.DataAccess.CitizenEndPoint;
+import hesso.mas.stdhb.Communication.Rest.RestTask;
 import hesso.mas.stdhb.QueryEngine.*;
-
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.Toast;
 import android.os.Bundle;
 import android.view.View;
 
-import java.io.IOException;
-
 import hesso.mas.stdhbtests.R;
+
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.widget.TextView;
 
 /**
  * Created by Frédéric Chassot on 11.05.2016.
@@ -44,16 +47,65 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             //Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
             String lResponse = request.DoHttpBinding(lCitizenEndPoint);*/
 
-            OkHttpRClient lClient = new OkHttpRClient();
+            /*OkHttpRClient lClient = new OkHttpRClient();
             String getResponse = myString.Empty();
 
             try {
                 getResponse = lClient.doGetRequest("http://www.vogella.com");
             } catch (IOException e) {
                 e.printStackTrace();
+            }*/
+
+            /*OkHttpRClient lClient = new OkHttpRClient();
+            String postResponse = myString.Empty();
+            String json = lClient.bowlingJson("Jesse", "Jake");
+
+            try {
+                postResponse = lClient.doPostRequest("http://www.roundsapp.com/post", json);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(postResponse);*/
+
+            RestClient client = new RestClient("http://dbpedia.org/sparql");
+            client.AddParam("service", "http://dbpedia.org/sparql");
+            String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
+            client.AddParam("query", query);
+
+            try {
+                client.Execute(RestClient.RequestMethod.GET);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-            Toast.makeText(this, getResponse, Toast.LENGTH_SHORT).show();
+            String lResponse = client.getResponse();
+            Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
         }
     }
+
+    ProgressDialog progress;
+    private TextView ourTextView;
+    private static final String TAG = "AATestFragment";
+
+    /**
+     * Our Broadcast Receiver. We get notified that the data is ready this way.
+     */
+    private BroadcastReceiver receiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            // clear the progress indicator
+            if (progress != null)
+            {
+                progress.dismiss();
+            }
+            String response = intent.getStringExtra(RestTask.HTTP_RESPONSE);
+            ourTextView.setText(response);
+            Log.i(TAG, "RESPONSE = " + response);
+            //
+            // my old json code was here. this is where you will parse it.
+            //
+        }
+    };
 }
