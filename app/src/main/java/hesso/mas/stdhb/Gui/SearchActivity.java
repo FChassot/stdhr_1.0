@@ -1,6 +1,7 @@
 package hesso.mas.stdhb.Gui;
 
-import hesso.mas.stdhb.Communication.Rest.RestTask;
+import hesso.mas.stdhb.Base.MyString;
+import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
 import hesso.mas.stdhb.QueryEngine.*;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -67,7 +68,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
             System.out.println(postResponse);*/
 
-            RestClient client = new RestClient("http://dbpedia.org/sparql");
+            /*RestClient client = new RestClient("http://dbpedia.org/sparql");
             client.AddParam("service", "http://dbpedia.org/sparql");
             String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
             client.AddParam("query", query);
@@ -78,9 +79,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
 
-            String lResponse = client.getResponse();
-            Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
+            String lResponse = client.getResponse();*/
+            String lUrls = MyString.Empty();
+            startAsyncSearch(lUrls);
+
+            /*Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();*/
         }
+    }
+
+    /**
+     * Start a Search on the endPoint Sparql Server
+     * @param urls
+     */
+    private void startAsyncSearch(String... urls) {
+        new RetrieveCityStoriesDataTask(null, MyString.Empty()).execute(urls);
     }
 
     ProgressDialog progress;
@@ -91,6 +103,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * Our Broadcast Receiver. We get notified that the data is ready this way.
      */
     private BroadcastReceiver receiver = new BroadcastReceiver()
+
     {
         @Override
         public void onReceive(Context context, Intent intent)
@@ -100,8 +113,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             {
                 progress.dismiss();
             }
-            String response = intent.getStringExtra(RestTask.HTTP_RESPONSE);
+
+            String response = intent.getStringExtra(RetrieveCityStoriesDataTask.HTTP_RESPONSE);
+
             ourTextView.setText(response);
+
             Log.i(TAG, "RESPONSE = " + response);
             //
             // my old json code was here. this is where you will parse it.

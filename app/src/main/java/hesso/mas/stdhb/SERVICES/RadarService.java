@@ -68,6 +68,7 @@ public class RadarService extends IntentService {
                 final String param2 = intent.getStringExtra(EXTRA_PARAM2);
                 handleActionBaz(param1, param2);
             }
+
         }
     }
 
