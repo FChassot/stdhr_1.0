@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="hesso.mas.stdhb.GUI.SettingsActivity">
+    tools:context="hesso.mas.stdhb.Gui.SettingsActivity">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -199,4 +199,14 @@
         android:text="sauver"
         android:id="@+id/btnSave"
         android:layout_centerVertical="true" />
+
+    <!--<ListPreference
+        android:key="prefSyncFrequency"
+        android:entries="@categories/syncFrequency"
+        android:entryValues="@categories/syncFrequencyValues"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />-->
+
 </RelativeLayout>
+
+

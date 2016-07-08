@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Gui;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.TextView;
 
 import hesso.mas.stdhbtests.R;
 
@@ -32,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         mRadarButton.setOnClickListener(this);
         mSearchButton.setOnClickListener(this);
         mMapButton.setOnClickListener(this);
+
+        // Afficher le rayon actuellement configuré
+        showUserSettings();
     }
 
     // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
@@ -52,6 +58,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             Intent intent = new Intent(MainActivity.this, GMapActivity.class);
             startActivity(intent);
         }
+    }
+
+    /**
+     *
+     */
+    private void showUserSettings() {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\n Rayon: " + sharedPrefs.getString("prefRadarRayon", "NULL"));
+
+        TextView rayonSettingsView = (TextView) findViewById(R.id.textViewRayon);
+
+        rayonSettingsView.setText(builder.toString());
     }
 
 }

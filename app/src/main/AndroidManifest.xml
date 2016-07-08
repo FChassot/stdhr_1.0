@@ -52,13 +52,15 @@
 
         <activity
             android:name="hesso.mas.stdhb.Gui.GMapActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
 
-        <!-- Added by chf-->
-        <!-- google maps api v2-->
+        <!-- Added by chf -->
+        <!-- google maps api v2 -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="key"/>
+            android:value="key" />
+
+        <activity android:name="hesso.mas.stdhb.Gui.Settings"></activity>
     </application>
 
 </manifest>

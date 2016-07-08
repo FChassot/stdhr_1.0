@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="hesso.mas.stdhb.GUI.MainActivity">
+    tools:context="hesso.mas.stdhb.Gui.MainActivity">
 
     <TextView
         android:id="@+id/title"
@@ -71,5 +71,16 @@
         android:id="@+id/btnMap"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Rayon"
+        android:id="@+id/textViewRayon"
+        android:layout_above="@+id/btnradar"
+        android:layout_toRightOf="@+id/btnradar"
+        android:layout_toEndOf="@+id/btnradar" />
+
 
 </RelativeLayout>
