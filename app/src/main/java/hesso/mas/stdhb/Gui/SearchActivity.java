@@ -88,11 +88,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * Start a Search on the endPoint Sparql Server
+     * Start an Async Search on the endPoint Sparql Server
      * @param urls
      */
     private void startAsyncSearch(String... urls) {
-        new RetrieveCityStoriesDataTask(null, MyString.Empty()).execute(urls);
+
+        new RetrieveCityStoriesDataTask(this, MyString.Empty()).execute(urls);
     }
 
     ProgressDialog progress;

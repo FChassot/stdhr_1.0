@@ -13,6 +13,7 @@ import hesso.mas.stdhb.QueryEngine.RestClient;
 
 /**
  * Created by Frédéric Chassot on 20.06.2016.
+ *
  * This class represents a thread used to retrieve Data of the City-Stories
  * Endpoint Sparql.
  */
@@ -41,9 +42,16 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
         mClient = client;
     }
 
+    /**
+     * Override this method to perform a computation on a background thread.
+     * The specified parameters are the parameters passed to execute(Params...) by the caller
+     * of this task.
+     * This method can call publishProgress(Progress...) to publish updates on the UI thread.
+     * @param urls
+     */
     protected String doInBackground(String... urls) {
 
-        String lResponse = MyString.Empty();
+        String lResponse;
 
         try {
             RestClient client = new RestClient("http://dbpedia.org/sparql");
@@ -53,6 +61,7 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
 
             try {
                 client.Execute(RestClient.RequestMethod.GET);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -67,6 +76,14 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
         return lResponse;
     }
 
+    /*
+     * Cet événement est appelé sur le UI thread directement après l'exécution
+     * de la méthode doInBackground(). Le paramètre result est la valeur retourné par
+     * la méthode doInBackground.
+     *
+     * Runs on the UI thread after doInBackground(Params...).
+     *The specified result is the value returned by doInBackground(Params...).
+     */
     protected void onPostExecute(String result) {
         // TODO: check this.exception
         // TODO: do something with the feed

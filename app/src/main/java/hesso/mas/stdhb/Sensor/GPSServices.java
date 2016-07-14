@@ -66,11 +66,11 @@ public final class GPSServices implements LocationListener {
     public Location getLocation() {
         try {
             locationManager = (LocationManager) mContext
-                    .getSystemService(Context.LOCATION_SERVICE);
+                .getSystemService(Context.LOCATION_SERVICE);
 
             // getting GPS status
             isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
             Log.v("isGPSEnabled", "=" + isGPSEnabled);
 
