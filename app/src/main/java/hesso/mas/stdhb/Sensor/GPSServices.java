@@ -4,13 +4,29 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+/**
+ * Created by frede on 13.05.2016.
+ *
+ * Used for receiving notifications from the LocationManager when
+ * the location has changed. These methods are called if the
+ * LocationListener has been registered with the location manager service
+ * using the {@link LocationManager#requestLocationUpdates(String, long, float, LocationListener)}
+ * method.
+ */
 public final class GPSServices implements LocationListener {
 
     private final Context mContext;
@@ -64,7 +80,7 @@ public final class GPSServices implements LocationListener {
 
             Log.v("isNetworkEnabled", "=" + isNetworkEnabled);
 
-            if (isGPSEnabled == false && isNetworkEnabled == false) {
+            if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
             } else {
                 this.canGetLocation = true;
@@ -86,7 +102,9 @@ public final class GPSServices implements LocationListener {
                 }
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGPSEnabled) {
-                    location=null;
+
+                    location = null;
+
                     if (location == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -166,8 +184,7 @@ public final class GPSServices implements LocationListener {
         alertDialog.setTitle("GPS is settings");
 
         // Setting Dialog Message
-        alertDialog
-                .setMessage("GPS is not enabled. Do you want to go to settings menu?");
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
 
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings",
@@ -192,7 +209,38 @@ public final class GPSServices implements LocationListener {
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location loc) {
+        //editLocation.setText("");
+        //pb.setVisibility(View.INVISIBLE);
+        Toast.makeText(
+                null,
+                "Location changed: Lat: " + loc.getLatitude() + " Lng: "
+                        + loc.getLongitude(), Toast.LENGTH_SHORT).show();
+        String longitude = "Longitude: " + loc.getLongitude();
+        Log.v("TAG", longitude);
+        String latitude = "Latitude: " + loc.getLatitude();
+        Log.v("TAG", latitude);
+
+        /*------- To get city name from coordinates -------- */
+        String cityName = null;
+        Geocoder gcd = new Geocoder(null, Locale.getDefault());
+
+        List<Address> addresses;
+
+        try {
+            addresses = gcd.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+
+            if (addresses.size() > 0) {
+                System.out.println(addresses.get(0).getLocality());
+                cityName = addresses.get(0).getLocality();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String s = longitude + "\n" + latitude + "\n\nMy Current City is: " + cityName;
+        //editLocation.setText(s);
     }
 
     @Override
