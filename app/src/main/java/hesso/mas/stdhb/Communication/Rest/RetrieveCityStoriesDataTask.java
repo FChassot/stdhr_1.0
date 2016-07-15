@@ -8,6 +8,8 @@ import android.util.Log;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import hesso.mas.stdhb.Base.DataAccess.CitizenEndPoint;
+
 /**
  * Created by Frédéric Chassot on 20.06.2016.
  *
@@ -51,8 +53,10 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
         String lResponse;
 
         try {
-            RestClient client = new RestClient("http://dbpedia.org/sparql");
-            client.AddParam("service", "http://dbpedia.org/sparql");
+            //RestClient client = new RestClient("http://dbpedia.org/sparql");
+            RestClient client = new RestClient(CitizenEndPoint.CitizenServer);
+            client.AddParam("service", CitizenEndPoint.CitizenServer);
+
             String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
             client.AddParam("query", query);
 

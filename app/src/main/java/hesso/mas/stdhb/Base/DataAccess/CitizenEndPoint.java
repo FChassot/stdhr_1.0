@@ -10,6 +10,12 @@ public class CitizenEndPoint {
 
     static String mUri = MyString.EMPTY_STRING;
 
+    public static final String CitizenServer =
+            "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
+
+    static final String CitizenRepository =
+            "CityZenDM";
+
     // Setter
     public String Service(){return mUri;}
 
