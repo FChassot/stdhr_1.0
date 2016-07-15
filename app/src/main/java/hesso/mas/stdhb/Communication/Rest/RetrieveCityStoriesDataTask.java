@@ -18,7 +18,7 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
 
     private Exception exception;
 
-    private static final String TAG = "AARestTask";
+    private static final String TAG = "RetrCityStoriesDataTask";
     public static final String HTTP_RESPONSE = "httpResponse";
 
     private Context mContext;

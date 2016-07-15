@@ -1,6 +1,6 @@
-package hesso.mas.stdhb.DataAccess;
+package hesso.mas.stdhb.Base.DataAccess;
 
-import hesso.mas.stdhb.Base.MyString;
+import hesso.mas.stdhb.Base.Tools.MyString;
 
 /**
  * Created by Frédéric Chassot on 20.06.2016.
@@ -8,7 +8,7 @@ import hesso.mas.stdhb.Base.MyString;
  */
 public class CitizenEndPoint {
 
-    static String mUri = MyString.Empty();
+    static String mUri = MyString.EMPTY_STRING;
 
     // Setter
     public String Service(){return mUri;}

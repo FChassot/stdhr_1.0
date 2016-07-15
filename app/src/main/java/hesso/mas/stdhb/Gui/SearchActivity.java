@@ -1,11 +1,10 @@
 package hesso.mas.stdhb.Gui;
 
-import hesso.mas.stdhb.Base.MyString;
+import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
-import hesso.mas.stdhb.QueryEngine.*;
+
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.widget.Toast;
 import android.os.Bundle;
 import android.view.View;
 
@@ -80,7 +79,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             String lResponse = client.getResponse();*/
-            String lUrls = MyString.Empty();
+            String lUrls = MyString.EMPTY_STRING;
             startAsyncSearch(lUrls);
 
             /*Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();*/
@@ -93,7 +92,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      */
     private void startAsyncSearch(String... urls) {
 
-        new RetrieveCityStoriesDataTask(this, MyString.Empty()).execute(urls);
+        new RetrieveCityStoriesDataTask(this, MyString.EMPTY_STRING).execute(urls);
     }
 
     ProgressDialog progress;

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base;
+package hesso.mas.stdhb.Base.Tools;
 
 /**
  * Created by Frédéric Chassot on 13.05.2016.
@@ -12,9 +12,8 @@ package hesso.mas.stdhb.Base;
 public final class MyString {
 
     /**
-     * Méthode qui retourne un string vide. Méthode qui sera utilisé partout
-     * dans le code par exemple pour l'initialisation de variables de type
-     * String.
+     * Constante
      */
-    public static String Empty() { return "";}
+    public static final String EMPTY_STRING = "";
+
 }

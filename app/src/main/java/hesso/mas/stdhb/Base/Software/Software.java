@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base;
+package hesso.mas.stdhb.Base.Software;
 
 /**
  *

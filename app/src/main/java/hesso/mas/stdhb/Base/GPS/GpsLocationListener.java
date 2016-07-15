@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Sensor.GPS;
+package hesso.mas.stdhb.Base.GPS;
 
 import android.app.AlertDialog;
 import android.content.Context;

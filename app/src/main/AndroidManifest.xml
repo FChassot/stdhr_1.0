@@ -57,7 +57,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name="hesso.mas.stdhb.Services.RadarService"
+            android:name="hesso.mas.stdhb.Base.Services.RadarService"
             android:exported="false" />
 
         <activity
