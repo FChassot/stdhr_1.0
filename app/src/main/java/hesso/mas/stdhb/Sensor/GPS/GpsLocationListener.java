@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Sensor;
+package hesso.mas.stdhb.Sensor.GPS;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,7 +27,7 @@ import java.util.Locale;
  * using the {@link LocationManager#requestLocationUpdates(String, long, float, LocationListener)}
  * method.
  */
-public final class GPSServices implements LocationListener {
+public final class GpsLocationListener implements LocationListener {
 
     private final Context mContext;
 
@@ -53,7 +53,7 @@ public final class GPSServices implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSServices(Context context) {
+    public GpsLocationListener(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -136,7 +136,7 @@ public final class GPSServices implements LocationListener {
      * */
     public void stopUsingGPS() {
         if (locationManager != null) {
-            locationManager.removeUpdates(GPSServices.this);
+            locationManager.removeUpdates(GpsLocationListener.this);
         }
     }
 

@@ -64,7 +64,7 @@ public class StdhrPreferences {
             // accuracy (exactitude)
             lCoordonates.setAccuracy(100);
 
-            //GPSServices lGpsServices = new GPSServices(this);
+            //GpsLocationListener lGpsServices = new GpsLocationListener(this);
 
             //lCoordonates = lGpsServices.getLocation();
             return lCoordonates;
