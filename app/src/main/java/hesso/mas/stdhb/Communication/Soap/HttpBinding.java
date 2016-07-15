@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.QueryEngine;
+package hesso.mas.stdhb.Communication.Soap;
 
 import java.io.*;
 import java.net.*;

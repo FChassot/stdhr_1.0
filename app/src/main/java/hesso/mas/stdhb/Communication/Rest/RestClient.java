@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.QueryEngine;
+package hesso.mas.stdhb.Communication.Rest;
 
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.QueryEngine;
+package hesso.mas.stdhb.Communication.OkHttp;
 
 import java.io.IOException;
 

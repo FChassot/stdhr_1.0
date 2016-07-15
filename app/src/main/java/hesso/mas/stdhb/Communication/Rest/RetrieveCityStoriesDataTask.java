@@ -8,9 +8,6 @@ import android.util.Log;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import hesso.mas.stdhb.Base.MyString;
-import hesso.mas.stdhb.QueryEngine.RestClient;
-
 /**
  * Created by Frédéric Chassot on 20.06.2016.
  *
