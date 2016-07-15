@@ -12,7 +12,7 @@ package hesso.mas.stdhb.Base.Tools;
 public final class MyString {
 
     /**
-     * Constante
+     * Constant
      */
     public static final String EMPTY_STRING = "";
 

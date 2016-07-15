@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.widget.TextView;
 
 import hesso.mas.stdhb.Base.Preferences.StdhrPreferences;
+import hesso.mas.stdhb.Gui.GoogleMap.GMapActivity;
+import hesso.mas.stdhb.Gui.Radar.DisplayActivity;
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
     public void onClick(View view){
         if (view.getId()==R.id.btnpreferences){ // C'est notre bouton ? oui, alors affichage d'un message
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, hesso.mas.stdhb.Gui.Config.SettingsActivity.class);
             startActivity(intent);
         }
         if (view.getId()==R.id.btnradar){ // C'est notre bouton ? oui, alors affichage d'un message

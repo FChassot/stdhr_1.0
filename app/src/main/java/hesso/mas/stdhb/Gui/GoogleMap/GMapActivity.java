@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui;
+package hesso.mas.stdhb.Gui.GoogleMap;
 
 import hesso.mas.stdhbtests.R;
 import android.support.v4.app.FragmentActivity;

@@ -32,7 +32,7 @@ public final class GpsLocationListener implements LocationListener {
     private final Context mContext;
 
     // flag for GPS status
-    public boolean isGPSEnabled = false;
+    public boolean isGpsEnabled = false;
 
     // flag for network status
     boolean isNetworkEnabled = false;
@@ -41,6 +41,7 @@ public final class GpsLocationListener implements LocationListener {
     boolean canGetLocation = false;
 
     Location location; // location
+
     double latitude; // latitude
     double longitude; // longitude
 
@@ -69,18 +70,18 @@ public final class GpsLocationListener implements LocationListener {
                 .getSystemService(Context.LOCATION_SERVICE);
 
             // getting GPS status
-            isGPSEnabled = locationManager
+            isGpsEnabled = locationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-            Log.v("isGPSEnabled", "=" + isGPSEnabled);
+            Log.v("isGPSEnabled", "=" + isGpsEnabled);
 
             // getting network status
             isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             Log.v("isNetworkEnabled", "=" + isNetworkEnabled);
 
-            if (!isGPSEnabled && !isNetworkEnabled) {
+            if (!isGpsEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
             } else {
                 this.canGetLocation = true;
@@ -101,7 +102,7 @@ public final class GpsLocationListener implements LocationListener {
                     }
                 }
                 // if GPS Enabled get lat/long using GPS Services
-                if (isGPSEnabled) {
+                if (isGpsEnabled) {
 
                     location = null;
 

@@ -27,7 +27,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recherche);
+        setContentView(R.layout.activity_search);
 
         // Récupération de l'instance bouton préférences
         Button mBtnSearch = (Button)findViewById(R.id.btnRSearch);
