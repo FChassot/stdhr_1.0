@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.widget.TextView;
 
 import hesso.mas.stdhb.Base.Preferences.StdhrPreferences;
-import hesso.mas.stdhb.Gui.GoogleMap.GMapActivity;
+import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Gui.Radar.DisplayActivity;
 import hesso.mas.stdhbtests.R;
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             startActivity(intent);
         }
         if (view.getId()==R.id.btnMap){ // C'est notre bouton ? oui, alors affichage d'un message
-            Intent intent = new Intent(MainActivity.this, GMapActivity.class);
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }
     }

@@ -1,6 +1,5 @@
 package hesso.mas.stdhb.Gui.GoogleMap;
 
-import hesso.mas.stdhbtests.R;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -11,14 +10,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class GMapActivity extends FragmentActivity implements OnMapReadyCallback {
+import hesso.mas.stdhbtests.R;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

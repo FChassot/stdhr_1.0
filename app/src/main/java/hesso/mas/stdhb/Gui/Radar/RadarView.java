@@ -10,20 +10,35 @@ import android.util.Log;
 
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 /**
  * Created by frede on 15.07.2016.
+ *
+ * This class represents the basic building block for user interface components.
+ * A View occupies a rectangular area on the screen and is responsible for drawing and event handling.
+ * View is the base class for widgets, which are used to create interactive UI components (buttons, text fields, etc.).
+ * The ViewGroup subclass is the base class for layouts,
+ * which are invisible containers that hold other Views (or other ViewGroups) and define their layout properties.
  */
 public class RadarView extends View {
 
         private final String LOG = "RadarView";
-        private final int POINT_ARRAY_SIZE = 25;
+        private final int POINT_ARRAY_SIZE = 45;
+        private final int MARKERS_NUMBER = 5;
 
         private int fps = 100;
         private boolean showCircles = true;
+        private boolean showInterestsFound = true;
 
         float alpha = 0;
+
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
+        Point Markers[] = new Point[MARKERS_NUMBER];
 
         public RadarView(Context context) {
             this(context, null);
@@ -37,10 +52,11 @@ public class RadarView extends View {
             super(context, attrs, defStyleAttr);
 
             Paint localPaint = new Paint();
+
             localPaint.setColor(Color.DKGRAY);
             localPaint.setAntiAlias(true);
             localPaint.setStyle(Paint.Style.STROKE);
-            localPaint.setStrokeWidth(3.0F);
+            localPaint.setStrokeWidth(5.0F);
             localPaint.setAlpha(0);
 
             int alpha_step = 255 / POINT_ARRAY_SIZE;
@@ -60,10 +76,15 @@ public class RadarView extends View {
             }
         };
 
-
         public void startAnimation() {
             mHandler.removeCallbacks(mTick);
             mHandler.post(mTick);
+        }
+
+        public void updateMarkers() {
+            for (int i=0; i < MARKERS_NUMBER; i++){
+                Markers[i] = new Point(i*20+50, i*5+100);
+            }
         }
 
         public void stopAnimation() {
@@ -73,7 +94,7 @@ public class RadarView extends View {
         public void setFrameRate(int fps) { this.fps = fps; }
         public int getFrameRate() { return this.fps; };
 
-        public void setShowCircles(boolean showCircles) { this.showCircles =     showCircles; }
+        public void setShowCircles(boolean showCircles) { this.showCircles = showCircles; }
 
         @Override
         protected void onDraw(Canvas canvas) {
@@ -96,6 +117,15 @@ public class RadarView extends View {
                 canvas.drawCircle(i, i, j * 3 / 4, localPaint);
                 canvas.drawCircle(i, i, j >> 1, localPaint);
                 canvas.drawCircle(i, i, j >> 2, localPaint);
+            }
+
+            if (showInterestsFound) {
+                for (int lIndexMarker=0; lIndexMarker < Markers.length; lIndexMarker++) {
+                    Point lMarker = new Point();
+                    lMarker.set(Markers[lIndexMarker].x, Markers[lIndexMarker].y);
+                    canvas.drawPoint(lMarker.x, lMarker.y, localPaint);
+                    //canvas.Add(lMarker);
+                }
             }
 
             alpha -= 0.5;

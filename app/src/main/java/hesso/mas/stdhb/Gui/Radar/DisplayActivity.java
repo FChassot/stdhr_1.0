@@ -23,6 +23,9 @@ public class DisplayActivity extends AppCompatActivity {
 
         mRadarView = (hesso.mas.stdhb.Gui.Radar.RadarView) findViewById(R.id.radarView);
         mRadarView.setShowCircles(true);
+
+        mRadarView.updateMarkers();
+
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
