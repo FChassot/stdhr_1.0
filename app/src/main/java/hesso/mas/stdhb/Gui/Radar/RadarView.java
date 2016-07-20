@@ -37,19 +37,19 @@ public class RadarView extends View {
             super(context, attrs, defStyleAttr);
 
             Paint localPaint = new Paint();
-            localPaint.setColor(Color.GREEN);
+            localPaint.setColor(Color.DKGRAY);
             localPaint.setAntiAlias(true);
             localPaint.setStyle(Paint.Style.STROKE);
-            localPaint.setStrokeWidth(1.0F);
+            localPaint.setStrokeWidth(3.0F);
             localPaint.setAlpha(0);
 
             int alpha_step = 255 / POINT_ARRAY_SIZE;
+
             for (int i=0; i < latestPaint.length; i++) {
                 latestPaint[i] = new Paint(localPaint);
                 latestPaint[i].setAlpha(255 - (i* alpha_step));
             }
         }
-
 
         android.os.Handler mHandler = new android.os.Handler();
         Runnable mTick = new Runnable() {
@@ -110,16 +110,14 @@ public class RadarView extends View {
                 latestPoint[x] = latestPoint[x-1];
             }
 
-
-
             int lines = 0;
+
             for (int x = 0; x < POINT_ARRAY_SIZE; x++) {
                 Point point = latestPoint[x];
                 if (point != null) {
                     canvas.drawLine(i, i, point.x, point.y, latestPaint[x]);
                 }
             }
-
 
             lines = 0;
             for (Point p : latestPoint) if (p != null) lines++;
