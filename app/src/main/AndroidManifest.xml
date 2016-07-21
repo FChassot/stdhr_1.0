@@ -23,21 +23,18 @@
         android:name="android.hardware.location.gps"
         android:required="false" />
 
-    <!-- Permissions nécessaire pour les services Google Maps -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Pour télécharger la carte -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--
-    permet à l'API Google Maps de
-    vérifier l'état du réseau pour savoir quand télécharger les cartes
-    -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Les trois permissions suivantes sont nécessaires pour l'utilisation
+     des services Google Maps -->
 
-    <!--
-     permet à l'API de stocker des
-    cartes (zones) en cache
-    -->
+    <!-- Pour télécharger la carte -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- permet à l'API Google Maps de vérifier l'état du réseau
+    pour savoir quand télécharger les cartes -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- permet à l'API de stocker des cartes (zones) en cache -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- Fin des permissions nécessaires pour les services Google Maps -->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -66,7 +63,7 @@
 
         <activity
             android:name="hesso.mas.stdhb.Gui.Radar.DisplayActivity"
-            android:label="@string/title_activity_display"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
@@ -75,7 +72,8 @@
 
         <!-- Added by chf -->
 
-        <activity android:name="hesso.mas.stdhb.Gui.Config.Settings" />
+        <activity android:name="hesso.mas.stdhb.Gui.Config.Settings"
+            android:label="@string/app_name"/>
 
         <!-- Sert à indiquer l'utilisation des Google Play Services -->
         <meta-data

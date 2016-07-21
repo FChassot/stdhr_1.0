@@ -28,7 +28,10 @@ public class RadarView extends View {
 
         private final String LOG = "RadarView";
         private final int POINT_ARRAY_SIZE = 45;
-        private final int MARKERS_NUMBER = 5;
+        private final int MARKERS_NUMBER = 1;
+
+        // défini les markers
+        Paint localMarker = new Paint();
 
         private int fps = 100;
         private boolean showCircles = true;
@@ -59,6 +62,12 @@ public class RadarView extends View {
             localPaint.setStrokeWidth(5.0F);
             localPaint.setAlpha(0);
 
+            localMarker.setColor(Color.YELLOW);
+            localMarker.setAntiAlias(true);
+            localMarker.setStyle(Paint.Style.FILL);
+            localMarker.setStrokeWidth(5.0F);
+            localMarker.setAlpha(0);
+
             int alpha_step = 255 / POINT_ARRAY_SIZE;
 
             for (int i=0; i < latestPaint.length; i++) {
@@ -83,7 +92,7 @@ public class RadarView extends View {
 
         public void updateMarkers() {
             for (int i=0; i < MARKERS_NUMBER; i++){
-                Markers[i] = new Point(i*20+50, i*5+100);
+                Markers[i] = new Point((i+1)*20+100,(i+1)*5+220);
             }
         }
 
@@ -113,7 +122,7 @@ public class RadarView extends View {
 
             if (showCircles) {
                 canvas.drawCircle(i, i, j, localPaint);
-                canvas.drawCircle(i, i, j, localPaint);
+                canvas.drawCircle(i, i, j-25, localPaint);
                 canvas.drawCircle(i, i, j * 3 / 4, localPaint);
                 canvas.drawCircle(i, i, j >> 1, localPaint);
                 canvas.drawCircle(i, i, j >> 2, localPaint);
@@ -121,9 +130,18 @@ public class RadarView extends View {
 
             if (showInterestsFound) {
                 for (int lIndexMarker=0; lIndexMarker < Markers.length; lIndexMarker++) {
-                    Point lMarker = new Point();
-                    lMarker.set(Markers[lIndexMarker].x, Markers[lIndexMarker].y);
-                    canvas.drawPoint(lMarker.x, lMarker.y, localPaint);
+                    localPaint.setColor(Color.GREEN);
+                    localPaint.setStyle(Paint.Style.FILL);
+                    int posX = Markers[lIndexMarker].x;
+                    int posY = Markers[lIndexMarker].y;
+                    int rayon = j >> 5;
+
+                    canvas.drawCircle(posX, posY, rayon, localPaint);
+                    localPaint.setColor(Color.DKGRAY);
+                    localPaint.setStyle(Paint.Style.STROKE);
+                    //Point lMarker = new Point();
+                    //lMarker.set(Markers[lIndexMarker].x, Markers[lIndexMarker].y);
+                    //canvas.drawPoint(lMarker.x, lMarker.y, localPaint);
                     //canvas.Add(lMarker);
                 }
             }
