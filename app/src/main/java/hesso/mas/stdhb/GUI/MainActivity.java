@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
 
+import hesso.mas.stdhb.Base.Constantes.StdhrConstantes;
 import hesso.mas.stdhb.Base.Preferences.StdhrPreferences;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Gui.Radar.DisplayActivity;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         StdhrPreferences lPrefs = new StdhrPreferences(this);
 
-        lPrefs.setValue("radar_Rayon", 500);
+        lPrefs.setValue(StdhrConstantes.Attr_Rayon_Radar, 500);
 
         // Affiche les coordonnées GPS actuel de l'appareil
         Location lActualLocation = lPrefs.getValue("location");
@@ -58,19 +59,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
     public void onClick(View view){
-        if (view.getId()==R.id.btnpreferences){ // C'est notre bouton ? oui, alors affichage d'un message
+        if (view.getId()==R.id.btnpreferences){
             Intent intent = new Intent(MainActivity.this, hesso.mas.stdhb.Gui.Config.SettingsActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.btnradar){ // C'est notre bouton ? oui, alors affichage d'un message
+        if (view.getId()==R.id.btnradar){
             Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.btnsearch){ // C'est notre bouton ? oui, alors affichage d'un message
+        if (view.getId()==R.id.btnsearch){
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.btnMap){ // C'est notre bouton ? oui, alors affichage d'un message
+        if (view.getId()==R.id.btnMap){
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }

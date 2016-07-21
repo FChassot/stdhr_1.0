@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.location.Location;
 import android.support.annotation.RequiresPermission;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+import hesso.mas.stdhb.Base.Constantes.*;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -202,14 +204,25 @@ public class RadarView extends View {
         @Override
         public boolean onTouchEvent(MotionEvent event) {
 
+            float xCord = 0;
+            float yCord = 0;
+
             if(event.getAction()==MotionEvent.ACTION_UP){
-                float xCord=event.getX();
-                float yCord = event.getY();
+                xCord=event.getX();
+                yCord = event.getY();
             }
 
             //Toast.makeText(myContext, "Canvas clicked", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(myContext, MapsActivity.class);
-            myContext.startActivity(intent);
+            Intent lIntent1 = new Intent(myContext, MapsActivity.class);
+            LatLng lGpsCoordonnees =
+                    new LatLng(
+                            Double.parseDouble(Float.toString(xCord)),
+                            Double.parseDouble(Float.toString(yCord)));
+
+            lIntent1.putExtra(StdhrConstantes.GpsCoordonnees, lGpsCoordonnees);
+
+            Intent lIntent2 = new Intent(myContext, MapsActivity.class);
+            myContext.startActivity(lIntent2);
 
             return true;
         }

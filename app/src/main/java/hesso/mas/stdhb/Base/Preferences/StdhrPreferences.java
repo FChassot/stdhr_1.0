@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
 
+import hesso.mas.stdhb.Base.Constantes.StdhrConstantes;
+
 /**
  * Created by frede on 14.07.2016.
  * This class wrapps the sharedPrerences
@@ -39,7 +41,7 @@ public class StdhrPreferences {
      */
     public Location getValue(String aKey) {
 
-        if (aKey.equals("radar_Rayon")) {
+        if (aKey.equals(StdhrConstantes.Attr_Rayon_Radar)) {
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(lContext);
 
             StringBuilder builder = new StringBuilder();
