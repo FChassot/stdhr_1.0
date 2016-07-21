@@ -1,19 +1,30 @@
 package hesso.mas.stdhb.Gui.Radar;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.support.annotation.RequiresPermission;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.logging.Logger;
+
+import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
+import hesso.mas.stdhb.Gui.MainActivity;
+import hesso.mas.stdhbtests.R;
 
 /**
  * Created by frede on 15.07.2016.
@@ -36,6 +47,7 @@ public class RadarView extends View {
         private int fps = 100;
         private boolean showCircles = true;
         private boolean showInterestsFound = true;
+        private Context myContext;
 
         float alpha = 0;
 
@@ -54,6 +66,7 @@ public class RadarView extends View {
         public RadarView(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
 
+            myContext = context;
             Paint localPaint = new Paint();
 
             localPaint.setColor(Color.DKGRAY);
@@ -167,7 +180,7 @@ public class RadarView extends View {
                 }
             }
 
-            lines = 0;
+            //lines = 0;
             for (Point p : latestPoint) if (p != null) lines++;
 
             boolean debug = false;
@@ -184,5 +197,20 @@ public class RadarView extends View {
                 //  " - Offset: " + offsetX + "," + offsetY);
             }
 
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+
+            if(event.getAction()==MotionEvent.ACTION_UP){
+                float xCord=event.getX();
+                float yCord = event.getY();
+            }
+
+            //Toast.makeText(myContext, "Canvas clicked", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(myContext, MapsActivity.class);
+            myContext.startActivity(intent);
+
+            return true;
         }
 }
