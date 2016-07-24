@@ -2,6 +2,7 @@ package hesso.mas.stdhb.Gui.GoogleMap;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,7 +15,7 @@ import hesso.mas.stdhbtests.R;
 
 public class MapsActivity extends Activity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private GoogleMap mMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,28 +23,17 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.activity_maps);
 
+        // Obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+
         mMapFragment.getMapAsync(this);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);*/
-        /*try {
-
-            mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map));
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-
-            // check if map is created successfully or not
-            if (mMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        // check if map is created successfully or not
+        if (mMapFragment == null) {
+            Toast.makeText(getApplicationContext(),
+                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
 
@@ -58,11 +48,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        mMapFragment = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng sydney = new LatLng(46.6092369, 7.029020100000025);
+
+        mMapFragment.addMarker(new MarkerOptions().position(sydney).title("Marker in Bulle"));
+        mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
