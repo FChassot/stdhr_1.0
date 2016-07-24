@@ -1,18 +1,18 @@
 package hesso.mas.stdhb.Gui.GoogleMap;
 
-import android.support.v4.app.FragmentActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import hesso.mas.stdhbtests.R;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends Activity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -22,10 +22,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         setContentView(R.layout.activity_maps);
 
+        MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        mMapFragment.getMapAsync(this);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
+        /*try {
+
+            mMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map));
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
+            // check if map is created successfully or not
+            if (mMap == null) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
 
 
