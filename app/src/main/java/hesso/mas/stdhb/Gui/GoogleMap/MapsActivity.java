@@ -11,6 +11,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 import hesso.mas.stdhbtests.R;
 
 public class MapsActivity extends Activity implements OnMapReadyCallback {
@@ -23,6 +24,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.activity_maps);
 
+        InternetConnectivity intConn = new InternetConnectivity(this);
+        boolean lIsActive = intConn.IsActive();
+
         // Obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 
@@ -30,9 +34,16 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         // check if map is created successfully or not
         if (mMapFragment == null) {
-            Toast.makeText(getApplicationContext(),
-                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                    .show();
+            if (!lIsActive) {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps [internet network not active]", Toast.LENGTH_SHORT)
+                        .show();
+
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
         }
     }
 
@@ -51,9 +62,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
         mMapFragment = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(46.6092369, 7.029020100000025);
+        LatLng bulle = new LatLng(46.6092369, 7.029020100000025);
 
-        mMapFragment.addMarker(new MarkerOptions().position(sydney).title("Marker in Bulle"));
-        mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMapFragment.addMarker(new MarkerOptions().position(bulle).title("Marker in Bulle"));
+        mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(bulle));
     }
 }

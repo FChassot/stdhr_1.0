@@ -26,7 +26,7 @@
     <!-- Les trois permissions suivantes sont nécessaires pour l'utilisation
      des services Google Maps -->
 
-    <!-- Pour télécharger la carte -->
+    <!-- Permission permettant d'utiliser la connection Internet de l'appareil, ceci pour télécharger la carte -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- permet à l'API Google Maps de vérifier l'état du réseau
     pour savoir quand télécharger les cartes -->
@@ -83,7 +83,7 @@
         <!-- La ligne suivante sert à spécifier la clé Google Maps dans l'application -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="API_KEY" />
+            android:value="AIzaSyB2tF07Rc15FTA-uTh6e7ZED19VDhC3hts" />
 
         <activity
             android:name="hesso.mas.stdhb.Gui.GoogleMap.MapsActivity"
