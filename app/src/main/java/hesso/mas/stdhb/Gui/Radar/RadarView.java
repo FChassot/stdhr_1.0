@@ -2,31 +2,21 @@ package hesso.mas.stdhb.Gui.Radar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.location.Location;
-import android.support.annotation.RequiresPermission;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-import hesso.mas.stdhb.Base.Constantes.*;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
+import hesso.mas.stdhb.Base.Constants.*;
+
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.logging.Logger;
 
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
-import hesso.mas.stdhb.Gui.MainActivity;
-import hesso.mas.stdhbtests.R;
 
 /**
  * Created by frede on 15.07.2016.
@@ -221,7 +211,7 @@ public class RadarView extends View {
                             Double.parseDouble(Float.toString(xCord)),
                             Double.parseDouble(Float.toString(yCord)));
 
-            lIntent.putExtra(StdhrConstantes.GpsCoordonnees, lGpsCoordonnees);
+            lIntent.putExtra(BaseConstants.GpsCoordonnees, lGpsCoordonnees);
 
             myContext.startActivity(lIntent);
 

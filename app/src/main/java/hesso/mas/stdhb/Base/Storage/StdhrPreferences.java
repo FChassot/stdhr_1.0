@@ -1,12 +1,11 @@
-package hesso.mas.stdhb.Base.Preferences;
+package hesso.mas.stdhb.Base.Storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationListener;
 import android.preference.PreferenceManager;
 
-import hesso.mas.stdhb.Base.Constantes.StdhrConstantes;
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
 
 /**
  * Created by Frédéric Chassot (chf) on 14.07.2016.
@@ -48,7 +47,7 @@ public class StdhrPreferences {
      */
     public Location getValue(String aKey) {
 
-        if (aKey.equals(StdhrConstantes.Attr_Rayon_Radar)) {
+        if (aKey.equals(BaseConstants.Attr_Rayon_Radar)) {
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(lContext);
 
             StringBuilder builder = new StringBuilder();
