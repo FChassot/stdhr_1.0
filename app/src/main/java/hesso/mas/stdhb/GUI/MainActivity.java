@@ -17,7 +17,8 @@ import hesso.mas.stdhb.Gui.Radar.DisplayActivity;
 import hesso.mas.stdhbtests.R;
 
 /**
- * Created by Frédéric Chassot on 11.05.2016.
+ * Created by Frédéric Chassot (chf) on 11.06.2016.
+ *
  * This is the main Activity of this application
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
@@ -34,9 +35,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Button mMapButton = (Button)findViewById(R.id.btnMap);
 
         // Positionner un listener sur ce bouton
+        assert mPreferencesButton != null;
         mPreferencesButton.setOnClickListener(this);
+
+        assert mRadarButton != null;
         mRadarButton.setOnClickListener(this);
+
+        assert mSearchButton != null;
         mSearchButton.setOnClickListener(this);
+
+        assert mMapButton != null;
         mMapButton.setOnClickListener(this);
 
         StdhrPreferences lPrefs = new StdhrPreferences(this);
@@ -53,11 +61,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
             TextView rayonSettingsView = (TextView) findViewById(R.id.textViewRayon);
 
+            assert rayonSettingsView != null;
             rayonSettingsView.setText(builder.toString());
         }
     }
 
-    // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
+    /**
+     * Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
+     *
+     */
     public void onClick(View view){
         if (view.getId()==R.id.btnpreferences){
             Intent intent = new Intent(MainActivity.this, hesso.mas.stdhb.Gui.Config.SettingsActivity.class);
