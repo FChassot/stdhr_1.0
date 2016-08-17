@@ -3,12 +3,14 @@ package hesso.mas.stdhb.Base.Preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationListener;
 import android.preference.PreferenceManager;
 
 import hesso.mas.stdhb.Base.Constantes.StdhrConstantes;
 
 /**
- * Created by frede on 14.07.2016.
+ * Created by Frédéric Chassot (chf) on 14.07.2016.
+ *
  * This class wrapps the sharedPrerences
  */
 public class StdhrPreferences {
@@ -21,7 +23,10 @@ public class StdhrPreferences {
     }
 
     /**
+     * This method allow to set the value
      *
+     * @param aKey Key in the File.
+     * @param aValue Key in the File.
      */
     public void setValue(String aKey, int aValue) {
 
@@ -37,7 +42,9 @@ public class StdhrPreferences {
     }
 
     /**
+     * This method allow to get the value corresponding to
      *
+     * @param aKey
      */
     public Location getValue(String aKey) {
 

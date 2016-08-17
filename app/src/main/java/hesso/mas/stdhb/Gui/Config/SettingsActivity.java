@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_setting);
 
         Button mBtnSave = (Button)findViewById(R.id.btnSave);
@@ -26,7 +27,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
     public void onClick(View view){
-        if (view.getId()==R.id.btnSave){ // C'est notre bouton ? oui, alors affichage d'un message
+
+        if (view.getId()==R.id.btnSave){
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent);
         }

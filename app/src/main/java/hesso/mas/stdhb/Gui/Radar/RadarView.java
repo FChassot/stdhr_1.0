@@ -116,7 +116,7 @@ public class RadarView extends View {
         }
 
         public void setFrameRate(int fps) { this.fps = fps; }
-        public int getFrameRate() { return this.fps; };
+        public int getFrameRate() { return this.fps; }
 
         public void setShowCircles(boolean showCircles) { this.showCircles = showCircles; }
 
@@ -144,11 +144,11 @@ public class RadarView extends View {
             }
 
             if (showInterestsFound) {
-                for (int lIndexMarker=0; lIndexMarker < Markers.length; lIndexMarker++) {
+                for (Point Marker : Markers) {
                     localPaint.setColor(Color.GREEN);
                     localPaint.setStyle(Paint.Style.FILL);
-                    int posX = Markers[lIndexMarker].x;
-                    int posY = Markers[lIndexMarker].y;
+                    int posX = Marker.x;
+                    int posY = Marker.y;
                     int rayon = j >> 5;
 
                     canvas.drawCircle(posX, posY, rayon, localPaint);
@@ -186,6 +186,7 @@ public class RadarView extends View {
             for (Point p : latestPoint) if (p != null) lines++;
 
             boolean debug = false;
+
             if (debug) {
                 StringBuilder sb = new StringBuilder(" >> ");
                 for (Point p : latestPoint) {
@@ -213,16 +214,16 @@ public class RadarView extends View {
             }
 
             //Toast.makeText(myContext, "Canvas clicked", Toast.LENGTH_LONG).show();
-            Intent lIntent1 = new Intent(myContext, MapsActivity.class);
+            Intent lIntent = new Intent(myContext, MapsActivity.class);
+            
             LatLng lGpsCoordonnees =
                     new LatLng(
                             Double.parseDouble(Float.toString(xCord)),
                             Double.parseDouble(Float.toString(yCord)));
 
-            lIntent1.putExtra(StdhrConstantes.GpsCoordonnees, lGpsCoordonnees);
+            lIntent.putExtra(StdhrConstantes.GpsCoordonnees, lGpsCoordonnees);
 
-            Intent lIntent2 = new Intent(myContext, MapsActivity.class);
-            myContext.startActivity(lIntent2);
+            myContext.startActivity(lIntent);
 
             return true;
         }

@@ -5,7 +5,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by frede on 27.07.2016.
+ * Created by Frédéric Chassot (chf) on 27.07.2016.
+ *
+ * Cette classe offre des méthodes nécessaires pour tester
+ * la connectivité de l'application.
  */
 public class InternetConnectivity {
     private final Context mContext;
@@ -17,7 +20,7 @@ public class InternetConnectivity {
     public boolean IsActive() {
 
         ConnectivityManager connManager =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
 

@@ -1,7 +1,9 @@
 package hesso.mas.stdhb.Base.Constantes;
 
 /**
- * Created by frede on 21.07.2016.
+ * Created by Frédéric Chassot on 21.07.2016.
+ *
+ * ...
  */
 public class StdhrConstantes {
 

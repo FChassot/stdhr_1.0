@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by frede on 13.05.2016.
+ * Created by Frédéric Chassot (chf) on 13.05.2016.
  *
  * This class is used for receiving notifications from the LocationManager when
  * the location has changed. These methods are called if the

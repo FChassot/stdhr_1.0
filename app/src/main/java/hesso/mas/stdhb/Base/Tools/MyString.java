@@ -1,7 +1,7 @@
 package hesso.mas.stdhb.Base.Tools;
 
 /**
- * Created by Frédéric Chassot on 13.05.2016.
+ * Created by Frédéric Chassot (chf) on 13.06.2016.
  *
  * Cette classe MyString fourni une méthode qui renvoie un string vide.
  * Cette méthode sera utilisé dans tout le programme par exemple pour
@@ -12,7 +12,7 @@ package hesso.mas.stdhb.Base.Tools;
 public final class MyString {
 
     /**
-     * Constant
+     * Constante EMPTY_STRING
      */
     public static final String EMPTY_STRING = "";
 
