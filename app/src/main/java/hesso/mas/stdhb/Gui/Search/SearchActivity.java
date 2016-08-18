@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui;
+package hesso.mas.stdhb.Gui.Search;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;

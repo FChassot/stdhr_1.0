@@ -9,7 +9,7 @@ import android.view.View;
 
 import hesso.mas.stdhbtests.R;
 
-public class DisplayActivity extends AppCompatActivity {
+public class RadarActivity extends AppCompatActivity {
 
     RadarView mRadarView = null;
 

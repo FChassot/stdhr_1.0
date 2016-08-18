@@ -14,14 +14,15 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 
 import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
-import hesso.mas.stdhb.Gui.Radar.DisplayActivity;
+import hesso.mas.stdhb.Gui.Radar.RadarActivity;
 
+import hesso.mas.stdhb.Gui.Search.SearchActivity;
 import hesso.mas.stdhbtests.R;
 
 /**
  * Created by Frédéric Chassot (chf) on 11.06.2016.
  *
- * This is the main Activity of this application
+ * This is the main Activity of the Stdhr application
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             startActivity(intent);
         }
         if (view.getId()==R.id.btnradar){
-            Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
+            Intent intent = new Intent(MainActivity.this, RadarActivity.class);
             startActivity(intent);
         }
         if (view.getId()==R.id.btnsearch){
