@@ -7,7 +7,7 @@ package hesso.mas.stdhb.Base.Constants;
  */
 public class BaseConstants {
 
-    public static final String GpsCoordonnees = "GpsCoordonnees";
+    public static final String Attr_Gps_Coordonates = "gps_Coordonnees";
 
     public static final String Attr_Rayon_Radar = "radar_Rayon";
 }

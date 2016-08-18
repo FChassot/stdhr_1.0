@@ -45,6 +45,27 @@ public class Preferences {
      *
      * @param aKey
      */
+    public String getPrefValue(String aKey, String aDefaultValue) {
+
+        String lValue = aDefaultValue;
+
+        SharedPreferences lSharedPrefs =
+            PreferenceManager.getDefaultSharedPreferences(lContext);
+
+        if (lSharedPrefs != null) {
+            if (lSharedPrefs.contains(aKey)) {
+                lValue = lSharedPrefs.getString(aKey, aDefaultValue);
+            }
+        }
+
+        return lValue;
+    }
+
+    /**
+     * This method allow to get the value corresponding to the given Key
+     *
+     * @param aKey
+     */
     public Location getValue(String aKey) {
 
         if (aKey.equals(BaseConstants.Attr_Rayon_Radar)) {

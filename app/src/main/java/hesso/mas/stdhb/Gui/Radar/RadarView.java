@@ -206,12 +206,12 @@ public class RadarView extends View {
             //Toast.makeText(myContext, "Canvas clicked", Toast.LENGTH_LONG).show();
             Intent lIntent = new Intent(myContext, MapsActivity.class);
             
-            LatLng lGpsCoordonnees =
+            LatLng lGpsCoordonates =
                     new LatLng(
                             Double.parseDouble(Float.toString(xCord)),
                             Double.parseDouble(Float.toString(yCord)));
 
-            lIntent.putExtra(BaseConstants.GpsCoordonnees, lGpsCoordonnees);
+            lIntent.putExtra(BaseConstants.Attr_Gps_Coordonates, lGpsCoordonates);
 
             myContext.startActivity(lIntent);
 
