@@ -3,17 +3,19 @@ package hesso.mas.stdhb.Gui;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
 
-import hesso.mas.stdhb.Base.Constantes.StdhrConstantes;
-import hesso.mas.stdhb.Base.Preferences.StdhrPreferences;
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+
+import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Gui.Radar.DisplayActivity;
+
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -47,9 +49,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         assert mMapButton != null;
         mMapButton.setOnClickListener(this);
 
-        StdhrPreferences lPrefs = new StdhrPreferences(this);
+        Preferences lPrefs = new Preferences(this);
 
-        lPrefs.setValue(StdhrConstantes.Attr_Rayon_Radar, 500);
+        lPrefs.setValue(BaseConstants.Attr_Rayon_Radar, 500);
 
         // Affiche les coordonnées GPS actuel de l'appareil
         Location lActualLocation = lPrefs.getValue("location");
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      */
     public void onClick(View view){
         if (view.getId()==R.id.btnpreferences){
-            Intent intent = new Intent(MainActivity.this, hesso.mas.stdhb.Gui.Config.SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
         if (view.getId()==R.id.btnradar){

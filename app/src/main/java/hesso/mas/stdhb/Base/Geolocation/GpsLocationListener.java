@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.GPS;
+package hesso.mas.stdhb.Base.Geolocation;
 
 import android.app.AlertDialog;
 import android.content.Context;

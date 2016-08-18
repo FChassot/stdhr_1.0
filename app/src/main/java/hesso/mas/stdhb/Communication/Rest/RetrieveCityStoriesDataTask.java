@@ -8,7 +8,7 @@ import android.util.Log;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import hesso.mas.stdhb.Base.DataAccess.CitizenEndPoint;
+import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 
 /**
  * Created by Frédéric Chassot on 20.06.2016.

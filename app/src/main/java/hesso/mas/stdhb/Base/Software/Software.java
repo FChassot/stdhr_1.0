@@ -2,7 +2,7 @@ package hesso.mas.stdhb.Base.Software;
 
 /**
  *
- * Created by frede on 01.07.2016.
+ * Created by Frédéric Chassot (chf) on 01.07.2016.
  *
  * Cette classe contient des méthodes statiques destinées à contenir les
  * informations générales du programme.

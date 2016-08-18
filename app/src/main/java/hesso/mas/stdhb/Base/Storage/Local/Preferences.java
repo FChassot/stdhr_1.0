@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.Storage;
+package hesso.mas.stdhb.Base.Storage.Local;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,17 +12,17 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
  *
  * This class wrapps the sharedPrerences
  */
-public class StdhrPreferences {
+public class Preferences {
 
     Context lContext;
 
-    public StdhrPreferences(Context aContext) {
+    public Preferences(Context aContext) {
 
         lContext = aContext;
     }
 
     /**
-     * This method allow to set the value
+     * This method allow to set a value to a dedicated Key
      *
      * @param aKey Key in the File.
      * @param aValue Key in the File.
@@ -41,7 +41,7 @@ public class StdhrPreferences {
     }
 
     /**
-     * This method allow to get the value corresponding to
+     * This method allow to get the value corresponding to the given Key
      *
      * @param aKey
      */
@@ -64,7 +64,7 @@ public class StdhrPreferences {
 
             Location lCoordonates = new Location("");
 
-            // coordonnées GPS de Ch. de Cuquerens à Bulle
+            // coordonnées GPS
             lCoordonates.setAltitude(829);
             lCoordonates.setLatitude(46.6092369);
             lCoordonates.setLongitude(7.029020100000025);

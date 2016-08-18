@@ -5,7 +5,7 @@ import java.net.*;
 import java.io.InputStream;
 import java.net.URL;
 
-import hesso.mas.stdhb.Base.DataAccess.CitizenEndPoint;
+import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 
 /**
  * Created by frede on 11.05.2016.
