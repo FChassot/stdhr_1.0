@@ -1,7 +1,6 @@
 package hesso.mas.stdhb.Gui.Config;
 
 import android.content.Intent;
-import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
@@ -13,6 +12,7 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.MainActivity;
+
 import hesso.mas.stdhbtests.R;
 
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
@@ -28,10 +28,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
         Preferences lPrefs = new Preferences(this);
 
-        String lRayonRadar = lPrefs.getPrefValue(BaseConstants.Attr_Rayon_Radar, "500");
+        String lRayonRadar = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, "500");
 
         if (lRayonRadar == MyString.EMPTY_STRING) {
-            lPrefs.setValue(BaseConstants.Attr_Rayon_Radar, 500);
+            lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
             mRayon.setText("500");
         } else {
             mRayon.setText(lRayonRadar);
@@ -41,7 +41,11 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         mBtnSave.setOnClickListener((OnClickListener) this);
     }
 
-    // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
+    /**
+     * The onClick() method is called when a button is actually clicked (or tapped).
+     * This method is called by the listener.
+     *
+     */
     public void onClick(View view){
 
         if (view.getId()==R.id.btnSave){
@@ -49,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             Preferences lPrefs = new Preferences(this);
             Integer lRayon = Integer.parseInt(lRayonRadar.getText().toString());
-            lPrefs.setValue(BaseConstants.Attr_Rayon_Radar, lRayon);
+            lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);
 
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent);

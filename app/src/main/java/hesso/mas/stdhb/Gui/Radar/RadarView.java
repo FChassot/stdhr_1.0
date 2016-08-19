@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 
 /**
- * Created by frede on 15.07.2016.
+ * Created by chf on 15.07.2016.
  *
  * This class represents the basic building block for user interface components.
  * A View occupies a rectangular area on the screen and is responsible for drawing and event handling.
@@ -33,7 +33,7 @@ public class RadarView extends View {
         private final int POINT_ARRAY_SIZE = 45;
         private final int MARKERS_NUMBER = 1;
 
-        // défini les markers
+        // Define the markers
         Paint localMarker = new Paint();
 
         private int fps = 100;
@@ -211,7 +211,7 @@ public class RadarView extends View {
                             Double.parseDouble(Float.toString(xCord)),
                             Double.parseDouble(Float.toString(yCord)));
 
-            lIntent.putExtra(BaseConstants.Attr_Gps_Coordonates, lGpsCoordonates);
+            lIntent.putExtra(BaseConstants.Attr_Gps_Coordinates, lGpsCoordonates);
 
             myContext.startActivity(lIntent);
 

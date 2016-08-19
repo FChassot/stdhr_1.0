@@ -20,9 +20,9 @@ import hesso.mas.stdhb.Gui.CitizenSearch.SearchActivity;
 import hesso.mas.stdhbtests.R;
 
 /**
- * Created by Frédéric Chassot (chf) on 11.06.2016.
+ * Created by chf on 11.06.2016.
  *
- * This is the main Activity of the Stdhr application
+ * This class represent the main Activity of the Stdhr application
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         Preferences lPrefs = new Preferences(this);
 
-        lPrefs.setValue(BaseConstants.Attr_Rayon_Radar, 500);
+        lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
 
         // Affiche les coordonnées GPS actuel de l'appareil
         Location lActualLocation = lPrefs.getValue("location");
@@ -70,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     /**
-     * Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
+     * The onClick() method is called when a button is actually clicked (or tapped).
+     * This method is called by the listener.
      *
      */
     public void onClick(View view){

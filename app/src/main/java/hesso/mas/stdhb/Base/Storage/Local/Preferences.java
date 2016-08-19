@@ -77,7 +77,7 @@ public class Preferences {
      */
     public Location getValue(String aKey) {
 
-        if (aKey.equals(BaseConstants.Attr_Rayon_Radar)) {
+        if (aKey.equals(BaseConstants.Attr_Ray_Search)) {
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(lContext);
 
             StringBuilder builder = new StringBuilder();

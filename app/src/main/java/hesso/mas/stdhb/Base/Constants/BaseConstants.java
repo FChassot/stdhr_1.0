@@ -1,13 +1,15 @@
 package hesso.mas.stdhb.Base.Constants;
 
 /**
- * Created by Frédéric Chassot (chf) on 21.07.2016.
+ * Created by chf on 21.07.2016.
  *
  * Class for general Constants
  */
 public class BaseConstants {
 
-    public static final String Attr_Gps_Coordonates = "gps_Coordonnates";
+    // constant used to save the Gps Coordinates
+    public static final String Attr_Gps_Coordinates = "gps_Coordinates";
 
-    public static final String Attr_Rayon_Radar = "radar_Rayon";
+    // constant used to save the ray of search of the radar
+    public static final String Attr_Ray_Search = "ray_Search";
 }
