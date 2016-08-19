@@ -5,10 +5,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by Frédéric Chassot (chf) on 27.07.2016.
+ * Created by chf on 27.07.2016.
  *
- * Cette classe offre des méthodes nécessaires pour tester
- * la connectivité de l'application.
+ * This class is used to check internet access connection.
  */
 public class InternetConnectivity {
     private final Context mContext;
@@ -17,6 +16,12 @@ public class InternetConnectivity {
         this.mContext = context;
     }
 
+
+    /**
+     * Check if the internet connection is available
+     *
+     * @return Returns true when the connection is available
+     */
     public boolean IsActive() {
 
         ConnectivityManager connManager =

@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 
 /**
- * Created by Frédéric Chassot (chf) on 14.07.2016.
+ * Created by chf on 14.07.2016.
  *
  * This class wrapps the sharedPrerences
  */
@@ -22,10 +22,10 @@ public class Preferences {
     }
 
     /**
-     * This method allow to set a value to a dedicated Key
+     * Set a Value to the preferences.
      *
-     * @param aKey Key in the File.
-     * @param aValue Key in the File.
+     * @param aKey The name of the preference to set.
+     * @param aValue The value of the preference to set.
      */
     public void setValue(String aKey, int aValue) {
 
@@ -41,20 +41,29 @@ public class Preferences {
     }
 
     /**
-     * This method allow to get the value corresponding to the given Key
+     * Retrieve a String value from the preferences.
      *
-     * @param aKey
+     * @param aKey The name of the preference to retrieve.
+     * @param aDefValue Value to return if this preference does not exist.
+     *
+     * @return Returns the preference value if it exists, or defValue.  Throws
+     * ClassCastException if there is a preference with this name that is not
+     * a String.
+     *
+     * @throws ClassCastException
      */
-    public String getPrefValue(String aKey, String aDefaultValue) {
+    public String getPrefValue(String aKey, String aDefValue) {
 
-        String lValue = aDefaultValue;
+        String lValue = aDefValue;
 
         SharedPreferences lSharedPrefs =
             PreferenceManager.getDefaultSharedPreferences(lContext);
 
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {
-                lValue = lSharedPrefs.getString(aKey, aDefaultValue);
+                //try {
+                    lValue = lSharedPrefs.getString(aKey, aDefValue);
+                //} catch (ClassCastException)
             }
         }
 
@@ -64,7 +73,7 @@ public class Preferences {
     /**
      * This method allow to get the value corresponding to the given Key
      *
-     * @param aKey
+     * @param aKey The name of the preference to retrieve.
      */
     public Location getValue(String aKey) {
 

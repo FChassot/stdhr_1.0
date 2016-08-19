@@ -16,7 +16,7 @@ import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Gui.Radar.RadarActivity;
 
-import hesso.mas.stdhb.Gui.Search.SearchActivity;
+import hesso.mas.stdhb.Gui.CitizenSearch.SearchActivity;
 import hesso.mas.stdhbtests.R;
 
 /**

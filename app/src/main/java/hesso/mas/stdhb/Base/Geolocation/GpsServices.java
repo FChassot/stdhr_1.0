@@ -1,7 +1,7 @@
 package hesso.mas.stdhb.Base.Geolocation;
 
 /**
- * Created by Frédéric Chassot (chf) on 15.07.2016.
+ * Created by chf on 15.07.2016.
  *
  * This class is used ...
  */
