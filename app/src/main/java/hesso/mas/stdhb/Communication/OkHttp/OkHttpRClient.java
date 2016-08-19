@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by frede on 20.05.2016.
+ * Created by chf on 20.05.2016.
  *
  * This class implements a rest client using the Apis provided by the OkHttp libraries.
  */
@@ -17,7 +17,13 @@ public class OkHttpRClient {
 
     OkHttpClient client = new OkHttpClient();
 
-    // code request code here
+    /**
+     * Code request here
+     *
+     * @param url
+     * @return
+     * @throws IOException
+     */
     public String doGetRequest(String url) throws IOException {
         Request request =
            new Request.Builder()
@@ -46,7 +52,15 @@ public class OkHttpRClient {
                 + "]}";
     }
 
+    /**
+     *
+     * @param url
+     * @param json
+     * @return
+     * @throws IOException
+     */
     public String doPostRequest(String url, String json) throws IOException {
+
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
@@ -62,7 +76,6 @@ public class OkHttpRClient {
         TestMain example = new TestMain();
         String getResponse = example.doGetRequest("http://www.vogella.com");
         System.out.println(getResponse);
-
 
         // issue the post request
 

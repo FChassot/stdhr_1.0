@@ -2,10 +2,10 @@ package hesso.mas.stdhb.Base.Software;
 
 /**
  *
- * Created by Frédéric Chassot (chf) on 01.07.2016.
+ * Created by chf on 01.07.2016.
  *
- * Cette classe contient des méthodes statiques destinées à contenir les
- * informations générales du programme.
+ * This class provides static methods whishes contains general informations
+ * of the program.
  *
  */
 public final class Software {
@@ -16,7 +16,7 @@ public final class Software {
 
     private static String mAuteur;
 
-    // Contructeur privé, classe pas instanciable
+    // Private constructor, this class isn't instanciable
     public Software() {};
 
     /**
@@ -26,17 +26,21 @@ public final class Software {
     public static void Version(String aVersion) { mVersion = aVersion; }
 
     /**
+     * Provides the version of the program
      *
-     * @return retourne la version de l'application
+     * @return give the version back
      */
     public static String Version() { return mVersion; }
 
     /**
-     * @param aNom
+     * Set the name of the program
+     *
+     * @param aNom the name of the program
      */
     public static void Application(String aNom) { mNom = aNom; }
 
     /**
+     * Retrieve the name of the program
      *
      * @return retourne le nom de l'application
      */
@@ -48,6 +52,8 @@ public final class Software {
     public static void Auteur(String aAuteur) { mAuteur = aAuteur; }
 
     /**
+     *
+     * Set the name of the creator of the program
      *
      * @return retourne le nom de l'auteur du programme
      */

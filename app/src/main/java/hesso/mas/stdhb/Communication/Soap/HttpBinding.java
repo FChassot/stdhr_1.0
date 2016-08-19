@@ -8,10 +8,17 @@ import java.net.URL;
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 
 /**
- * Created by frede on 11.05.2016.
+ * Created by chf on 11.05.2016.
+ *
+ *
  */
 public class HttpBinding {
 
+    /**
+     *
+     * @param aCitizenEndPoint
+     * @return
+     */
     public static String DoHttpBinding(CitizenEndPoint aCitizenEndPoint) {
 
         // Db Pedia Request (HTTP Binding)
@@ -50,13 +57,24 @@ public class HttpBinding {
         return lResult;
     }
 
+    /**
+     *
+     * @param is
+     * @return
+     * @throws IOException
+     */
     private static String readStream(InputStream is) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader r = new BufferedReader(new InputStreamReader(is),1000);
-        for (String line = r.readLine(); line != null; line =r.readLine()){
-            sb.append(line);
+
+        StringBuilder lStringBuilder = new StringBuilder();
+
+        BufferedReader lBufferedReader = new BufferedReader(new InputStreamReader(is),1000);
+
+        for (String lLine = lBufferedReader.readLine(); lLine != null; lLine =lBufferedReader.readLine()){
+            lStringBuilder.append(lLine);
         }
+
         is.close();
-        return sb.toString();
+
+        return lStringBuilder.toString();
     }
 }
