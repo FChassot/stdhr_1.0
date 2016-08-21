@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         Preferences lPrefs = new Preferences(this);
 
-        //lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
-
         // Affiche les coordonnées GPS actuel de l'appareil
         Location lActualLocation = lPrefs.getValue("location");
 

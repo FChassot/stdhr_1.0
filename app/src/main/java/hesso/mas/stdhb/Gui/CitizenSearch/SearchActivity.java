@@ -18,9 +18,10 @@ import android.util.Log;
 import android.widget.TextView;
 
 /**
- * Created by Frédéric Chassot on 11.05.2016.
+ * Created by chf on 11.05.2016.
+ *
  * This is the Activity in which the user will be able to request the
- * sematic datas stored on the external triplestore
+ * semantic datas stored on the external triplestore
  */
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,9 +37,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         mBtnSearch.setOnClickListener(this);
     }
 
-    // Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
+    /**
+     * Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
+     *
+     * @param view
+     */
     public void onClick(View view){
-        if (view.getId()==R.id.btnRSearch) { // C'est notre bouton ? oui, alors affichage d'un message
+        if (view.getId()==R.id.btnRSearch) {
             /*HttpBinding request = new HttpBinding();
             CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 

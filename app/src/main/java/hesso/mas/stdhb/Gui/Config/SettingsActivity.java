@@ -30,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Preferences lPrefs = new Preferences(this);
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, -1);
-        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
 
         if (lRaySearch == -1) {
             lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
@@ -39,9 +38,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             mRayon.setText(lRaySearch.toString());
         }
 
+        Integer lRadarMode = lPrefs.getPrefValue(BaseConstants.Attr_Radar_Switch, 0);
         Switch lRadarSwitch = (Switch)findViewById(R.id.RadarSwitch);
 
-        if (lRadarMode == true) {
+        if (lRadarMode == 1) {
             lRadarSwitch.setChecked(true);
         }
         else {
@@ -60,14 +60,36 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     public void onClick(View view){
 
         if (view.getId()==R.id.btnSave){
-            EditText lRayonRadar = (EditText)findViewById(R.id.mDTxtRayon);
+            EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
 
             Preferences lPrefs = new Preferences(this);
-            Integer lRayon = Integer.parseInt(lRayonRadar.getText().toString());
-            lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);
+            Integer lRay = Integer.parseInt(lRaySearch.getText().toString());
+            lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRay);
+
+            Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
+            Boolean lMode = lRadarMode.isChecked();
+
+            Integer lIntMode = 0;
+            if (lMode == true) {lIntMode = 1;}
+
+            lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
 
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent);
         }
+
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
+
+        Preferences lPrefs = new Preferences(this);
+        Integer lRayon = Integer.parseInt(lRaySearch.getText().toString());
+        lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);
     }
 }
