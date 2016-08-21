@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -29,12 +30,22 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Preferences lPrefs = new Preferences(this);
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, -1);
+        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
 
         if (lRaySearch == -1) {
             lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
             mRayon.setText("500");
         } else {
             mRayon.setText(lRaySearch.toString());
+        }
+
+        Switch lRadarSwitch = (Switch)findViewById(R.id.RadarSwitch);
+
+        if (lRadarMode == true) {
+            lRadarSwitch.setChecked(true);
+        }
+        else {
+            lRadarSwitch.setChecked(false);
         }
 
         // Positionner un listener sur ce bouton

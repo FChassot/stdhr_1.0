@@ -12,4 +12,10 @@ public class BaseConstants {
 
     // constant used to save the ray of search of the radar
     public static final String Attr_Ray_Search = "ray_Search";
+
+    // constant used to switch on/off the mode radar
+    public static final String Attr_Radar_Switch = "radar_Switch";
+
+    // constant used to define the theme of the search
+    public static final String Attr_Radar_Themes = "radar_Themes";
 }

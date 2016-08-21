@@ -42,7 +42,7 @@ public class Preferences {
     }
 
     /**
-     * Retrieve a String value from the preferences.
+     * Retrieve an integer value from the preferences.
      *
      * @param aKey The name of the preference to retrieve.
      * @param aDefValue Value to return if this preference does not exist.
@@ -64,6 +64,40 @@ public class Preferences {
             if (lSharedPrefs.contains(aKey)) {
                 try {
                     lValue = lSharedPrefs.getInt(aKey, aDefValue);
+
+                } catch (Exception aExc) {
+                    Toast toast = Toast.makeText(null, aExc.getMessage(), Toast.LENGTH_SHORT);;
+                    toast.show();
+                }
+            }
+        }
+
+        return lValue;
+    }
+
+    /**
+     * Retrieve a String value from the preferences.
+     *
+     * @param aKey The name of the preference to retrieve.
+     * @param aDefValue Value to return if this preference does not exist.
+     *
+     * @return Returns the preference value if it exists, or defValue.  Throws
+     * ClassCastException if there is a preference with this name that is not
+     * a String.
+     *
+     * @throws ClassCastException
+     */
+    public boolean getBooleanPrefValue(String aKey, boolean aDefValue) {
+
+        boolean lValue = aDefValue;
+
+        SharedPreferences lSharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(lContext);
+
+        if (lSharedPrefs != null) {
+            if (lSharedPrefs.contains(aKey)) {
+                try {
+                    lValue = lSharedPrefs.getBoolean(aKey, aDefValue);
 
                 } catch (Exception aExc) {
                     Toast toast = Toast.makeText(null, aExc.getMessage(), Toast.LENGTH_SHORT);;
