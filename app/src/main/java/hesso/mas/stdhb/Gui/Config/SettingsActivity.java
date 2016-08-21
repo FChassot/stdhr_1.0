@@ -28,13 +28,13 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
         Preferences lPrefs = new Preferences(this);
 
-        String lRayonRadar = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, "500");
+        Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, -1);
 
-        if (lRayonRadar == MyString.EMPTY_STRING) {
+        if (lRaySearch == -1) {
             lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
             mRayon.setText("500");
         } else {
-            mRayon.setText(lRayonRadar);
+            mRayon.setText(lRaySearch.toString());
         }
 
         // Positionner un listener sur ce bouton

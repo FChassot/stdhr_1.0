@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 
@@ -52,18 +53,22 @@ public class Preferences {
      *
      * @throws ClassCastException
      */
-    public String getPrefValue(String aKey, String aDefValue) {
+    public Integer getPrefValue(String aKey, Integer aDefValue) {
 
-        String lValue = aDefValue;
+        Integer lValue = aDefValue;
 
         SharedPreferences lSharedPrefs =
             PreferenceManager.getDefaultSharedPreferences(lContext);
 
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {
-                //try {
-                    lValue = lSharedPrefs.getString(aKey, aDefValue);
-                //} catch (ClassCastException)
+                try {
+                    lValue = lSharedPrefs.getInt(aKey, aDefValue);
+
+                } catch (Exception aExc) {
+                    Toast toast = Toast.makeText(null, aExc.getMessage(), Toast.LENGTH_SHORT);;
+                    toast.show();
+                }
             }
         }
 
