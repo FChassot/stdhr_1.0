@@ -9,7 +9,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by chf on 20.05.2016.
+ * Created by chf on 20.06.2016.
  *
  * This class implements a rest client using the Apis provided by the OkHttp libraries.
  */

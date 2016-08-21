@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -18,11 +20,24 @@ import hesso.mas.stdhbtests.R;
 
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
+    private String array_spinner[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_setting);
+
+        // Here come all the options that you wish to show depending on the
+        // size of the array.
+        array_spinner=new String[3];
+        array_spinner[0]="Soap";
+        array_spinner[1]="Rest";
+        array_spinner[2]="Rdf4j";
+        Spinner s = (Spinner) findViewById(R.id.Spinner01);
+        ArrayAdapter adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, array_spinner);
+        s.setAdapter(adapter);
 
         Button mBtnSave = (Button)findViewById(R.id.btnSave);
 

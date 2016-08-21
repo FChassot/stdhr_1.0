@@ -27,7 +27,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 
 /**
- * Created by frede on 11.05.2016.
+ * Created by chf on 11.05.2016.
  */
 public class RestClient {
 
@@ -131,6 +131,12 @@ public class RestClient {
         }
     }
 
+    /**
+     *
+     *
+     * @param request
+     * @param url
+     */
     private void executeRequest(HttpUriRequest request, String url)
     {
         HttpClient client = new DefaultHttpClient();
