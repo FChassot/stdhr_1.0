@@ -17,6 +17,7 @@ public class HttpBinding {
     /**
      *
      * @param aCitizenEndPoint
+     *
      * @return
      */
     public static String DoHttpBinding(CitizenEndPoint aCitizenEndPoint) {

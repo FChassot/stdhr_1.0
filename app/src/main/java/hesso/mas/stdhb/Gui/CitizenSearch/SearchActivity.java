@@ -10,13 +10,23 @@ import android.view.View;
 
 import hesso.mas.stdhb.Services.SearchTask;
 import hesso.mas.stdhbtests.R;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 /**
  * Created by chf on 11.05.2016.
@@ -26,6 +36,8 @@ import android.widget.TextView;
  */
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
+    OkHttpClient okHttpClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +45,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         // Récupération de l'instance bouton préférences
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
+
+        this.okHttpClient = new OkHttpClient();
 
         // Positionner un listener sur ce bouton
         mBtnSearch.setOnClickListener(this);
@@ -47,6 +61,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (view.getId()==R.id.mBtnSearch) {
             TextView mTxtLieu = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
+
+            post();
+
+            TextView mResult = (TextView)findViewById(R.id.editText);
+            mResult.setText(ourTextView);
 
             /*HttpBinding request = new HttpBinding();
             CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
@@ -91,11 +110,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             /*String lUrls = MyString.EMPTY_STRING;
             startAsyncSearch(lUrls);*/
 
-            SearchTask lSearchTask = new SearchTask();
+            /*SearchTask lSearchTask = new SearchTask();
+
             lSearchTask.execute(
                     "myserver.com",
                     mTxtLieu.getText().toString(),
-                    mTxtDate.getText().toString());
+                    mTxtDate.getText().toString());*/
 
             /*Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();*/
         }
@@ -103,6 +123,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * Start an Async Search on the endPoint Sparql Server
+     *
      * @param urls
      */
     private void startAsyncSearch(String... urls) {
@@ -111,7 +132,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     ProgressDialog progress;
-    private TextView ourTextView;
+    private String ourTextView;
     private static final String TAG = "AATestFragment";
 
     /**
@@ -131,7 +152,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             String response = intent.getStringExtra(RetrieveCityStoriesDataTask.HTTP_RESPONSE);
 
-            ourTextView.setText(response);
+            ourTextView = response;
 
             Log.i(TAG, "RESPONSE = " + response);
             //
@@ -139,4 +160,41 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             //
         }
     };
+
+    /**
+     *
+     */
+    public void post(){
+
+        MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
+        String myJson = "{}";
+
+        //post Request
+        Request myGetRequest = new Request.Builder()
+                .url("https://api.github.com/users/florent37")
+                .post(RequestBody.create(JSON_TYPE, myJson))
+                .build();
+
+        okHttpClient.newCall(myGetRequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call request, Response response) throws IOException {
+                //le retour est effectué dans un thread différent
+                final String text = response.body().string();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ourTextView = text;
+                        TextView mResult = (TextView)findViewById(R.id.editText);
+                        mResult.setText(ourTextView);
+                    }
+                });
+            }
+        });
+    }
 }
