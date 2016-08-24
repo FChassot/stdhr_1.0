@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
 
-import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 
 import hesso.mas.stdhb.Gui.Config.SettingsActivity;
@@ -32,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_main);
 
         // Récupération de l'instance bouton préférences
-        Button mPreferencesButton = (Button)findViewById(R.id.btnpreferences);
-        Button mRadarButton = (Button)findViewById(R.id.btnradar);
-        Button mSearchButton = (Button)findViewById(R.id.btnsearch);
-        Button mMapButton = (Button)findViewById(R.id.btnMap);
+        Button mPreferencesButton = (Button)findViewById(R.id.mDBtnpreferences);
+        Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
+        Button mSearchButton = (Button)findViewById(R.id.mBtnSearch);
+        Button mMapButton = (Button)findViewById(R.id.mBtnMap);
 
         // Positionner un listener sur ce bouton
         assert mPreferencesButton != null;
@@ -57,14 +56,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         StringBuilder builder = new StringBuilder();
 
-        if (lActualLocation != null) {
+        /*if (lActualLocation != null) {
             builder.append("\n Coordonnées GPS: " + lActualLocation.toString());
 
             TextView rayonSettingsView = (TextView) findViewById(R.id.textViewRayon);
 
             assert rayonSettingsView != null;
             rayonSettingsView.setText(builder.toString());
-        }
+        }*/
     }
 
     /**
@@ -73,19 +72,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      *
      */
     public void onClick(View view){
-        if (view.getId()==R.id.btnpreferences){
+        if (view.getId()==R.id.mDBtnpreferences){
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.btnradar){
+        if (view.getId()==R.id.mBtnradar){
             Intent intent = new Intent(MainActivity.this, RadarActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.btnsearch){
+        if (view.getId()==R.id.mBtnSearch){
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.btnMap){
+        if (view.getId()==R.id.mBtnMap){
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }

@@ -13,7 +13,6 @@ import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
-import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.MainActivity;
 
 import hesso.mas.stdhbtests.R;
@@ -34,10 +33,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         array_spinner[0]="Soap";
         array_spinner[1]="Rest";
         array_spinner[2]="Rdf4j";
-        Spinner s = (Spinner) findViewById(R.id.Spinner01);
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, array_spinner);
-        s.setAdapter(adapter);
+
+        Spinner lSpinner = (Spinner) findViewById(R.id.Spinner01);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array_spinner);
+        lSpinner.setAdapter(adapter);
 
         Button mBtnSave = (Button)findViewById(R.id.btnSave);
 
@@ -48,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         if (lRaySearch == -1) {
             lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
-            mRayon.setText("500");
+            mRayon.setText(BaseConstants.Attr_Default_Ray_Search);
         } else {
             mRayon.setText(lRaySearch.toString());
         }
@@ -97,6 +96,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         startActivity(intent);
     }
 
+    /**
+     * ...
+     */
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
@@ -107,4 +109,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Integer lRayon = Integer.parseInt(lRaySearch.getText().toString());
         lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);
     }
+
+    /*lSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+        {
+            Log.d(arrayOfObjects[position]._id);
+        }
+
+    });*/
 }

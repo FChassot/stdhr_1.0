@@ -22,7 +22,7 @@
             android:inputType="textPersonName"
             android:text="Date"
             android:ems="10"
-            android:id="@+id/btnDate"
+            android:id="@+id/mTxtDate"
             android:layout_weight="1" />
 
         <EditText
@@ -31,14 +31,14 @@
             android:inputType="textPersonName"
             android:text="Ville"
             android:ems="10"
-            android:id="@+id/btnVille"
+            android:id="@+id/mTxtVille"
             android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chercher"
-            android:id="@+id/btnRSearch"
+            android:id="@+id/mBtnSearch"
             android:layout_gravity="bottom" />
 
     </TableRow>

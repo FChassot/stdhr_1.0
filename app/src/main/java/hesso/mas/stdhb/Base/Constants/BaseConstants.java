@@ -7,6 +7,8 @@ package hesso.mas.stdhb.Base.Constants;
  */
 public class BaseConstants {
 
+    public static final String Attr_Default_Ray_Search = "500";
+
     // constant used to save the Gps Coordinates
     public static final String Attr_Gps_Coordinates = "gps_Coordinates";
 
@@ -14,7 +16,7 @@ public class BaseConstants {
     public static final String Attr_Ray_Search = "ray_Search";
 
     // constant used to switch on/off the mode radar
-    public static final String Attr_Radar_Switch = "radar_Switch";
+    public static final String Attr_Radar_Switch = "radar_OnOff";
 
     // constant used to define the theme of the search
     public static final String Attr_Radar_Themes = "radar_Themes";

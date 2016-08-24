@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.os.Bundle;
 import android.view.View;
 
+import hesso.mas.stdhb.Services.SearchTask;
 import hesso.mas.stdhbtests.R;
 
 import android.app.ProgressDialog;
@@ -31,7 +32,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_search);
 
         // Récupération de l'instance bouton préférences
-        Button mBtnSearch = (Button)findViewById(R.id.btnRSearch);
+        Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
         // Positionner un listener sur ce bouton
         mBtnSearch.setOnClickListener(this);
@@ -43,7 +44,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * @param view
      */
     public void onClick(View view){
-        if (view.getId()==R.id.btnRSearch) {
+        if (view.getId()==R.id.mBtnSearch) {
+            TextView mTxtLieu = (TextView)findViewById(R.id.mTxtVille);
+            TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
+
             /*HttpBinding request = new HttpBinding();
             CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
@@ -84,8 +88,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             String lResponse = client.getResponse();*/
-            String lUrls = MyString.EMPTY_STRING;
-            startAsyncSearch(lUrls);
+            /*String lUrls = MyString.EMPTY_STRING;
+            startAsyncSearch(lUrls);*/
+
+            SearchTask lSearchTask = new SearchTask();
+            lSearchTask.execute(
+                    "myserver.com",
+                    mTxtLieu.getText().toString(),
+                    mTxtDate.getText().toString());
 
             /*Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();*/
         }

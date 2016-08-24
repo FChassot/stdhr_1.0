@@ -10,7 +10,7 @@
     tools:context="hesso.mas.stdhb.Gui.MainActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/mDtxtTitle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="HES-SO,Médiathèque du Valais!"
@@ -23,12 +23,12 @@
         android:textIsSelectable="false" />
 
     <TextView
-        android:id="@+id/title1"
+        android:id="@+id/mTxtTitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DIGITAL HERITAGE RADAR!"
-        android:layout_below="@+id/btnpreferences"
-        android:layout_toRightOf="@+id/btnradar"
+        android:layout_below="@+id/mDBtnpreferences"
+        android:layout_toRightOf="@+id/mBtnradar"
         android:layout_marginTop="116dp"
         android:textColor="#d13b3b"
         android:textSize="32sp"
@@ -37,50 +37,40 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/btnpreferences"
+        android:id="@+id/mDBtnpreferences"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:text="Préférences"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/title"
-        android:layout_alignEnd="@+id/title" />
+        android:layout_alignRight="@+id/mDtxtTitle1"
+        android:layout_alignEnd="@+id/mDtxtTitle1" />
 
     <Button xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/btnradar"
+        android:id="@+id/mBtnradar"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:text="Radar"
         android:onClick="Radar"
-        android:layout_alignTop="@+id/btnsearch"
+        android:layout_alignTop="@+id/mBtnSearch"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/btnsearch"
+        android:id="@+id/mBtnSearch"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:text="Chercher"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/btnpreferences"
-        android:layout_alignEnd="@+id/btnpreferences" />
+        android:layout_alignRight="@+id/mDBtnpreferences"
+        android:layout_alignEnd="@+id/mDBtnpreferences" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Google map"
-        android:id="@+id/btnMap"
+        android:id="@+id/mBtnMap"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Rayon"
-        android:id="@+id/textViewRayon"
-        android:layout_above="@+id/btnradar"
-        android:layout_toRightOf="@+id/btnradar"
-        android:layout_toEndOf="@+id/btnradar" />
 
 
 </RelativeLayout>
