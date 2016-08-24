@@ -13,13 +13,17 @@ import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+import hesso.mas.stdhb.Base.Tools.Basemodel;
 import hesso.mas.stdhb.Gui.MainActivity;
 
 import hesso.mas.stdhbtests.R;
 
+/**
+ *
+ */
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
-    private String array_spinner[];
+    private String lComboBoxArray[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,25 +31,34 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         setContentView(R.layout.activity_setting);
 
-        // Here come all the options that you wish to show depending on the
-        // size of the array.
-        array_spinner=new String[3];
-        array_spinner[0]="Soap";
-        array_spinner[1]="Rest";
-        array_spinner[2]="Rdf4j";
+        // Here come all the options that you wish to show depending on the size of the array.
+        lComboBoxArray = new String[7];
 
-        Spinner lSpinner = (Spinner) findViewById(R.id.Spinner01);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array_spinner);
-        lSpinner.setAdapter(adapter);
+        lComboBoxArray[0]="Soap";
+        lComboBoxArray[1]="Rest";
+        lComboBoxArray[2]="Rdf4j";
+        lComboBoxArray[3]="Retrofit";
+        lComboBoxArray[4]="Spring";
+        lComboBoxArray[5]="HttpOk";
+        lComboBoxArray[6]="Volley";
+
+        Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, lComboBoxArray);
+        lCboCommunication.setAdapter(adapter);
+
 
         Button mBtnSave = (Button)findViewById(R.id.btnSave);
 
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
         Preferences lPrefs = new Preferences(this);
 
-        Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, -1);
+        Integer lComTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, Basemodel.NULL_KEY);
 
-        if (lRaySearch == -1) {
+        lCboCommunication.setSelection(lComTechnology);
+
+        Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, Basemodel.NULL_KEY);
+
+        if (lRaySearch == Basemodel.NULL_KEY) {
             lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
             mRayon.setText(BaseConstants.Attr_Default_Ray_Search);
         } else {
@@ -88,6 +101,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
 
+            Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
+            lPrefs.setValue(BaseConstants.Attr_Comm_Technology, lCboCommunication.getSelectedItemPosition());
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent);
         }

@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Base.Constants;
 
+import hesso.mas.stdhb.Base.Tools.Basemodel;
+
 /**
  * Created by chf on 21.07.2016.
  *
@@ -17,6 +19,9 @@ public class BaseConstants {
 
     // constant used to switch on/off the mode radar
     public static final String Attr_Radar_Switch = "radar_OnOff";
+
+    // constant used to switch on/off the mode radar
+    public static final String Attr_Comm_Technology = "comm_Technology";
 
     // constant used to define the theme of the search
     public static final String Attr_Radar_Themes = "radar_Themes";
