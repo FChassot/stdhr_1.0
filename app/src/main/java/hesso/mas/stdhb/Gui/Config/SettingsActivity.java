@@ -86,7 +86,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      */
     public void onClick(View view){
 
-        if (view.getId()==R.id.btnSave){
+        /*if (view.getId()==R.id.btnSave){
             EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
 
             Preferences lPrefs = new Preferences(this);
@@ -108,7 +108,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         }
 
         Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 
     /**
@@ -125,6 +125,27 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+
+        EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
+
+        Preferences lPrefs = new Preferences(this);
+        Integer lRay = Integer.parseInt(lRaySearch.getText().toString());
+        lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRay);
+
+        Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
+        Boolean lMode = lRadarMode.isChecked();
+
+        Integer lIntMode = 0;
+        if (lMode == true) {lIntMode = 1;}
+
+        lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
+
+        Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
+        lPrefs.setValue(BaseConstants.Attr_Comm_Technology, lCboCommunication.getSelectedItemPosition());
+    }
     /*lSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
     {
         @Override

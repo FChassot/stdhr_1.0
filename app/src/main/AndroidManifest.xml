@@ -48,6 +48,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name="hesso.mas.stdhb.Gui.CitizenSearch.SearchActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

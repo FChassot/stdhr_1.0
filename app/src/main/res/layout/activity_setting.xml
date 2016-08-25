@@ -150,7 +150,8 @@
         android:layout_height="wrap_content"
         android:text="sauver"
         android:id="@+id/btnSave"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:visibility="invisible" />
 
     <!--<ListPreference
         android:key="prefSyncFrequency"
