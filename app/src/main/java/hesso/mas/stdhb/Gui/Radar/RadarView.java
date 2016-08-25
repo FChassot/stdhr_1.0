@@ -67,7 +67,7 @@ public class RadarView extends View {
             localPaint.setStrokeWidth(5.0F);
             localPaint.setAlpha(0);
 
-            localMarker.setColor(Color.YELLOW);
+            localMarker.setColor(Color.RED);
             localMarker.setAntiAlias(true);
             localMarker.setStyle(Paint.Style.FILL);
             localMarker.setStrokeWidth(5.0F);
@@ -135,7 +135,7 @@ public class RadarView extends View {
 
             if (showInterestsFound) {
                 for (Point Marker : Markers) {
-                    localPaint.setColor(Color.GREEN);
+                    localPaint.setColor(Color.RED);
                     localPaint.setStyle(Paint.Style.FILL);
                     int posX = Marker.x;
                     int posY = Marker.y;
