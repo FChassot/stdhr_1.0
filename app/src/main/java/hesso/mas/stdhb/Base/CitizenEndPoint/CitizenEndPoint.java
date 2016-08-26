@@ -9,20 +9,26 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  */
 public class CitizenEndPoint {
 
+    // Citizen Server Uri
+    private String mCitizenServer = MyString.EMPTY_STRING;
+
+    // Citizen Repository Name
+    private String mCitizenRepository = MyString.EMPTY_STRING;
+
     // Constructor
-    public void CitizenEndPoint() {
-        CitizenServer = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
-        CitizenRepository = "CityZenDM";
+    public CitizenEndPoint() {
+        mCitizenServer = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
+        mCitizenRepository = "CityZenDM";
     }
 
     // Uri
     static String mUri = MyString.EMPTY_STRING;
 
-    // Citizen Server Uri
-    public String CitizenServer = MyString.EMPTY_STRING;
+    // Setter
+    public String CitizenServer(){return mCitizenServer;}
 
-    // Citizen Repository Name
-    static String CitizenRepository = MyString.EMPTY_STRING;
+    // Getter
+    public void CitizenServer(String aCitizenServer) {mCitizenServer = aCitizenServer;}
 
     // Setter
     public String Service(){return mUri;}

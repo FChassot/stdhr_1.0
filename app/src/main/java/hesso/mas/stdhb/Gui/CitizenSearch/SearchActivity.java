@@ -1,5 +1,6 @@
 package hesso.mas.stdhb.Gui.CitizenSearch;
 
+import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -43,8 +44,8 @@ import java.io.IOException;
  */
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
-    // Instance of okHttpClient
-    OkHttpClient okHttpClient;
+    // Variable of type OkHttpClient
+    OkHttpClient mOkHttpClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +56,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         // Récupération de l'instance bouton préférences
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
-
-        this.okHttpClient = new OkHttpClient();
 
         // Positionner un listener sur ce bouton
         mBtnSearch.setOnClickListener(this);
@@ -80,22 +79,40 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             BaseConstants.Attr_Comm_Technology,
                             MyString.EMPTY_STRING);
 
-            //EnumClientServerCommTechnology lCommTechnologyConfigured = EnumClientServerCommTechnology.valueOf(lCommTechnology);
-
             // Rest-Client OkHttp
-            if (lCommTechnology == EnumClientServerCommTechnology.OKHTTP.toString()) {
+            if (lCommTechnology.equals(EnumClientServerCommTechnology.OKHTTP.toString())) {
+
+                mOkHttpClient = new OkHttpClient();
+
                 // Do a post with the HttpOk Rest Client
-                HttpClientPost();
+                HttpClientPost(mOkHttpClient);
+
                 TextView mResult = (TextView)findViewById(R.id.editText);
                 mResult.setText(ourTextView);
-            } else {
+
+                return;
+            }
+
+            if (lCommTechnology.equals(EnumClientServerCommTechnology.RDF4J.toString())) {
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
+
                 Context context = getApplicationContext();
-                CharSequence text = "The type of server communication " + lCommTechnology + " has not been yet implemented!";
+                CharSequence text = "Try to communicate with the server " + lCitizenEndPoint.CitizenServer();
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+
+                return;
             }
+
+            // means technology not implemented
+            Context context = getApplicationContext();
+            CharSequence text = "The type of server communication " + lCommTechnology + " has not been yet implemented!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
 
 
             /*HttpBinding request = new HttpBinding();
@@ -195,19 +212,18 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      *
      */
-    public void HttpClientPost(){
-
+    public void HttpClientPost(OkHttpClient aOkHttpClient){
         MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
         String myJson = "{}";
 
         //.url("https://api.github.com/users/florent37")
         //post Request
         Request myGetRequest = new Request.Builder()
-                .url("http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/")
+                .url("http://dbpedia.org/page/Berlin")
                 .post(RequestBody.create(JSON_TYPE, myJson))
                 .build();
 
-        okHttpClient.newCall(myGetRequest).enqueue(new Callback() {
+        aOkHttpClient.newCall(myGetRequest).enqueue(new Callback() {
             @Override
             public void onFailure(Call request, IOException e) {
 
