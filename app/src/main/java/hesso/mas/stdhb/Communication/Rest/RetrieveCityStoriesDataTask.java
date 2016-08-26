@@ -11,7 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 
 /**
- * Created by Frédéric Chassot on 20.06.2016.
+ * Created by chf on 20.06.2016.
  *
  * This class represents a thread used to retrieve Data of the City-Stories
  * Endpoint Sparql.
@@ -34,6 +34,7 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
         mClient = new DefaultHttpClient();
     }
 
+
     public RetrieveCityStoriesDataTask(Context context, String action, HttpClient client)
     {
         mContext = context;
@@ -53,9 +54,11 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
         String lResponse;
 
         try {
+            CitizenEndPoint lServeur = new CitizenEndPoint();
+
             //RestClient client = new RestClient("http://dbpedia.org/sparql");
-            RestClient client = new RestClient(CitizenEndPoint.CitizenServer);
-            client.AddParam("service", CitizenEndPoint.CitizenServer);
+            RestClient client = new RestClient(lServeur.CitizenServer);
+            client.AddParam("service", lServeur.CitizenServer);
 
             String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
             client.AddParam("query", query);

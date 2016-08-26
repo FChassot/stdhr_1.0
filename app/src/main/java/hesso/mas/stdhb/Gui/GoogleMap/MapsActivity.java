@@ -1,7 +1,9 @@
 package hesso.mas.stdhb.Gui.GoogleMap;
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -66,5 +68,35 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         mMapFragment.addMarker(new MarkerOptions().position(bulle).title("Marker in Bulle"));
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(bulle));
+    }
+
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p/>
+     * This should only be called once and when we are sure that {@link #mMapFragment} is not null.
+     */
+    private void setUpMap() {
+        mMapFragment.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    }
+
+    /**
+     *
+     * @param location
+     */
+    private void handleNewLocation(Location location) {
+        //Log.d(TAG, location.toString());
+
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Current Location"));
+        MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title("I am here!");
+        mMapFragment.addMarker(options);
+        mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 }

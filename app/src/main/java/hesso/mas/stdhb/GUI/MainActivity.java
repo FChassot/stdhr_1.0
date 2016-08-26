@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         assert mMapButton != null;
         mMapButton.setOnClickListener(this);
 
-        Preferences lPrefs = new Preferences(this);
+        /*Preferences lPrefs = new Preferences(this);
 
         // Affiche les coordonnées GPS actuel de l'appareil
         Location lActualLocation = lPrefs.getValue("location");
 
         StringBuilder builder = new StringBuilder();
 
-        /*if (lActualLocation != null) {
+        if (lActualLocation != null) {
             builder.append("\n Coordonnées GPS: " + lActualLocation.toString());
 
             TextView rayonSettingsView = (TextView) findViewById(R.id.textViewRayon);

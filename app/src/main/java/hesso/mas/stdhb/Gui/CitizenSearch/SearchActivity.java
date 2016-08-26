@@ -1,8 +1,13 @@
 package hesso.mas.stdhb.Gui.CitizenSearch;
 
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
+import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+import hesso.mas.stdhb.Base.Tools.Basemodel;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
 
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.os.Bundle;
@@ -12,6 +17,7 @@ import hesso.mas.stdhb.Services.SearchTask;
 import hesso.mas.stdhbtests.R;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,6 +31,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -62,10 +69,25 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             TextView mTxtLieu = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
 
-            post();
+            Preferences lPrefs = new Preferences(this);
 
-            TextView mResult = (TextView)findViewById(R.id.editText);
-            mResult.setText(ourTextView);
+            // Affiche les coordonnées GPS actuel de l'appareil
+            Integer lCommTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, Basemodel.NULL_KEY);
+
+            if (lCommTechnology == 5) {
+                HttpClientPost();
+                TextView mResult = (TextView)findViewById(R.id.editText);
+                mResult.setText(ourTextView);
+            } else {
+
+                Context context = getApplicationContext();
+                CharSequence text = "The type of server communication has not been yet implemented!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+
 
             /*HttpBinding request = new HttpBinding();
             CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
@@ -164,14 +186,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      *
      */
-    public void post(){
+    public void HttpClientPost(){
 
         MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
         String myJson = "{}";
 
+        //.url("https://api.github.com/users/florent37")
         //post Request
         Request myGetRequest = new Request.Builder()
-                .url("https://api.github.com/users/florent37")
+                .url("http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/")
                 .post(RequestBody.create(JSON_TYPE, myJson))
                 .build();
 

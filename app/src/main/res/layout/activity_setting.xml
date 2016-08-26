@@ -146,14 +146,6 @@
         </TableRow>
     </TableLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sauver"
-        android:id="@+id/btnSave"
-        android:layout_centerVertical="true"
-        android:visibility="invisible" />
-
     <!--<ListPreference
         android:key="prefSyncFrequency"
         android:entries="@categories/syncFrequency"

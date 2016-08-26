@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.Basemodel;
 import hesso.mas.stdhb.Gui.MainActivity;
@@ -42,10 +43,11 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lComboBoxArray[5]="HttpOk";
         lComboBoxArray[6]="Volley";
 
+        //EnumClientServerCommTechnology lEnum = EnumClientServerCommTechnology.REST;
+
         Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, lComboBoxArray);
         lCboCommunication.setAdapter(adapter);
-
 
         Button mBtnSave = (Button)findViewById(R.id.btnSave);
 
@@ -84,32 +86,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      * This method is called by the listener.
      *
      */
-    public void onClick(View view){
-
-        /*if (view.getId()==R.id.btnSave){
-            EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
-
-            Preferences lPrefs = new Preferences(this);
-            Integer lRay = Integer.parseInt(lRaySearch.getText().toString());
-            lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRay);
-
-            Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
-            Boolean lMode = lRadarMode.isChecked();
-
-            Integer lIntMode = 0;
-            if (lMode == true) {lIntMode = 1;}
-
-            lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
-
-            Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
-            lPrefs.setValue(BaseConstants.Attr_Comm_Technology, lCboCommunication.getSelectedItemPosition());
-            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
-
-        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-        startActivity(intent);*/
-    }
+    public void onClick(View view){}
 
     /**
      * ...
