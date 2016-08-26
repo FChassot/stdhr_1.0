@@ -1,12 +1,10 @@
 package hesso.mas.stdhb.Gui.Config;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -15,7 +13,6 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.Basemodel;
-import hesso.mas.stdhb.Gui.MainActivity;
 
 import hesso.mas.stdhbtests.R;
 
@@ -26,10 +23,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     private String lComboBoxArray[];
 
+    /**
+     * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
+     * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
+     * if there was one. Always followed by onStart().
+
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // create a View
         setContentView(R.layout.activity_setting);
 
         // Here come all the options that you wish to show depending on the size of the array.
@@ -49,8 +54,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, lComboBoxArray);
         lCboCommunication.setAdapter(adapter);
 
-        Button mBtnSave = (Button)findViewById(R.id.btnSave);
-
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
         Preferences lPrefs = new Preferences(this);
 
@@ -60,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, Basemodel.NULL_KEY);
 
-        if (lRaySearch == Basemodel.NULL_KEY) {
+        if (lRaySearch.equals(Basemodel.NULL_KEY)) {
             lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
             mRayon.setText(BaseConstants.Attr_Default_Ray_Search);
         } else {
@@ -76,9 +79,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         else {
             lRadarSwitch.setChecked(false);
         }
-
-        // Positionner un listener sur ce bouton
-        mBtnSave.setOnClickListener((OnClickListener) this);
     }
 
     /**
@@ -89,7 +89,13 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     public void onClick(View view){}
 
     /**
-     * ...
+     * When the user resumes your activity from the Paused state, the system calls the onResume() method.
+     *
+     *      Be aware that the system calls this method every time your activity comes into the foreground,
+     *      including when it's created for the first time. As such, you should implement onResume() to initialize
+     *      components that you release during onPause() and perform any other initializations that must occur each time
+     *      the activity enters the Resumed state (such as begin animations and initialize components only used while
+     *      the activity has user focus).
      */
     @Override
     public void onResume() {
@@ -102,6 +108,19 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);
     }
 
+    /**
+     * When the system calls onPause() for your activity, it technically means your activity is still
+     * partially visible, but most often is an indication that the user is leaving the activity and it
+     * will soon enter the Stopped state. You should usually use the onPause() callback to:
+
+             - Check if the activity is visible; if it is not, stop animations or other ongoing actions that could consume CPU.
+               Remember, beginning with Android 7.0, a paused app might be running in multi-window mode. In this case, you would
+               not want to stop animations or video playback.
+             - Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave
+               (such as a draft email).
+             - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources
+               that may affect battery life while your activity is paused and the user does not need them.
+     */
     @Override
     public void onPause() {
         super.onPause();  // Always call the superclass method first
