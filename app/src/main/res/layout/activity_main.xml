@@ -44,7 +44,8 @@
         android:text="Préférences"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/mDtxtTitle1"
-        android:layout_alignEnd="@+id/mDtxtTitle1" />
+        android:layout_alignEnd="@+id/mDtxtTitle1"
+        android:background="@color/cast_intro_overlay_background_color" />
 
     <Button xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mBtnradar"
@@ -72,6 +73,17 @@
         android:id="@+id/mBtnMap"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mImgViewSettings"
+        android:background="@drawable/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/mBtnradar"
+        android:layout_alignEnd="@+id/mBtnradar" />
 
 
 </RelativeLayout>

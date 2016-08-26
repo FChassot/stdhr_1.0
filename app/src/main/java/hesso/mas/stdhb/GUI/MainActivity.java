@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
         Button mSearchButton = (Button)findViewById(R.id.mBtnSearch);
         Button mMapButton = (Button)findViewById(R.id.mBtnMap);
+        ImageView mImgViewSettings = (ImageView)findViewById(R.id.mImgViewSettings);
 
         // Positionner un listener sur ce bouton
         assert mPreferencesButton != null;
@@ -88,6 +90,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }
+        if (view.getId()==R.id.mImgViewSettings){
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        }
+
     }
 }
 
