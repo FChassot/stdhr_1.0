@@ -5,15 +5,13 @@ package hesso.mas.stdhb.Base.Models;
  */
 public enum EnumClientServerCommTechnology {
 
-    SOAP("Soap"), REST("Rest"), RETROFIT("Retrofit"), SPRING("SPring"), OKHTTP("OkHttp"), VOLLEY("Volley"), RDF4J("RDF4J") ;
+    UNDEFINED(0), SOAP(1), REST(2), RETROFIT(3), SPRING(4), OKHTTP(5), VOLLEY(6), RDF4J(7) ;
 
-    private String abreviation ;
+    private Integer value ;
 
-    private EnumClientServerCommTechnology(String abreviation) {
-        this.abreviation = abreviation ;
+    private EnumClientServerCommTechnology(Integer value) {
+        this.value = value;
     }
 
-    public String getAbreviation() {
-        return  this.abreviation ;
-    }
+    public Integer showValue(){return value;}
 }

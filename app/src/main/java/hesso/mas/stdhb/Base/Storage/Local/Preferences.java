@@ -42,6 +42,25 @@ public class Preferences {
     }
 
     /**
+     * Set a Value to the preferences.
+     *
+     * @param aKey The name of the preference to set.
+     * @param aValue The value of the preference to set.
+     */
+    public void setValue(String aKey, String aValue) {
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(lContext);
+
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+
+        editor.putString(aKey, aValue);
+
+        // commit writes its data to persistent storage immediately, whereas 'apply' will handle it
+        // in the background
+        editor.apply();
+    }
+
+    /**
      * Retrieve an integer value from the preferences.
      *
      * @param aKey The name of the preference to retrieve.
@@ -64,6 +83,40 @@ public class Preferences {
             if (lSharedPrefs.contains(aKey)) {
                 try {
                     lValue = lSharedPrefs.getInt(aKey, aDefValue);
+
+                } catch (Exception aExc) {
+                    Toast toast = Toast.makeText(null, aExc.getMessage(), Toast.LENGTH_SHORT);;
+                    toast.show();
+                }
+            }
+        }
+
+        return lValue;
+    }
+
+    /**
+     * Retrieve an integer value from the preferences.
+     *
+     * @param aKey The name of the preference to retrieve.
+     * @param aDefValue Value to return if this preference does not exist.
+     *
+     * @return Returns the preference value if it exists, or defValue.  Throws
+     * ClassCastException if there is a preference with this name that is not
+     * a String.
+     *
+     * @throws ClassCastException
+     */
+    public String getPrefValue(String aKey, String aDefValue) {
+
+        String lValue = aDefValue;
+
+        SharedPreferences lSharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(lContext);
+
+        if (lSharedPrefs != null) {
+            if (lSharedPrefs.contains(aKey)) {
+                try {
+                    lValue = lSharedPrefs.getString(aKey, aDefValue);
 
                 } catch (Exception aExc) {
                     Toast toast = Toast.makeText(null, aExc.getMessage(), Toast.LENGTH_SHORT);;
@@ -114,6 +167,7 @@ public class Preferences {
      *
      * @param aKey The name of the preference to retrieve.
      */
+    /**
     public Location getValue(String aKey) {
 
         if (aKey.equals(BaseConstants.Attr_Ray_Search)) {
@@ -149,5 +203,5 @@ public class Preferences {
         }
 
         return null;
-    }
+    }*/
 }

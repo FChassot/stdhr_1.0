@@ -44,8 +44,7 @@
         android:text="Préférences"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/mDtxtTitle1"
-        android:layout_alignEnd="@+id/mDtxtTitle1"
-        android:background="@color/cast_intro_overlay_background_color" />
+        android:layout_alignEnd="@+id/mDtxtTitle1" />
 
     <Button xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mBtnradar"

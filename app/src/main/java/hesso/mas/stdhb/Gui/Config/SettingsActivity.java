@@ -17,7 +17,7 @@ import hesso.mas.stdhb.Base.Tools.Basemodel;
 import hesso.mas.stdhbtests.R;
 
 /**
- *
+ * Activity for the settings
  */
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
@@ -37,29 +37,25 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // create a View
         setContentView(R.layout.activity_setting);
 
-        // Here come all the options that you wish to show depending on the size of the array.
-        lComboBoxArray = new String[7];
+        // Similar to another answer, but you can use an ArrayAdapter to populate based on an Enum class.
+        // I would recommend overriding toString in the Enum class to make the values populated in the spinner more
+        // user friendly.
+        Spinner lCboCommTechno = (Spinner) findViewById(R.id.Spinner01);
 
-        lComboBoxArray[0]="Soap";
-        lComboBoxArray[1]="Rest";
-        lComboBoxArray[2]="Rdf4j";
-        lComboBoxArray[3]="Retrofit";
-        lComboBoxArray[4]="Spring";
-        lComboBoxArray[5]="HttpOk";
-        lComboBoxArray[6]="Volley";
+        ArrayAdapter adapter =
+                new ArrayAdapter(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        EnumClientServerCommTechnology.values());
 
-        //EnumClientServerCommTechnology lEnum = EnumClientServerCommTechnology.REST;
-
-        Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, lComboBoxArray);
-        lCboCommunication.setAdapter(adapter);
+        lCboCommTechno.setAdapter(adapter);
 
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
         Preferences lPrefs = new Preferences(this);
 
-        Integer lComTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, Basemodel.NULL_KEY);
+        /*Integer lCommTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, Basemodel.NULL_KEY);
 
-        lCboCommunication.setSelection(lComTechnology);
+        lCboCommunication.setSelection(lCommTechnology);*/
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, Basemodel.NULL_KEY);
 
@@ -101,11 +97,11 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
+        /*EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
 
         Preferences lPrefs = new Preferences(this);
         Integer lRayon = Integer.parseInt(lRaySearch.getText().toString());
-        lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);
+        lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);*/
     }
 
     /**
@@ -139,9 +135,13 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
 
+        // Combobox Technologie
         Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
-        lPrefs.setValue(BaseConstants.Attr_Comm_Technology, lCboCommunication.getSelectedItemPosition());
+        String lTechnoName = lCboCommunication.getSelectedItem().toString();
+
+        lPrefs.setValue(BaseConstants.Attr_Comm_Technology, lTechnoName);
     }
+
     /*lSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
     {
         @Override

@@ -43,11 +43,14 @@ import java.io.IOException;
  */
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Instance of okHttpClient
     OkHttpClient okHttpClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // create a view
         setContentView(R.layout.activity_search);
 
         // Récupération de l'instance bouton préférences
@@ -66,22 +69,28 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      */
     public void onClick(View view){
         if (view.getId()==R.id.mBtnSearch) {
-            TextView mTxtLieu = (TextView)findViewById(R.id.mTxtVille);
+            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
 
+            // Get the technologie for the server communication configured in the settings
             Preferences lPrefs = new Preferences(this);
 
-            // Affiche les coordonnées GPS actuel de l'appareil
-            Integer lCommTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, Basemodel.NULL_KEY);
+            String lCommTechnology =
+                    lPrefs.getPrefValue(
+                            BaseConstants.Attr_Comm_Technology,
+                            MyString.EMPTY_STRING);
 
-            if (lCommTechnology == 5) {
+            //EnumClientServerCommTechnology lCommTechnologyConfigured = EnumClientServerCommTechnology.valueOf(lCommTechnology);
+
+            // Rest-Client OkHttp
+            if (lCommTechnology == EnumClientServerCommTechnology.OKHTTP.toString()) {
+                // Do a post with the HttpOk Rest Client
                 HttpClientPost();
                 TextView mResult = (TextView)findViewById(R.id.editText);
                 mResult.setText(ourTextView);
             } else {
-
                 Context context = getApplicationContext();
-                CharSequence text = "The type of server communication has not been yet implemented!";
+                CharSequence text = "The type of server communication " + lCommTechnology + " has not been yet implemented!";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
