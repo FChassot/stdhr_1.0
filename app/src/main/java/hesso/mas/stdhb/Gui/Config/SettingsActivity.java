@@ -14,6 +14,7 @@ import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.Basemodel;
 
+import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -53,9 +54,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
         Preferences lPrefs = new Preferences(this);
 
-        /*Integer lCommTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, Basemodel.NULL_KEY);
-
-        lCboCommunication.setSelection(lCommTechnology);*/
+        String lCommTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, MyString.EMPTY_STRING);
+        EnumClientServerCommTechnology lEnumValue = EnumClientServerCommTechnology.valueOf(lCommTechnology);
+        lCboCommTechno.setSelection(lEnumValue.showValue());
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, Basemodel.NULL_KEY);
 

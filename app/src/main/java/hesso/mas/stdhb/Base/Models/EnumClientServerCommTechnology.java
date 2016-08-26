@@ -14,4 +14,5 @@ public enum EnumClientServerCommTechnology {
     }
 
     public Integer showValue(){return value;}
+
 }
