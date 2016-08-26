@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="hesso.mas.stdhb.Gui.CitizenSearch.SearchActivity"
+    tools:context="hesso.mas.stdhb.Gui.Citizen.SearchActivity"
     android:background="#6dbaed">
 
     <TableRow

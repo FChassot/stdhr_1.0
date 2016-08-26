@@ -1,24 +1,20 @@
-package hesso.mas.stdhb.Gui.CitizenSearch;
+package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
-import hesso.mas.stdhb.Base.Tools.Basemodel;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
 
-import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.os.Bundle;
 import android.view.View;
 
-import hesso.mas.stdhb.Services.SearchTask;
 import hesso.mas.stdhbtests.R;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,7 +26,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 

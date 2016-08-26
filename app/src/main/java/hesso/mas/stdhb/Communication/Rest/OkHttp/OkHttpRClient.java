@@ -1,8 +1,7 @@
-package hesso.mas.stdhb.Communication.OkHttp;
+package hesso.mas.stdhb.Communication.Rest.OkHttp;
 
 import java.io.IOException;
 
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

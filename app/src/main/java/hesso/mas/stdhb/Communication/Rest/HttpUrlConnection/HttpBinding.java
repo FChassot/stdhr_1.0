@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Soap;
+package hesso.mas.stdhb.Communication.Rest.HttpUrlConnection;
 
 import java.io.*;
 import java.net.*;

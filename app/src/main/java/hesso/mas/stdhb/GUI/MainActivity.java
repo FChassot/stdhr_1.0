@@ -1,6 +1,5 @@
 package hesso.mas.stdhb.Gui;
 
-import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,15 +7,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 
 import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Gui.Radar.RadarActivity;
 
-import hesso.mas.stdhb.Gui.CitizenSearch.SearchActivity;
+import hesso.mas.stdhb.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhbtests.R;
 
 /**
