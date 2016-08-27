@@ -22,8 +22,8 @@ public class BaseConstants {
     public static final String Attr_Comm_Technology = "comm_Technology";
 
     // constant used to switch on/off the mode radar
-    //public static final EnumClientServerCommTechnology Enum_Attr_Comm_Technology = EnumClientServerCommTechnology.OKHTTP;
+    //public static final EnumClientServerCommunication Enum_Attr_Comm_Technology = EnumClientServerCommunication.OKHTTP;
 
     // constant used to define the theme of the search
-    public static final String Attr_Radar_Themes = "radar_Themes";
+    public static final String Attr_Radar_Themes = "radar_Search_Themes";
 }

@@ -209,6 +209,10 @@ public final class GpsLocationListener implements LocationListener {
         alertDialog.show();
     }
 
+    /**
+     *
+     * @param loc
+     */
     @Override
     public void onLocationChanged(Location loc) {
         //editLocation.setText("");

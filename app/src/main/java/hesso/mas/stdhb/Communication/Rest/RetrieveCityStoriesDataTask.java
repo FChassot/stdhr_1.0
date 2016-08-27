@@ -58,8 +58,8 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
             CitizenEndPoint lServeur = new CitizenEndPoint();
 
             //RestClient client = new RestClient("http://dbpedia.org/sparql");
-            RestClient client = new RestClient(lServeur.CitizenServer());
-            client.AddParam("service", lServeur.CitizenServer());
+            RestClient client = new RestClient(lServeur.CitizenServerUri());
+            client.AddParam("service", lServeur.CitizenServerUri());
 
             String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
             client.AddParam("query", query);

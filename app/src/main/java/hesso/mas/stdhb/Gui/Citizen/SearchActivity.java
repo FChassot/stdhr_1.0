@@ -2,7 +2,7 @@ package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
+import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
@@ -32,7 +32,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 /**
- * Created by chf on 11.05.2016.
+ * Created by chf on 11.06.2016.
  *
  * This is the Activity in which the user will be able to request the
  * semantic datas stored on the external triplestore
@@ -75,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             MyString.EMPTY_STRING);
 
             // Rest-Client OkHttp
-            if (lCommTechnology.equals(EnumClientServerCommTechnology.OKHTTP.toString())) {
+            if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
 
                 mOkHttpClient = new OkHttpClient();
 
@@ -88,11 +88,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
-            if (lCommTechnology.equals(EnumClientServerCommTechnology.RDF4J.toString())) {
+            if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
                 CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
                 Context context = getApplicationContext();
-                CharSequence text = "Try to communicate with the server " + lCitizenEndPoint.CitizenServer();
+                CharSequence text = "Try to communicate with the server " + lCitizenEndPoint.CitizenServerUri();
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);

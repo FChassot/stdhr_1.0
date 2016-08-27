@@ -1,10 +1,7 @@
 package hesso.mas.stdhb.Gui.Radar;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import hesso.mas.stdhbtests.R;
@@ -13,6 +10,13 @@ public class RadarActivity extends AppCompatActivity {
 
     RadarView mRadarView = null;
 
+    /**
+     * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
+     * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
+     * if there was one. Always followed by onStart().
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

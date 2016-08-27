@@ -12,10 +12,10 @@ import android.net.NetworkInfo;
 public class InternetConnectivity {
     private final Context mContext;
 
+    // Constructor
     public InternetConnectivity(Context context) {
         this.mContext = context;
     }
-
 
     /**
      * Check if the internet connection is available
@@ -27,9 +27,9 @@ public class InternetConnectivity {
         ConnectivityManager connManager =
             (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
+        NetworkInfo lNetworkInfo = connManager.getActiveNetworkInfo();
 
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (lNetworkInfo != null && lNetworkInfo.isConnected()) {
             return true;
         }
 

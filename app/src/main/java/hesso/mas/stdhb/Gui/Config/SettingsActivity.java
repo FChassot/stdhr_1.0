@@ -10,7 +10,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
+import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.Basemodel;
 
@@ -18,6 +18,8 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhbtests.R;
 
 /**
+ * Created by chf on 11.05.2016.
+ *
  * Activity for the settings
  */
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
@@ -47,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 new ArrayAdapter(
                         this,
                         android.R.layout.simple_spinner_item,
-                        EnumClientServerCommTechnology.values());
+                        EnumClientServerCommunication.values());
 
         lCboCommTechno.setAdapter(adapter);
 
@@ -55,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Preferences lPrefs = new Preferences(this);
 
         String lCommTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, MyString.EMPTY_STRING);
-        EnumClientServerCommTechnology lEnumValue = EnumClientServerCommTechnology.valueOf(lCommTechnology);
+        EnumClientServerCommunication lEnumValue = EnumClientServerCommunication.valueOf(lCommTechnology);
         lCboCommTechno.setSelection(lEnumValue.showValue());
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, Basemodel.NULL_KEY);

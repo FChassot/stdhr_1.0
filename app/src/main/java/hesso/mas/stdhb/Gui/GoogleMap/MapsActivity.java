@@ -3,7 +3,6 @@ package hesso.mas.stdhb.Gui.GoogleMap;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,10 +15,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 import hesso.mas.stdhbtests.R;
 
+/**
+ * Created by chf on 11.05.2016.
+ *
+ * Activity for the google Map function
+ */
 public class MapsActivity extends Activity implements OnMapReadyCallback {
 
+    // GoogleMap instance
     private GoogleMap mMapFragment;
 
+    /**
+     * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
+     * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
+     * if there was one. Always followed by onStart().
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

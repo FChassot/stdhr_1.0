@@ -7,8 +7,8 @@ package hesso.mas.stdhb.Base.Tools;
  * This method will be used in the program for example to initialise some
  * variables of type String.
  *
- * Cette classe est finale, c'est à dire que la méthode ne peut pas être
- * surchagé par des classe dérivées.
+ * This class is final, so that the method can't be overloaded from derived
+ * classes.
  */
 public final class MyString {
 
