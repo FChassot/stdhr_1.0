@@ -5,6 +5,8 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Communication.Jena.JenaSparqlWsClient;
+import hesso.mas.stdhb.Communication.Rest.HttpUrlConnection.RestclientWithHttpUrlConnection;
 import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
 
 import android.support.v7.app.AppCompatActivity;
@@ -66,7 +68,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
 
-            // Get the technologie for the server communication configured in the settings
+            // Get the technology for the server communication configured in the settings
             Preferences lPrefs = new Preferences(this);
 
             String lCommTechnology =
@@ -74,12 +76,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             BaseConstants.Attr_Comm_Technology,
                             MyString.EMPTY_STRING);
 
-            // Rest-Client OkHttp
+            // Rest-Client using library OkHttp
             if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
 
                 mOkHttpClient = new OkHttpClient();
 
-                // Do a post with the HttpOk Rest Client
+                // Do a post through the HttpOk Rest-Client
                 HttpClientPost(mOkHttpClient);
 
                 TextView mResult = (TextView)findViewById(R.id.editText);
@@ -88,11 +90,62 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
+            // Rest-Client using standard HttpUrlConnection library
+            if (lCommTechnology.equals(EnumClientServerCommunication.REST.toString())) {
+
+                RestclientWithHttpUrlConnection lRequest = new RestclientWithHttpUrlConnection();
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
+                Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
+                String lResponse = lRequest.DoHttpBinding(lCitizenEndPoint);
+                Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+
+            // RDF4J
             if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
                 CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
                 Context context = getApplicationContext();
                 CharSequence text = "Try to communicate with the server " + lCitizenEndPoint.CitizenServerUri();
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                return;
+            }
+
+            // SOAP
+            if (lCommTechnology.equals(EnumClientServerCommunication.SOAP.toString())) {
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
+                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient();
+
+                lCitizenEndPoint.CitizenServerUri(MyString.EMPTY_STRING);
+
+                String lResponse = lJenaSparqlWsClient.DoRequest(lCitizenEndPoint, MyString.EMPTY_STRING);
+
+                Context context = getApplicationContext();
+                CharSequence text = lResponse;
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                return;
+            }
+
+            // ANDROJENA
+            if (lCommTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
+                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient();
+
+                lCitizenEndPoint.CitizenServerUri(MyString.EMPTY_STRING);
+
+                String lResponse = lJenaSparqlWsClient.DoRequest(lCitizenEndPoint, MyString.EMPTY_STRING);
+
+                Context context = getApplicationContext();
+                CharSequence text = lResponse;
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -108,15 +161,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-
-
-            /*RestclientWithHttpUrlConnection request = new RestclientWithHttpUrlConnection();
-            CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
-
-            lCitizenEndPoint.Service("http://dbpedia.org/sparql");
-
-            //Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
-            String lResponse = request.DoHttpBinding(lCitizenEndPoint);*/
 
             /*OkHttpRestClient lClient = new OkHttpRestClient();
             String getResponse = myString.Empty();

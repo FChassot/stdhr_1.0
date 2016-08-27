@@ -132,23 +132,23 @@ public class RestclientWithHttpClient {
     }
 
     /**
-     *
+     * Method to execute the request
      *
      * @param request
-     * @param url
+     * @param aUrl
      */
-    private void executeRequest(HttpUriRequest request, String url)
+    private void executeRequest(HttpUriRequest request, String aUrl)
     {
-        HttpClient client = new DefaultHttpClient();
+        HttpClient lHttpClient = new DefaultHttpClient();
 
-        HttpResponse httpResponse;
+        HttpResponse lHttpResponse;
 
         try {
-            httpResponse = client.execute(request);
-            responseCode = httpResponse.getStatusLine().getStatusCode();
-            message = httpResponse.getStatusLine().getReasonPhrase();
+            lHttpResponse = lHttpClient.execute(request);
+            responseCode = lHttpResponse.getStatusLine().getStatusCode();
+            message = lHttpResponse.getStatusLine().getReasonPhrase();
 
-            HttpEntity entity = httpResponse.getEntity();
+            HttpEntity entity = lHttpResponse.getEntity();
 
             if (entity != null) {
 
@@ -160,33 +160,39 @@ public class RestclientWithHttpClient {
             }
 
         } catch (ClientProtocolException e)  {
-            client.getConnectionManager().shutdown();
+            lHttpClient.getConnectionManager().shutdown();
             e.printStackTrace();
         } catch (IOException e) {
-            client.getConnectionManager().shutdown();
+            lHttpClient.getConnectionManager().shutdown();
             e.printStackTrace();
         }
     }
 
-    private static String convertStreamToString(InputStream is) {
+    /**
+     *
+     * @param aInputStream
+     * @return
+     */
+    private static String convertStreamToString(InputStream aInputStream) {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
+        BufferedReader lBufferedReader = new BufferedReader(new InputStreamReader(aInputStream));
+        StringBuilder lStringBuilder = new StringBuilder();
 
         String line = null;
+
         try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+            while ((line = lBufferedReader.readLine()) != null) {
+                lStringBuilder.append(line + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                is.close();
+                aInputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return sb.toString();
+        return lStringBuilder.toString();
     }
 }

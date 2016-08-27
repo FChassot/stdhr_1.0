@@ -18,18 +18,15 @@ public class CitizenEndPoint {
     // Constructor
     public CitizenEndPoint() {
 
-        mCitizenServerUri = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
-        mCitizenRepository = "CityZenDM";
+        mCitizenServerUri = ""; //"http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
+        mCitizenRepository = ""; //"CityZenDM";
 
     }
-
-    // Uri
-    static String mUri = MyString.EMPTY_STRING;
 
     // Setter
     public String CitizenServerUri(){return mCitizenServerUri;}
 
     // Getter
-    public void CitizenServerUri(String mCitizenServerUri) {mCitizenServerUri = mCitizenServerUri;}
+    public void CitizenServerUri(String aCitizenServerUri) {mCitizenServerUri = aCitizenServerUri;}
 
 }
