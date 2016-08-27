@@ -9,6 +9,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Communication.Rest.HttpClient.RestClient;
 
 /**
  * Created by chf on 20.06.2016.

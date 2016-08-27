@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Rest;
+package hesso.mas.stdhb.Communication.Rest.HttpClient;
 
 import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
