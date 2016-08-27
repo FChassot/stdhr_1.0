@@ -5,7 +5,8 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Communication.Jena.JenaSparqlWsClient;
+import hesso.mas.stdhb.Communication.Androjena.JenaSparqlWsClient;
+import hesso.mas.stdhb.Communication.Rdf4j.Rdf4jSparqlWsClient;
 import hesso.mas.stdhb.Communication.Rest.HttpUrlConnection.RestclientWithHttpUrlConnection;
 import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
 
@@ -93,9 +94,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             // Rest-Client using standard HttpUrlConnection library
             if (lCommTechnology.equals(EnumClientServerCommunication.REST.toString())) {
 
-                RestclientWithHttpUrlConnection lRequest = new RestclientWithHttpUrlConnection();
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
-                Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
+                RestclientWithHttpUrlConnection lRequest =
+                        new RestclientWithHttpUrlConnection();
+
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint("http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/","CityZenDM");
+
                 String lResponse = lRequest.DoHttpBinding(lCitizenEndPoint);
                 Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
 
@@ -104,32 +107,18 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             // RDF4J
             if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint("http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/","CityZenDM");
 
-                Context context = getApplicationContext();
-                CharSequence text = "Try to communicate with the server " + lCitizenEndPoint.CitizenServerUri();
-                int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
-                return;
-            }
-
-            // SOAP
-            if (lCommTechnology.equals(EnumClientServerCommunication.SOAP.toString())) {
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
-                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient();
-
-                lCitizenEndPoint.CitizenServerUri(MyString.EMPTY_STRING);
+                Rdf4jSparqlWsClient lJenaSparqlWsClient = new Rdf4jSparqlWsClient();
 
                 String lResponse = lJenaSparqlWsClient.DoRequest(lCitizenEndPoint, MyString.EMPTY_STRING);
 
                 Context context = getApplicationContext();
-                CharSequence text = lResponse;
-                int duration = Toast.LENGTH_SHORT;
+                CharSequence lTextToDisplay = lResponse;
+                int lDisplayDuration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, text, duration);
+                Toast toast = Toast.makeText(context, lTextToDisplay, lDisplayDuration);
                 toast.show();
 
                 return;
@@ -137,12 +126,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             // ANDROJENA
             if (lCommTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
-                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient();
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint("http://dbpedia.org/sparql", "");
 
                 lCitizenEndPoint.CitizenServerUri(MyString.EMPTY_STRING);
 
-                String lResponse = lJenaSparqlWsClient.DoRequest(lCitizenEndPoint, MyString.EMPTY_STRING);
+                String lStrSparqlQuery =
+                        "PREFIX dbo:<http://dbpedia.org/ontology/>"
+                                + "PREFIX : <http://dbpedia.org/resource/>"
+                                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
+                                + "select ?URI where {?URI rdfs:label " + "London" + ".}";
+
+                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lCitizenEndPoint, lStrSparqlQuery);
+
+                String lResponse = lJenaSparqlWsClient.DoRequest();
 
                 Context context = getApplicationContext();
                 CharSequence text = lResponse;

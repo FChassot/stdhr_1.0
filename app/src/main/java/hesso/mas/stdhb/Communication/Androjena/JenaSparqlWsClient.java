@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Jena;
+package hesso.mas.stdhb.Communication.Androjena;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -18,38 +18,44 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  */
 public class JenaSparqlWsClient {
 
+    private CitizenEndPoint mSparqlEndPoint;
+    private String mSparqlQuery;
+
     // Constructor
-    public JenaSparqlWsClient() {}
+    public JenaSparqlWsClient(
+            CitizenEndPoint aSparqlEndPoint,
+            String aSparqlQuery
+    ) {
+        mSparqlEndPoint = aSparqlEndPoint;
+        mSparqlQuery = aSparqlQuery;
+    }
 
     /**
      *
-     * @param aCitizenEndPoint
-     *
      * @return
      */
-    public String DoRequest(
-        CitizenEndPoint aCitizenEndPoint,
-        String aSparqlQuery) {
+    public String DoRequest() {
 
         // DBpedia Request using Androjena
         String strings = "London";
 
         String lSparqlEndPoint = MyString.EMPTY_STRING;
 
-        if (aCitizenEndPoint.CitizenServerUri() == MyString.EMPTY_STRING) {
+        if (mSparqlEndPoint.CitizenServerUri() == MyString.EMPTY_STRING) {
             lSparqlEndPoint = "http://dbpedia.org/sparql";
 
-        } else {lSparqlEndPoint = aCitizenEndPoint.CitizenServerUri();}
+        } else {lSparqlEndPoint = mSparqlEndPoint.CitizenServerUri();}
 
         String lStrSparqlQuery = MyString.EMPTY_STRING;
 
-        if (aSparqlQuery.equals(MyString.EMPTY_STRING)) {
+        if (mSparqlQuery.equals(MyString.EMPTY_STRING)) {
             lStrSparqlQuery =
                     "PREFIX dbo:<http://dbpedia.org/ontology/>"
                     + "PREFIX : <http://dbpedia.org/resource/>"
                     + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
                     + "select ?URI where {?URI rdfs:label " + strings + ".}";
-        } else {lStrSparqlQuery = aSparqlQuery;}
+
+        } else {lStrSparqlQuery = mSparqlQuery;}
 
         String lResult = "nothing";
         System.out.println(lStrSparqlQuery);

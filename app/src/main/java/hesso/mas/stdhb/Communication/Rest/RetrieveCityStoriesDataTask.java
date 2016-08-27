@@ -9,6 +9,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Rest.HttpClient.RestclientWithHttpClient;
 
 /**
@@ -55,7 +56,7 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
         String lResponse;
 
         try {
-            CitizenEndPoint lServeur = new CitizenEndPoint();
+            CitizenEndPoint lServeur = new CitizenEndPoint(MyString.EMPTY_STRING, MyString.EMPTY_STRING);
 
             //RestclientWithHttpClient client = new RestclientWithHttpClient("http://dbpedia.org/sparql");
             RestclientWithHttpClient client = new RestclientWithHttpClient(lServeur.CitizenServerUri());

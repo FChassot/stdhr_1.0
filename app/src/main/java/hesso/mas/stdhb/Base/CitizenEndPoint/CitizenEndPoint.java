@@ -16,10 +16,10 @@ public class CitizenEndPoint {
     private String mCitizenRepository = MyString.EMPTY_STRING;
 
     // Constructor
-    public CitizenEndPoint() {
+    public CitizenEndPoint(String aServerUri, String aRepository) {
 
-        mCitizenServerUri = ""; //"http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
-        mCitizenRepository = ""; //"CityZenDM";
+        mCitizenServerUri = aServerUri;
+        mCitizenRepository = aRepository;
 
     }
 

@@ -2,6 +2,8 @@ package hesso.mas.stdhb.Base.Models;
 
 /**
  * Created by chf on 25.08.2016.
+ *
+ *
  */
 public enum EnumClientServerCommunication {
 
