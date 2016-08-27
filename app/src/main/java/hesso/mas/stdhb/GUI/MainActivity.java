@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
-
     }
 }
 

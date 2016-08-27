@@ -176,7 +176,7 @@ public final class GpsLocationListener implements LocationListener {
 
     /**
      * Function to show settings alert dialog On pressing Settings button will
-     * lauch Settings Options
+     * launch Settings Options
      * */
     public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);

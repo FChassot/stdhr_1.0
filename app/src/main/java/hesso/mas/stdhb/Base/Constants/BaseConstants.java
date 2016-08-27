@@ -1,8 +1,5 @@
 package hesso.mas.stdhb.Base.Constants;
 
-import hesso.mas.stdhb.Base.Models.EnumClientServerCommTechnology;
-import hesso.mas.stdhb.Base.Tools.Basemodel;
-
 /**
  * Created by chf on 21.07.2016.
  *
