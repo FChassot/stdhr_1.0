@@ -12,7 +12,7 @@ import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
  *
  *
  */
-public class HttpBinding {
+public class RestclientWithHttpUrlConnection {
 
     /**
      *

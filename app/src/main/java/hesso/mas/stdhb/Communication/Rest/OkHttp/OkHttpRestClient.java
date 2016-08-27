@@ -13,7 +13,7 @@ import okhttp3.Response;
  *
  * This class implements a rest client using the Apis provided by the OkHttp libraries.
  */
-public class OkHttpRClient {
+public class OkHttpRestClient {
 
     OkHttpClient client = new OkHttpClient();
 

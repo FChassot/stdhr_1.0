@@ -29,7 +29,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 /**
  * Created by chf on 11.05.2016.
  */
-public class RestClient {
+public class RestclientWithHttpClient {
 
     public enum RequestMethod
     {
@@ -59,7 +59,7 @@ public class RestClient {
         return responseCode;
     }
 
-    public RestClient(String url)
+    public RestclientWithHttpClient(String url)
     {
         this.url = url;
         params = new ArrayList<NameValuePair>();

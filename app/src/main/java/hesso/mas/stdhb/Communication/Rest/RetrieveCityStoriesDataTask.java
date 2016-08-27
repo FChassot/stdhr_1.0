@@ -9,7 +9,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.Communication.Rest.HttpClient.RestClient;
+import hesso.mas.stdhb.Communication.Rest.HttpClient.RestclientWithHttpClient;
 
 /**
  * Created by chf on 20.06.2016.
@@ -57,15 +57,15 @@ public class RetrieveCityStoriesDataTask extends AsyncTask<String, Void, String>
         try {
             CitizenEndPoint lServeur = new CitizenEndPoint();
 
-            //RestClient client = new RestClient("http://dbpedia.org/sparql");
-            RestClient client = new RestClient(lServeur.CitizenServerUri());
+            //RestclientWithHttpClient client = new RestclientWithHttpClient("http://dbpedia.org/sparql");
+            RestclientWithHttpClient client = new RestclientWithHttpClient(lServeur.CitizenServerUri());
             client.AddParam("service", lServeur.CitizenServerUri());
 
             String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
             client.AddParam("query", query);
 
             try {
-                client.Execute(RestClient.RequestMethod.GET);
+                client.Execute(RestclientWithHttpClient.RequestMethod.GET);
 
             } catch (Exception e) {
                 e.printStackTrace();

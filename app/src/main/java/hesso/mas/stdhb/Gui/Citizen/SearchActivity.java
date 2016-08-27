@@ -110,7 +110,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             toast.show();
 
 
-            /*HttpBinding request = new HttpBinding();
+            /*RestclientWithHttpUrlConnection request = new RestclientWithHttpUrlConnection();
             CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
             lCitizenEndPoint.Service("http://dbpedia.org/sparql");
@@ -118,7 +118,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             //Toast.makeText(this,"Requête HTTP!", Toast.LENGTH_SHORT).show();
             String lResponse = request.DoHttpBinding(lCitizenEndPoint);*/
 
-            /*OkHttpRClient lClient = new OkHttpRClient();
+            /*OkHttpRestClient lClient = new OkHttpRestClient();
             String getResponse = myString.Empty();
 
             try {
@@ -127,7 +127,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }*/
 
-            /*OkHttpRClient lClient = new OkHttpRClient();
+            /*OkHttpRestClient lClient = new OkHttpRestClient();
             String postResponse = myString.Empty();
             String json = lClient.bowlingJson("Jesse", "Jake");
 
@@ -138,13 +138,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
             System.out.println(postResponse);*/
 
-            /*RestClient client = new RestClient("http://dbpedia.org/sparql");
+            /*RestclientWithHttpClient client = new RestclientWithHttpClient("http://dbpedia.org/sparql");
             client.AddParam("service", "http://dbpedia.org/sparql");
             String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
             client.AddParam("query", query);
 
             try {
-                client.Execute(RestClient.RequestMethod.GET);
+                client.Execute(RestclientWithHttpClient.RequestMethod.GET);
             } catch (Exception e) {
                 e.printStackTrace();
             }
