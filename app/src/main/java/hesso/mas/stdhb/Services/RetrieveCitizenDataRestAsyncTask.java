@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Rest;
+package hesso.mas.stdhb.Services;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 /**
- * Android RestTask (REST) from the Android Recipes book.
+ * Android RetrieveCitizenDataRestAsyncTask (REST) from the Android Recipes book.
  */
-public class RestTask extends AsyncTask<HttpUriRequest, Void, String>
+public class RetrieveCitizenDataRestAsyncTask extends AsyncTask<HttpUriRequest, Void, String>
 {
     private static final String TAG = "AARestTask";
     public static final String HTTP_RESPONSE = "httpResponse";
@@ -23,14 +23,14 @@ public class RestTask extends AsyncTask<HttpUriRequest, Void, String>
     private HttpClient mClient;
     private String mAction;
 
-    public RestTask(Context context, String action)
+    public RetrieveCitizenDataRestAsyncTask(Context context, String action)
     {
         mContext = context;
         mAction = action;
         mClient = new DefaultHttpClient();
     }
 
-    public RestTask(Context context, String action, HttpClient client)
+    public RetrieveCitizenDataRestAsyncTask(Context context, String action, HttpClient client)
     {
         mContext = context;
         mAction = action;
