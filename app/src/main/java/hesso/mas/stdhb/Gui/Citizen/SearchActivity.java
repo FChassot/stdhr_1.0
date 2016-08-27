@@ -7,8 +7,10 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Androjena.JenaSparqlWsClient;
 import hesso.mas.stdhb.Communication.Rdf4j.Rdf4jSparqlWsClient;
+import hesso.mas.stdhb.Communication.Rest.HttpUrlConnection.RestclientWithHttpUrlConnection;
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
 
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.os.Bundle;
@@ -57,6 +59,34 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         // Positionner un listener sur ce bouton
         mBtnSearch.setOnClickListener(this);
+
+        IntentFilter lFilter = new IntentFilter();
+
+        /**
+         * Our Broadcast Receiver. We get notified that the data is ready this way.
+         */
+        BroadcastReceiver lReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                // clear the progress indicator
+                if (progress != null)
+                {
+                    progress.dismiss();
+                }
+
+                String response = intent.getStringExtra(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+
+                ourTextView = response;
+
+                Log.i(TAG, "RESPONSE = " + response);
+                //
+                // my old json code was here. this is where you will parse it.
+                //
+            }
+        };
+
+        registerReceiver(lReceiver, lFilter);
     }
 
     /**
@@ -75,7 +105,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             MyString.EMPTY_STRING);
 
             // Rest-Client using library OkHttp
-            /*if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
+            if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
 
                 mOkHttpClient = new OkHttpClient();
 
@@ -100,10 +130,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
 
                 return;
-            }*/
+            }
 
             // RDF4J
-            /*if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
+            if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
                 String lServerUri = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
                 String lRepository = "CityZenDM";
 
@@ -176,7 +206,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 toast.show();
 
                 return;
-            }*/
+            }
 
             // means technology not implemented
             Context context = getApplicationContext();
@@ -189,7 +219,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
 
             startAsyncSearch(
-                    MyString.EMPTY_STRING,
                     mTxtPlace.getText().toString(),
                     mTxtDate.getText().toString());
         }
@@ -204,46 +233,21 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Start an Async Search on the endPoint Sparql Server
      *
-     * @param aAction
+     * @param aPlace
+     * @param aDate
      */
-    private void startAsyncSearch(String aAction, String aPlace, String aDate) {
-        //String... urls
+    private void startAsyncSearch(String aPlace, String aDate) {
+
         RetrieveCitizenDataAsyncTask lTask =
-                new RetrieveCitizenDataAsyncTask(this, aAction);
+                new RetrieveCitizenDataAsyncTask(this);
 
         lTask.execute(aPlace, aDate);
     }
 
     /**
-     * Our Broadcast Receiver. We get notified that the data is ready this way.
-     */
-    private BroadcastReceiver receiver = new BroadcastReceiver()
-
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            // clear the progress indicator
-            if (progress != null)
-            {
-                progress.dismiss();
-            }
-
-            String response = intent.getStringExtra(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
-
-            ourTextView = response;
-
-            Log.i(TAG, "RESPONSE = " + response);
-            //
-            // my old json code was here. this is where you will parse it.
-            //
-        }
-    };
-
-    /**
      *
      */
-    /*public void HttpClientPost(OkHttpClient aOkHttpClient){
+    public void HttpClientPost(OkHttpClient aOkHttpClient){
         MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
         String myJson = "{}";
 
@@ -275,5 +279,5 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 });
             }
         });
-    }*/
+    }
 }

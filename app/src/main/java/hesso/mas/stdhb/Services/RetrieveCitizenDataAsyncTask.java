@@ -30,15 +30,16 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
     public static final String HTTP_RESPONSE = "httpResponse";
 
     private Context mContext;
-    private String mAction;
     private ProgressDialog mProgress;
 
-    public RetrieveCitizenDataAsyncTask(Context context, String action)
+    public RetrieveCitizenDataAsyncTask(Context aContext)
     {
-        mContext = context;
-        mAction = action;
+        mContext = aContext;
     }
 
+    /**
+     *
+     */
     @Override
     protected void onPreExecute() {
         mProgress = ProgressDialog.show(mContext, "Signing in", "Please wait while we are signing you in..");
@@ -48,7 +49,9 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      * Override this method to perform a computation on a background thread.
      * The specified parameters are the parameters passed to execute(Params...) by the caller
      * of this task.
+     *
      * This method can call publishProgress(Progress...) to publish updates on the UI thread.
+     *
      * @param urls
      */
     protected String doInBackground(String... urls) {
@@ -62,13 +65,10 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
 
             lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
 
-            String lStrSparqlQuery =
-                    "PREFIX dbo:<http://dbpedia.org/ontology/>"
-                            + "PREFIX : <http://dbpedia.org/resource/>"
-                            + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
-                            + "select ?URI where {?URI rdfs:label " + "London" + ".}";
+            String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
 
-            JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lEndPointWs, lStrSparqlQuery);
+            JenaSparqlWsClient lJenaSparqlWsClient =
+                    new JenaSparqlWsClient(lEndPointWs, lStrSparqlQuery);
 
             try {
                 lResponse = lJenaSparqlWsClient.DoRequest();
@@ -92,16 +92,19 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      * Runs on the UI thread after doInBackground(Params...).
      *The specified result is the value returned by doInBackground(Params...).
      */
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(String aResult) {
         // TODO: check this.exception
         // TODO: do something with the feed
-        Log.i(TAG, "RESULT = " + result);
+        Log.i(TAG, "RESULT = " + aResult);
 
-        Intent intent = new Intent(mAction);
+        Intent intent = new Intent();
 
-        intent.putExtra(HTTP_RESPONSE, result);
+        intent.putExtra(HTTP_RESPONSE, aResult);
 
         // broadcast the completion
         mContext.sendBroadcast(intent);
     }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {}
 }

@@ -37,9 +37,7 @@ public class JenaSparqlWsClient {
     public String DoRequest() {
 
         // DBpedia Request using Androjena
-        //String strings = "London";
-
-        String lSparqlEndPoint = MyString.EMPTY_STRING;
+        String lSparqlEndPoint;
 
         if (mSparqlEndPoint.CitizenServerUri() == MyString.EMPTY_STRING) {
             lSparqlEndPoint = "http://dbpedia.org/sparql";
@@ -49,17 +47,11 @@ public class JenaSparqlWsClient {
         String lStrSparqlQuery;
 
         if (mSparqlQuery.equals(MyString.EMPTY_STRING)) {
-            /*lStrSparqlQuery =
-                    "PREFIX dbo:<http://dbpedia.org/ontology/>"
-                    + "PREFIX : <http://dbpedia.org/resource/>"
-                    + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
-                    + "select ?URI where {?URI rdfs:label London.}";*/
-
-            lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
+            lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
         } else {lStrSparqlQuery = mSparqlQuery;}
 
-        String lResult = "nothing";
+        String lResult = "none Result";
 
         System.out.println(lStrSparqlQuery);
 
@@ -77,7 +69,8 @@ public class JenaSparqlWsClient {
             {
                 QuerySolution lBinding = lResults.nextSolution();
                 Resource lSubject = (Resource) lBinding.get("Subject");
-                System.out.println("Subject: "+lSubject.getURI());
+                lResult += lSubject;
+                //System.out.println("Subject: "+lSubject.getURI());
             }
         } catch (Exception aException) {
             aException.printStackTrace();
