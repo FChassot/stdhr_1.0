@@ -12,9 +12,6 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  */
 public class Rdf4jSparqlWsClient {
 
-    // Constructor
-    public Rdf4jSparqlWsClient() {}
-
     /**
      *
      * @param aCitizenEndPoint

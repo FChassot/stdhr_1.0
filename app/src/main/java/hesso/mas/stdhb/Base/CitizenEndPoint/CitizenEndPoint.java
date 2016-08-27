@@ -16,17 +16,25 @@ public class CitizenEndPoint {
     private String mCitizenRepository = MyString.EMPTY_STRING;
 
     // Constructor
+    public CitizenEndPoint() {}
+
+    // Constructor
     public CitizenEndPoint(String aServerUri, String aRepository) {
 
         mCitizenServerUri = aServerUri;
         mCitizenRepository = aRepository;
-
     }
 
     // Setter
-    public String CitizenServerUri(){return mCitizenServerUri;}
+    public void CitizenServerUri(String aCitizenServerUri) {mCitizenServerUri = aCitizenServerUri;}
 
     // Getter
-    public void CitizenServerUri(String aCitizenServerUri) {mCitizenServerUri = aCitizenServerUri;}
+    public String CitizenServerUri(){return mCitizenServerUri;}
+
+    // Setter
+    public void CitizenRepository(String aCitizenRepository) {mCitizenRepository = aCitizenRepository;}
+
+    // Getter
+    public String CitizenRepository(){return mCitizenRepository;}
 
 }

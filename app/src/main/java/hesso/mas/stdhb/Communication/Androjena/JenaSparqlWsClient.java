@@ -37,7 +37,7 @@ public class JenaSparqlWsClient {
     public String DoRequest() {
 
         // DBpedia Request using Androjena
-        String strings = "London";
+        //String strings = "London";
 
         String lSparqlEndPoint = MyString.EMPTY_STRING;
 
@@ -46,18 +46,21 @@ public class JenaSparqlWsClient {
 
         } else {lSparqlEndPoint = mSparqlEndPoint.CitizenServerUri();}
 
-        String lStrSparqlQuery = MyString.EMPTY_STRING;
+        String lStrSparqlQuery;
 
         if (mSparqlQuery.equals(MyString.EMPTY_STRING)) {
-            lStrSparqlQuery =
+            /*lStrSparqlQuery =
                     "PREFIX dbo:<http://dbpedia.org/ontology/>"
                     + "PREFIX : <http://dbpedia.org/resource/>"
                     + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
-                    + "select ?URI where {?URI rdfs:label " + strings + ".}";
+                    + "select ?URI where {?URI rdfs:label London.}";*/
+
+            lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
 
         } else {lStrSparqlQuery = mSparqlQuery;}
 
         String lResult = "nothing";
+
         System.out.println(lStrSparqlQuery);
 
         try {

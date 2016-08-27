@@ -7,14 +7,14 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Androjena.JenaSparqlWsClient;
 import hesso.mas.stdhb.Communication.Rdf4j.Rdf4jSparqlWsClient;
-import hesso.mas.stdhb.Communication.Rest.HttpUrlConnection.RestclientWithHttpUrlConnection;
-import hesso.mas.stdhb.Communication.Rest.RetrieveCityStoriesDataTask;
+import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
 
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.os.Bundle;
 import android.view.View;
 
+import hesso.mas.stdhb.Services.SearchTask;
 import hesso.mas.stdhbtests.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -66,9 +66,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      */
     public void onClick(View view){
         if (view.getId()==R.id.mBtnSearch) {
-            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-            TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
-
             // Get the technology for the server communication configured in the settings
             Preferences lPrefs = new Preferences(this);
 
@@ -78,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             MyString.EMPTY_STRING);
 
             // Rest-Client using library OkHttp
-            if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
+            /*if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
 
                 mOkHttpClient = new OkHttpClient();
 
@@ -103,22 +100,29 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
 
                 return;
-            }
+            }*/
 
             // RDF4J
-            if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint("http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/","CityZenDM");
+            /*if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
+                String lServerUri = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
+                String lRepository = "CityZenDM";
 
+                CitizenEndPoint lCitizenEndPoint =
+                        new CitizenEndPoint();
 
-                Rdf4jSparqlWsClient lJenaSparqlWsClient = new Rdf4jSparqlWsClient();
+                lCitizenEndPoint.CitizenServerUri(lServerUri);
+                lCitizenEndPoint.CitizenRepository(lRepository);
 
-                String lResponse = lJenaSparqlWsClient.DoRequest(lCitizenEndPoint, MyString.EMPTY_STRING);
+                Rdf4jSparqlWsClient lRdf4jSparqlWsClient = new Rdf4jSparqlWsClient();
+
+                String lResponse = lRdf4jSparqlWsClient.DoRequest(
+                        lCitizenEndPoint,
+                        MyString.EMPTY_STRING);
 
                 Context context = getApplicationContext();
                 CharSequence lTextToDisplay = lResponse;
-                int lDisplayDuration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, lTextToDisplay, lDisplayDuration);
+                Toast toast = Toast.makeText(context, lTextToDisplay, Toast.LENGTH_SHORT);
                 toast.show();
 
                 return;
@@ -126,9 +130,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             // ANDROJENA
             if (lCommTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint("http://dbpedia.org/sparql", "");
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
-                lCitizenEndPoint.CitizenServerUri(MyString.EMPTY_STRING);
+                lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
 
                 String lStrSparqlQuery =
                         "PREFIX dbo:<http://dbpedia.org/ontology/>"
@@ -142,81 +146,73 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 Context context = getApplicationContext();
                 CharSequence text = lResponse;
-                int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, text, duration);
+                Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
                 toast.show();
 
                 return;
             }
 
+            // SOAP
+            if (lCommTechnology.equals(EnumClientServerCommunication.SOAP.toString())) {
+                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
+
+                lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
+
+                String lStrSparqlQuery =
+                        "PREFIX dbo:<http://dbpedia.org/ontology/>"
+                                + "PREFIX : <http://dbpedia.org/resource/>"
+                                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
+                                + "select ?URI where {?URI rdfs:label " + "London" + ".}";
+
+                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lCitizenEndPoint, lStrSparqlQuery);
+
+                String lResponse = lJenaSparqlWsClient.DoRequest();
+
+                Context context = getApplicationContext();
+                CharSequence text = lResponse;
+
+                Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+                toast.show();
+
+                return;
+            }*/
+
             // means technology not implemented
             Context context = getApplicationContext();
             CharSequence text = "The type of server communication " + lCommTechnology + " has not been yet implemented!";
-            int duration = Toast.LENGTH_SHORT;
 
-            Toast toast = Toast.makeText(context, text, duration);
+            Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
             toast.show();
 
-            /*OkHttpRestClient lClient = new OkHttpRestClient();
-            String getResponse = myString.Empty();
+            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
+            TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
 
-            try {
-                getResponse = lClient.doGetRequest("http://www.vogella.com");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-
-            /*OkHttpRestClient lClient = new OkHttpRestClient();
-            String postResponse = myString.Empty();
-            String json = lClient.bowlingJson("Jesse", "Jake");
-
-            try {
-                postResponse = lClient.doPostRequest("http://www.roundsapp.com/post", json);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println(postResponse);*/
-
-            /*RestclientWithHttpClient client = new RestclientWithHttpClient("http://dbpedia.org/sparql");
-            client.AddParam("service", "http://dbpedia.org/sparql");
-            String query = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
-            client.AddParam("query", query);
-
-            try {
-                client.Execute(RestclientWithHttpClient.RequestMethod.GET);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            String lResponse = client.getResponse();*/
-            /*String lUrls = MyString.EMPTY_STRING;
-            startAsyncSearch(lUrls);*/
-
-            /*SearchTask lSearchTask = new SearchTask();
-
-            lSearchTask.execute(
-                    "myserver.com",
-                    mTxtLieu.getText().toString(),
-                    mTxtDate.getText().toString());*/
-
-            /*Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();*/
+            startAsyncSearch(
+                    MyString.EMPTY_STRING,
+                    mTxtPlace.getText().toString(),
+                    mTxtDate.getText().toString());
         }
     }
+
+    ProgressDialog progress;
+
+    private String ourTextView;
+
+    private static final String TAG = "AATestFragment";
 
     /**
      * Start an Async Search on the endPoint Sparql Server
      *
-     * @param urls
+     * @param aAction
      */
-    private void startAsyncSearch(String... urls) {
+    private void startAsyncSearch(String aAction, String aPlace, String aDate) {
+        //String... urls
+        RetrieveCitizenDataAsyncTask lTask =
+                new RetrieveCitizenDataAsyncTask(this, aAction);
 
-        new RetrieveCityStoriesDataTask(this, MyString.EMPTY_STRING).execute(urls);
+        lTask.execute(aPlace, aDate);
     }
-
-    ProgressDialog progress;
-    private String ourTextView;
-    private static final String TAG = "AATestFragment";
 
     /**
      * Our Broadcast Receiver. We get notified that the data is ready this way.
@@ -233,7 +229,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 progress.dismiss();
             }
 
-            String response = intent.getStringExtra(RetrieveCityStoriesDataTask.HTTP_RESPONSE);
+            String response = intent.getStringExtra(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             ourTextView = response;
 
@@ -247,7 +243,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      *
      */
-    public void HttpClientPost(OkHttpClient aOkHttpClient){
+    /*public void HttpClientPost(OkHttpClient aOkHttpClient){
         MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
         String myJson = "{}";
 
@@ -279,5 +275,5 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 });
             }
         });
-    }
+    }*/
 }
