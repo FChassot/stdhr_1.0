@@ -64,17 +64,15 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
         try {
             CitizenEndPoint lEndPointWs = new CitizenEndPoint();
             lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
+            lEndPointWs.CitizenRepository("CityZenDM");
+
+            Rdf4jSparqlWsClient lRdf4jSparqlWsClient =
+                    new Rdf4jSparqlWsClient(lEndPointWs);
 
             String lQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
-            Rdf4jSparqlWsClient lRdf4jSparqlWsClient =
-                    new Rdf4jSparqlWsClient(lEndPointWs, lQuery);
-
             try {
-                lResponse =
-                        lRdf4jSparqlWsClient.DoRequest(
-                                lEndPointWs,
-                                MyString.EMPTY_STRING);
+                lResponse = lRdf4jSparqlWsClient.DoRequest(lQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();

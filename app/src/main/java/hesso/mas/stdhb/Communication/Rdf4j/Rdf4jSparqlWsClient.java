@@ -12,51 +12,50 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 /**
  * Created by chf on 15.07.2016.
  *
- *
+ * This class represents a Sparql Web service Client.
  */
 public class Rdf4jSparqlWsClient {
 
     private CitizenEndPoint mSparqlEndPoint;
-    private String mSparqlQuery;
 
     // Constructor
-    public Rdf4jSparqlWsClient(
-            CitizenEndPoint aSparqlEndPoint,
-            String aSparqlQuery
-    ) {
+    public Rdf4jSparqlWsClient(CitizenEndPoint aSparqlEndPoint) {
         mSparqlEndPoint = aSparqlEndPoint;
-        mSparqlQuery = aSparqlQuery;
     }
 
     /**
+     * Do a request to the sparql End Point
      *
-     * @param aCitizenEndPoint
+     * @param aSparqlQuery
      *
      * @return
      */
     public String DoRequest(
-            CitizenEndPoint aCitizenEndPoint,
-            String aSparqlQuery) {
+        String aSparqlQuery) {
 
         // Request Sparql using Rdf4j
         System.out.println(aSparqlQuery);
 
         String lResult = MyString.EMPTY_STRING;
 
-        Repository lCitizenRepository =
-                new HTTPRepository(
-                        aCitizenEndPoint.CitizenServerUri(),
-                        aCitizenEndPoint.CitizenRepository());
+        try {
+            Repository lCitizenRepository =
+                    new HTTPRepository(
+                            mSparqlEndPoint.CitizenServerUri(),
+                            mSparqlEndPoint.CitizenRepository());
 
-        TupleQueryResult lResponse =
-                lCitizenRepository.getConnection().prepareTupleQuery(
-                        QueryLanguage.SPARQL,
-                        aSparqlQuery).evaluate();
+            TupleQueryResult lResponse =
+                    lCitizenRepository.getConnection().prepareTupleQuery(
+                            QueryLanguage.SPARQL,
+                            aSparqlQuery).evaluate();
 
-        while (lResponse.hasNext())
-        {
-            BindingSet lBindingSet = lResponse.next();
-            lResult += lBindingSet.toString();
+            while (lResponse.hasNext())
+            {
+                BindingSet lBindingSet = lResponse.next();
+                lResult += lBindingSet.toString();
+            }
+        } catch(Exception e) {
+            String lMessage = e.getMessage();
         }
 
         return lResult;
