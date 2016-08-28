@@ -24,17 +24,23 @@ import hesso.mas.stdhb.Communication.Rest.HttpClient.RestclientWithHttpClient;
  */
 public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String> {
 
-    private Exception exception;
+    private Exception mException;
 
     private static final String TAG = "RetrCityStoriesDataTask";
     public static final String HTTP_RESPONSE = "httpResponse";
 
     private Context mContext;
+
+    private String mAction;
+
     private ProgressDialog mProgress;
 
-    public RetrieveCitizenDataAsyncTask(Context aContext)
+    public RetrieveCitizenDataAsyncTask(
+            Context aContext,
+            String aAction)
     {
         mContext = aContext;
+        mAction = aAction;
     }
 
     /**
@@ -42,7 +48,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      */
     @Override
     protected void onPreExecute() {
-        mProgress = ProgressDialog.show(mContext, "Signing in", "Please wait while we are signing you in..");
+        mProgress = ProgressDialog.show(mContext, "Downloading Data..", "Please wait");
     }
 
     /**
@@ -58,26 +64,26 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
 
         String lResponse = MyString.EMPTY_STRING;
         String lPlace = urls[0];
-        String lDate = urls[0];
+        String lDate = urls[1];
 
         try {
             CitizenEndPoint lEndPointWs = new CitizenEndPoint();
 
             lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
 
-            String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 100";
+            String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
             JenaSparqlWsClient lJenaSparqlWsClient =
                     new JenaSparqlWsClient(lEndPointWs, lStrSparqlQuery);
 
             try {
-                lResponse = lJenaSparqlWsClient.DoRequest();
+                lResponse = lJenaSparqlWsClient.DoRequest(lPlace, lDate);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            this.exception = e;
+            this.mException = e;
             return null;
         }
 
@@ -97,14 +103,23 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
         // TODO: do something with the feed
         Log.i(TAG, "RESULT = " + aResult);
 
-        Intent intent = new Intent();
+        Intent lIntent = new Intent();
 
-        intent.putExtra(HTTP_RESPONSE, aResult);
+        lIntent.setAction(mAction);
+        lIntent.putExtra(HTTP_RESPONSE, aResult);
+
+        // clear the progress indicator
+        if (mProgress != null)
+        {
+            mProgress.dismiss();
+        }
 
         // broadcast the completion
-        mContext.sendBroadcast(intent);
+        mContext.sendBroadcast(lIntent);
     }
 
     @Override
-    protected void onProgressUpdate(Void... values) {}
+    protected void onProgressUpdate(Void... values) {
+        //setProgressPercent(progress[0]);
+    }
 }

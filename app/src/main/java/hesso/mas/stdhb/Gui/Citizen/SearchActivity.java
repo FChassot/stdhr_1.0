@@ -60,33 +60,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // Positionner un listener sur ce bouton
         mBtnSearch.setOnClickListener(this);
 
-        IntentFilter lFilter = new IntentFilter();
-
-        /**
-         * Our Broadcast Receiver. We get notified that the data is ready this way.
-         */
-        BroadcastReceiver lReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent)
-            {
-                // clear the progress indicator
-                if (progress != null)
-                {
-                    progress.dismiss();
-                }
-
-                String response = intent.getStringExtra(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
-
-                ourTextView = response;
-
-                Log.i(TAG, "RESPONSE = " + response);
-                //
-                // my old json code was here. this is where you will parse it.
-                //
-            }
-        };
-
-        registerReceiver(lReceiver, lFilter);
+        IntentFilter lFilter = new IntentFilter("LOAD_DATA");
+        this.registerReceiver(new Receiver(), lFilter);
     }
 
     /**
@@ -98,6 +73,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (view.getId()==R.id.mBtnSearch) {
             // Get the technology for the server communication configured in the settings
             Preferences lPrefs = new Preferences(this);
+
+            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
+            TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
+
+            String lPlace = mTxtPlace.getText().toString();
+            String lDate = mTxtDate.getText().toString();
 
             String lCommTechnology =
                     lPrefs.getPrefValue(
@@ -159,7 +140,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             // ANDROJENA
-            if (lCommTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
+            /*if (lCommTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
                 CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
                 lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
@@ -181,7 +162,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 toast.show();
 
                 return;
-            }
+            }*/
 
             // SOAP
             if (lCommTechnology.equals(EnumClientServerCommunication.SOAP.toString())) {
@@ -197,7 +178,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lCitizenEndPoint, lStrSparqlQuery);
 
-                String lResponse = lJenaSparqlWsClient.DoRequest();
+                String lResponse = lJenaSparqlWsClient.DoRequest(lPlace, lDate);
 
                 Context context = getApplicationContext();
                 CharSequence text = lResponse;
@@ -215,12 +196,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
             toast.show();
 
-            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-            TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
-
-            startAsyncSearch(
-                    mTxtPlace.getText().toString(),
-                    mTxtDate.getText().toString());
+            startAsyncSearch(lPlace, lDate);
         }
     }
 
@@ -239,7 +215,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private void startAsyncSearch(String aPlace, String aDate) {
 
         RetrieveCitizenDataAsyncTask lTask =
-                new RetrieveCitizenDataAsyncTask(this);
+                new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
 
         lTask.execute(aPlace, aDate);
     }
@@ -279,5 +255,31 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 });
             }
         });
+    }
+
+    private class Receiver extends BroadcastReceiver {
+        /**
+         * Our Broadcast Receiver. We get notified that the data is ready this way.
+         */
+        @Override
+        public void onReceive(Context aContext, Intent aIntent)
+        {
+            // clear the progress indicator
+            if (progress != null)
+            {
+                progress.dismiss();
+            }
+
+            String lResponse = aIntent.getStringExtra(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+
+            ourTextView = lResponse;
+            TextView mResult = (TextView)findViewById(R.id.editText);
+            mResult.setText(ourTextView);
+
+            Log.i(TAG, "RESPONSE = " + lResponse);
+            //
+            // my old json code was here. this is where you will parse it.
+            //
+        }
     }
 }

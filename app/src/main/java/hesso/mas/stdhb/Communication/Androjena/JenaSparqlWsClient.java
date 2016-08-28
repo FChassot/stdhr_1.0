@@ -34,7 +34,7 @@ public class JenaSparqlWsClient {
      *
      * @return
      */
-    public String DoRequest() {
+    public String DoRequest(String aPlace, String aDate) {
 
         // DBpedia Request using Androjena
         String lSparqlEndPoint;
