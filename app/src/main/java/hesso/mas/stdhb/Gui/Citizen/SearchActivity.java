@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.os.Bundle;
 import android.view.View;
 
+import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.Services.SearchTask;
 import hesso.mas.stdhbtests.R;
 import okhttp3.Call;
@@ -114,17 +115,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             // RDF4J
-            if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
-                String lServerUri = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
-                String lRepository = "CityZenDM";
+            /*if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
+                String lCitizenServerUri = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
+                String lCitizenRepository = "CityZenDM";
+                String lQuery = "\"select distinct ?Concept where {[] a ?Concept} LIMIT 1\"";
 
                 CitizenEndPoint lCitizenEndPoint =
                         new CitizenEndPoint();
 
-                lCitizenEndPoint.CitizenServerUri(lServerUri);
-                lCitizenEndPoint.CitizenRepository(lRepository);
+                lCitizenEndPoint.CitizenServerUri(lCitizenServerUri);
+                lCitizenEndPoint.CitizenRepository(lCitizenRepository);
 
-                Rdf4jSparqlWsClient lRdf4jSparqlWsClient = new Rdf4jSparqlWsClient();
+                Rdf4jSparqlWsClient lRdf4jSparqlWsClient =
+                        new Rdf4jSparqlWsClient(lCitizenEndPoint, lQuery);
 
                 String lResponse = lRdf4jSparqlWsClient.DoRequest(
                         lCitizenEndPoint,
@@ -137,7 +140,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 toast.show();
 
                 return;
-            }
+            }*/
 
             // ANDROJENA
             /*if (lCommTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
@@ -196,7 +199,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
             toast.show();
 
-            startAsyncSearch(lPlace, lDate);
+            startAsyncSearch(lPlace, lDate, lCommTechnology);
         }
     }
 
@@ -212,12 +215,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * @param aPlace
      * @param aDate
      */
-    private void startAsyncSearch(String aPlace, String aDate) {
+    private void startAsyncSearch(
+            String aPlace,
+            String aDate,
+            String aTechnology) {
 
-        RetrieveCitizenDataAsyncTask lTask =
-                new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
+        RetrieveCitizenDataAsyncTask lTask = null;
 
-        lTask.execute(aPlace, aDate);
+        if (aTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
+            RetrieveCitizenDataAsyncTask2 lTask2 = new RetrieveCitizenDataAsyncTask2(this, "LOAD_DATA");
+            lTask2.execute(aPlace, aDate);
+            return;
+        }
+
+        if (aTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
+            lTask = new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
+            lTask.execute(aPlace, aDate);
+            return;
+        }
     }
 
     /**
@@ -270,10 +285,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 progress.dismiss();
             }
 
-            String lResponse = aIntent.getStringExtra(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+            String lResponse =
+                    aIntent.getStringExtra(
+                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             ourTextView = lResponse;
+
             TextView mResult = (TextView)findViewById(R.id.editText);
+
             mResult.setText(ourTextView);
 
             Log.i(TAG, "RESPONSE = " + lResponse);

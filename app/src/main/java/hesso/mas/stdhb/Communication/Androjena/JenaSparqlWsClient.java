@@ -1,13 +1,13 @@
 package hesso.mas.stdhb.Communication.Androjena;
 
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
+//import com.hp.hpl.jena.query.Query;
+//import com.hp.hpl.jena.query.QueryExecution;
+//import com.hp.hpl.jena.query.QueryExecutionFactory;
+//import com.hp.hpl.jena.query.QueryFactory;
+//import com.hp.hpl.jena.query.QuerySolution;
 
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Resource;
+//import com.hp.hpl.jena.query.ResultSet;
+//import com.hp.hpl.jena.rdf.model.Resource;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
@@ -36,8 +36,10 @@ public class JenaSparqlWsClient {
      */
     public String DoRequest(String aPlace, String aDate) {
 
+        String lResult = "none Result";
+
         // DBpedia Request using Androjena
-        String lSparqlEndPoint;
+        /*String lSparqlEndPoint;
 
         if (mSparqlEndPoint.CitizenServerUri() == MyString.EMPTY_STRING) {
             lSparqlEndPoint = "http://dbpedia.org/sparql";
@@ -50,8 +52,6 @@ public class JenaSparqlWsClient {
             lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
         } else {lStrSparqlQuery = mSparqlQuery;}
-
-        String lResult = "none Result";
 
         System.out.println(lStrSparqlQuery);
 
@@ -76,7 +76,7 @@ public class JenaSparqlWsClient {
             aException.printStackTrace();
         }
         finally {
-        }
+        }*/
 
         return lResult;
     }
