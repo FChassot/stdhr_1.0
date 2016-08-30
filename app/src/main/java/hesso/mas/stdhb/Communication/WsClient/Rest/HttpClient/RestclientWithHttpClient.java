@@ -1,11 +1,8 @@
-package hesso.mas.stdhb.Communication.Rest.HttpClient;
+package hesso.mas.stdhb.Communication.WsClient.Rest.HttpClient;
 
-import org.apache.http.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.*;
 
 import java.util.ArrayList;
-import java.net.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

@@ -5,9 +5,9 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Communication.Androjena.JenaSparqlWsClient;
-import hesso.mas.stdhb.Communication.Rdf4j.Rdf4jSparqlWsClient;
-import hesso.mas.stdhb.Communication.Rest.HttpUrlConnection.RestclientWithHttpUrlConnection;
+import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
+import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask2;
-import hesso.mas.stdhb.Services.SearchTask;
 import hesso.mas.stdhbtests.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -47,6 +46,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     // Variable of type OkHttpClient
     OkHttpClient mOkHttpClient;
+    private boolean mReceiverStarted;
+    private Receiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,27 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // Positionner un listener sur ce bouton
         mBtnSearch.setOnClickListener(this);
 
+        mReceiverStarted = true;
+        mReceiver = new Receiver();
+
         IntentFilter lFilter = new IntentFilter("LOAD_DATA");
-        this.registerReceiver(new Receiver(), lFilter);
+        this.registerReceiver(mReceiver, lFilter);
+    }
+
+    /**
+     *
+     */
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+
+        try {
+            this.unregisterReceiver(mReceiver);
+            //mWakeLock.release();//keep screen on
+        } catch (Exception e) {
+            //Log.e(MatabbatManager.TAG, getClass() + " Releasing receivers-" + e.getMessage());
+        }
     }
 
     /**
@@ -86,8 +106,27 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             BaseConstants.Attr_Comm_Technology,
                             MyString.EMPTY_STRING);
 
+            IWsClientFactory lFactory = new WsClientFactory();
+
+            CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
+            lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
+
+            IWsClient lWsClient = lFactory.Create(
+                    EnumClientServerCommunication.ANDROJENA,
+                    lCitizenEndPoint);
+            String lQuery = "\"select distinct ?Concept where {[] a ?Concept} LIMIT 1\"";
+
+            String lResponse = lWsClient.DoRequest(lQuery);
+
+            Context context = getApplicationContext();
+            CharSequence lTextToDisplay = lResponse;
+
+            Toast toast = Toast.makeText(context, lTextToDisplay, Toast.LENGTH_SHORT);
+            toast.show();
+
+            return;
             // Rest-Client using library OkHttp
-            if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
+            /*if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
 
                 mOkHttpClient = new OkHttpClient();
 
@@ -98,10 +137,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 mResult.setText(ourTextView);
 
                 return;
-            }
+            }*/
 
             // Rest-Client using standard HttpUrlConnection library
-            if (lCommTechnology.equals(EnumClientServerCommunication.REST.toString())) {
+            /*if (lCommTechnology.equals(EnumClientServerCommunication.REST.toString())) {
 
                 RestclientWithHttpUrlConnection lRequest =
                         new RestclientWithHttpUrlConnection();
@@ -112,7 +151,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
 
                 return;
-            }
+            }*/
 
             // RDF4J
             /*if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
@@ -168,7 +207,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }*/
 
             // SOAP
-            if (lCommTechnology.equals(EnumClientServerCommunication.SOAP.toString())) {
+            /*if (lCommTechnology.equals(EnumClientServerCommunication.SOAP.toString())) {
                 CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
 
                 lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
@@ -179,9 +218,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                                 + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
                                 + "select ?URI where {?URI rdfs:label " + "London" + ".}";
 
-                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lCitizenEndPoint, lStrSparqlQuery);
+                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lCitizenEndPoint);
 
-                String lResponse = lJenaSparqlWsClient.DoRequest(lPlace, lDate);
+                String lResponse = lJenaSparqlWsClient.DoRequest(lStrSparqlQuery);
 
                 Context context = getApplicationContext();
                 CharSequence text = lResponse;
@@ -190,16 +229,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 toast.show();
 
                 return;
-            }
+            }*/
 
             // means technology not implemented
-            Context context = getApplicationContext();
+            /*Context context = getApplicationContext();
             CharSequence text = "The type of server communication " + lCommTechnology + " has not been yet implemented!";
 
             Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
             toast.show();
 
-            startAsyncSearch(lPlace, lDate, lCommTechnology);
+            startAsyncSearch(lPlace, lDate, lCommTechnology);*/
         }
     }
 

@@ -67,10 +67,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service
-            android:name="hesso.mas.stdhb.Services.RadarService"
-            android:exported="false" />
-
         <!-- Added by chf -->
 
         <activity android:name="hesso.mas.stdhb.Gui.Config.SettingsActivity"

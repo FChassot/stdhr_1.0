@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
@@ -25,17 +25,21 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
+    //compile 'com.android.support:appcompat-v7:23.4.0'
+    //compile 'com.android.support:design:23.4.0'
+    //compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services:9.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    //compile files('../libs/androjena_0.5.jar')
-    //compile files('../libs/arqoid_0.5.jar')
-    //compile files('../libs/icu4j-3.4.5.jar')
-    //compile files('../libs/iri-0.8.jar')
-    //compile files('../libs/slf4j-android-1.6.1-RC1.jar')
-    //compile files('../libs/lucenoid_3.0.2.jar')
-    //compile files('../libs/eclipse-rdf4j-2.0-onejar.jar')
-    compile files('../libs/eclipse-rdf4j-1.0-onejar.jar')
+    compile 'org.roboguice:roboguice:2.0' // ioc Framework
+    compile files('../libs/androjena_0.5.jar')
+    compile files('../libs/arqoid_0.5.jar')
+    compile files('../libs/icu4j-3.4.5.jar')
+    compile files('../libs/iri-0.8.jar')
+    compile files('../libs/slf4j-android-1.6.1-RC1.jar')
+    compile files('../libs/lucenoid_3.0.2.jar')
+    compile files('../libs/eclipse-rdf4j-1.0-onejar.jar') // works with Java 7
+    //compile files('../libs/eclipse-rdf4j-2.0-onejar.jar') // works with Java and above
 }

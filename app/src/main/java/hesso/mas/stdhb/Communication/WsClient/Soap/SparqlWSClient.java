@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Soap;
+package hesso.mas.stdhb.Communication.WsClient.Soap;
 
 /**
  * Created by frede on 26.08.2016.

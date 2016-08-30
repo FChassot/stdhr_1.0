@@ -8,8 +8,7 @@ import android.util.Log;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Communication.Androjena.JenaSparqlWsClient;
-import hesso.mas.stdhb.Communication.Rdf4j.Rdf4jSparqlWsClient;
+import hesso.mas.stdhb.Communication.WsClient.Rdf4j.Rdf4jSparqlWsClient;
 
 /**
  * Created by chf on 20.06.2016.
@@ -66,8 +65,7 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
             lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
             lEndPointWs.CitizenRepository("CityZenDM");
 
-            Rdf4jSparqlWsClient lRdf4jSparqlWsClient =
-                    new Rdf4jSparqlWsClient(lEndPointWs);
+            Rdf4jSparqlWsClient lRdf4jSparqlWsClient = new Rdf4jSparqlWsClient(lEndPointWs);
 
             String lQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 

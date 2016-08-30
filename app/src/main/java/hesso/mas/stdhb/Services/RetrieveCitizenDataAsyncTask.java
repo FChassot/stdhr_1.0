@@ -1,20 +1,14 @@
 package hesso.mas.stdhb.Services;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Communication.Androjena.JenaSparqlWsClient;
-import hesso.mas.stdhb.Communication.Rdf4j.Rdf4jSparqlWsClient;
-import hesso.mas.stdhb.Communication.Rest.HttpClient.RestclientWithHttpClient;
+import hesso.mas.stdhb.Communication.WsClient.Androjena.JenaSparqlWsClient;
 
 /**
  * Created by chf on 20.06.2016.
@@ -26,7 +20,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
 
     private Exception mException;
 
-    private static final String TAG = "RetrCityStoriesDataTask";
+    private static final String TAG = "RetrCitizenDataTask";
     public static final String HTTP_RESPONSE = "httpResponse";
 
     private Context mContext;
@@ -74,10 +68,10 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
             String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
             JenaSparqlWsClient lJenaSparqlWsClient =
-                    new JenaSparqlWsClient(lEndPointWs, lStrSparqlQuery);
+                    new JenaSparqlWsClient(lEndPointWs);
 
             try {
-                lResponse = lJenaSparqlWsClient.DoRequest(lPlace, lDate);
+                lResponse = lJenaSparqlWsClient.DoRequest(lStrSparqlQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();

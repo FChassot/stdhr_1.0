@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Rdf4j;
+package hesso.mas.stdhb.Communication.WsClient.Rdf4j;
 
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
@@ -8,13 +8,14 @@ import org.eclipse.rdf4j.repository.http.HTTPRepository;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 
 /**
  * Created by chf on 15.07.2016.
  *
  * This class represents a Sparql Web service Client.
  */
-public class Rdf4jSparqlWsClient {
+public class Rdf4jSparqlWsClient implements IWsClient {
 
     private CitizenEndPoint mSparqlEndPoint;
 
@@ -54,8 +55,8 @@ public class Rdf4jSparqlWsClient {
                 BindingSet lBindingSet = lResponse.next();
                 lResult += lBindingSet.toString();
             }
-        } catch(Exception e) {
-            String lMessage = e.getMessage();
+        } catch(Exception aException) {
+            aException.printStackTrace();
         }
 
         return lResult;

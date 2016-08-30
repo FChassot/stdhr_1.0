@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Rest.HttpUrlConnection;
+package hesso.mas.stdhb.Communication.WsClient.Rest.HttpUrlConnection;
 
 import java.io.*;
 import java.net.*;
