@@ -1,13 +1,13 @@
 package hesso.mas.stdhb.Communication.WsClient.Androjena;
 
-import com.hp.hpl.jena.query.Query;
+/*import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Resource;*/
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
@@ -38,7 +38,7 @@ public class JenaSparqlWsClient implements IWsClient {
         // DBpedia Request using Androjena
         System.out.println(aQuery);
 
-        try {
+        /*try {
             Query lQuery = QueryFactory.create(aQuery);
 
             QueryExecution lQueryExecution =
@@ -59,7 +59,7 @@ public class JenaSparqlWsClient implements IWsClient {
             aException.printStackTrace();
         }
         finally {
-        }
+        }*/
 
         return lResult;
     }
