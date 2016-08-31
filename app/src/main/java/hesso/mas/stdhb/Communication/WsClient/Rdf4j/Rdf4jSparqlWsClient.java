@@ -32,7 +32,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
      *
      * @return
      */
-    public String DoRequest(
+    public String executeRequest(
         String aSparqlQuery) {
 
         // Request Sparql using Rdf4j

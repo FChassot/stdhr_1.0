@@ -34,14 +34,13 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile files('../app/libs/eclipse-rdf4j-1.0-onejar.jar')   // rdf4j library, it works with Java 7
     compile files('../app/libs/guava-18.0.jar')
+    //compile 'org.roboguice:roboguice:2.0'                     // ioc Framework for Android
+    compile files('../app/libs/androjena_0.5.jar')
+    compile files('../app/libs/arqoid_0.5.jar')
+    compile files('../app/libs/icu4j-3.4.5.jar')
+    compile files('../app/libs/iri-0.8.jar')
+    compile files('../app/libs/slf4j-android-1.6.1-RC1.jar')
     //compile 'com.android.support:multidex:1.0.0'
     //compile files('../libs/lucenoid_3.0.2.jar')
-    //compile 'org.roboguice:roboguice:2.0'                 // ioc Framework
-    //compile files('../libs/androjena_0.5.jar')
-    //compile files('../libs/arqoid_0.5.jar')
-    //compile files('../libs/icu4j-3.4.5.jar')
-    //compile files('../libs/iri-0.8.jar')
-    //compile files('../libs/slf4j-android-1.6.1-RC1.jar')
-
-    //compile files('../libs/eclipse-rdf4j-2.0-onejar.jar') // rdf4j library, it works with Java and above
+    //compile files('../libs/eclipse-rdf4j-2.0-onejar.jar')     // rdf4j library, it works with Java and above
 }

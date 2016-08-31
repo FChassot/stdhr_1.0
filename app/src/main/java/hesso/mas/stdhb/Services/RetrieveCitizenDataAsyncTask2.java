@@ -8,6 +8,7 @@ import android.util.Log;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
+
 import hesso.mas.stdhb.Communication.WsClient.Rdf4j.Rdf4jSparqlWsClient;
 
 /**
@@ -70,7 +71,7 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
             String lQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
             try {
-                lResponse = lRdf4jSparqlWsClient.DoRequest(lQuery);
+                lResponse = lRdf4jSparqlWsClient.executeRequest(lQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -10,5 +10,5 @@ public interface IWsClient {
      * @param aSparqlQuery
      * @return
      */
-    String DoRequest(String aSparqlQuery);
+    String executeRequest(String aSparqlQuery);
 }

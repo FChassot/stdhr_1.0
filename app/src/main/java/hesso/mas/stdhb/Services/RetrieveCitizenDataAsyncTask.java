@@ -78,7 +78,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
                             lEndPointWs);
 
             try {
-                lResponse = lWsClient.DoRequest(lStrSparqlQuery);
+                lResponse = lWsClient.executeRequest(lStrSparqlQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();
