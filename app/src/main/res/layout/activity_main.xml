@@ -14,7 +14,7 @@
         android:id="@+id/mDtxtTitle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HES-SO,Médiathèque du Valais!"
+        android:text="@string/main_title_1"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -27,7 +27,7 @@
         android:id="@+id/mTxtTitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SPATIO-TEMPORAL DIGITAL HERITAGE RADAR!"
+        android:text="@string/main_title_2"
         android:layout_below="@+id/mDBtnpreferences"
         android:layout_toRightOf="@+id/mBtnradar"
         android:layout_marginTop="116dp"
@@ -41,7 +41,7 @@
         android:id="@+id/mDBtnpreferences"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:text="Préférences"
+        android:text="@string/txt_btn_settings"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/mDtxtTitle1"
         android:layout_alignEnd="@+id/mDtxtTitle1" />
@@ -50,7 +50,7 @@
         android:id="@+id/mBtnradar"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:text="Radar"
+        android:text="@string/txt_btn_radar"
         android:onClick="Radar"
         android:layout_alignTop="@+id/mBtnSearch"
         android:layout_alignParentLeft="true"
@@ -60,7 +60,7 @@
         android:id="@+id/mBtnSearch"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:text="Chercher"
+        android:text="@string/txt_btn_search"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/mDBtnpreferences"
         android:layout_alignEnd="@+id/mDBtnpreferences" />
@@ -68,7 +68,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Google map"
+        android:text="@string/txt_btn_gmap"
         android:id="@+id/mBtnMap"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

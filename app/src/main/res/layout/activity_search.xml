@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Ville"
+            android:text="@string/lbl_place"
             android:ems="10"
             android:id="@+id/mTxtVille"
             android:layout_weight="1" />
@@ -44,7 +44,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chercher"
+            android:text="@string/lbl_place"
             android:id="@+id/mBtnSearch"
             android:layout_gravity="bottom" />
 
