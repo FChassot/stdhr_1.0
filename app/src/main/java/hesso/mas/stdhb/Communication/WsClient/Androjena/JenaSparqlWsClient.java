@@ -9,7 +9,7 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Base.SparqlEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 

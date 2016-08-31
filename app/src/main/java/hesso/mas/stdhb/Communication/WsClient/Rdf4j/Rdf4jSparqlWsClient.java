@@ -7,7 +7,7 @@ import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 
-import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Base.SparqlEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 

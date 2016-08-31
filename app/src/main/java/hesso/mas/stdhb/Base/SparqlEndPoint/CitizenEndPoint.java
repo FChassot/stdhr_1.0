@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.CitizenEndPoint;
+package hesso.mas.stdhb.Base.SparqlEndPoint;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 

@@ -68,6 +68,7 @@
     <string name="txt_btn_gmap">GOOGLE MAP</string>
     <string name="txt_btn_search">SEARCH</string>
     <string name="txt_btn_settings">SETTINGs</string>
+
     <!-- String for the radar activity -->
 
     <!-- String for the google Map activity -->
@@ -83,4 +84,5 @@
     <string name="action_clientserver_communication">Client-server communication</string>
     <string name="themes_restrictions">Restreindre la recherche</string>
     <string name="action_sign_in">action_sign_in</string>
+
 </resources>

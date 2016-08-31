@@ -1,13 +1,9 @@
 package hesso.mas.stdhb.Gui.Citizen;
 
-import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Communication.WsClient.IWsClient;
-import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
-import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;

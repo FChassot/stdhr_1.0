@@ -6,10 +6,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Base.SparqlEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Communication.WsClient.Androjena.JenaSparqlWsClient;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
