@@ -33,7 +33,7 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services:9.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'org.roboguice:roboguice:2.0' // ioc Framework
+    //compile 'org.roboguice:roboguice:2.0' // ioc Framework
     compile files('../libs/androjena_0.5.jar')
     compile files('../libs/arqoid_0.5.jar')
     compile files('../libs/icu4j-3.4.5.jar')

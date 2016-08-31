@@ -106,14 +106,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             BaseConstants.Attr_Comm_Technology,
                             MyString.EMPTY_STRING);
 
-            IWsClientFactory lFactory = new WsClientFactory();
+            /*IWsClientFactory lFactory = new WsClientFactory();
 
             CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
             lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
 
-            IWsClient lWsClient = lFactory.Create(
-                    EnumClientServerCommunication.ANDROJENA,
-                    lCitizenEndPoint);
+            IWsClient lWsClient =
+                    lFactory.Create(
+                        EnumClientServerCommunication.ANDROJENA,
+                        lCitizenEndPoint);
+
             String lQuery = "\"select distinct ?Concept where {[] a ?Concept} LIMIT 1\"";
 
             String lResponse = lWsClient.DoRequest(lQuery);
@@ -122,9 +124,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             CharSequence lTextToDisplay = lResponse;
 
             Toast toast = Toast.makeText(context, lTextToDisplay, Toast.LENGTH_SHORT);
-            toast.show();
+            toast.show();*/
 
-            return;
+            EnumClientServerCommunication lTechnology = EnumClientServerCommunication.ANDROJENA;
+
+            if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())){
+                lTechnology = EnumClientServerCommunication.RDF4J;
+            }
+
+            startAsyncSearch(
+                    lPlace,
+                    lDate,
+                    lTechnology);
+
+            //return;
             // Rest-Client using library OkHttp
             /*if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
 
@@ -257,19 +270,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private void startAsyncSearch(
             String aPlace,
             String aDate,
-            String aTechnology) {
+            EnumClientServerCommunication aClientServerCommunication) {
 
         RetrieveCitizenDataAsyncTask lTask = null;
 
-        if (aTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
-            RetrieveCitizenDataAsyncTask2 lTask2 = new RetrieveCitizenDataAsyncTask2(this, "LOAD_DATA");
-            lTask2.execute(aPlace, aDate);
+        if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
+            lTask = new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
+            lTask.execute(aPlace, aDate);
             return;
         }
 
-        if (aTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
-            lTask = new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
-            lTask.execute(aPlace, aDate);
+        if (aClientServerCommunication.equals(EnumClientServerCommunication.RDF4J)) {
+            RetrieveCitizenDataAsyncTask2 lTask2 = new RetrieveCitizenDataAsyncTask2(this, "LOAD_DATA");
+            lTask2.execute(aPlace, aDate);
             return;
         }
     }

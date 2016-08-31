@@ -7,8 +7,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.WsClient.Androjena.JenaSparqlWsClient;
+import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
+import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
 
 /**
  * Created by chf on 20.06.2016.
@@ -56,22 +60,25 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      */
     protected String doInBackground(String... urls) {
 
-        String lResponse = MyString.EMPTY_STRING;
         String lPlace = urls[0];
         String lDate = urls[1];
+        EnumClientServerCommunication lClientServerCommunicationMode = EnumClientServerCommunication.ANDROJENA;
+        String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
+        String lResponse = MyString.EMPTY_STRING;
 
         try {
-            CitizenEndPoint lEndPointWs = new CitizenEndPoint();
+            IWsClientFactory lFactory = new WsClientFactory();
 
+            CitizenEndPoint lEndPointWs = new CitizenEndPoint();
             lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
 
-            String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
-
-            JenaSparqlWsClient lJenaSparqlWsClient =
-                    new JenaSparqlWsClient(lEndPointWs);
+            IWsClient lWsClient =
+                    lFactory.Create(
+                            lClientServerCommunicationMode,
+                            lEndPointWs);
 
             try {
-                lResponse = lJenaSparqlWsClient.DoRequest(lStrSparqlQuery);
+                lResponse = lWsClient.DoRequest(lStrSparqlQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();

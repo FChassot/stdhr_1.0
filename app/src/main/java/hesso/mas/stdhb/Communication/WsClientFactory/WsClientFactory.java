@@ -16,6 +16,7 @@ public class WsClientFactory implements IWsClientFactory {
      *
      * @param aClientServerCommunication
      * @param aCitizenEndPoint
+     *
      * @return
      */
     public IWsClient Create(

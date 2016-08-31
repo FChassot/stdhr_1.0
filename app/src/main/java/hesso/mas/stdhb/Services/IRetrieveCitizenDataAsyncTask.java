@@ -7,5 +7,4 @@ public interface IRetrieveCitizenDataAsyncTask {
 
     String doInBackground(String... urls);
 
-
 }

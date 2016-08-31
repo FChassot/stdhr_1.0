@@ -33,7 +33,7 @@ public class JenaSparqlWsClient implements IWsClient {
      */
     public String DoRequest(String aQuery) {
 
-        String lResult = "none Result";
+        String lResult = "";
 
         // DBpedia Request using Androjena
         System.out.println(aQuery);
@@ -52,7 +52,7 @@ public class JenaSparqlWsClient implements IWsClient {
             {
                 QuerySolution lBinding = lResults.nextSolution();
                 Resource lSubject = (Resource) lBinding.get("Subject");
-                lResult += lSubject;
+                lResult += lSubject.getURI();
                 //System.out.println("Subject: "+lSubject.getURI());
             }
         } catch (Exception aException) {
