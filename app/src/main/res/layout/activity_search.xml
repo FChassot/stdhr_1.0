@@ -44,7 +44,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lbl_place"
+            android:text="@string/lbl_request"
             android:id="@+id/mBtnSearch"
             android:layout_gravity="bottom" />
 

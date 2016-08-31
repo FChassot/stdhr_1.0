@@ -32,7 +32,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -49,6 +48,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private boolean mReceiverStarted;
     private Receiver mReceiver;
 
+    /**
+     * Called when the activity is first created. This is where you should do all of your
+     * normal static set up: create views, bind data to lists, etc. This method also provides
+     * you with a Bundle containing the activity's previously frozen state, if there was one.
+     * Always followed by onStart().
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +77,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     *
+     * The final call you receive before your activity is destroyed.
+     * This can happen either because the activity is finishing (someone called finish() on it,
+     * or because the system is temporarily destroying this instance of the activity to save space.
+     * You can distinguish between these two scenarios with the isFinishing() method.
      */
     @Override
     protected void onDestroy() {
