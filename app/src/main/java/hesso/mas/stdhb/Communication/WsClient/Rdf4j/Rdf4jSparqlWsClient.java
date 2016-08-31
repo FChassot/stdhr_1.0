@@ -4,6 +4,7 @@ import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
 import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.repository.Repository;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 
 import hesso.mas.stdhb.Base.CitizenEndPoint.CitizenEndPoint;
@@ -45,8 +46,10 @@ public class Rdf4jSparqlWsClient implements IWsClient {
                             mSparqlEndPoint.CitizenServerUri(),
                             mSparqlEndPoint.CitizenRepository());
 
+            RepositoryConnection lRepositoryConnection = lCitizenRepository.getConnection();
+
             TupleQueryResult lResponse =
-                    lCitizenRepository.getConnection().prepareTupleQuery(
+                    lRepositoryConnection.prepareTupleQuery(
                             QueryLanguage.SPARQL,
                             aSparqlQuery).evaluate();
 

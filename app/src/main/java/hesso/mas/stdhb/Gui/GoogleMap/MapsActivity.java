@@ -16,7 +16,7 @@ import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 import hesso.mas.stdhbtests.R;
 
 /**
- * Created by chf on 11.05.2016.
+ * Created by chf on 11.07.2016.
  *
  * Activity for the google Map function
  */

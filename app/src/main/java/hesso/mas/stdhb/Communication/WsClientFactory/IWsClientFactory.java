@@ -7,7 +7,7 @@ import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 /**
  * Created by chf on 23.08.2016.
  *
- * Factory for the generation of IWsClient instance.
+ * Factory for creating IWsClient objects.
  */
 public interface IWsClientFactory {
 
