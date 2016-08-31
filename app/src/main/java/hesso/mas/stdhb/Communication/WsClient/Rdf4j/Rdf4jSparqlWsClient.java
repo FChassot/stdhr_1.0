@@ -46,7 +46,14 @@ public class Rdf4jSparqlWsClient implements IWsClient {
                             mSparqlEndPoint.CitizenServerUri(),
                             mSparqlEndPoint.CitizenRepository());
 
-            RepositoryConnection lRepositoryConnection = lCitizenRepository.getConnection();
+            RepositoryConnection lRepositoryConnection = null;
+
+            try {
+                lRepositoryConnection = lCitizenRepository.getConnection();
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
 
             TupleQueryResult lResponse =
                     lRepositoryConnection.prepareTupleQuery(

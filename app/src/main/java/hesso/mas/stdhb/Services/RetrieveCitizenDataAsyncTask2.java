@@ -39,7 +39,7 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
     }
 
     /**
-     *
+     * Runs on the UI thread before doInBackground(Params...).
      */
     @Override
     protected void onPreExecute() {
@@ -90,7 +90,7 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      * la méthode doInBackground.
      *
      * Runs on the UI thread after doInBackground(Params...).
-     *The specified result is the value returned by doInBackground(Params...).
+     * The specified result is the value returned by doInBackground(Params...).
      */
     protected void onPostExecute(String aResult) {
         // TODO: check this.exception

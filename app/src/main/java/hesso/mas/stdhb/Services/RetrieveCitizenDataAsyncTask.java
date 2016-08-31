@@ -42,7 +42,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
     }
 
     /**
-     *
+     * Runs on the UI thread before doInBackground(Params...).
      */
     @Override
     protected void onPreExecute() {
