@@ -23,37 +23,30 @@ public class RadarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_display);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         mRadarView = (RadarView) findViewById(R.id.radarView);
 
         RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-        RadarMarker lMarker2 = new RadarMarker(100, 100, Color.RED);
-        RadarMarker lMarker3 = new RadarMarker(250, 301, Color.RED);
+        RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
+        RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
 
         RadarMarker lMarkers[] = new RadarMarker[3];
 
-        lMarkers[0] = lMarker1;
+        lMarkers[0] = lMarker3;
         lMarkers[1] = lMarker2;
-        lMarkers[2] = lMarker3;
+        lMarkers[2] = lMarker1;
 
-        mRadarView.updateMarkers(lMarkers);
-        mRadarView.startAnimation();
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Mon test", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
+        this.startAnimation(mRadarView);
+        this.updateMarkers(mRadarView, lMarkers);
+        
     }
 
     public void stopAnimation(View view) {
         if (mRadarView != null) mRadarView.stopAnimation();
+    }
+
+    public void updateMarkers(View view, RadarMarker[] lMarkers) {
+        if (mRadarView != null) mRadarView.updateMarkers(lMarkers);
     }
 
     public void startAnimation(View view) {
