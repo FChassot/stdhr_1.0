@@ -26,7 +26,6 @@ public class RadarActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         mRadarView = (hesso.mas.stdhb.Gui.Radar.RadarView) findViewById(R.id.radarView);
-        //mRadarView.setShowCircles(true);
         mRadarView.updateMarkers();
         mRadarView.startAnimation();
 
