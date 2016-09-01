@@ -35,9 +35,9 @@ public class RadarView extends View {
         Handler mHandler = new android.os.Handler();
 
         private Context myContext;
+        private RadarMarker[] mMarkers;
 
         private final int POINT_ARRAY_SIZE = 35;
-        private final int MARKERS_NUMBER = 1;
 
         Paint localMarker = new RadarMarker();
 
@@ -50,11 +50,9 @@ public class RadarView extends View {
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
-        Point Markers[] = new Point[MARKERS_NUMBER];
-
     //region Constructors
 
-    // Constructor
+    // Default constructor
     public RadarView(Context aContext) {
         this(aContext, null);
     }
@@ -82,7 +80,7 @@ public class RadarView extends View {
         localPaint.setAlpha(0);
 
         //localMarker = new RadarMarker(Color.RED, true, Paint.Style.FILL, 5.0F, 0);
-        localMarker.setColor(Color.RED);
+        localMarker.setColor(Color.BLUE);
         localMarker.setAntiAlias(true);
         localMarker.setStyle(Paint.Style.FILL);
         localMarker.setStrokeWidth(5.0F);
@@ -107,12 +105,14 @@ public class RadarView extends View {
         };
 
         /**
-        * This methode allows to update the markers received by the radar.
+        * This method allows to update the markers received by the radar.
         */
-        public void updateMarkers() {
-            for (int i=0; i < MARKERS_NUMBER; i++){
-                Markers[i] = new Point((i+1)*20+100,(i+1)*5+220);
-            }
+        public void updateMarkers(RadarMarker[] aMarkers) {
+            mMarkers = aMarkers;
+
+            /*for (RadarMarker Marker : aMarkers) {
+                mMarkers = new Point((i+1)*20+100,(i+1)*5+220);
+            }*/
         }
 
         /**
@@ -130,10 +130,8 @@ public class RadarView extends View {
                 mHandler.removeCallbacks(mTick);
             }
 
-        public void setFrameRate(int fps) { this.fps = fps; }
-        public int getFrameRate() { return this.fps; }
-
-        //public void setShowCircles(boolean aDisplayCircles) { this.mDisplayCircles = aDisplayCircles; }
+        /*public void setFrameRate(int fps) { this.fps = fps; }
+        public int getFrameRate() { return this.fps; }*/
 
         /**
          *
@@ -163,12 +161,12 @@ public class RadarView extends View {
 
             this.DrawTheRadar(aCanvas, lLocalPaint, i, j);
 
-            if (lCitizenInterestsFound) {
-                for (Point Marker : Markers) {
+            if (mMarkers.length > 0) {
+                for (RadarMarker lMarker : mMarkers) {
                     lLocalPaint.setColor(Color.RED);
                     lLocalPaint.setStyle(Paint.Style.FILL);
 
-                    aCanvas.drawCircle(Marker.x, Marker.y, (((lMaxRayOfRadar / 2)-1) >> 5), lLocalPaint);
+                    aCanvas.drawCircle(lMarker.getX(), lMarker.getY(), (((lMaxRayOfRadar / 2)-1) >> 5), lLocalPaint);
 
                     lLocalPaint.setColor(Color.DKGRAY);
                     lLocalPaint.setStyle(Paint.Style.STROKE);
@@ -216,10 +214,10 @@ public class RadarView extends View {
          * @param j
          */
         public void DrawTheRadar(
-                Canvas aCanvas,
-                Paint aLocalPaint,
-                int i,
-                int j) {
+            Canvas aCanvas,
+            Paint aLocalPaint,
+            int i,
+            int j) {
 
             aCanvas.drawCircle(i, i, j, aLocalPaint);
             aCanvas.drawCircle(i, i, j-25, aLocalPaint);
@@ -227,6 +225,37 @@ public class RadarView extends View {
             aCanvas.drawCircle(i, i, j >> 1, aLocalPaint);
             aCanvas.drawCircle(i, i, j >> 2, aLocalPaint);
 
+        }
+
+        /**
+         * Retrieve the differents cultural objects found
+         *
+         * @return
+         */
+            public Point[] getMarkers() {
+                return new Point[0];
+            }
+
+        /**
+         * Display the markers in the view.
+         *
+         * @param aMarkers
+         */
+        public void displayMarkers(
+            Point aMarkers[],
+            Paint aPaint,
+            Canvas aCanvas,
+            int aMaxRayOfRadar) {
+
+            for (Point Marker : aMarkers) {
+                aPaint.setColor(Color.RED);
+                aPaint.setStyle(Paint.Style.FILL);
+
+                aCanvas.drawCircle(Marker.x, Marker.y, (((aMaxRayOfRadar / 2)-1) >> 5), aPaint);
+
+                aPaint.setColor(Color.DKGRAY);
+                aPaint.setStyle(Paint.Style.STROKE);
+            }
         }
 
     //endregion
@@ -253,7 +282,7 @@ public class RadarView extends View {
 
             // Check if the click in the view has been done
             if (!isPointInsideView(lXCoordinate, lYCoordinate, this)) {
-                Toast.makeText(myContext, "Outside the radar", Toast.LENGTH_LONG).show();
+                Toast.makeText(myContext, "Outside the radar", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -308,5 +337,4 @@ public class RadarView extends View {
         }
 
     //endregion
-
 }

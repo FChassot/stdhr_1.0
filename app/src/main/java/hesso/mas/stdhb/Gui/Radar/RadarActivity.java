@@ -1,8 +1,11 @@
 package hesso.mas.stdhb.Gui.Radar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import hesso.mas.stdhb.Gui.Radar.*;
 
 import hesso.mas.stdhbtests.R;
 
@@ -25,8 +28,17 @@ public class RadarActivity extends AppCompatActivity {
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        mRadarView = (hesso.mas.stdhb.Gui.Radar.RadarView) findViewById(R.id.radarView);
-        mRadarView.updateMarkers();
+        mRadarView = (RadarView) findViewById(R.id.radarView);
+
+        RadarMarker lMarker1 = new RadarMarker(100, 100, Color.RED);
+        RadarMarker lMarker2 = new RadarMarker(200, 200, Color.BLUE);
+
+        RadarMarker lMarkers[] = new RadarMarker[2];
+
+        lMarkers[0] = lMarker1;
+        lMarkers[1] = lMarker2;
+
+        mRadarView.updateMarkers(lMarkers);
         mRadarView.startAnimation();
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

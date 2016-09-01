@@ -13,12 +13,22 @@ public class RadarMarker extends Paint {
 
     Location mLocation;
 
+    int mX = 100;
+    int mY = 100;
+    int mColor;
+
     // Constructor
-    public void RadarMarker(Location aLocation, Color aColor) {
-        mLocation = aLocation;
+    RadarMarker() {
     };
 
-    public void RadarMarker(
+    // Constructor
+    RadarMarker(int aX, int aY, int aColor) {
+        mX = aX;
+        mY = aY;
+        mColor = aColor;
+    };
+
+    void RadarMarker(
         int aColor,
         boolean aAntiAlias,
         Paint.Style aStyle,
@@ -33,6 +43,10 @@ public class RadarMarker extends Paint {
         super.setAlpha(aAlpha);
 
     };
+
+    public int getX() { return mX; }
+
+    public int getY() { return mY; }
 
     public void setLocation(Location aLocation) {
         mLocation = aLocation;
