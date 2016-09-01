@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Gui.Radar;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -8,13 +10,10 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
-
 import android.view.MotionEvent;
 import android.view.View;
 
 import hesso.mas.stdhb.Base.Constants.*;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 
@@ -37,8 +36,8 @@ public class RadarView extends View {
         Paint localMarker = new Paint();
 
         private int fps = 100;
-        private boolean showCircles = true;
-        private boolean showInterestsFound = true;
+        //private boolean mDisplayCircles = true;
+        private boolean lCitizenInterestsFound = true;
         private Context myContext;
 
         float alpha = 0;
@@ -47,18 +46,24 @@ public class RadarView extends View {
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
         Point Markers[] = new Point[MARKERS_NUMBER];
 
-        public RadarView(Context context) {
-            this(context, null);
+        // Constructor
+        public RadarView(Context aContext) {
+            this(aContext, null);
         }
 
-        public RadarView(Context context, AttributeSet attrs) {
-            this(context, attrs, 0);
+        // Constructor
+        public RadarView(Context aContext, AttributeSet aAttributeSet) {
+            this(aContext, aAttributeSet, 0);
         }
 
-        public RadarView(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
+        // Constructor
+        public RadarView(
+                Context aContext,
+                AttributeSet aAttributes,
+                int aDefStyleAttr) {
+            super(aContext, aAttributes, aDefStyleAttr);
 
-            myContext = context;
+            myContext = aContext;
             Paint localPaint = new Paint();
 
             localPaint.setColor(Color.DKGRAY);
@@ -82,6 +87,7 @@ public class RadarView extends View {
         }
 
         android.os.Handler mHandler = new android.os.Handler();
+
         Runnable mTick = new Runnable() {
             @Override
             public void run() {
@@ -90,60 +96,81 @@ public class RadarView extends View {
             }
         };
 
-        public void startAnimation() {
-            mHandler.removeCallbacks(mTick);
-            mHandler.post(mTick);
-        }
-
+        /**
+        *
+        */
         public void updateMarkers() {
             for (int i=0; i < MARKERS_NUMBER; i++){
                 Markers[i] = new Point((i+1)*20+100,(i+1)*5+220);
             }
         }
 
-        public void stopAnimation() {
+        /**
+         *
+         */
+        public void startAnimation() {
             mHandler.removeCallbacks(mTick);
+            mHandler.post(mTick);
         }
+
+        /**
+         *
+         */
+        public void stopAnimation() {
+                mHandler.removeCallbacks(mTick);
+            }
 
         public void setFrameRate(int fps) { this.fps = fps; }
         public int getFrameRate() { return this.fps; }
 
-        public void setShowCircles(boolean showCircles) { this.showCircles = showCircles; }
+        //public void setShowCircles(boolean aDisplayCircles) { this.mDisplayCircles = aDisplayCircles; }
 
+
+        /**
+         *
+         * The most important step in drawing a custom view is to override the onDraw() method. The parameter to onDraw()
+         * is a Canvas object that the view can use to draw itself. The Canvas class defines methods for drawing text,
+         * lines, bitmaps, and many other graphics primitives. You can use these methods in onDraw() to create your
+         * custom user interface (UI).
+         *
+         * Before you can call any drawing methods, though, it's necessary to create a Paint object. The next section
+         * discusses Paint in more detail.
+         *
+         * @param aCanvas
+         */
         @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
+        protected void onDraw(Canvas aCanvas) {
+            super.onDraw(aCanvas);
 
-            int width = getWidth();
-            int height = getHeight();
+            Paint lLocalPaint = latestPaint[0]; // GREEN
 
-            int r = Math.min(width, height);
+            int lCanvasWidth = this.getWidth();
+            int lCanvasHeight = this.getHeight();
 
-            //canvas.drawRect(0, 0, getWidth(), getHeight(), localPaint);
+            int lMaxRayOfRadar = Math.min(lCanvasWidth, lCanvasHeight);
 
-            int i = r / 2;
+            int i = lMaxRayOfRadar / 2;
             int j = i - 1;
-            Paint localPaint = latestPaint[0]; // GREEN
 
-            if (showCircles) {
-                canvas.drawCircle(i, i, j, localPaint);
-                canvas.drawCircle(i, i, j-25, localPaint);
-                canvas.drawCircle(i, i, j * 3 / 4, localPaint);
-                canvas.drawCircle(i, i, j >> 1, localPaint);
-                canvas.drawCircle(i, i, j >> 2, localPaint);
-            }
+            //if (showCircles) {
+            aCanvas.drawCircle(i, i, j, lLocalPaint);
+            aCanvas.drawCircle(i, i, j-25, lLocalPaint);
+            aCanvas.drawCircle(i, i, j * 3 / 4, lLocalPaint);
+            aCanvas.drawCircle(i, i, j >> 1, lLocalPaint);
+            aCanvas.drawCircle(i, i, j >> 2, lLocalPaint);
+            //}
 
-            if (showInterestsFound) {
+            if (lCitizenInterestsFound) {
                 for (Point Marker : Markers) {
-                    localPaint.setColor(Color.RED);
-                    localPaint.setStyle(Paint.Style.FILL);
+                    lLocalPaint.setColor(Color.RED);
+                    lLocalPaint.setStyle(Paint.Style.FILL);
                     int posX = Marker.x;
                     int posY = Marker.y;
                     int rayon = j >> 5;
 
-                    canvas.drawCircle(posX, posY, rayon, localPaint);
-                    localPaint.setColor(Color.DKGRAY);
-                    localPaint.setStyle(Paint.Style.STROKE);
+                    aCanvas.drawCircle(posX, posY, rayon, lLocalPaint);
+                    lLocalPaint.setColor(Color.DKGRAY);
+                    lLocalPaint.setStyle(Paint.Style.STROKE);
                     //Point lMarker = new Point();
                     //lMarker.set(Markers[lIndexMarker].x, Markers[lIndexMarker].y);
                     //canvas.drawPoint(lMarker.x, lMarker.y, localPaint);
@@ -151,7 +178,8 @@ public class RadarView extends View {
                 }
             }
 
-            alpha -= 0.5;
+            alpha -= 1; //initially -0.5
+
             if (alpha < -360) alpha = 0;
             double angle = Math.toRadians(alpha);
             int offsetX =  (int) (i + (float)(i * Math.cos(angle)));
@@ -168,16 +196,16 @@ public class RadarView extends View {
             for (int x = 0; x < POINT_ARRAY_SIZE; x++) {
                 Point point = latestPoint[x];
                 if (point != null) {
-                    canvas.drawLine(i, i, point.x, point.y, latestPaint[x]);
+                    aCanvas.drawLine(i, i, point.x, point.y, latestPaint[x]);
                 }
             }
 
             //lines = 0;
             for (Point p : latestPoint) if (p != null) lines++;
 
-            boolean debug = false;
+            //boolean debug = false;
 
-            if (debug) {
+            /*if (debug) {
                 StringBuilder sb = new StringBuilder(" >> ");
                 for (Point p : latestPoint) {
                     if (p != null) sb.append(" (" + p.x + "x" + p.y + ")");
@@ -188,19 +216,24 @@ public class RadarView extends View {
                 //  " - Size: " + width + "x" + height +
                 //  " - Angle: " + angle +
                 //  " - Offset: " + offsetX + "," + offsetY);
-            }
-
+            }*/
         }
 
+        /**
+         * Called when a touch screen motion event occurs.
+         *
+         * @param event
+         * @return
+         */
         @Override
         public boolean onTouchEvent(MotionEvent event) {
 
-            float xCord = 0;
-            float yCord = 0;
+            float lXCoordinate = 0;
+            float lYCoordinate = 0;
 
-            if(event.getAction()==MotionEvent.ACTION_UP){
-                xCord=event.getX();
-                yCord = event.getY();
+            if(event.getAction() == MotionEvent.ACTION_UP){
+                lXCoordinate = event.getX();
+                lYCoordinate = event.getY();
             }
 
             //Toast.makeText(myContext, "Canvas clicked", Toast.LENGTH_LONG).show();
@@ -208,8 +241,8 @@ public class RadarView extends View {
             
             LatLng lGpsCoordonates =
                     new LatLng(
-                            Double.parseDouble(Float.toString(xCord)),
-                            Double.parseDouble(Float.toString(yCord)));
+                            Double.parseDouble(Float.toString(lXCoordinate)),
+                            Double.parseDouble(Float.toString(lYCoordinate)));
 
             lIntent.putExtra(BaseConstants.Attr_Gps_Coordinates, lGpsCoordonates);
 

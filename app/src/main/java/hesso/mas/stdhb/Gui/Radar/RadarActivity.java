@@ -26,9 +26,9 @@ public class RadarActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         mRadarView = (hesso.mas.stdhb.Gui.Radar.RadarView) findViewById(R.id.radarView);
-        mRadarView.setShowCircles(true);
-
+        //mRadarView.setShowCircles(true);
         mRadarView.updateMarkers();
+        mRadarView.startAnimation();
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +39,6 @@ public class RadarActivity extends AppCompatActivity {
             }
         });*/
 
-        mRadarView.startAnimation();
     }
 
     public void stopAnimation(View view) {
