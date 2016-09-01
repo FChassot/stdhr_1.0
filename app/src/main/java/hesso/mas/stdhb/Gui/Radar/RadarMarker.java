@@ -19,6 +19,11 @@ public class RadarMarker extends Paint {
 
     // Constructor
     RadarMarker() {
+        super.setColor(Color.BLUE);
+        super.setAntiAlias(true);
+        super.setStyle(Paint.Style.FILL);
+        super.setStrokeWidth(5.0F);
+        super.setAlpha(0);
     };
 
     // Constructor
@@ -35,7 +40,6 @@ public class RadarMarker extends Paint {
         float aStrokeWidth,
         int aAlpha) {
 
-        //mLocation = aLocation;
         super.setColor(aColor);
         super.setAntiAlias(aAntiAlias);
         super.setStyle(aStyle);
@@ -48,9 +52,10 @@ public class RadarMarker extends Paint {
 
     public int getY() { return mY; }
 
+    public int getColor() { return mColor; }
+
     public void setLocation(Location aLocation) {
         mLocation = aLocation;
-
     }
 
     public void setLongitude(Double aLongitude) {

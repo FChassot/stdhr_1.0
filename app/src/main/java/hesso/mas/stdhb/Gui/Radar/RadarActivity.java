@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import hesso.mas.stdhb.Gui.Radar.*;
-
 import hesso.mas.stdhbtests.R;
 
 public class RadarActivity extends AppCompatActivity {
@@ -30,13 +28,15 @@ public class RadarActivity extends AppCompatActivity {
 
         mRadarView = (RadarView) findViewById(R.id.radarView);
 
-        RadarMarker lMarker1 = new RadarMarker(100, 100, Color.RED);
-        RadarMarker lMarker2 = new RadarMarker(200, 200, Color.BLUE);
+        RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
+        RadarMarker lMarker2 = new RadarMarker(100, 100, Color.RED);
+        RadarMarker lMarker3 = new RadarMarker(250, 301, Color.RED);
 
-        RadarMarker lMarkers[] = new RadarMarker[2];
+        RadarMarker lMarkers[] = new RadarMarker[3];
 
         lMarkers[0] = lMarker1;
         lMarkers[1] = lMarker2;
+        lMarkers[2] = lMarker3;
 
         mRadarView.updateMarkers(lMarkers);
         mRadarView.startAnimation();

@@ -38,8 +38,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.activity_maps);
 
-        InternetConnectivity intConn = new InternetConnectivity(this);
-        boolean lIsActive = intConn.IsActive();
+        InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
+        boolean lIsActive = lInterConnectivity.IsActive();
 
         // Obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));

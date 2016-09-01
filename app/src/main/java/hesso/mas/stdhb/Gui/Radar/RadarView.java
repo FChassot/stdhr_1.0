@@ -39,11 +39,7 @@ public class RadarView extends View {
 
         private final int POINT_ARRAY_SIZE = 35;
 
-        Paint localMarker = new RadarMarker();
-
         private int fps = 100;
-
-        private boolean lCitizenInterestsFound = true;
 
         float lAlpha = 0;
 
@@ -73,18 +69,11 @@ public class RadarView extends View {
 
         Paint localPaint = new Paint();
 
-        localPaint.setColor(Color.DKGRAY);
+        localPaint.setColor(Color.WHITE);
         localPaint.setAntiAlias(true);
         localPaint.setStyle(Paint.Style.STROKE);
         localPaint.setStrokeWidth(5.0F);
         localPaint.setAlpha(0);
-
-        //localMarker = new RadarMarker(Color.RED, true, Paint.Style.FILL, 5.0F, 0);
-        localMarker.setColor(Color.BLUE);
-        localMarker.setAntiAlias(true);
-        localMarker.setStyle(Paint.Style.FILL);
-        localMarker.setStrokeWidth(5.0F);
-        localMarker.setAlpha(0);
 
         int lAlpha_step = 255 / POINT_ARRAY_SIZE;
 
@@ -109,10 +98,6 @@ public class RadarView extends View {
         */
         public void updateMarkers(RadarMarker[] aMarkers) {
             mMarkers = aMarkers;
-
-            /*for (RadarMarker Marker : aMarkers) {
-                mMarkers = new Point((i+1)*20+100,(i+1)*5+220);
-            }*/
         }
 
         /**
@@ -124,14 +109,11 @@ public class RadarView extends View {
         }
 
         /**
-         * This methode allows to stop the animation
+         * This method allows to stop the animation
          */
         public void stopAnimation() {
                 mHandler.removeCallbacks(mTick);
             }
-
-        /*public void setFrameRate(int fps) { this.fps = fps; }
-        public int getFrameRate() { return this.fps; }*/
 
         /**
          *
@@ -160,22 +142,7 @@ public class RadarView extends View {
             int j = i - 1;
 
             this.DrawTheRadar(aCanvas, lLocalPaint, i, j);
-
-            if (mMarkers.length > 0) {
-                for (RadarMarker lMarker : mMarkers) {
-                    lLocalPaint.setColor(Color.RED);
-                    lLocalPaint.setStyle(Paint.Style.FILL);
-
-                    aCanvas.drawCircle(lMarker.getX(), lMarker.getY(), (((lMaxRayOfRadar / 2)-1) >> 5), lLocalPaint);
-
-                    lLocalPaint.setColor(Color.DKGRAY);
-                    lLocalPaint.setStyle(Paint.Style.STROKE);
-                    //Point lMarker = new Point();
-                    //lMarker.set(Markers[lIndexMarker].x, Markers[lIndexMarker].y);
-                    //canvas.drawPoint(lMarker.x, lMarker.y, localPaint);
-                    //canvas.Add(lMarker);
-                }
-            }
+            this.DrawTheMarkers(lLocalPaint, aCanvas, lMaxRayOfRadar);
 
             lAlpha -= 3;
 
@@ -228,35 +195,46 @@ public class RadarView extends View {
         }
 
         /**
-         * Retrieve the differents cultural objects found
-         *
-         * @return
-         */
-            public Point[] getMarkers() {
-                return new Point[0];
-            }
-
-        /**
          * Display the markers in the view.
          *
-         * @param aMarkers
+         * @param aPaint
+         * @param aMaxRayOfRadar
          */
-        public void displayMarkers(
-            Point aMarkers[],
+        public void DrawTheMarkers(
             Paint aPaint,
             Canvas aCanvas,
             int aMaxRayOfRadar) {
 
-            for (Point Marker : aMarkers) {
-                aPaint.setColor(Color.RED);
-                aPaint.setStyle(Paint.Style.FILL);
+            if (mMarkers.length > 0) {
+                int lIndex = 0;
 
-                aCanvas.drawCircle(Marker.x, Marker.y, (((aMaxRayOfRadar / 2)-1) >> 5), aPaint);
+                for (RadarMarker lMarker : mMarkers) {
+                    if (lIndex == 0) {
+                        aCanvas.drawCircle(
+                                aMaxRayOfRadar / 2,
+                                aMaxRayOfRadar / 2,
+                                (((aMaxRayOfRadar / 2)-1) >> 5),
+                                aPaint);
 
-                aPaint.setColor(Color.DKGRAY);
+                        lIndex += 1;
+                    }
+                    else {
+                        aCanvas.drawCircle(
+                                lMarker.getX(),
+                                lMarker.getY(),
+                                (((aMaxRayOfRadar / 2)-1) >> 5),
+                                aPaint);
+
+                        lIndex += 1;
+                    }
+
+                    aPaint.setColor(lMarker.getColor());
+                    aPaint.setStyle(Paint.Style.FILL);}
+                }
+
                 aPaint.setStyle(Paint.Style.STROKE);
+                aPaint.setColor(Color.DKGRAY);
             }
-        }
 
     //endregion
 
@@ -273,32 +251,39 @@ public class RadarView extends View {
 
             float lXCoordinate = 0;
             float lYCoordinate = 0;
-            int lAction = event.getAction();
 
-            if(lAction == MotionEvent.ACTION_UP){
+            if(event.getAction() == MotionEvent.ACTION_UP){
                 lXCoordinate = event.getX();
                 lYCoordinate = event.getY();
             }
 
             // Check if the click in the view has been done
             if (!isPointInsideView(lXCoordinate, lYCoordinate, this)) {
-                Toast.makeText(myContext, "Outside the radar", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             Intent lIntent = new Intent(myContext, MapsActivity.class);
 
-            LatLng lGpsCoordonates =
-                    new LatLng(
-                            Double.parseDouble(Float.toString(lXCoordinate)),
-                            Double.parseDouble(Float.toString(lYCoordinate)));
+            RadarMarker lCulturalObject =
+                    FindTheNearestCulturalObject(lXCoordinate, lYCoordinate);
 
-            lIntent.putExtra(BaseConstants.Attr_Gps_Coordinates, lGpsCoordonates);
+            if (lCulturalObject != null) {
+                LatLng lGpsCoordonates =
+                        new LatLng(
+                                Double.parseDouble(Float.toString(lCulturalObject.getX())),
+                                Double.parseDouble(Float.toString(lCulturalObject.getY())));
 
-            myContext.startActivity(lIntent);
+                lIntent.putExtra(BaseConstants.Attr_Gps_Coordinates, lGpsCoordonates);
 
-            return true;
+                myContext.startActivity(lIntent);
+
+                return true;
+            }
+
+            return false;
         }
+
+        private RadarMarker FindTheNearestCulturalObject(float aX, float aY) {return null;}
 
         /**
          * This method check if the parameters X and Y are in the view or not
