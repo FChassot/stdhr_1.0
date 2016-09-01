@@ -41,8 +41,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     // Variable of type OkHttpClient
     OkHttpClient mOkHttpClient;
+
     private boolean mReceiverStarted;
+
     private Receiver mReceiver;
+
+    ProgressDialog progress;
+
+    private String ourTextView;
+
+    private static final String TAG = "AATestFragment";
 
     /**
      * Called when the activity is first created. This is where you should do all of your
@@ -59,7 +67,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // create a view
         setContentView(R.layout.activity_search);
 
-        // Récupération de l'instance bouton préférences
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
         // Positionner un listener sur ce bouton
@@ -92,25 +99,27 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * Méthode déclenchée par le listener lorsqu'un appui sur le bouton se produit
+     * Method processed by the listener when one button is clicked
      *
      * @param view
      */
     public void onClick(View view){
         if (view.getId()==R.id.mBtnSearch) {
-            // Get the technology for the server communication configured in the settings
+
+            // Get the technology using for the communication between the
+            // client and the service. This is configured in the preferences
             Preferences lPrefs = new Preferences(this);
+
+            String lCommTechnology =
+                    lPrefs.getPrefValue(
+                            BaseConstants.Attr_Comm_Technology,
+                            MyString.EMPTY_STRING);
 
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
 
             String lPlace = mTxtPlace.getText().toString();
             String lDate = mTxtDate.getText().toString();
-
-            String lCommTechnology =
-                    lPrefs.getPrefValue(
-                            BaseConstants.Attr_Comm_Technology,
-                            MyString.EMPTY_STRING);
 
             /*IWsClientFactory lFactory = new WsClientFactory();
 
@@ -138,160 +147,73 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lTechnology = EnumClientServerCommunication.RDF4J;
             }
 
-            startAsyncSearch(
-                    lPlace,
-                    lDate,
-                    lTechnology);
+            startAsyncSearch(lPlace, lDate, lTechnology);
+        }
+    }
 
-            //return;
-            // Rest-Client using library OkHttp
-            /*if (lCommTechnology.equals(EnumClientServerCommunication.OKHTTP.toString())) {
+    //region asyncTask (to request the Citizen Endpoint)
 
-                mOkHttpClient = new OkHttpClient();
+        /**
+         * Start an Async Search on the endPoint Sparql Server
+         *
+         * @param aPlace
+         * @param aDate
+         */
+        private void startAsyncSearch(
+                String aPlace,
+                String aDate,
+                EnumClientServerCommunication aClientServerCommunication) {
 
-                // Do a post through the HttpOk Rest-Client
-                HttpClientPost(mOkHttpClient);
+            RetrieveCitizenDataAsyncTask lTask;
+
+            if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
+                lTask = new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
+
+                lTask.execute(aPlace, aDate);
+
+                return;
+            }
+
+            if (aClientServerCommunication.equals(EnumClientServerCommunication.RDF4J)) {
+                RetrieveCitizenDataAsyncTask2 lTask2 = new RetrieveCitizenDataAsyncTask2(this, "LOAD_DATA");
+
+                lTask2.execute(aPlace, aDate);
+
+                return;
+            }
+        }
+
+        private class Receiver extends BroadcastReceiver {
+            /**
+             * Our Broadcast Receiver. We get notified that the data is ready this way.
+             */
+            @Override
+            public void onReceive(Context aContext, Intent aIntent)
+            {
+                // clear the progress indicator
+                if (progress != null)
+                {
+                    progress.dismiss();
+                }
+
+                String lResponse =
+                        aIntent.getStringExtra(
+                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+
+                ourTextView = lResponse;
 
                 TextView mResult = (TextView)findViewById(R.id.editText);
+
                 mResult.setText(ourTextView);
 
-                return;
-            }*/
-
-            // Rest-Client using standard HttpUrlConnection library
-            /*if (lCommTechnology.equals(EnumClientServerCommunication.REST.toString())) {
-
-                RestclientWithHttpUrlConnection lRequest =
-                        new RestclientWithHttpUrlConnection();
-
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint("http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/","CityZenDM");
-
-                String lResponse = lRequest.DoHttpBinding(lCitizenEndPoint);
-                Toast.makeText(this, lResponse, Toast.LENGTH_SHORT).show();
-
-                return;
-            }*/
-
-            // RDF4J
-            /*if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())) {
-                String lCitizenServerUri = "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
-                String lCitizenRepository = "CityZenDM";
-                String lQuery = "\"select distinct ?Concept where {[] a ?Concept} LIMIT 1\"";
-
-                CitizenEndPoint lCitizenEndPoint =
-                        new CitizenEndPoint();
-
-                lCitizenEndPoint.CitizenServerUri(lCitizenServerUri);
-                lCitizenEndPoint.CitizenRepository(lCitizenRepository);
-
-                Rdf4jSparqlWsClient lRdf4jSparqlWsClient =
-                        new Rdf4jSparqlWsClient(lCitizenEndPoint, lQuery);
-
-                String lResponse = lRdf4jSparqlWsClient.DoRequest(
-                        lCitizenEndPoint,
-                        MyString.EMPTY_STRING);
-
-                Context context = getApplicationContext();
-                CharSequence lTextToDisplay = lResponse;
-
-                Toast toast = Toast.makeText(context, lTextToDisplay, Toast.LENGTH_SHORT);
-                toast.show();
-
-                return;
-            }*/
-
-            // ANDROJENA
-            /*if (lCommTechnology.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
-
-                lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
-
-                String lStrSparqlQuery =
-                        "PREFIX dbo:<http://dbpedia.org/ontology/>"
-                                + "PREFIX : <http://dbpedia.org/resource/>"
-                                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
-                                + "select ?URI where {?URI rdfs:label " + "London" + ".}";
-
-                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lCitizenEndPoint, lStrSparqlQuery);
-
-                String lResponse = lJenaSparqlWsClient.DoRequest();
-
-                Context context = getApplicationContext();
-                CharSequence text = lResponse;
-
-                Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-                toast.show();
-
-                return;
-            }*/
-
-            // SOAP
-            /*if (lCommTechnology.equals(EnumClientServerCommunication.SOAP.toString())) {
-                CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
-
-                lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
-
-                String lStrSparqlQuery =
-                        "PREFIX dbo:<http://dbpedia.org/ontology/>"
-                                + "PREFIX : <http://dbpedia.org/resource/>"
-                                + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#/>"
-                                + "select ?URI where {?URI rdfs:label " + "London" + ".}";
-
-                JenaSparqlWsClient lJenaSparqlWsClient = new JenaSparqlWsClient(lCitizenEndPoint);
-
-                String lResponse = lJenaSparqlWsClient.DoRequest(lStrSparqlQuery);
-
-                Context context = getApplicationContext();
-                CharSequence text = lResponse;
-
-                Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-                toast.show();
-
-                return;
-            }*/
-
-            // means technology not implemented
-            /*Context context = getApplicationContext();
-            CharSequence text = "The type of server communication " + lCommTechnology + " has not been yet implemented!";
-
-            Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-            toast.show();
-
-            startAsyncSearch(lPlace, lDate, lCommTechnology);*/
-        }
-    }
-
-    ProgressDialog progress;
-
-    private String ourTextView;
-
-    private static final String TAG = "AATestFragment";
-
-    /**
-     * Start an Async Search on the endPoint Sparql Server
-     *
-     * @param aPlace
-     * @param aDate
-     */
-    private void startAsyncSearch(
-            String aPlace,
-            String aDate,
-            EnumClientServerCommunication aClientServerCommunication) {
-
-        RetrieveCitizenDataAsyncTask lTask = null;
-
-        if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
-            lTask = new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
-            lTask.execute(aPlace, aDate);
-            return;
+                Log.i(TAG, "RESPONSE = " + lResponse);
+                //
+                // my old json code was here. this is where you will parse it.
+                //
+            }
         }
 
-        if (aClientServerCommunication.equals(EnumClientServerCommunication.RDF4J)) {
-            RetrieveCitizenDataAsyncTask2 lTask2 = new RetrieveCitizenDataAsyncTask2(this, "LOAD_DATA");
-            lTask2.execute(aPlace, aDate);
-            return;
-        }
-    }
+    //endregion (
 
     /**
      *
@@ -328,35 +250,5 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 });
             }
         });
-    }
-
-    private class Receiver extends BroadcastReceiver {
-        /**
-         * Our Broadcast Receiver. We get notified that the data is ready this way.
-         */
-        @Override
-        public void onReceive(Context aContext, Intent aIntent)
-        {
-            // clear the progress indicator
-            if (progress != null)
-            {
-                progress.dismiss();
-            }
-
-            String lResponse =
-                    aIntent.getStringExtra(
-                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
-
-            ourTextView = lResponse;
-
-            TextView mResult = (TextView)findViewById(R.id.editText);
-
-            mResult.setText(ourTextView);
-
-            Log.i(TAG, "RESPONSE = " + lResponse);
-            //
-            // my old json code was here. this is where you will parse it.
-            //
-        }
     }
 }

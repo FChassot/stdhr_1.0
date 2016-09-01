@@ -51,14 +51,14 @@ public class RadarActivity extends AppCompatActivity {
      * When the system calls onPause() for your activity, it technically means your activity is still
      * partially visible, but most often is an indication that the user is leaving the activity and it
      * will soon enter the Stopped state. You should usually use the onPause() callback to:
-
-     - Check if the activity is visible; if it is not, stop animations or other ongoing actions that could consume CPU.
-     Remember, beginning with Android 7.0, a paused app might be running in multi-window mode. In this case, you would
-     not want to stop animations or video playback.
-     - Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave
-     (such as a draft email).
-     - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources
-     that may affect battery life while your activity is paused and the user does not need them.
+     *
+     * - Check if the activity is visible; if it is not, stop animations or other ongoing actions that could consume CPU.
+     * Remember, beginning with Android 7.0, a paused app might be running in multi-window mode. In this case, you would
+     * not want to stop animations or video playback.
+     * - Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave
+     * (such as a draft email).
+     * - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources
+     * that may affect battery life while your activity is paused and the user does not need them.
      */
     @Override
     public void onPause() {
