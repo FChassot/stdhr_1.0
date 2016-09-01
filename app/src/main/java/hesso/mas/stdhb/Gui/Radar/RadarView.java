@@ -8,10 +8,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.location.Location;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import hesso.mas.stdhb.Base.Constants.*;
 
@@ -40,7 +42,7 @@ public class RadarView extends View {
         private boolean lCitizenInterestsFound = true;
         private Context myContext;
 
-        float alpha = 0;
+        float lAlpha = 0;
 
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
@@ -164,11 +166,10 @@ public class RadarView extends View {
                 for (Point Marker : Markers) {
                     lLocalPaint.setColor(Color.RED);
                     lLocalPaint.setStyle(Paint.Style.FILL);
-                    int posX = Marker.x;
-                    int posY = Marker.y;
-                    int rayon = j >> 5;
 
-                    aCanvas.drawCircle(posX, posY, rayon, lLocalPaint);
+                    // int rayon = j >> 5;
+                    aCanvas.drawCircle(Marker.x, Marker.y, j >> 5, lLocalPaint);
+
                     lLocalPaint.setColor(Color.DKGRAY);
                     lLocalPaint.setStyle(Paint.Style.STROKE);
                     //Point lMarker = new Point();
@@ -178,34 +179,35 @@ public class RadarView extends View {
                 }
             }
 
-            alpha -= 1; //initially -0.5
+            lAlpha -= 1; //initially -0.5
 
-            if (alpha < -360) alpha = 0;
-            double angle = Math.toRadians(alpha);
-            int offsetX =  (int) (i + (float)(i * Math.cos(angle)));
-            int offsetY = (int) (i - (float)(i * Math.sin(angle)));
+            if (lAlpha < -360) lAlpha = 0;
 
-            latestPoint[0]= new Point(offsetX, offsetY);
+            double lAngle = Math.toRadians(lAlpha);
+
+            int lOffsetX =  (int) (i + (float)(i * Math.cos(lAngle)));
+            int lOffsetY = (int) (i - (float)(i * Math.sin(lAngle)));
+
+            latestPoint[0]= new Point(lOffsetX, lOffsetY);
 
             for (int x=POINT_ARRAY_SIZE-1; x > 0; x--) {
                 latestPoint[x] = latestPoint[x-1];
             }
 
-            int lines = 0;
+            //int lines = 0;
 
             for (int x = 0; x < POINT_ARRAY_SIZE; x++) {
                 Point point = latestPoint[x];
+
                 if (point != null) {
                     aCanvas.drawLine(i, i, point.x, point.y, latestPaint[x]);
                 }
             }
 
             //lines = 0;
-            for (Point p : latestPoint) if (p != null) lines++;
+            //for (Point p : latestPoint) if (p != null) lines++;
 
-            //boolean debug = false;
-
-            /*if (debug) {
+            /*if (false) {
                 StringBuilder sb = new StringBuilder(" >> ");
                 for (Point p : latestPoint) {
                     if (p != null) sb.append(" (" + p.x + "x" + p.y + ")");
@@ -230,13 +232,18 @@ public class RadarView extends View {
 
             float lXCoordinate = 0;
             float lYCoordinate = 0;
+            int lAction = event.getAction();
 
-            if(event.getAction() == MotionEvent.ACTION_UP){
+            if(lAction == MotionEvent.ACTION_UP){
                 lXCoordinate = event.getX();
                 lYCoordinate = event.getY();
             }
 
-            //Toast.makeText(myContext, "Canvas clicked", Toast.LENGTH_LONG).show();
+            // Check if the click in the view has been done
+            if (!isPointInsideView(lXCoordinate, lYCoordinate, this)) {
+                Toast.makeText(myContext, "Outside the radar", Toast.LENGTH_LONG).show();
+            }
+
             Intent lIntent = new Intent(myContext, MapsActivity.class);
             
             LatLng lGpsCoordonates =
@@ -249,5 +256,41 @@ public class RadarView extends View {
             myContext.startActivity(lIntent);
 
             return true;
+        }
+
+        /**
+         * This method check if the parameters X and Y are in the view or not
+         *
+         * @param aX
+         * @param aY
+         * @param aView
+         * @return
+         */
+        private boolean isPointInsideView(float aX, float aY, View aView) {
+
+            int lLocation[] = new int[2];
+
+            aView.getLocationOnScreen(lLocation);
+
+            int lViewX = lLocation[0];
+            int lViewY = lLocation[1];
+
+            return ((aX > lViewX && aX <(lViewX + aView.getWidth())) &&
+                    (aY > lViewY && aY < (lViewY + aView.getHeight())));
+        }
+
+        /**
+         * Retrieve the coordinates touched
+         *
+         * @param aView
+         * @return
+         */
+        private int[] getCoordinatedTouched(View aView) {
+
+            int lLocation[] = new int[2];
+
+            aView.getLocationOnScreen(lLocation);
+
+            return lLocation;
         }
 }
