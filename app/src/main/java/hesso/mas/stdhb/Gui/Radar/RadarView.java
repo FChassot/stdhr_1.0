@@ -2,6 +2,8 @@ package hesso.mas.stdhb.Gui.Radar;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.os.*;
 
 import android.content.Context;
@@ -10,16 +12,20 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.location.Location;
+
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import hesso.mas.stdhb.Base.Constants.*;
 
+import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
+import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask2;
+import hesso.mas.stdhbtests.R;
 
 /**
  * Created by chf on 15.07.2016.
@@ -30,12 +36,14 @@ import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
  * The ViewGroup subclass is the base class for layouts,
  * which are invisible containers that hold other Views (or other ViewGroups) and define their layout properties.
  */
-public class RadarView extends View {
+public class RadarView extends 	android.view.View {
 
         Handler mHandler = new android.os.Handler();
 
         private Context myContext;
         private RadarMarker[] mMarkers;
+        private int mRadarSearchTempo = 200;
+        private int mTempoIndex = 0;
 
         private final int POINT_ARRAY_SIZE = 35;
 
@@ -50,11 +58,15 @@ public class RadarView extends View {
 
     // Default constructor
     public RadarView(Context aContext) {
+
         this(aContext, null);
     }
 
     // Constructor
-    public RadarView(Context aContext, AttributeSet aAttributeSet) {
+    public RadarView(
+            Context aContext,
+            AttributeSet aAttributeSet) {
+
         this(aContext, aAttributeSet, 0);
     }
 
@@ -63,6 +75,7 @@ public class RadarView extends View {
             Context aContext,
             AttributeSet aAttributes,
             int aDefStyleAttr) {
+
         super(aContext, aAttributes, aDefStyleAttr);
 
         myContext = aContext;
@@ -94,9 +107,18 @@ public class RadarView extends View {
         };
 
         /**
-        * This method allows to update the markers received by the radar.
+        * This method allows to update the markers received
+         * by the radar.
         */
         public void updateMarkers(RadarMarker[] aMarkers) {
+            mMarkers = aMarkers;
+        }
+
+        /**
+         * This method allows to retrieve from the Citizen Endpoint the cultural
+         * objects found in the ray of search
+         */
+        public void retrieveMarkersFromCitizen(RadarMarker[] aMarkers) {
             mMarkers = aMarkers;
         }
 
@@ -116,11 +138,10 @@ public class RadarView extends View {
             }
 
         /**
-         *
-         * The most important step in drawing a custom view is to override the onDraw() method. The parameter to onDraw()
-         * is a Canvas object that the view can use to draw itself. The Canvas class defines methods for drawing text,
-         * lines, bitmaps, and many other graphics primitives. You can use these methods in onDraw() to create your
-         * custom user interface (UI).
+         * The most important step in drawing a custom view is to override the onDraw() method.
+         * The parameter to onDraw() is a Canvas object that the view can use to draw itself.
+         * The Canvas class defines methods for drawing text, lines, bitmaps, and many other graphics
+         * primitives. You can use these methods in onDraw() to create your custom user interface (UI).
          *
          * Before you can call any drawing methods, though, it's necessary to create a Paint object. The next section
          * discusses Paint in more detail.
@@ -132,6 +153,12 @@ public class RadarView extends View {
             super.onDraw(aCanvas);
 
             Paint lLocalPaint = latestPaint[0];
+
+            mTempoIndex += 1;
+
+            if (mTempoIndex==mRadarSearchTempo){
+                //mMarkers = startAsyncSearch();
+            }
 
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
@@ -205,37 +232,38 @@ public class RadarView extends View {
             Canvas aCanvas,
             int aMaxRayOfRadar) {
 
-            if (mMarkers.length > 0) {
-                int lIndex = 0;
+            if (mMarkers != null){
+                if (mMarkers.length > 0) {
+                    int lIndex = 0;
 
-                for (RadarMarker lMarker : mMarkers) {
-                    if (lIndex == 0) {
-                        aCanvas.drawCircle(
-                                aMaxRayOfRadar / 2,
-                                aMaxRayOfRadar / 2,
-                                (((aMaxRayOfRadar / 2)-1) >> 5),
-                                aPaint);
+                    for (RadarMarker lMarker : mMarkers) {
+                        if (lIndex == 0) {
+                            aCanvas.drawCircle(
+                                    aMaxRayOfRadar / 2,
+                                    aMaxRayOfRadar / 2,
+                                    (((aMaxRayOfRadar / 2) - 1) >> 5),
+                                    aPaint);
 
-                        lIndex += 1;
+                            lIndex += 1;
+                        } else {
+                            aCanvas.drawCircle(
+                                    lMarker.getX(),
+                                    lMarker.getY(),
+                                    (((aMaxRayOfRadar / 2) - 1) >> 5),
+                                    aPaint);
+
+                            lIndex += 1;
+                        }
+
+                        aPaint.setColor(lMarker.getColor());
+                        aPaint.setStyle(Paint.Style.FILL);
                     }
-                    else {
-                        aCanvas.drawCircle(
-                                lMarker.getX(),
-                                lMarker.getY(),
-                                (((aMaxRayOfRadar / 2)-1) >> 5),
-                                aPaint);
-
-                        lIndex += 1;
-                    }
-
-                    aPaint.setColor(lMarker.getColor());
-                    aPaint.setStyle(Paint.Style.FILL);}
                 }
 
                 aPaint.setStyle(Paint.Style.STROKE);
                 aPaint.setColor(Color.DKGRAY);
             }
-
+        }
     //endregion
 
     //region Help-methods

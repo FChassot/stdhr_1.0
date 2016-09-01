@@ -59,7 +59,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      */
     protected String doInBackground(String... urls) {
 
-        String lPlace = urls[0];
+        /*String lPlace = urls[0];
         String lDate = urls[1];
         EnumClientServerCommunication lClientServerCommunicationMode = EnumClientServerCommunication.ANDROJENA;
         String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
@@ -86,8 +86,8 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
             this.mException = e;
             return null;
         }
-
-        return lResponse;
+*/
+        return MyString.EMPTY_STRING;
     }
 
     /*

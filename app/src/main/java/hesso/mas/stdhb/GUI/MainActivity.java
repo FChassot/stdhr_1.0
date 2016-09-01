@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     /**
      * The onClick() method is called when a button is actually clicked (or tapped).
      * This method is called by the listener.
-     *
      */
     public void onClick(View view){
         if (view.getId()==R.id.mDBtnpreferences){

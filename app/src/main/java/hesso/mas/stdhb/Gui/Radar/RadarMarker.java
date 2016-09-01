@@ -33,6 +33,7 @@ public class RadarMarker extends Paint {
         mColor = aColor;
     };
 
+    // Constructor
     void RadarMarker(
         int aColor,
         boolean aAntiAlias,
@@ -48,10 +49,13 @@ public class RadarMarker extends Paint {
 
     };
 
+    // Getter
     public int getX() { return mX; }
 
+    // Getter
     public int getY() { return mY; }
 
+    // Getter
     public int getColor() { return mColor; }
 
     public void setLocation(Location aLocation) {
