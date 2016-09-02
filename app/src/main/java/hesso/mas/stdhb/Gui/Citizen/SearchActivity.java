@@ -57,8 +57,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private PowerManager.WakeLock mWakeLock;
 
     /**
-     * Called when th
-     * e activity is first created. This is where you should do all of your
+     * Called when the activity is first created. This is where you should do all of your
      * normal static set up: create views, bind data to lists, etc. This method also provides
      * you with a Bundle containing the activity's previously frozen state, if there was one.
      * Always followed by onStart().
@@ -197,7 +196,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         aIntent.getStringExtra(
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-                mTextView = lResponse;
+                if (lResponse.equals(MyString.EMPTY_STRING)) {
+                    mTextView = "no response from the server!";
+                }
+
+               // mTextView = lResponse;
 
                 TextView mResult = (TextView)findViewById(R.id.editText);
 

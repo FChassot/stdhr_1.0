@@ -67,7 +67,7 @@
     <string name="txt_btn_radar">RADAR</string>
     <string name="txt_btn_gmap">GOOGLE MAP</string>
     <string name="txt_btn_search">SEARCH</string>
-    <string name="txt_btn_settings">SETTINGs</string>
+    <string name="txt_btn_settings">SETTINGS</string>
 
     <!-- String for the radar activity -->
     <string name="txt_btn_radar_stop">RADAR STOP</string>
@@ -77,9 +77,9 @@
     <!-- String for the Citizen Search activity -->
     <string name="lbl_place">Lieu</string>
     <string name="lbl_date">Date</string>
-    <string name="lbl_request">Request</string>
+    <string name="lbl_request">CITIZEN REQUEST</string>
 
-    <!-- Strings for the activities -->
+    <!-- Strings for settings activity -->
     <string name="title_settings_raysearch">Rayon de recherche [m]</string>
     <string name="activate_radar">Activer le radar</string>
     <string name="action_clientserver_communication">Client-server communication</string>

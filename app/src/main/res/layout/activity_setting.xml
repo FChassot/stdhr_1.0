@@ -31,7 +31,7 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Activer Radar"
+                android:text="@string/activate_radar"
                 android:textColor="#ffffff"
                 android:id="@+id/RadarSwitch"
                 android:layout_column="22"
@@ -46,21 +46,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Rayon de recherche [m]"
+                android:text="@string/title_settings_raysearch"
                 android:textColor="#ffffff"
-                android:id="@+id/mLblRaySearch"
+                android:id="@+id/mLblRadiusSearch"
                 android:layout_column="22" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/mDTxtRayon"
+                android:id="@+id/mDTxtRadius"
+                android:textColor="#ffffff"
                 android:layout_column="25" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
+            android:layout_height="wrap_content"></TableRow>
 
         <TableRow
             android:layout_width="match_parent"
@@ -70,9 +71,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Restreindre la recherche"
+                android:text="@string/themes_restrictions"
                 android:textColor="#ffffff"
-                android:id="@+id/mDtxtSearchMode"
+                android:id="@+id/mLblSearchRestriction"
                 android:layout_column="22" />
         </TableRow>
 
@@ -80,57 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <TextView
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Mode de communication"
+                android:text="@string/action_clientserver_communication"
                 android:textColor="#ffffff"
-                android:id="@+id/CommunicationMode"
                 android:layout_column="22"
                 android:layout_above="@+id/btnSave"
                 android:layout_alignParentLeft="true"
@@ -146,7 +100,8 @@
             android:layout_height="match_parent">
 
             <Spinner android:id="@+id/Spinner01"
-                android:textColor="#ffffff"
+                android:textColor="@android:color/white"
+                android:textSize="11dp"
                 android:layout_column="22" />
         </TableRow>
     </TableLayout>

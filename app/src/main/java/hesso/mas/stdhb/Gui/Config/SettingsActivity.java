@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lCboClientServerCommunication.setAdapter(adapter);
 
-        EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
+        EditText mRayon = (EditText)findViewById(R.id.mDTxtRadius);
         Preferences lPrefs = new Preferences(this);
 
         /*String lClientServerCommunication = lPrefs.getPrefValue(BaseConstants.Attr_ClientServer_Communication, MyString.EMPTY_STRING);
@@ -124,7 +124,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     public void onPause() {
         super.onPause();  // Always call the superclass method first
 
-        EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
+        EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRadius);
 
         Preferences lPrefs = new Preferences(this);
         Integer lRay = Integer.parseInt(lRaySearch.getText().toString());

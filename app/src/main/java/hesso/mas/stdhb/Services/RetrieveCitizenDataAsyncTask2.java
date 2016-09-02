@@ -43,7 +43,7 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      */
     @Override
     protected void onPreExecute() {
-        mProgress = ProgressDialog.show(mContext, "Downloading Data..", "Please wait");
+        mProgress = ProgressDialog.show(mContext, "Searching Data..", "Please wait");
     }
 
     /**

@@ -10,13 +10,16 @@
     tools:context="hesso.mas.stdhb.Gui.Citizen.SearchActivity"
     android:background="#084B8A">
 
-    <TableRow
+    <TableLayout
+        android:id="@+id/tableLayout1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:color="#777777"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_logo"
+            android:id="@+id/mImgLogo" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -25,31 +28,33 @@
             android:text="@string/lbl_place"
             android:textColor="#ffffff"
             android:ems="10"
+            android:height="10px"
             android:id="@+id/mTxtVille"
             android:layout_weight="1" />
 
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="12dp"
             android:inputType="textPersonName"
             android:text="Date"
             android:textColor="#ffffff"
             android:ems="10"
+            android:height="10px"
             android:id="@+id/mTxtDate"
             android:layout_weight="1" />
 
-        <EditText
-            android:layout_width="142dp"
-            android:layout_height="186dp"
-            android:id="@+id/editText"
-            android:layout_gravity="bottom" />
+            <EditText
+                android:layout_width="142dp"
+                android:layout_height="186dp"
+                android:id="@+id/editText"
+                android:layout_gravity="bottom"
+                android:background="#9ebdf7" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lbl_request"
-            android:id="@+id/mBtnSearch"
-            android:layout_gravity="bottom" />
+            <Button
+                android:text="@string/lbl_request"
+                android:id="@+id/mBtnSearch"
+                android:layout_gravity="bottom"
+                android:layout_column="1" />
+    </TableLayout>
 
-    </TableRow>
 </RelativeLayout>
