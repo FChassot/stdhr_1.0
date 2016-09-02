@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
+        android:color="#111fff"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:text="Date"
+            android:textColor="#ffffff"
             android:ems="10"
             android:id="@+id/mTxtDate"
             android:layout_weight="1" />
@@ -37,6 +39,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:text="@string/lbl_place"
+            android:textColor="#ffffff"
             android:ems="10"
             android:id="@+id/mTxtVille"
             android:layout_weight="1" />

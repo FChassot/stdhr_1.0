@@ -35,14 +35,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button mPreferencesButton = (Button)findViewById(R.id.mDBtnpreferences);
+        //Button mPreferencesButton = (Button)findViewById(R.id.mDBtnpreferences);
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
         Button mSearchButton = (Button)findViewById(R.id.mBtnSearch);
         Button mMapButton = (Button)findViewById(R.id.mBtnMap);
+        ImageView mImgSettings = (ImageView)findViewById(R.id.mImgSettings);
 
         // Set a listener of this button
-        assert mPreferencesButton != null;
-        mPreferencesButton.setOnClickListener(this);
+        //assert mPreferencesButton != null;
+        //mPreferencesButton.setOnClickListener(this);
 
         assert mRadarButton != null;
         mRadarButton.setOnClickListener(this);
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         assert mMapButton != null;
         mMapButton.setOnClickListener(this);
+
+        assert mImgSettings != null;
+        mImgSettings.setOnClickListener(this);
     }
 
     /**
@@ -59,7 +63,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      * This method is called by the listener.
      */
     public void onClick(View view){
-        if (view.getId()==R.id.mDBtnpreferences){
+        /*if (view.getId()==R.id.mDBtnpreferences){
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        }*/
+        if (view.getId()==R.id.mImgSettings){
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
