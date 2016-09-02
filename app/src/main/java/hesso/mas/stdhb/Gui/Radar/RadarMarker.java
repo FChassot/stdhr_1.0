@@ -7,7 +7,7 @@ import android.location.Location;
 /**
  * Created by chf on 21.07.2016.
  *
- * This class reprensents a marker which is displayed on the radar view.
+ * This class represents a marker which is displayed on the radar view.
  */
 public class RadarMarker extends Paint {
 

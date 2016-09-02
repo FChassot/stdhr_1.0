@@ -7,9 +7,10 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
+import android.os.PowerManager;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.os.Bundle;
 import android.view.View;
 
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask2;
@@ -28,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -48,12 +50,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     ProgressDialog progress;
 
-    private String ourTextView;
+    private String mTextView;
 
     private static final String TAG = "AATestFragment";
 
+    private PowerManager.WakeLock mWakeLock;
+
     /**
-     * Called when the activity is first created. This is where you should do all of your
+     * Called when th
+     * e activity is first created. This is where you should do all of your
      * normal static set up: create views, bind data to lists, etc. This method also provides
      * you with a Bundle containing the activity's previously frozen state, if there was one.
      * Always followed by onStart().
@@ -69,11 +74,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
-        // Positionner un listener sur ce bouton
+        // Set a listener of this button
         mBtnSearch.setOnClickListener(this);
 
         mReceiverStarted = true;
         mReceiver = new Receiver();
+
+        PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
+        mWakeLock.acquire();
 
         IntentFilter lFilter = new IntentFilter("LOAD_DATA");
         this.registerReceiver(mReceiver, lFilter);
@@ -92,7 +101,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         try {
             this.unregisterReceiver(mReceiver);
-            //mWakeLock.release();//keep screen on
+            mWakeLock.release();                      //keep screen on
+
         } catch (Exception e) {
             //Log.e(MatabbatManager.TAG, getClass() + " Releasing receivers-" + e.getMessage());
         }
@@ -120,26 +130,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             String lPlace = mTxtPlace.getText().toString();
             String lDate = mTxtDate.getText().toString();
-
-            /*IWsClientFactory lFactory = new WsClientFactory();
-
-            CitizenEndPoint lCitizenEndPoint = new CitizenEndPoint();
-            lCitizenEndPoint.CitizenServerUri("http://dbpedia.org/sparql");
-
-            IWsClient lWsClient =
-                    lFactory.Create(
-                        EnumClientServerCommunication.ANDROJENA,
-                        lCitizenEndPoint);
-
-            String lQuery = "\"select distinct ?Concept where {[] a ?Concept} LIMIT 1\"";
-
-            String lResponse = lWsClient.DoRequest(lQuery);
-
-            Context context = getApplicationContext();
-            CharSequence lTextToDisplay = lResponse;
-
-            Toast toast = Toast.makeText(context, lTextToDisplay, Toast.LENGTH_SHORT);
-            toast.show();*/
 
             EnumClientServerCommunication lTechnology = EnumClientServerCommunication.ANDROJENA;
 
@@ -181,6 +171,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 return;
             }
+
+            // means technology not implemented
+            Context context = getApplicationContext();
+            CharSequence text = "The type of server communication " + aClientServerCommunication + " has not been yet implemented!";
+
+            Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         private class Receiver extends BroadcastReceiver {
@@ -200,16 +197,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         aIntent.getStringExtra(
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-                ourTextView = lResponse;
+                mTextView = lResponse;
 
                 TextView mResult = (TextView)findViewById(R.id.editText);
 
-                mResult.setText(ourTextView);
+                mResult.setText(mTextView);
 
                 Log.i(TAG, "RESPONSE = " + lResponse);
-                //
-                // my old json code was here. this is where you will parse it.
-                //
             }
         }
 
@@ -232,7 +226,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         aOkHttpClient.newCall(myGetRequest).enqueue(new Callback() {
             @Override
             public void onFailure(Call request, IOException e) {
-
             }
 
             @Override
@@ -243,9 +236,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ourTextView = text;
+                        mTextView = text;
                         TextView mResult = (TextView)findViewById(R.id.editText);
-                        mResult.setText(ourTextView);
+                        mResult.setText(mTextView);
                     }
                 });
             }

@@ -23,7 +23,10 @@ import hesso.mas.stdhbtests.R;
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     /**
-     *
+     * Called when the activity is first created. This is where you should do all of your
+     * normal static set up: create views, bind data to lists, etc. This method also provides
+     * you with a Bundle containing the activity's previously frozen state, if there was one.
+     * Always followed by onStart().
      *
      * @param savedInstanceState
      */
@@ -32,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Récupération de l'instance bouton préférences
         Button mPreferencesButton = (Button)findViewById(R.id.mDBtnpreferences);
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
         Button mSearchButton = (Button)findViewById(R.id.mBtnSearch);

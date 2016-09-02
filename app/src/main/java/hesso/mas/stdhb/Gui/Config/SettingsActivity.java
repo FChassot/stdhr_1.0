@@ -98,7 +98,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      */
     @Override
     public void onResume() {
-        super.onResume();  // Always call the superclass method first
+        super.onResume();
 
         /*EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
 
@@ -138,7 +138,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
 
-        // Combobox Technologie
         Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
         String lTechnoName = lCboCommunication.getSelectedItem().toString();
 
