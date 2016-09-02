@@ -14,6 +14,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Models.Basemodel;
+import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
@@ -46,6 +49,8 @@ public class RadarActivity extends AppCompatActivity {
 
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
         ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
+        ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
+        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
 
         // A Handler allows you to send and process Message
         // and Runnable objects associated with a thread's MessageQueue.
@@ -66,6 +71,11 @@ public class RadarActivity extends AppCompatActivity {
         updateMarkers(null);
 
         this.updateMarkers(lMarkers);
+
+        Preferences lPrefs = new Preferences(this);
+
+        Integer lRadiusOfSearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
+        mRadiusInfo.setText("Radius of search: " + lRadiusOfSearch + "[m]");
 
         //assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);

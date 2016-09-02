@@ -22,6 +22,14 @@
             android:id="@+id/mImgLogo" />
 
         <EditText
+            android:layout_width="142dp"
+            android:layout_height="301dp"
+            android:id="@+id/mEditTxtCitizenResult"
+            android:height="70px"
+            android:layout_gravity="top"
+            android:background="#9ebdf7" />
+
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -29,32 +37,26 @@
             android:textColor="#ffffff"
             android:ems="10"
             android:height="10px"
-            android:id="@+id/mTxtVille"
-            android:layout_weight="1" />
+            android:id="@+id/mTxtVille" />
 
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="12dp"
+            android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Date"
+            android:text="@string/date"
             android:textColor="#ffffff"
             android:ems="10"
-            android:height="10px"
-            android:id="@+id/mTxtDate"
-            android:layout_weight="1" />
-
-            <EditText
-                android:layout_width="142dp"
-                android:layout_height="186dp"
-                android:id="@+id/editText"
-                android:layout_gravity="bottom"
-                android:background="#9ebdf7" />
+            android:height="10dp"
+            android:id="@+id/mTxtPeriode"
+            android:layout_gravity="bottom"
+            android:layout_weight="0" />
 
             <Button
                 android:text="@string/lbl_request"
                 android:id="@+id/mBtnSearch"
                 android:layout_gravity="bottom"
-                android:layout_column="1" />
+                android:layout_column="1"
+                android:layout_width="wrap_content" />
     </TableLayout>
 
 </RelativeLayout>

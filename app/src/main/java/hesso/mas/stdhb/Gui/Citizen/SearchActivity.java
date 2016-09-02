@@ -125,7 +125,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             MyString.EMPTY_STRING);
 
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-            TextView mTxtDate = (TextView)findViewById(R.id.mTxtDate);
+            TextView mTxtDate = (TextView)findViewById(R.id.mTxtPeriode);
 
             String lPlace = mTxtPlace.getText().toString();
             String lDate = mTxtDate.getText().toString();
@@ -202,7 +202,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                // mTextView = lResponse;
 
-                TextView mResult = (TextView)findViewById(R.id.editText);
+                TextView mResult = (TextView)findViewById(R.id.mEditTxtCitizenResult);
 
                 mResult.setText(mTextView);
 
@@ -240,7 +240,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void run() {
                         mTextView = text;
-                        TextView mResult = (TextView)findViewById(R.id.editText);
+                        TextView mResult = (TextView)findViewById(R.id.mEditTxtCitizenResult);
                         mResult.setText(mTextView);
                     }
                 });

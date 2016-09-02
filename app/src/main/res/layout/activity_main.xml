@@ -34,7 +34,7 @@
         android:layout_marginTop="119dp"
         android:textColor="#DF013A"
         android:textStyle="bold"
-        android:textSize="24dp"
+        android:textSize="28dp"
         android:textIsSelectable="false" />
 
     <TextView
