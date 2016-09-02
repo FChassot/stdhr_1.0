@@ -17,8 +17,8 @@ public class Preferences {
 
     Context lContext;
 
+    // Constructor
     public Preferences(Context aContext) {
-
         lContext = aContext;
     }
 
@@ -30,14 +30,14 @@ public class Preferences {
      */
     public void setValue(String aKey, int aValue) {
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(lContext);
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(lContext);
 
         SharedPreferences.Editor editor = sharedPrefs.edit();
-
         editor.putInt(aKey, aValue);
 
-        // commit writes its data to persistent storage immediately, whereas 'apply' will handle it
-        // in the background
+        // commit writes its data to persistent storage immediately, whereas 'apply' will
+        // handle it in the background
         editor.apply();
     }
 
@@ -49,14 +49,14 @@ public class Preferences {
      */
     public void setValue(String aKey, String aValue) {
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(lContext);
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(lContext);
 
         SharedPreferences.Editor editor = sharedPrefs.edit();
-
         editor.putString(aKey, aValue);
 
-        // commit writes its data to persistent storage immediately, whereas 'apply' will handle it
-        // in the background
+        // commit writes its data to persistent storage immediately, whereas 'apply' will
+        // handle it in the background
         editor.apply();
     }
 
@@ -64,7 +64,7 @@ public class Preferences {
      * Retrieve an integer value from the preferences.
      *
      * @param aKey The name of the preference to retrieve.
-     * @param aDefValue Value to return if this preference does not exist.
+     * @param aDefaultValue Value to return if this preference does not exist.
      *
      * @return Returns the preference value if it exists, or defValue.  Throws
      * ClassCastException if there is a preference with this name that is not
@@ -72,9 +72,9 @@ public class Preferences {
      *
      * @throws ClassCastException
      */
-    public Integer getPrefValue(String aKey, Integer aDefValue) {
+    public Integer getPrefValue(String aKey, Integer aDefaultValue) {
 
-        Integer lValue = aDefValue;
+        Integer lValue = aDefaultValue;
 
         SharedPreferences lSharedPrefs =
             PreferenceManager.getDefaultSharedPreferences(lContext);
@@ -82,7 +82,7 @@ public class Preferences {
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {
                 try {
-                    lValue = lSharedPrefs.getInt(aKey, aDefValue);
+                    lValue = lSharedPrefs.getInt(aKey, aDefaultValue);
 
                 } catch (Exception aExc) {
                     Toast toast = Toast.makeText(null, aExc.getMessage(), Toast.LENGTH_SHORT);;
@@ -98,7 +98,7 @@ public class Preferences {
      * Retrieve an integer value from the preferences.
      *
      * @param aKey The name of the preference to retrieve.
-     * @param aDefValue Value to return if this preference does not exist.
+     * @param aDefaultValue Value to return if this preference does not exist.
      *
      * @return Returns the preference value if it exists, or defValue.  Throws
      * ClassCastException if there is a preference with this name that is not
@@ -106,9 +106,9 @@ public class Preferences {
      *
      * @throws ClassCastException
      */
-    public String getPrefValue(String aKey, String aDefValue) {
+    public String getPrefValue(String aKey, String aDefaultValue) {
 
-        String lValue = aDefValue;
+        String lValue = aDefaultValue;
 
         SharedPreferences lSharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(lContext);
@@ -116,7 +116,7 @@ public class Preferences {
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {
                 try {
-                    lValue = lSharedPrefs.getString(aKey, aDefValue);
+                    lValue = lSharedPrefs.getString(aKey, aDefaultValue);
 
                 } catch (Exception aExc) {
                     Toast toast = Toast.makeText(null, aExc.getMessage(), Toast.LENGTH_SHORT);;
@@ -162,46 +162,4 @@ public class Preferences {
         return lValue;
     }
 
-    /**
-     * This method allow to get the value corresponding to the given Key
-     *
-     * @param aKey The name of the preference to retrieve.
-     */
-    /**
-    public Location getValue(String aKey) {
-
-        if (aKey.equals(BaseConstants.Attr_Ray_Search)) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(lContext);
-
-            StringBuilder builder = new StringBuilder();
-
-            int lRayon = sharedPrefs.getInt(aKey, 0);
-
-            builder.append("\n Rayon: " + lRayon);
-
-            //TextView rayonSettingsView = (TextView) findViewById(R.id.textViewRayon);
-
-            //rayonSettingsView.setText(builder.toString());
-
-        } else {
-
-            Location lCoordonates = new Location("");
-
-            // coordonnées GPS
-            lCoordonates.setAltitude(829);
-            lCoordonates.setLatitude(46.6092369);
-            lCoordonates.setLongitude(7.029020100000025);
-
-            // accuracy (exactitude)
-            lCoordonates.setAccuracy(100);
-
-            //GpsLocationListener lGpsServices = new GpsLocationListener(this);
-
-            //lCoordonates = lGpsServices.getLocation();
-            return lCoordonates;
-
-        }
-
-        return null;
-    }*/
 }

@@ -22,8 +22,8 @@ import java.util.Locale;
  * Created by chf on 13.05.2016.
  *
  * This class is used for receiving notifications from the LocationManager when
- * the location has changed. These methods are called if the
- * LocationListener has been registered with the location manager service
+ * the location has changed. These methods are called if the LocationListener has
+ * been registered with the location manager service
  * using the {@link LocationManager#requestLocationUpdates(String, long, float, LocationListener)}
  * method.
  */
@@ -62,7 +62,7 @@ public final class GpsLocationListener implements LocationListener {
     /**
      * Function to get the user's current location
      *
-     * @return
+     * @return the user's current location
      */
     public Location getLocation() {
         try {

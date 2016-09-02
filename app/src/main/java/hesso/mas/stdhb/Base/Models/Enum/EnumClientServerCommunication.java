@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.Models;
+package hesso.mas.stdhb.Base.Models.Enum;
 
 /**
  * Created by chf on 25.08.2016.

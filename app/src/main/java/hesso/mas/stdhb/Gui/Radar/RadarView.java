@@ -2,8 +2,6 @@ package hesso.mas.stdhb.Gui.Radar;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import android.content.BroadcastReceiver;
-import android.content.IntentFilter;
 import android.os.*;
 
 import android.content.Context;
@@ -14,18 +12,12 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import hesso.mas.stdhb.Base.Constants.*;
 
-import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
-import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask2;
-import hesso.mas.stdhbtests.R;
 
 /**
  * Created by chf on 15.07.2016.

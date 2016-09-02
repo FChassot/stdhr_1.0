@@ -1,10 +1,11 @@
 package hesso.mas.stdhb.Base.QueryEngine;
 
 /**
- * Created by frede on 11.05.2016.
+ * Created by chf on 11.05.2016.
  */
-public class DoRequest {
+public class CitizenRequest {
 
+    // Constructor
     private void DoRequest() {}
 
 }

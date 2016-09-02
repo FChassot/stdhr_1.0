@@ -1,13 +1,13 @@
 package hesso.mas.stdhb.Communication.WsClientFactory;
 
-import hesso.mas.stdhb.Base.SparqlEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 
 /**
  * Created by chf on 23.08.2016.
  *
- * Factory for creating IWsClient objects.
+ * Factory to create IWsClient objects.
  */
 public interface IWsClientFactory {
 
@@ -16,6 +16,7 @@ public interface IWsClientFactory {
      *
      * @param aClientServerCommunication
      * @param aCitizenEndPoint
+     *
      * @return
      */
     IWsClient Create(

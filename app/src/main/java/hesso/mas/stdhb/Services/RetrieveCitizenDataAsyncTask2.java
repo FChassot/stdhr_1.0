@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import hesso.mas.stdhb.Base.SparqlEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsClient.Rdf4j.Rdf4jSparqlWsClient;

@@ -1,7 +1,7 @@
 package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
@@ -122,7 +122,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             String lCommTechnology =
                     lPrefs.getPrefValue(
-                            BaseConstants.Attr_Comm_Technology,
+                            BaseConstants.Attr_ClientServer_Communication,
                             MyString.EMPTY_STRING);
 
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);

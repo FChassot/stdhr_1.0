@@ -3,8 +3,8 @@ package hesso.mas.stdhb.Services;
 /**
  * Created by chf on 28.08.2016.
  *
- * AsyncTask enables proper and easy use of the UI thread. This class allows to perform background operations and publish
- * results on the UI thread without having to manipulate threads and/or handlers.
+ * AsyncTask enables proper and easy use of the UI thread. This class allows to perform background operations
+ * and publish results on the UI thread without having to manipulate threads and/or handlers.
  *
  * AsyncTask is designed to be a helper class around Thread and Handler and does not constitute a generic threading framework.
  * AsyncTasks should ideally be used for short operations (a few seconds at the most.)

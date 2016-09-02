@@ -10,9 +10,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Models.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
-import hesso.mas.stdhb.Base.Tools.Basemodel;
+import hesso.mas.stdhb.Base.Models.Basemodel;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhbtests.R;
@@ -43,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // Similar to another answer, but you can use an ArrayAdapter to populate based on an Enum class.
         // I would recommend overriding toString in the Enum class to make the values populated in the spinner more
         // user friendly.
-        Spinner lCboCommTechno = (Spinner) findViewById(R.id.Spinner01);
+        Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.Spinner01);
 
         ArrayAdapter adapter =
                 new ArrayAdapter(
@@ -51,19 +51,19 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         android.R.layout.simple_spinner_item,
                         EnumClientServerCommunication.values());
 
-        lCboCommTechno.setAdapter(adapter);
+        lCboClientServerCommunication.setAdapter(adapter);
 
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRayon);
         Preferences lPrefs = new Preferences(this);
 
-        String lCommTechnology = lPrefs.getPrefValue(BaseConstants.Attr_Comm_Technology, MyString.EMPTY_STRING);
-        EnumClientServerCommunication lEnumValue = EnumClientServerCommunication.valueOf(lCommTechnology);
-        lCboCommTechno.setSelection(lEnumValue.showValue());
+        /*String lClientServerCommunication = lPrefs.getPrefValue(BaseConstants.Attr_ClientServer_Communication, MyString.EMPTY_STRING);
+        EnumClientServerCommunication lEnumValue = EnumClientServerCommunication.valueOf(lClientServerCommunication);
+        lCboClientServerCommunication.setSelection(lEnumValue.showValue());*/
 
-        Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Ray_Search, Basemodel.NULL_KEY);
+        Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
 
         if (lRaySearch.equals(Basemodel.NULL_KEY)) {
-            lPrefs.setValue(BaseConstants.Attr_Ray_Search, 500);
+            lPrefs.setValue(BaseConstants.Attr_Search_Radius, 500);
             mRayon.setText(BaseConstants.Attr_Default_Ray_Search);
         } else {
             mRayon.setText(lRaySearch.toString());
@@ -128,7 +128,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         Preferences lPrefs = new Preferences(this);
         Integer lRay = Integer.parseInt(lRaySearch.getText().toString());
-        lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRay);
+        lPrefs.setValue(BaseConstants.Attr_Search_Radius, lRay);
 
         Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
         Boolean lMode = lRadarMode.isChecked();
@@ -139,9 +139,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
 
         Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
-        String lTechnoName = lCboCommunication.getSelectedItem().toString();
+        String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
-        lPrefs.setValue(BaseConstants.Attr_Comm_Technology, lTechnoName);
+        lPrefs.setValue(BaseConstants.Attr_ClientServer_Communication, lClientServerCommunication);
     }
 
     /*lSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()

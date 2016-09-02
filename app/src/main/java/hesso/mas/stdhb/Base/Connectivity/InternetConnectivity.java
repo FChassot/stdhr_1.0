@@ -1,6 +1,7 @@
 package hesso.mas.stdhb.Base.Connectivity;
 
 import android.content.Context;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -24,10 +25,10 @@ public class InternetConnectivity {
      */
     public boolean IsActive() {
 
-        ConnectivityManager connManager =
+        ConnectivityManager lConnManager =
             (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo lNetworkInfo = connManager.getActiveNetworkInfo();
+        NetworkInfo lNetworkInfo = lConnManager.getActiveNetworkInfo();
 
         if (lNetworkInfo != null && lNetworkInfo.isConnected()) {
             return true;

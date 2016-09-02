@@ -9,26 +9,27 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-import hesso.mas.stdhb.Base.SparqlEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 
 /**
  * Created by chf on 27.08.2016.
  *
+ * This class represents an Sparql WsClient (using androjena)
  */
 public class JenaSparqlWsClient implements IWsClient {
 
     private CitizenEndPoint mSparqlEndPoint;
 
     // Constructor
-    public JenaSparqlWsClient(
-            CitizenEndPoint aSparqlEndPoint
-    ) {
+    public JenaSparqlWsClient(CitizenEndPoint aSparqlEndPoint)
+    {
         mSparqlEndPoint = aSparqlEndPoint;
     }
 
     /**
+     * This method allows to execute a request on an ws endpoint
      *
      * @return
      */
@@ -36,7 +37,6 @@ public class JenaSparqlWsClient implements IWsClient {
 
         String lResult = MyString.EMPTY_STRING;
 
-        // DBpedia Request using Androjena
         System.out.println(aQuery);
 
         try {

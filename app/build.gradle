@@ -11,8 +11,6 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
-        // Enabling multidex support.
-        //multiDexEnabled true
     }
     buildTypes {
         release {
@@ -32,15 +30,20 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services:9.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
+
     compile files('../app/libs/eclipse-rdf4j-1.0-onejar.jar')   // rdf4j library, it works with Java 7
+    //compile files('../libs/eclipse-rdf4j-2.0-onejar.jar')     // rdf4j library, it works with Java 8 and above
+
+    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
     compile files('../app/libs/guava-18.0.jar')
-    //compile 'org.roboguice:roboguice:2.0'                     // ioc Framework for Android
+
+    // (roboguice) ioc Framework for Android
+    //compile 'org.roboguice:roboguice:2.0'
+
+    // Androjena libraries
     compile files('../app/libs/androjena_0.5.jar')
     compile files('../app/libs/arqoid_0.5.jar')
     compile files('../app/libs/icu4j-3.4.5.jar')
     compile files('../app/libs/iri-0.8.jar')
     compile files('../app/libs/slf4j-android-1.6.1-RC1.jar')
-    //compile 'com.android.support:multidex:1.0.0'
-    //compile files('../libs/lucenoid_3.0.2.jar')
-    //compile files('../libs/eclipse-rdf4j-2.0-onejar.jar')     // rdf4j library, it works with Java and above
 }

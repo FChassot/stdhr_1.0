@@ -5,5 +5,5 @@ package hesso.mas.stdhb.Base.Exceptions;
  *
  *
  */
-public class SthrExceptions {
+public class CitizenExceptions {
 }

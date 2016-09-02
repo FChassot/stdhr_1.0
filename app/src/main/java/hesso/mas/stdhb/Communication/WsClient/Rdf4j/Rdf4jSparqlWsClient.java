@@ -7,14 +7,14 @@ import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 
-import hesso.mas.stdhb.Base.SparqlEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 
 /**
  * Created by chf on 15.07.2016.
  *
- * This class represents a Sparql Web service Client.
+ * This class represents an Sparql WsClient (using rdf4j)
  */
 public class Rdf4jSparqlWsClient implements IWsClient {
 
