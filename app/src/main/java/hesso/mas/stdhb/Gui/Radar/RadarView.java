@@ -99,6 +99,7 @@ public class RadarView extends 	android.view.View {
             }
         };
 
+    public RadarMarker[] getMarkers() {return mMarkers;}
         /**
         * This method allows to update the markers received
          * by the radar.

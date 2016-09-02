@@ -74,4 +74,17 @@
         android:layout_toRightOf="@+id/mBtnStopRadar"
         android:layout_toEndOf="@+id/mBtnStopRadar" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/mDTxtViewNbrObject"
+        android:layout_above="@+id/mImgBack"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="52dp"
+        android:layout_toLeftOf="@+id/mBtnStopRadar"
+        android:layout_toStartOf="@+id/mBtnStopRadar"
+        android:textColor="#ee1616" />
+
 </RelativeLayout>

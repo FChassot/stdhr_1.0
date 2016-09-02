@@ -51,6 +51,7 @@ public class RadarActivity extends AppCompatActivity {
         ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
         ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+        TextView mNbrObjectDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
 
         // A Handler allows you to send and process Message
         // and Runnable objects associated with a thread's MessageQueue.
@@ -76,6 +77,7 @@ public class RadarActivity extends AppCompatActivity {
 
         Integer lRadiusOfSearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
         mRadiusInfo.setText("Radius of search: " + lRadiusOfSearch + "[m]");
+        mNbrObjectDetected.setText(mRadarView.getMarkers().length-1 + " cultural objects in the radar");
 
         //assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);
