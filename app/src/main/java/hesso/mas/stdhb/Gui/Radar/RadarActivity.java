@@ -11,8 +11,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import hesso.mas.stdhb.Gui.Citizen.SearchActivity;
+import hesso.mas.stdhb.Gui.Config.SettingsActivity;
+import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
+import hesso.mas.stdhb.Gui.MainActivity;
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
@@ -21,6 +26,8 @@ public class RadarActivity extends AppCompatActivity {
     RadarView mRadarView = null;
 
     android.os.Handler mHandler = null;
+
+    Button mBtnStopRadar = null;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up:
@@ -36,6 +43,9 @@ public class RadarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display);
 
         mRadarView = (RadarView) findViewById(R.id.radarView);
+
+        mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
+        ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
 
         // A Handler allows you to send and process Message
         // and Runnable objects associated with a thread's MessageQueue.
@@ -56,6 +66,12 @@ public class RadarActivity extends AppCompatActivity {
         updateMarkers(null);
 
         this.updateMarkers(lMarkers);
+
+        //assert mBtnStopRadar != null;
+        //mBtnStopRadar.setOnClickListener(this);
+
+        //assert mImgBack != null;
+        //mImgBack.setOnClickListener(this);
     }
 
     /**
@@ -145,4 +161,24 @@ public class RadarActivity extends AppCompatActivity {
         }
     }
 
+    private void updateBtnText() {
+        if (mBtnStopRadar.getText() == "STOP RADAR")
+        {mBtnStopRadar.setText("DEMARRER");}
+        else {mBtnStopRadar.setText("STOP RADAR");}
+    }
+
+    /**
+     * The onClick() method is called when a button is actually clicked (or tapped).
+     * This method is called by the listener.
+     */
+    public void onClick(View view){
+        if (view.getId()==R.id.mBtnStopRadar){
+            this.stopAnimation(this.mRadarView);
+            this.updateBtnText();
+        }
+        if (view.getId()==R.id.mImgBack){
+            Intent intent = new Intent(RadarActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
 }

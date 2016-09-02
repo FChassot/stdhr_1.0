@@ -6,7 +6,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
+import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 
 /**
  * Created by chf on 20.06.2016.
@@ -54,7 +59,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      */
     protected String doInBackground(String... urls) {
 
-        /*String lPlace = urls[0];
+        String lPlace = urls[0];
         String lDate = urls[1];
         EnumClientServerCommunication lClientServerCommunicationMode = EnumClientServerCommunication.ANDROJENA;
         String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
@@ -81,7 +86,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
             this.mException = e;
             return null;
         }
-*/
+
         return MyString.EMPTY_STRING;
     }
 
