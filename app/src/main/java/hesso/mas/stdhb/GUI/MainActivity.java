@@ -39,9 +39,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
         Button mSearchButton = (Button)findViewById(R.id.mBtnSearch);
         Button mMapButton = (Button)findViewById(R.id.mBtnMap);
-        ImageView mImgViewSettings = (ImageView)findViewById(R.id.mImgViewSettings);
 
-        // Positionner un listener sur ce bouton
+        // Set a lister of this button
         assert mPreferencesButton != null;
         mPreferencesButton.setOnClickListener(this);
 
