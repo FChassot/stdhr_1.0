@@ -18,7 +18,7 @@ import hesso.mas.stdhbtests.R;
 /**
  * Created by chf on 11.06.2016.
  *
- * This class represent the main Activity of the Stdhr application
+ * This class represents the main Activity of the application
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Button mSearchButton = (Button)findViewById(R.id.mBtnSearch);
         Button mMapButton = (Button)findViewById(R.id.mBtnMap);
 
-        // Set a lister of this button
+        // Set a listener of this button
         assert mPreferencesButton != null;
         mPreferencesButton.setOnClickListener(this);
 
@@ -52,22 +52,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         assert mMapButton != null;
         mMapButton.setOnClickListener(this);
-
-        /*Preferences lPrefs = new Preferences(this);
-
-        // Affiche les coordonnées GPS actuel de l'appareil
-        Location lActualLocation = lPrefs.getValue("location");
-
-        StringBuilder builder = new StringBuilder();
-
-        if (lActualLocation != null) {
-            builder.append("\n Coordonnées GPS: " + lActualLocation.toString());
-
-            TextView rayonSettingsView = (TextView) findViewById(R.id.textViewRayon);
-
-            assert rayonSettingsView != null;
-            rayonSettingsView.setText(builder.toString());
-        }*/
     }
 
     /**
@@ -89,10 +73,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
         if (view.getId()==R.id.mBtnMap){
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(intent);
-        }
-        if (view.getId()==R.id.mImgViewSettings){
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
     }

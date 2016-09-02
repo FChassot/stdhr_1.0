@@ -42,9 +42,20 @@ public class RadarActivity extends AppCompatActivity {
         Handler mHandler = new android.os.Handler();
 
         this.startAnimation(mRadarView);
-        //this.startUpdateMarkersFromCitizen();
 
-        //this.updateMarkers(lMarkers);
+        RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
+        RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
+        RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
+
+        RadarMarker lMarkers[] = new RadarMarker[3];
+
+        lMarkers[0] = lMarker3;
+        lMarkers[1] = lMarker2;
+        lMarkers[2] = lMarker1;
+
+        updateMarkers(null);
+
+        this.updateMarkers(lMarkers);
     }
 
     /**

@@ -2,6 +2,7 @@ package hesso.mas.stdhb.Gui.Radar;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import android.location.Location;
 import android.os.*;
 
 import android.content.Context;
@@ -253,7 +254,7 @@ public class RadarView extends 	android.view.View {
                 }
 
                 aPaint.setStyle(Paint.Style.STROKE);
-                aPaint.setColor(Color.DKGRAY);
+                aPaint.setColor(Color.WHITE);
             }
         }
     //endregion
@@ -283,6 +284,15 @@ public class RadarView extends 	android.view.View {
             }
 
             Intent lIntent = new Intent(myContext, MapsActivity.class);
+
+            Location lCoordinates = new Location("");
+
+            // coordonnées GPS
+            lCoordinates.setAltitude(829);
+            lCoordinates.setLatitude(46.6092369);
+            lCoordinates.setLongitude(7.029020100000025);
+
+            lIntent.putExtra(MapsActivity.RADAR_EXTRA, lCoordinates);
 
             RadarMarker lCulturalObject =
                     FindTheNearestCulturalObject(lXCoordinate, lYCoordinate);

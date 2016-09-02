@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Activer Radar"
+                android:textColor="#ffffff"
                 android:id="@+id/RadarSwitch"
                 android:layout_column="22"
                 android:checked="false" />
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Rayon de recherche [m]"
+                android:textColor="#ffffff"
                 android:id="@+id/mLblRaySearch"
                 android:layout_column="22" />
 
@@ -69,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Restreindre la recherche"
+                android:textColor="#ffffff"
                 android:id="@+id/mDtxtSearchMode"
                 android:layout_column="22" />
         </TableRow>
@@ -126,6 +129,7 @@
             <TextView
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Mode de communication"
+                android:textColor="#ffffff"
                 android:id="@+id/CommunicationMode"
                 android:layout_column="22"
                 android:layout_above="@+id/btnSave"
@@ -142,6 +146,7 @@
             android:layout_height="match_parent">
 
             <Spinner android:id="@+id/Spinner01"
+                android:textColor="#ffffff"
                 android:layout_column="22" />
         </TableRow>
     </TableLayout>

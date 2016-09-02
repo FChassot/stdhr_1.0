@@ -25,6 +25,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="119dp"
+        android:textColor="#DF013A"
         android:textStyle="bold"
         android:textSize="24dp"
         android:textIsSelectable="false" />
@@ -37,7 +38,7 @@
         android:layout_below="@+id/mDBtnpreferences"
         android:layout_toRightOf="@+id/mBtnradar"
         android:layout_marginTop="116dp"
-        android:textColor="#d13b3b"
+        android:textColor="#ffffff"
         android:textSize="32sp"
         android:textStyle="bold"
         android:layout_alignParentLeft="true"
