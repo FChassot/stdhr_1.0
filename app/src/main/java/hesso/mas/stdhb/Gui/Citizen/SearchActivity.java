@@ -153,14 +153,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 String aDate,
                 EnumClientServerCommunication aClientServerCommunication) {
 
-            if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
+            /*if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
                         new RetrieveCitizenDataAsyncTask(this, RetrieveCitizenDataAsyncTask.ACTION1);
 
                 lTask.execute(aPlace, aDate);
 
                 return;
-            }
+            }*/
 
             if (aClientServerCommunication.equals(EnumClientServerCommunication.RDF4J)) {
                 RetrieveCitizenDataAsyncTask2 lTask2 =
@@ -171,12 +171,21 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
+            else {
+                RetrieveCitizenDataAsyncTask2 lTask2 =
+                        new RetrieveCitizenDataAsyncTask2(this, RetrieveCitizenDataAsyncTask2.ACTION1);
+
+                lTask2.execute(aPlace, aDate);
+
+                return;
+            }
+
             // means technology not implemented
-            Context context = getApplicationContext();
+            /*Context context = getApplicationContext();
             CharSequence text = "The type of server communication " + aClientServerCommunication + " has not been yet implemented!";
 
             Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-            toast.show();
+            toast.show();*/
         }
 
         private class Receiver extends BroadcastReceiver {

@@ -65,11 +65,13 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
         String lDate = urls[1];
 
         try {
-            CitizenEndPoint lEndPointWs = new CitizenEndPoint();
-            lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
-            lEndPointWs.CitizenRepository("CityZenDM");
+            CitizenEndPoint lEndPointWs =
+                    new CitizenEndPoint(
+                            "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/",
+                            "CityZenDM");
 
-            Rdf4jSparqlWsClient lRdf4jSparqlWsClient = new Rdf4jSparqlWsClient(lEndPointWs);
+            Rdf4jSparqlWsClient lRdf4jSparqlWsClient =
+                    new Rdf4jSparqlWsClient(lEndPointWs);
 
             String lQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
