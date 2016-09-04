@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
+import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
@@ -60,23 +64,31 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      */
     protected String doInBackground(String... urls) {
 
-        String lResponse = MyString.EMPTY_STRING;
         String lPlace = urls[0];
-        String lDate = urls[1];
+        String lPeriod = urls[1];
+
+        EnumClientServerCommunication lClientServerCommunicationMode =
+                EnumClientServerCommunication.RDF4J;
+
+        String lQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
+
+        String lResponse = MyString.EMPTY_STRING;
 
         try {
+            IWsClientFactory lFactory = new WsClientFactory();
+
             CitizenEndPoint lEndPointWs =
                     new CitizenEndPoint(
                             "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/",
                             "CityZenDM");
 
-            Rdf4jSparqlWsClient lRdf4jSparqlWsClient =
-                    new Rdf4jSparqlWsClient(lEndPointWs);
-
-            String lQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
+            IWsClient lWsClient =
+                    lFactory.Create(
+                            lClientServerCommunicationMode,
+                            lEndPointWs);
 
             try {
-                lResponse = lRdf4jSparqlWsClient.executeRequest(lQuery);
+                lResponse = lWsClient.executeRequest(lQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();

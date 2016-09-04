@@ -65,18 +65,21 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
     protected String doInBackground(String... urls) {
 
         String lPlace = urls[0];
-        String lDate = urls[1];
+        String lPeriod = urls[1];
+
         EnumClientServerCommunication lClientServerCommunicationMode =
                 EnumClientServerCommunication.ANDROJENA;
+
         String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
+
         String lResponse = MyString.EMPTY_STRING;
 
         if (mAction == ACTION1) {
             try {
                 IWsClientFactory lFactory = new WsClientFactory();
 
-                CitizenEndPoint lEndPointWs = new CitizenEndPoint();
-                lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
+                CitizenEndPoint lEndPointWs =
+                        new CitizenEndPoint("http://dbpedia.org/sparql", "");
 
                 IWsClient lWsClient =
                         lFactory.Create(

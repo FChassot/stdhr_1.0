@@ -128,7 +128,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             TextView mTxtDate = (TextView)findViewById(R.id.mTxtPeriode);
 
             String lPlace = mTxtPlace.getText().toString();
-            String lDate = mTxtDate.getText().toString();
+            String lPeriod = mTxtDate.getText().toString();
 
             EnumClientServerCommunication lTechnology = EnumClientServerCommunication.ANDROJENA;
 
@@ -136,7 +136,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lTechnology = EnumClientServerCommunication.RDF4J;
             }
 
-            startAsyncSearch(lPlace, lDate, lTechnology);
+            startAsyncSearch(lPlace, lPeriod, lTechnology);
         }
     }
 
@@ -150,14 +150,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
          */
         private void startAsyncSearch(
                 String aPlace,
-                String aDate,
+                String aPeriod,
                 EnumClientServerCommunication aClientServerCommunication) {
 
             /*if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
                         new RetrieveCitizenDataAsyncTask(this, RetrieveCitizenDataAsyncTask.ACTION1);
 
-                lTask.execute(aPlace, aDate);
+                lTask.execute(aPlace, aPeriod);
 
                 return;
             }*/
@@ -166,7 +166,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 RetrieveCitizenDataAsyncTask2 lTask2 =
                         new RetrieveCitizenDataAsyncTask2(this, RetrieveCitizenDataAsyncTask2.ACTION1);
 
-                lTask2.execute(aPlace, aDate);
+                lTask2.execute(aPlace, aPeriod);
 
                 return;
             }
@@ -175,7 +175,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 RetrieveCitizenDataAsyncTask2 lTask2 =
                         new RetrieveCitizenDataAsyncTask2(this, RetrieveCitizenDataAsyncTask2.ACTION1);
 
-                lTask2.execute(aPlace, aDate);
+                lTask2.execute(aPlace, aPeriod);
 
                 return;
             }
@@ -207,9 +207,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (lResponse.equals(MyString.EMPTY_STRING)) {
                     mTextView = "no response from the server!";
+                } else {
+                    mTextView = lResponse;
                 }
-
-               // mTextView = lResponse;
 
                 TextView mResult = (TextView)findViewById(R.id.mEditTxtCitizenResult);
 
