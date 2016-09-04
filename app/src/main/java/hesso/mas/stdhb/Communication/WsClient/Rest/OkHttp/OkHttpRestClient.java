@@ -2,11 +2,11 @@ package hesso.mas.stdhb.Communication.WsClient.Rest.OkHttp;
 
 import java.io.IOException;
 
-import okhttp3.MediaType;
+/*import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.Response;*/
 
 /**
  * Created by chf on 20.06.2016.
@@ -15,7 +15,7 @@ import okhttp3.Response;
  */
 public class OkHttpRestClient {
 
-    OkHttpClient client = new OkHttpClient();
+    //OkHttpClient client = new OkHttpClient();
 
     /**
      * Code request here
@@ -25,19 +25,20 @@ public class OkHttpRestClient {
      * @throws IOException
      */
     public String doGetRequest(String url) throws IOException {
-        Request request =
+        /*Request request =
            new Request.Builder()
               .url(url)
               .build();
 
         Response response = client.newCall(request).execute();
-        return response.body().string();
+        return response.body().string();*/
+        return "";
     }
 
     // post request code here
 
-    public static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
+    //public static final MediaType JSON
+      //      = MediaType.parse("application/json; charset=utf-8");
 
     // test data
     public String bowlingJson(String player1, String player2) {
@@ -61,13 +62,14 @@ public class OkHttpRestClient {
      */
     public String doPostRequest(String url, String json) throws IOException {
 
-        RequestBody body = RequestBody.create(JSON, json);
+        /*RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.body().string();
+        return response.body().string();*/
+        return "";
     }
 
     /*public static void main(String[] args) throws IOException {

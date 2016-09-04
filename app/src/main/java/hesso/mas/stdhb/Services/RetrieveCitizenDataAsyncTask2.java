@@ -21,7 +21,10 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
 
     private Exception mException;
 
-    private static final String TAG = "RetrCityStoriesDataTask";
+    private static final String TAG = "RetrieveCitizenDataTask";
+
+    public static final String ACTION1 = "EXECUTE_REQUEST";
+
     public static final String HTTP_RESPONSE = "httpResponse";
 
     private Context mContext;

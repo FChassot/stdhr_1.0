@@ -34,9 +34,8 @@ public class RadarView extends 	android.view.View {
         Handler mHandler = new android.os.Handler();
 
         private Context myContext;
+
         private RadarMarker[] mMarkers;
-        private int mRadarSearchTempo = 200;
-        private int mTempoIndex = 0;
 
         private final int POINT_ARRAY_SIZE = 35;
 
@@ -99,12 +98,15 @@ public class RadarView extends 	android.view.View {
             }
         };
 
-    public RadarMarker[] getMarkers() {return mMarkers;}
+        public synchronized RadarMarker[] getMarkers() {
+            return mMarkers;
+        }
+
         /**
         * This method allows to update the markers received
          * by the radar.
         */
-        public void updateMarkers(RadarMarker[] aMarkers) {
+        public synchronized void updateMarkers(RadarMarker[] aMarkers) {
             mMarkers = aMarkers;
         }
 
@@ -147,12 +149,6 @@ public class RadarView extends 	android.view.View {
             super.onDraw(aCanvas);
 
             Paint lLocalPaint = latestPaint[0];
-
-            mTempoIndex += 1;
-
-            if (mTempoIndex==mRadarSearchTempo){
-                //mMarkers = startAsyncSearch();
-            }
 
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
@@ -226,11 +222,13 @@ public class RadarView extends 	android.view.View {
             Canvas aCanvas,
             int aMaxRayOfRadar) {
 
-            if (mMarkers != null){
-                if (mMarkers.length > 0) {
+            RadarMarker[] lMarkers = getMarkers();
+
+            if (lMarkers != null){
+                if (lMarkers.length > 0) {
                     int lIndex = 0;
 
-                    for (RadarMarker lMarker : mMarkers) {
+                    for (RadarMarker lMarker : lMarkers) {
                         if (lIndex == 0) {
                             aCanvas.drawCircle(
                                     aMaxRayOfRadar / 2,

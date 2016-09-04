@@ -15,13 +15,13 @@ import android.view.View;
 
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhbtests.R;
-import okhttp3.Call;
+/*import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.Response;*/
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -42,7 +42,7 @@ import java.io.IOException;
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Variable of type OkHttpClient
-    OkHttpClient mOkHttpClient;
+    //OkHttpClient mOkHttpClient;
 
     private boolean mReceiverStarted;
 
@@ -83,7 +83,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
         mWakeLock.acquire();
 
-        IntentFilter lFilter = new IntentFilter("LOAD_DATA");
+        IntentFilter lFilter = new IntentFilter("EXECUTE_REQUEST");
         this.registerReceiver(mReceiver, lFilter);
     }
 
@@ -153,10 +153,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 String aDate,
                 EnumClientServerCommunication aClientServerCommunication) {
 
-            RetrieveCitizenDataAsyncTask lTask;
-
             if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
-                lTask = new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
+                RetrieveCitizenDataAsyncTask lTask =
+                        new RetrieveCitizenDataAsyncTask(this, RetrieveCitizenDataAsyncTask.ACTION1);
 
                 lTask.execute(aPlace, aDate);
 
@@ -164,7 +163,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             if (aClientServerCommunication.equals(EnumClientServerCommunication.RDF4J)) {
-                RetrieveCitizenDataAsyncTask2 lTask2 = new RetrieveCitizenDataAsyncTask2(this, "LOAD_DATA");
+                RetrieveCitizenDataAsyncTask2 lTask2 =
+                        new RetrieveCitizenDataAsyncTask2(this, RetrieveCitizenDataAsyncTask2.ACTION1);
 
                 lTask2.execute(aPlace, aDate);
 
@@ -215,7 +215,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      *
      */
-    public void HttpClientPost(OkHttpClient aOkHttpClient){
+   /* public void HttpClientPost(OkHttpClient aOkHttpClient){
         MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
         String myJson = "{}";
 
@@ -246,5 +246,5 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 });
             }
         });
-    }
+    }*/
 }

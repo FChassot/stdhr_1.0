@@ -23,7 +23,12 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
 
     private Exception mException;
 
-    private static final String TAG = "RetrCitizenDataTask";
+    private static final String TAG = "RetrieveCitizenDataTask";
+
+    public static final String ACTION1 = "EXECUTE_REQUEST";
+
+    public static final String ACTION2 = "SEARCH_CULTURAL_OBJECTS";
+
     public static final String HTTP_RESPONSE = "httpResponse";
 
     private Context mContext;
@@ -61,33 +66,38 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
 
         String lPlace = urls[0];
         String lDate = urls[1];
-        EnumClientServerCommunication lClientServerCommunicationMode = EnumClientServerCommunication.ANDROJENA;
+        EnumClientServerCommunication lClientServerCommunicationMode =
+                EnumClientServerCommunication.ANDROJENA;
         String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
         String lResponse = MyString.EMPTY_STRING;
 
-        try {
-            IWsClientFactory lFactory = new WsClientFactory();
-
-            CitizenEndPoint lEndPointWs = new CitizenEndPoint();
-            lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
-
-            IWsClient lWsClient =
-                    lFactory.Create(
-                            lClientServerCommunicationMode,
-                            lEndPointWs);
-
+        if (mAction == ACTION1) {
             try {
-                lResponse = lWsClient.executeRequest(lStrSparqlQuery);
+                IWsClientFactory lFactory = new WsClientFactory();
 
+                CitizenEndPoint lEndPointWs = new CitizenEndPoint();
+                lEndPointWs.CitizenServerUri("http://dbpedia.org/sparql");
+
+                IWsClient lWsClient =
+                        lFactory.Create(
+                                lClientServerCommunicationMode,
+                                lEndPointWs);
+
+                try {
+                    lResponse = lWsClient.executeRequest(lStrSparqlQuery);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } catch (Exception e) {
-                e.printStackTrace();
+                this.mException = e;
+                return null;
             }
-        } catch (Exception e) {
-            this.mException = e;
-            return null;
         }
 
-        return MyString.EMPTY_STRING;
+        if (mAction == ACTION2) {}
+
+        return lResponse;
     }
 
     /*
@@ -96,7 +106,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      * la méthode doInBackground.
      *
      * Runs on the UI thread after doInBackground(Params...).
-     *The specified result is the value returned by doInBackground(Params...).
+     * The specified result is the value returned by doInBackground(Params...).
      */
     protected void onPostExecute(String aResult) {
         // TODO: check this.exception

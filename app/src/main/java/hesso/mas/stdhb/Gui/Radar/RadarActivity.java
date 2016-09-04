@@ -3,6 +3,7 @@ package hesso.mas.stdhb.Gui.Radar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
@@ -30,7 +32,11 @@ public class RadarActivity extends AppCompatActivity {
 
     android.os.Handler mHandler = null;
 
+    private Receiver mReceiver;
+
     Button mBtnStopRadar = null;
+
+    TextView mNbrObjectDetected = null;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up:
@@ -46,44 +52,72 @@ public class RadarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display);
 
         mRadarView = (RadarView) findViewById(R.id.radarView);
-
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
         ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
         ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        TextView mNbrObjectDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
+        mNbrObjectDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
 
         // A Handler allows you to send and process Message
         // and Runnable objects associated with a thread's MessageQueue.
         Handler mHandler = new android.os.Handler();
 
+        mReceiver = new Receiver();
+
+        IntentFilter lFilter =
+                new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
+
+        this.registerReceiver(mReceiver, lFilter);
+
+        startAsyncSearch();
+
         this.startAnimation(mRadarView);
-
-        RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-        RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
-        RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
-
-        RadarMarker lMarkers[] = new RadarMarker[3];
-
-        lMarkers[0] = lMarker3;
-        lMarkers[1] = lMarker2;
-        lMarkers[2] = lMarker1;
-
-        updateMarkers(null);
-
-        this.updateMarkers(lMarkers);
 
         Preferences lPrefs = new Preferences(this);
 
-        Integer lRadiusOfSearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
+        Integer lRadiusOfSearch =
+                lPrefs.getPrefValue(
+                        BaseConstants.Attr_Search_Radius,
+                        Basemodel.NULL_KEY);
+
         mRadiusInfo.setText("Radius of search: " + lRadiusOfSearch + "[m]");
-        mNbrObjectDetected.setText(mRadarView.getMarkers().length-1 + " cultural objects in the radar");
+
+        updateRadarText(mNbrObjectDetected);
+
+        //startUpdateMarkersFromCitizen();
 
         //assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);
 
         //assert mImgBack != null;
         //mImgBack.setOnClickListener(this);
+    }
+
+    private void updateRadarText(TextView aTextView) {
+        if (mRadarView.getMarkers() != null) {
+            aTextView.setText(
+                    mRadarView.getMarkers().length-1 +
+                            " cultural objects in the radar");
+        }
+    }
+    /**
+     * The final call you receive before your activity is destroyed.
+     * This can happen either because the activity is finishing (someone called finish() on it,
+     * or because the system is temporarily destroying this instance of the activity to save space.
+     * You can distinguish between these two scenarios with the isFinishing() method.
+     */
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+
+        try {
+            this.unregisterReceiver(mReceiver);
+            //mWakeLock.release();                      //keep screen on
+
+        } catch (Exception e) {
+            //Log.e(MatabbatManager.TAG, getClass() + " Releasing receivers-" + e.getMessage());
+        }
     }
 
     /**
@@ -106,46 +140,56 @@ public class RadarActivity extends AppCompatActivity {
         this.stopAnimation(mRadarView);
     }
 
-    public void stopAnimation(View view) {
+    /**
+     *
+     * @param aView
+     */
+    public void stopAnimation(View aView) {
         if (mRadarView != null) mRadarView.stopAnimation();
     }
 
-    public void updateMarkers(RadarMarker[] lMarkers) {
-        if (mRadarView != null) mRadarView.updateMarkers(lMarkers);
+    /**
+     *
+     * @param aMarkers
+     */
+    public synchronized void updateMarkers(RadarMarker[] aMarkers) {
+        if (mRadarView != null) mRadarView.updateMarkers(aMarkers);
     }
 
-    public void startAnimation(View view) {
+    /**
+     *
+     * @param aView
+     */
+    public void startAnimation(View aView) {
         if (mRadarView != null) mRadarView.startAnimation();
     }
 
-    /*Runnable mTick = new Runnable() {
+    Runnable mTick = new Runnable() {
         @Override
         public void run() {
             startAsyncSearch();
             mHandler.postDelayed(this, 10);
         }
-    };*/
+    };
 
     /**
      * This method allows to start the animation
      */
-    /*public void startUpdateMarkersFromCitizen() {
+    public void startUpdateMarkersFromCitizen() {
         mHandler.removeCallbacks(mTick);
         mHandler.post(mTick);
-    }*/
+    }
 
     /**
      * Start an Async Search on the endPoint Sparql Server
      *
      */
-    private RadarMarker[] startAsyncSearch() {
+    private void startAsyncSearch() {
 
-        RetrieveCitizenDataAsyncTask lRetrieveTask;
+        RetrieveCitizenDataAsyncTask lRetrieveTask =
+                new RetrieveCitizenDataAsyncTask(this, "SEARCH_CULTURAL_OBJECTS");
 
-        lRetrieveTask = new RetrieveCitizenDataAsyncTask(this, "LOAD_DATA");
-        lRetrieveTask.execute("", "");
-        RadarMarker[] lMarkers = null;
-        return lMarkers;
+        lRetrieveTask.execute(MyString.EMPTY_STRING, MyString.EMPTY_STRING);
     }
 
     private class Receiver extends BroadcastReceiver {
@@ -169,13 +213,14 @@ public class RadarActivity extends AppCompatActivity {
             lMarkers[1] = lMarker2;
             lMarkers[2] = lMarker1;
 
-            updateMarkers(null);
+            updateMarkers(lMarkers);
+            updateRadarText(mNbrObjectDetected);
         }
     }
 
-    private void updateBtnText() {
+    private void updateButtonText() {
         if (mBtnStopRadar.getText() == "STOP RADAR")
-        {mBtnStopRadar.setText("DEMARRER");}
+        {mBtnStopRadar.setText("START RADAR");}
         else {mBtnStopRadar.setText("STOP RADAR");}
     }
 
@@ -186,7 +231,7 @@ public class RadarActivity extends AppCompatActivity {
     public void onClick(View view){
         if (view.getId()==R.id.mBtnStopRadar){
             this.stopAnimation(this.mRadarView);
-            this.updateBtnText();
+            this.updateButtonText();
         }
         if (view.getId()==R.id.mImgBack){
             Intent intent = new Intent(RadarActivity.this, MainActivity.class);
