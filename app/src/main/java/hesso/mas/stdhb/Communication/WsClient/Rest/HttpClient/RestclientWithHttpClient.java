@@ -1,6 +1,6 @@
 package hesso.mas.stdhb.Communication.WsClient.Rest.HttpClient;
 
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+/*import org.apache.http.client.entity.UrlEncodedFormEntity;
 
 import java.util.ArrayList;
 import java.io.BufferedReader;
@@ -21,14 +21,14 @@ import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.HttpUriRequest;*/
 
 /**
  * Created by chf on 11.05.2016.
  */
 public class RestclientWithHttpClient {
 
-    public enum RequestMethod
+    /*public enum RequestMethod
     {
         GET,
         POST
@@ -126,7 +126,7 @@ public class RestclientWithHttpClient {
                 break;
             }
         }
-    }
+    }*/
 
     /**
      * Method to execute the request
@@ -134,7 +134,7 @@ public class RestclientWithHttpClient {
      * @param request
      * @param aUrl
      */
-    private void executeRequest(HttpUriRequest request, String aUrl)
+    /*private void executeRequest(HttpUriRequest request, String aUrl)
     {
         HttpClient lHttpClient = new DefaultHttpClient();
 
@@ -163,14 +163,14 @@ public class RestclientWithHttpClient {
             lHttpClient.getConnectionManager().shutdown();
             e.printStackTrace();
         }
-    }
+    }*/
 
     /**
      *
      * @param aInputStream
      * @return
      */
-    private static String convertStreamToString(InputStream aInputStream) {
+    /*private static String convertStreamToString(InputStream aInputStream) {
 
         BufferedReader lBufferedReader = new BufferedReader(new InputStreamReader(aInputStream));
         StringBuilder lStringBuilder = new StringBuilder();
@@ -191,5 +191,5 @@ public class RestclientWithHttpClient {
             }
         }
         return lStringBuilder.toString();
-    }
+    }*/
 }

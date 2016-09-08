@@ -3,8 +3,8 @@ package hesso.mas.stdhb.Communication.WsClientFactory;
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 
-import hesso.mas.stdhb.Communication.WsClient.Androjena.JenaSparqlWsClient;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.Communication.WsClient.Androjena.JenaSparqlWsClient;
 import hesso.mas.stdhb.Communication.WsClient.Rdf4j.Rdf4jSparqlWsClient;
 
 /**
@@ -41,7 +41,7 @@ public class WsClientFactory implements IWsClientFactory {
         }
 
         if (lWsClient == null) {
-            //throw new Exception("1");
+            lWsClient = new JenaSparqlWsClient(aCitizenEndPoint);
         }
 
         return lWsClient;

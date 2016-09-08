@@ -13,7 +13,7 @@ public class CitizenEndPoint extends WsEndPoint {
     private String mCitizenServerUri = MyString.EMPTY_STRING;
 
     // Citizen Repository Name
-    private String mCitizenRepository = MyString.EMPTY_STRING;
+    private String mCitizenRepositoryName = MyString.EMPTY_STRING;
 
     // Constructor
     public CitizenEndPoint() {}
@@ -21,10 +21,10 @@ public class CitizenEndPoint extends WsEndPoint {
     // Constructor
     public CitizenEndPoint(
             String aServerUri,
-            String aRepository) {
+            String aRepositoryName) {
 
         mCitizenServerUri = aServerUri;
-        mCitizenRepository = aRepository;
+        mCitizenRepositoryName = aRepositoryName;
     }
 
     // Setter
@@ -38,13 +38,13 @@ public class CitizenEndPoint extends WsEndPoint {
     }
 
     // Setter
-    public void CitizenRepository(String aCitizenRepository) {
-        mCitizenRepository = aCitizenRepository;
+    public void CitizenRepositoryName(String aCitizenRepository) {
+        mCitizenRepositoryName = aCitizenRepository;
     }
 
     // Getter
-    public String CitizenRepository(){
-        return mCitizenRepository;
+    public String CitizenRepositoryName(){
+        return mCitizenRepositoryName;
     }
 
 }

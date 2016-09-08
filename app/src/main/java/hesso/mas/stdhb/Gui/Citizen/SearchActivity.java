@@ -4,6 +4,7 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Services.IRetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
@@ -52,7 +53,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private String mTextView;
 
-    private static final String TAG = "AATestFragment";
+    private static final String TAG = "AsynSearch";
 
     private PowerManager.WakeLock mWakeLock;
 
@@ -71,6 +72,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // create a view
         setContentView(R.layout.activity_search);
 
+        // to retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
         // Set a listener of this button
@@ -83,7 +85,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
         mWakeLock.acquire();
 
-        IntentFilter lFilter = new IntentFilter("EXECUTE_REQUEST");
+        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION1);
         this.registerReceiver(mReceiver, lFilter);
     }
 
@@ -116,66 +118,85 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (view.getId()==R.id.mBtnSearch) {
 
             // Get the technology using for the communication between the
-            // client and the service. This is configured in the preferences
+            // client and the server. This is configured in the preferences.
             Preferences lPrefs = new Preferences(this);
 
-            String lCommTechnology =
+            String lClientServerCommunicationMode =
                     lPrefs.getPrefValue(
                             BaseConstants.Attr_ClientServer_Communication,
                             MyString.EMPTY_STRING);
 
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-            TextView mTxtDate = (TextView)findViewById(R.id.mTxtPeriode);
+            TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
 
             String lPlace = mTxtPlace.getText().toString();
-            String lPeriod = mTxtDate.getText().toString();
+            String lPeriod = mTxtPeriod.getText().toString();
 
-            EnumClientServerCommunication lTechnology = EnumClientServerCommunication.ANDROJENA;
+            String lRequest = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
-            if (lCommTechnology.equals(EnumClientServerCommunication.RDF4J.toString())){
-                lTechnology = EnumClientServerCommunication.RDF4J;
-            }
-
-            startAsyncSearch(lPlace, lPeriod, lTechnology);
+            startAsyncSearch(
+                    lPlace,
+                    lPeriod,
+                    lRequest,
+                    lClientServerCommunicationMode);
         }
     }
 
     //region asyncTask (to request the Citizen Endpoint)
 
         /**
-         * Start an Async Search on the endPoint Sparql Server
+         * Start an Async Search on a Sparql endPoint
          *
          * @param aPlace
-         * @param aDate
+         * @param aPeriod
          */
         private void startAsyncSearch(
                 String aPlace,
                 String aPeriod,
-                EnumClientServerCommunication aClientServerCommunication) {
+                String aRequest,
+                String aClientServerArchitecture) {
 
-            /*if (aClientServerCommunication.equals(EnumClientServerCommunication.ANDROJENA)) {
+            if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
-                        new RetrieveCitizenDataAsyncTask(this, RetrieveCitizenDataAsyncTask.ACTION1);
+                        new RetrieveCitizenDataAsyncTask(
+                                this,
+                                RetrieveCitizenDataAsyncTask.ACTION1);
 
-                lTask.execute(aPlace, aPeriod);
+                lTask.execute(
+                        aPlace,
+                        aPeriod,
+                        aRequest,
+                        aClientServerArchitecture);
 
                 return;
-            }*/
+            }
 
-            if (aClientServerCommunication.equals(EnumClientServerCommunication.RDF4J)) {
-                RetrieveCitizenDataAsyncTask2 lTask2 =
-                        new RetrieveCitizenDataAsyncTask2(this, RetrieveCitizenDataAsyncTask2.ACTION1);
+            if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
+                RetrieveCitizenDataAsyncTask2 lTask =
+                        new RetrieveCitizenDataAsyncTask2(
+                                this,
+                                RetrieveCitizenDataAsyncTask2.ACTION1);
 
-                lTask2.execute(aPlace, aPeriod);
+                lTask.execute(
+                        aPlace,
+                        aPeriod,
+                        aRequest,
+                        aClientServerArchitecture);
 
                 return;
             }
 
             else {
-                RetrieveCitizenDataAsyncTask2 lTask2 =
-                        new RetrieveCitizenDataAsyncTask2(this, RetrieveCitizenDataAsyncTask2.ACTION1);
+                RetrieveCitizenDataAsyncTask2 lTask =
+                        new RetrieveCitizenDataAsyncTask2(
+                                this,
+                                RetrieveCitizenDataAsyncTask2.ACTION1);
 
-                lTask2.execute(aPlace, aPeriod);
+                lTask.execute(
+                        aPlace,
+                        aPeriod,
+                        aRequest,
+                        aClientServerArchitecture);
 
                 return;
             }

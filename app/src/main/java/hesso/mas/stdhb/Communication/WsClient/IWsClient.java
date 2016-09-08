@@ -7,8 +7,8 @@ public interface IWsClient {
 
     /**
      *
-     * @param aSparqlQuery
+     * @param aQuery
      * @return
      */
-    String executeRequest(String aSparqlQuery);
+    String executeRequest(String aQuery);
 }

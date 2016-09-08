@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Basemodel;
+import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.Citizen.SearchActivity;
@@ -189,7 +190,11 @@ public class RadarActivity extends AppCompatActivity {
         RetrieveCitizenDataAsyncTask lRetrieveTask =
                 new RetrieveCitizenDataAsyncTask(this, "SEARCH_CULTURAL_OBJECTS");
 
-        lRetrieveTask.execute(MyString.EMPTY_STRING, MyString.EMPTY_STRING);
+        lRetrieveTask.execute(
+                MyString.EMPTY_STRING,
+                MyString.EMPTY_STRING,
+                MyString.EMPTY_STRING,
+                EnumClientServerCommunication.ANDROJENA.toString());
     }
 
     private class Receiver extends BroadcastReceiver {

@@ -3,7 +3,17 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
-    useLibrary 'org.apache.http.legacy'
+    // To continue using the Apache HTTP APIs,
+    // you must first declare the following compile-time dependency in your build.gradle file:
+    //useLibrary 'org.apache.http.legacy'
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 
     defaultConfig {
         applicationId "hesso.mas.stdhb"
@@ -23,28 +33,23 @@ android {
     //targetCompatibility = '1.7'
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services:9.2.1'
+    compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
+    compile fileTree(dir: 'libs/Androjena', include: ['*.jar'])
     //compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    //compile 'org.roboguice:roboguice:2.0'                 //ioc Framework for Android
 
-    compile files('../app/libs/eclipse-rdf4j-1.0-onejar.jar')   // rdf4j library, it works with Java 7
-    //compile files('../app/libs/eclipse-rdf4j-2.0-onejar.jar')     // rdf4j library, it works with Java 8 and above
+    // Client functionality for communicating with an RDF4J server over HTTP.
+    //compile group: 'org.eclipse.rdf4j', name: 'rdf4j-http-client', version: '1.0'
+    // <Virtual> repository that communicates with a (remote) repository over the HTTP protocol.
+    //compile group: 'org.eclipse.rdf4j', name: 'rdf4j-repository-http', version: '1.0'
 
-    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
-    compile files('../app/libs/guava-18.0.jar')
-
-    // (roboguice) ioc Framework for Android
-    //compile 'org.roboguice:roboguice:2.0'
+    //compile group: 'cz.msebera.android' , name: 'httpclient', version: '4.4.1.1'
+    //compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+    //compile files('../app/libs/guava-18.0.jar')
     //compile group: 'xerces', name: 'xerces', version: '2.4.0'
-
-    // Androjena libraries
-    compile files('../app/libs/androjena_0.5.jar')
-    compile files('../app/libs/arqoid_0.5.jar')
-    compile files('../app/libs/icu4j-3.4.5.jar')
-    compile files('../app/libs/iri-0.8.jar')
-    compile files('../app/libs/slf4j-android-1.6.1-RC1.jar')
 }

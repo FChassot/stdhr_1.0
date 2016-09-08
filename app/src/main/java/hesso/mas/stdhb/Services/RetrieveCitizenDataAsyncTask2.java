@@ -62,15 +62,13 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      *
      * @param urls
      */
-    protected String doInBackground(String... urls) {
+    public String doInBackground(String... urls) {
 
         String lPlace = urls[0];
         String lPeriod = urls[1];
-
+        String lQuery = urls[2];
         EnumClientServerCommunication lClientServerCommunicationMode =
-                EnumClientServerCommunication.RDF4J;
-
-        String lQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
+                EnumClientServerCommunication.valueOf(urls[3]);
 
         String lResponse = MyString.EMPTY_STRING;
 
@@ -88,7 +86,8 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
                             lEndPointWs);
 
             try {
-                lResponse = lWsClient.executeRequest(lQuery);
+                lResponse =
+                        lWsClient.executeRequest(lQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();

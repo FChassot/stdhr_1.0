@@ -61,6 +61,25 @@ public class Preferences {
     }
 
     /**
+     * Set a Value to the preferences.
+     *
+     * @param aKey The name of the preference to set.
+     * @param aValue The value of the preference to set.
+     */
+    public void setValue(String aKey, Boolean aValue) {
+
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(lContext);
+
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putBoolean(aKey, aValue);
+
+        // commit writes its data to persistent storage immediately, whereas 'apply' will
+        // handle it in the background
+        editor.apply();
+    }
+
+    /**
      * Retrieve an integer value from the preferences.
      *
      * @param aKey The name of the preference to retrieve.

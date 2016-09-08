@@ -9,14 +9,15 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Tools.MyString;
+
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 
 /**
  * Created by chf on 27.08.2016.
  *
- * This class represents an Sparql WsClient (using androjena)
+ * This class represents a Web service Client (using androjena)
  */
 public class JenaSparqlWsClient implements IWsClient {
 
@@ -29,7 +30,7 @@ public class JenaSparqlWsClient implements IWsClient {
     }
 
     /**
-     * This method allows to execute a request on an ws endpoint
+     * This method allows to execute a request on the Sparql endpoint
      *
      * @return
      */
@@ -44,7 +45,7 @@ public class JenaSparqlWsClient implements IWsClient {
 
             QueryExecution lQueryExecution =
                     QueryExecutionFactory.sparqlService(
-                            mSparqlEndPoint.CitizenServerUri(),
+                            mSparqlEndPoint.CitizenServerUri() + "repositories/" + mSparqlEndPoint.CitizenRepositoryName(),
                             lQuery);
 
             ResultSet lResults = lQueryExecution.execSelect();
@@ -52,12 +53,15 @@ public class JenaSparqlWsClient implements IWsClient {
             while (lResults.hasNext())
             {
                 QuerySolution lBinding = lResults.nextSolution();
-                Resource lSubject = (Resource) lBinding.get("Subject");
-                lResult += lSubject.getURI();
-                //System.out.println("Subject: "+lSubject.getURI());
+
+                Resource lSubject = (Resource) lBinding.get("Concept");
+
+                if (lSubject != null){
+                    lResult += lSubject.getURI();
+                }
             }
         } catch (Exception aException) {
-            aException.printStackTrace();
+            lResult = aException.getMessage();
         }
         finally {
         }

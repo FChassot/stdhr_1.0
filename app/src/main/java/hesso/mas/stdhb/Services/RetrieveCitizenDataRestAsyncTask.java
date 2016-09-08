@@ -5,16 +5,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.HttpResponse;
+/*import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;*/
 
 /**
  * Android RetrieveCitizenDataRestAsyncTask (REST) from the Android Recipes book.
  */
-public class RetrieveCitizenDataRestAsyncTask extends AsyncTask<HttpUriRequest, Void, String>
+/*public class RetrieveCitizenDataRestAsyncTask extends AsyncTask<HttpUriRequest, Void, String>
 {
     private static final String TAG = "AARestTask";
     public static final String HTTP_RESPONSE = "httpResponse";
@@ -66,4 +66,4 @@ public class RetrieveCitizenDataRestAsyncTask extends AsyncTask<HttpUriRequest, 
         mContext.sendBroadcast(intent);
     }
 
-}
+}*/

@@ -45,39 +45,39 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // user friendly.
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.Spinner01);
 
-        ArrayAdapter adapter =
+        ArrayAdapter lAdapter =
                 new ArrayAdapter(
                         this,
                         android.R.layout.simple_spinner_item,
                         EnumClientServerCommunication.values());
 
-        lCboClientServerCommunication.setAdapter(adapter);
+        lCboClientServerCommunication.setAdapter(lAdapter);
 
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRadius);
-        Preferences lPrefs = new Preferences(this);
 
-        String lClientServerCommunication = lPrefs.getPrefValue(BaseConstants.Attr_ClientServer_Communication, MyString.EMPTY_STRING);
-        EnumClientServerCommunication lEnumValue = EnumClientServerCommunication.valueOf(lClientServerCommunication);
+        Preferences lPrefs = new Preferences(this);
+        String lClientServerCommunication =
+                lPrefs.getPrefValue(
+                        BaseConstants.Attr_ClientServer_Communication,
+                        MyString.EMPTY_STRING);
+
+        EnumClientServerCommunication lEnumValue =
+                EnumClientServerCommunication.valueOf(lClientServerCommunication);
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
 
         if (lRaySearch.equals(Basemodel.NULL_KEY)) {
-            lPrefs.setValue(BaseConstants.Attr_Search_Radius, 500);
+            lPrefs.setValue(BaseConstants.Attr_Search_Radius, BaseConstants.Attr_Default_Ray_Search);
             mRayon.setText(BaseConstants.Attr_Default_Ray_Search);
         } else {
             mRayon.setText(lRaySearch.toString());
         }
 
-        Integer lRadarMode = lPrefs.getPrefValue(BaseConstants.Attr_Radar_Switch, 0);
+        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
         Switch lRadarSwitch = (Switch)findViewById(R.id.RadarSwitch);
 
-        if (lRadarMode == 1) {
-            lRadarSwitch.setChecked(true);
-        }
-        else {
-            lRadarSwitch.setChecked(false);
-        }
+        lRadarSwitch.setChecked(lRadarMode);
     }
 
     /**
@@ -100,11 +100,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     public void onResume() {
         super.onResume();
 
-        /*EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRayon);
-
-        Preferences lPrefs = new Preferences(this);
-        Integer lRayon = Integer.parseInt(lRaySearch.getText().toString());
-        lPrefs.setValue(BaseConstants.Attr_Ray_Search, lRayon);*/
     }
 
     /**
@@ -122,35 +117,29 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      */
     @Override
     public void onPause() {
-        super.onPause();  // Always call the superclass method first
+        super.onPause();
 
         EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRadius);
 
         Preferences lPrefs = new Preferences(this);
         Integer lRay = Integer.parseInt(lRaySearch.getText().toString());
-        lPrefs.setValue(BaseConstants.Attr_Search_Radius, lRay);
 
         Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
         Boolean lMode = lRadarMode.isChecked();
 
-        Integer lIntMode = 0;
-        if (lMode == true) {lIntMode = 1;}
-
-        lPrefs.setValue(BaseConstants.Attr_Radar_Switch, lIntMode);
-
         Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
-        lPrefs.setValue(BaseConstants.Attr_ClientServer_Communication, lClientServerCommunication);
+        lPrefs.setValue(
+                BaseConstants.Attr_Search_Radius,
+                lRay);
+
+        lPrefs.setValue(
+                BaseConstants.Attr_Radar_Switch,
+                lMode);
+
+        lPrefs.setValue(
+                BaseConstants.Attr_ClientServer_Communication,
+                lClientServerCommunication);
     }
-
-    /*lSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-    {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-        {
-            Log.d(arrayOfObjects[position]._id);
-        }
-
-    });*/
 }

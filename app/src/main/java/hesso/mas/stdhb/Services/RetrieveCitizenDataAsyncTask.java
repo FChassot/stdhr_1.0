@@ -8,10 +8,11 @@ import android.util.Log;
 
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Tools.MyString;
+
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 
 /**
  * Created by chf on 20.06.2016.
@@ -62,15 +63,15 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      *
      * @param urls
      */
-    protected String doInBackground(String... urls) {
+    public String doInBackground(String... urls) {
 
         String lPlace = urls[0];
         String lPeriod = urls[1];
-
+        String lQuery = urls[2];
         EnumClientServerCommunication lClientServerCommunicationMode =
-                EnumClientServerCommunication.ANDROJENA;
+                EnumClientServerCommunication.valueOf(urls[3]);
 
-        String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
+        //String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
         String lResponse = MyString.EMPTY_STRING;
 
@@ -87,7 +88,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
                                 lEndPointWs);
 
                 try {
-                    lResponse = lWsClient.executeRequest(lStrSparqlQuery);
+                    lResponse = lWsClient.executeRequest(lQuery);
 
                 } catch (Exception e) {
                     e.printStackTrace();
