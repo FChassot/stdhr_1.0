@@ -9,6 +9,7 @@ import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 
+import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
@@ -26,7 +27,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
     // Constructor
     public Rdf4jSparqlWsClient(CitizenEndPoint aSparqlEndPoint) {
 
-        Assert.assertNotNull(aSparqlEndPoint);
+        Checks.AssertNotNull(aSparqlEndPoint);
 
         mSparqlEndPoint = aSparqlEndPoint;
     }
@@ -34,15 +35,15 @@ public class Rdf4jSparqlWsClient implements IWsClient {
     /**
      * This method allows to execute a request on the Sparql endpoint
      *
-     * @param aSparqlQuery
+     * @param aQuery
      *
      * @return
      */
     public String executeRequest(
-        String aSparqlQuery) {
+        String aQuery) {
 
         // Request Sparql using Rdf4j
-        System.out.println(aSparqlQuery);
+        System.out.println(aQuery);
 
         String lResult = MyString.EMPTY_STRING;
 
@@ -61,7 +62,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
             TupleQueryResult lResponse =
                     lRepositoryConnection.prepareTupleQuery(
                             QueryLanguage.SPARQL,
-                            aSparqlQuery).evaluate();
+                            aQuery).evaluate();
 
             while (lResponse.hasNext())
             {

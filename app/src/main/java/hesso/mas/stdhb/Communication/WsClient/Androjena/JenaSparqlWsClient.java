@@ -9,6 +9,8 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 
+import junit.framework.Assert;
+
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
@@ -24,13 +26,17 @@ public class JenaSparqlWsClient implements IWsClient {
     private CitizenEndPoint mSparqlEndPoint;
 
     // Constructor
-    public JenaSparqlWsClient(CitizenEndPoint aSparqlEndPoint)
-    {
+    public JenaSparqlWsClient(CitizenEndPoint aSparqlEndPoint) {
+
+        Assert.assertNotNull(aSparqlEndPoint);
+
         mSparqlEndPoint = aSparqlEndPoint;
     }
 
     /**
      * This method allows to execute a request on the Sparql endpoint
+     *
+     * @param aQuery
      *
      * @return
      */
@@ -43,9 +49,13 @@ public class JenaSparqlWsClient implements IWsClient {
         try {
             Query lQuery = QueryFactory.create(aQuery);
 
+            String lCitizenServerUri = mSparqlEndPoint.CitizenServerUri() +
+                    "repositories/" +
+                    mSparqlEndPoint.CitizenRepositoryName();
+
             QueryExecution lQueryExecution =
                     QueryExecutionFactory.sparqlService(
-                            mSparqlEndPoint.CitizenServerUri() + "repositories/" + mSparqlEndPoint.CitizenRepositoryName(),
+                            lCitizenServerUri,
                             lQuery);
 
             ResultSet lResults = lQueryExecution.execSelect();
