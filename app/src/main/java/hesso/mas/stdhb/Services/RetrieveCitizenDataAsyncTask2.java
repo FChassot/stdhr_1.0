@@ -18,8 +18,8 @@ import hesso.mas.stdhb.Communication.WsClient.Rdf4j.Rdf4jSparqlWsClient;
 /**
  * Created by chf on 20.06.2016.
  *
- * This class represents a thread used to retrieve Data of the City-Stories
- * Endpoint Sparql.
+ * This class represents a thread used to retrieve Data of the Citizen
+ * Server.
  */
 public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, String> {
 
@@ -38,8 +38,8 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
     private ProgressDialog mProgress;
 
     public RetrieveCitizenDataAsyncTask2(
-            Context aContext,
-            String aAction)
+        Context aContext,
+        String aAction)
     {
         mContext = aContext;
         mAction = aAction;
@@ -86,8 +86,7 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
                             lEndPointWs);
 
             try {
-                lResponse =
-                        lWsClient.executeRequest(lQuery);
+                lResponse = lWsClient.executeRequest(lQuery);
 
             } catch (Exception e) {
                 e.printStackTrace();

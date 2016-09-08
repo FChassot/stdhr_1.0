@@ -39,8 +39,8 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
     private ProgressDialog mProgress;
 
     public RetrieveCitizenDataAsyncTask(
-            Context aContext,
-            String aAction)
+        Context aContext,
+        String aAction)
     {
         mContext = aContext;
         mAction = aAction;
@@ -70,8 +70,6 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
         String lQuery = urls[2];
         EnumClientServerCommunication lClientServerCommunicationMode =
                 EnumClientServerCommunication.valueOf(urls[3]);
-
-        //String lStrSparqlQuery = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
 
         String lResponse = MyString.EMPTY_STRING;
 

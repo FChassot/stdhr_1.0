@@ -132,7 +132,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lPlace = mTxtPlace.getText().toString();
             String lPeriod = mTxtPeriod.getText().toString();
 
-            String lRequest = "select distinct ?Concept where {[] a ?Concept} LIMIT 1";
+            String lRequest = "select distinct ?Concept where {[] a ?Concept} LIMIT 10";
 
             startAsyncSearch(
                     lPlace,
