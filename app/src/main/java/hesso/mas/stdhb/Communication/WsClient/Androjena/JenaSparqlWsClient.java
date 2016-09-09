@@ -1,20 +1,20 @@
 package hesso.mas.stdhb.Communication.WsClient.Androjena;
 
+import junit.framework.Assert;
+
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
-
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Resource;
 
-import junit.framework.Assert;
+import com.hp.hpl.jena.rdf.model.Resource;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 
 /**
  * Created by chf on 27.08.2016.
@@ -24,6 +24,9 @@ import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 public class JenaSparqlWsClient implements IWsClient {
 
     private CitizenEndPoint mWsEndpoint;
+
+    // It's not possible to use the default constructor to instanciate this class
+    private JenaSparqlWsClient() {}
 
     // Constructor
     public JenaSparqlWsClient(CitizenEndPoint aWsEndpoint) {
@@ -38,7 +41,7 @@ public class JenaSparqlWsClient implements IWsClient {
      *
      * @param aQuery
      *
-     * @return
+     * @return The result of the request
      */
     public String executeRequest(String aQuery) {
 

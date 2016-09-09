@@ -8,9 +8,7 @@ import junit.framework.Assert;
 public final class Checks<T> {
 
     // It's not possible to instanciate this class
-    private Checks()
-    {
-    }
+    private Checks() {}
 
     /**
      * Checks that the parameter isn't null.

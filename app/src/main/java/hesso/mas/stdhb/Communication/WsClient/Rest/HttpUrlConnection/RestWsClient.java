@@ -1,9 +1,9 @@
 package hesso.mas.stdhb.Communication.WsClient.Rest.HttpUrlConnection;
 
-/*import java.io.*;
+import java.io.*;
 import java.net.*;
+import java.net.URL;
 import java.io.InputStream;
-import java.net.URL;*/
 
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 
@@ -12,24 +12,25 @@ import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
  *
  * Class
  */
-public class RestclientWithHttpUrlConnection {
+public class RestWsClient {
 
     /**
      *
-     * @param aCitizenEndPoint
+     * @param aWsEndpoint represents the WsEndpoint on which the request will be done
      *
-     * @return
+     * @return result from the request
      */
-    /*public static String DoHttpBinding(CitizenEndPoint aCitizenEndPoint) {
+    public static String executeRequest(CitizenEndPoint aWsEndpoint) {
 
         String lUrlStr = "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+*+where+%7B%0D%0A+++%3Fcategorie+rdfs%3Alabel+%22%C5%92uvre+conserv%C3%A9e+au+Louvre%22%40fr+.%0D%0A+++%3Foeuvre+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FwikiPageWikiLink%3E+%3Fcategorie%0D%0A+%7D+LIMIT+1000&format=text%2Fhtml&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=o";
 
-        String lResult = "nothing";
+        String lResult = "no response!";
+        HttpURLConnection lUrlConnection = null;
 
         try {
             URL lUrl = new URL(lUrlStr);
 
-            HttpURLConnection lUrlConnection = (HttpURLConnection) lUrl.openConnection();
+            lUrlConnection = (HttpURLConnection) lUrl.openConnection();
 
             try {
                 InputStream lInputStream = new BufferedInputStream(lUrlConnection.getInputStream());
@@ -44,10 +45,13 @@ public class RestclientWithHttpUrlConnection {
             e.printStackTrace();
         }
         finally {
+            if (lUrlConnection != null) {
+                lUrlConnection.disconnect();
+            }
         }
 
         return lResult;
-    }*/
+    }
 
     /**
      * Method to read the result of the request
@@ -58,7 +62,7 @@ public class RestclientWithHttpUrlConnection {
      *
      * @throws IOException
      */
-    /*private static String readStream(InputStream aInputStream) throws IOException {
+    private static String readStream(InputStream aInputStream) throws IOException {
 
         StringBuilder lStringBuilder = new StringBuilder();
         InputStreamReader lInputStreamReader = new InputStreamReader(aInputStream);
@@ -72,5 +76,5 @@ public class RestclientWithHttpUrlConnection {
         aInputStream.close();
 
         return lStringBuilder.toString();
-    }*/
+    }
 }

@@ -24,6 +24,9 @@ public class Rdf4jSparqlWsClient implements IWsClient {
 
     private CitizenEndPoint mWsEndpoint;
 
+    // It's not possible to use the default constructor to instanciate this class
+    private Rdf4jSparqlWsClient() {}
+
     // Constructor
     public Rdf4jSparqlWsClient(CitizenEndPoint aWsEndpoint) {
 
@@ -35,9 +38,9 @@ public class Rdf4jSparqlWsClient implements IWsClient {
     /**
      * This method allows to execute a request on the Sparql endpoint
      *
-     * @param aQuery
+     * @param aQuery The (sparql) request
      *
-     * @return
+     * @return The result of the request
      */
     public String executeRequest(
         String aQuery) {
