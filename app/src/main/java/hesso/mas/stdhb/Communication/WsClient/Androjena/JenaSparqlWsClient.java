@@ -23,14 +23,14 @@ import hesso.mas.stdhb.Communication.WsClient.IWsClient;
  */
 public class JenaSparqlWsClient implements IWsClient {
 
-    private CitizenEndPoint mSparqlEndPoint;
+    private CitizenEndPoint mWsEndpoint;
 
     // Constructor
-    public JenaSparqlWsClient(CitizenEndPoint aSparqlEndPoint) {
+    public JenaSparqlWsClient(CitizenEndPoint aWsEndpoint) {
 
-        Assert.assertNotNull(aSparqlEndPoint);
+        Assert.assertNotNull(aWsEndpoint);
 
-        mSparqlEndPoint = aSparqlEndPoint;
+        mWsEndpoint = aWsEndpoint;
     }
 
     /**
@@ -49,13 +49,11 @@ public class JenaSparqlWsClient implements IWsClient {
         try {
             Query lQuery = QueryFactory.create(aQuery);
 
-            String lCitizenServerUri = mSparqlEndPoint.CitizenServerUri() +
-                    "repositories/" +
-                    mSparqlEndPoint.CitizenRepositoryName();
+            String lService = mWsEndpoint.Service();
 
             QueryExecution lQueryExecution =
                     QueryExecutionFactory.sparqlService(
-                            lCitizenServerUri,
+                            lService,
                             lQuery);
 
             ResultSet lResults = lQueryExecution.execSelect();

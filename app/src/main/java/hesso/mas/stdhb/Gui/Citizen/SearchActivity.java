@@ -2,6 +2,7 @@ package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Services.IRetrieveCitizenDataAsyncTask;
@@ -132,7 +133,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lPlace = mTxtPlace.getText().toString();
             String lPeriod = mTxtPeriod.getText().toString();
 
-            String lRequest = "select distinct ?Concept where {[] a ?Concept} LIMIT 10";
+            //String lRequest = "select distinct ?Concept where {[] a ?Concept} LIMIT 10";
+            String lRequest = CitizenRequests.GetSearchObjectTyp();
 
             startAsyncSearch(
                     lPlace,

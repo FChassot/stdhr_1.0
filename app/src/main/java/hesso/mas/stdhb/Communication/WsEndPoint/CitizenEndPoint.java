@@ -15,6 +15,8 @@ public class CitizenEndPoint extends WsEndPoint {
     // Citizen Repository Name
     private String mCitizenRepositoryName = MyString.EMPTY_STRING;
 
+    private String mService = MyString.EMPTY_STRING;
+
     // Constructor
     public CitizenEndPoint() {}
 
@@ -47,4 +49,8 @@ public class CitizenEndPoint extends WsEndPoint {
         return mCitizenRepositoryName;
     }
 
+    // Getter
+    public String Service(){
+        return mCitizenServerUri + "repositories/" + mCitizenRepositoryName;
+    }
 }

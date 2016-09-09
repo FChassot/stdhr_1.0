@@ -72,7 +72,7 @@ public class RadarActivity extends AppCompatActivity {
 
         startAsyncSearch();
 
-        this.startAnimation(mRadarView);
+        this.startRadar(mRadarView);
 
         Preferences lPrefs = new Preferences(this);
 
@@ -97,8 +97,7 @@ public class RadarActivity extends AppCompatActivity {
     private void updateRadarText(TextView aTextView) {
         if (mRadarView.getMarkers() != null) {
             aTextView.setText(
-                    mRadarView.getMarkers().length-1 +
-                            " cultural objects in the radar");
+                    mRadarView.getMarkers().length - 1 + " cultural objects in proximity!");
         }
     }
     /**
@@ -138,14 +137,14 @@ public class RadarActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
-        this.stopAnimation(mRadarView);
+        this.stopRadar(mRadarView);
     }
 
     /**
      *
      * @param aView
      */
-    public void stopAnimation(View aView) {
+    public void stopRadar(View aView) {
         if (mRadarView != null) mRadarView.stopAnimation();
     }
 
@@ -161,7 +160,7 @@ public class RadarActivity extends AppCompatActivity {
      *
      * @param aView
      */
-    public void startAnimation(View aView) {
+    public void startRadar(View aView) {
         if (mRadarView != null) mRadarView.startAnimation();
     }
 
@@ -235,7 +234,7 @@ public class RadarActivity extends AppCompatActivity {
      */
     public void onClick(View view){
         if (view.getId()==R.id.mBtnStopRadar){
-            this.stopAnimation(this.mRadarView);
+            this.stopRadar(this.mRadarView);
             this.updateButtonText();
         }
         if (view.getId()==R.id.mImgBack){

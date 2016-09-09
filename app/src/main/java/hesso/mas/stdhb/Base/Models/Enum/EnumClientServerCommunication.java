@@ -7,9 +7,9 @@ package hesso.mas.stdhb.Base.Models.Enum;
  */
 public enum EnumClientServerCommunication {
 
-    UNDEFINED(0), SOAP(1), REST(2), OKHTTP(3), RDF4J(4), ANDROJENA(5);
+    UNDEFINED(0), RDF4J(1), ANDROJENA(2), REST(3), OKHTTP(4), ;
 
-    //RETROFIT, SPRING, VOLLEY
+    //RETROFIT, SPRING, VOLLEY, SOAP
 
     private Integer value ;
 

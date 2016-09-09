@@ -15,13 +15,13 @@ public final class Checks<T> {
     /**
      * Checks that the parameter isn't null.
      *
-     * @param aObj The object that is to be tested.
-     * @param <T> he type of the object.
+     * @param aObject The object that is to be tested.
+     * @param <T> The type of the object.
      */
-    public static <T> void AssertNotNull(T aObj)
+    public static <T> void AssertNotNull(T aObject)
     {
-        if (aObj == null) {
-            Assert.assertNotNull("Object can't be null.");
+        if (aObject == null) {
+            Assert.assertNotNull("Object cannot be null.");
         }
     }
 }

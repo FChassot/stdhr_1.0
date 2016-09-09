@@ -22,14 +22,14 @@ import hesso.mas.stdhb.Communication.WsClient.IWsClient;
  */
 public class Rdf4jSparqlWsClient implements IWsClient {
 
-    private CitizenEndPoint mSparqlEndPoint;
+    private CitizenEndPoint mWsEndpoint;
 
     // Constructor
-    public Rdf4jSparqlWsClient(CitizenEndPoint aSparqlEndPoint) {
+    public Rdf4jSparqlWsClient(CitizenEndPoint aWsEndpoint) {
 
-        Checks.AssertNotNull(aSparqlEndPoint);
+        Checks.AssertNotNull(aWsEndpoint);
 
-        mSparqlEndPoint = aSparqlEndPoint;
+        mWsEndpoint = aWsEndpoint;
     }
 
     /**
@@ -49,8 +49,8 @@ public class Rdf4jSparqlWsClient implements IWsClient {
 
         Repository lCitizenRepository =
                 new HTTPRepository(
-                        mSparqlEndPoint.CitizenServerUri(),
-                        mSparqlEndPoint.CitizenRepositoryName());
+                        mWsEndpoint.CitizenServerUri(),
+                        mWsEndpoint.CitizenRepositoryName());
 
         RepositoryConnection lRepositoryConnection = null;
 
