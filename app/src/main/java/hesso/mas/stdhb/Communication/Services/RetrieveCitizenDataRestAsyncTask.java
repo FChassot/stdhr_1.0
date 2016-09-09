@@ -1,9 +1,4 @@
-package hesso.mas.stdhb.Services;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.util.Log;
+package hesso.mas.stdhb.Communication.Services;
 
 /*import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

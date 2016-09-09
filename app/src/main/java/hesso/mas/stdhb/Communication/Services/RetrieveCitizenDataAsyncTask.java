@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Services;
+package hesso.mas.stdhb.Communication.Services;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,27 +7,28 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.Tools.MyString;
+
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.Base.Tools.MyString;
-
-import hesso.mas.stdhb.Communication.WsClient.Rdf4j.Rdf4jSparqlWsClient;
 
 /**
  * Created by chf on 20.06.2016.
  *
- * This class represents a thread used to retrieve Data of the Citizen
- * Server.
+ * This class represents a thread used to retrieve Data of the City-Stories
+ * Endpoint Sparql.
  */
-public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, String> {
+public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String> {
 
     private Exception mException;
 
     private static final String TAG = "RetrieveCitizenDataTask";
 
     public static final String ACTION1 = "EXECUTE_REQUEST";
+
+    public static final String ACTION2 = "SEARCH_CULTURAL_OBJECTS";
 
     public static final String HTTP_RESPONSE = "httpResponse";
 
@@ -37,7 +38,7 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
 
     private ProgressDialog mProgress;
 
-    public RetrieveCitizenDataAsyncTask2(
+    public RetrieveCitizenDataAsyncTask(
         Context aContext,
         String aAction)
     {
@@ -72,29 +73,31 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
 
         String lResponse = MyString.EMPTY_STRING;
 
-        try {
-            IWsClientFactory lFactory = new WsClientFactory();
-
-            CitizenEndPoint lEndPointWs =
-                    new CitizenEndPoint(
-                            "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/",
-                            "CityZenDM");
-
-            IWsClient lWsClient =
-                    lFactory.Create(
-                            lClientServerCommunicationMode,
-                            lEndPointWs);
-
+        if (mAction == ACTION1) {
             try {
-                lResponse = lWsClient.executeRequest(lQuery);
+                IWsClientFactory lFactory = new WsClientFactory();
 
+                CitizenEndPoint lEndPointWs =
+                        new CitizenEndPoint("http://dbpedia.org/sparql", "");
+
+                IWsClient lWsClient =
+                        lFactory.Create(
+                                lClientServerCommunicationMode,
+                                lEndPointWs);
+
+                try {
+                    lResponse = lWsClient.executeRequest(lQuery);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } catch (Exception e) {
-                e.printStackTrace();
+                this.mException = e;
+                return null;
             }
-        } catch (Exception e) {
-            this.mException = e;
-            return null;
         }
+
+        if (mAction == ACTION2) {}
 
         return lResponse;
     }

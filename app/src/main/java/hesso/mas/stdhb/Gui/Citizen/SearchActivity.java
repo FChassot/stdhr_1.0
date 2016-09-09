@@ -5,8 +5,7 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Services.IRetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
 import android.os.PowerManager;
@@ -15,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.view.View;
 
-import hesso.mas.stdhb.Services.RetrieveCitizenDataAsyncTask2;
+import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhbtests.R;
 /*import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,9 +30,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.IOException;
 
 /**
  * Created by chf on 11.06.2016.
