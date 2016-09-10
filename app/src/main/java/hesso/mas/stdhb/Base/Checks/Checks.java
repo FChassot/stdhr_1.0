@@ -22,4 +22,17 @@ public final class Checks<T> {
             Assert.assertNotNull("Object cannot be null.");
         }
     }
+
+    /**
+     * Checks that the parameter isn't null.
+     *
+     * @param aObject The object that is to be tested.
+     * @param <T> The type of the object.
+     */
+    public static <T> void AssertNotEmpty(T aObject)
+    {
+        if (aObject == null) {
+            Assert.assertNotNull("Object cannot be empty.");
+        }
+    }
 }

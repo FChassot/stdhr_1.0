@@ -7,11 +7,14 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Basemodel;
@@ -182,13 +185,50 @@ public class RadarActivity extends AppCompatActivity {
     private void startAsyncSearch() {
 
         RetrieveCitizenDataAsyncTask lRetrieveTask =
-                new RetrieveCitizenDataAsyncTask(this, "SEARCH_CULTURAL_OBJECTS");
+                new RetrieveCitizenDataAsyncTask(
+                        this,
+                        RetrieveCitizenDataAsyncTask.ACTION2);
+
+        Preferences lPrefs = new Preferences(this);
+
+        String lClientServerCommunicationMode =
+                lPrefs.getPrefValue(
+                        BaseConstants.Attr_ClientServer_Communication,
+                        MyString.EMPTY_STRING);
+
+        EnumClientServerCommunication lEnumValue =
+                EnumClientServerCommunication.valueOf(lClientServerCommunicationMode);
+
+        if (lEnumValue != EnumClientServerCommunication.ANDROJENA) {
+            AlertDialog.Builder lDlgAlert  = new AlertDialog.Builder(this);
+
+            lDlgAlert.setMessage("The function radar only works with Androjena!");
+            lDlgAlert.setTitle("Warning");
+            lDlgAlert.setPositiveButton("OK", null);
+            lDlgAlert.setCancelable(true);
+            lDlgAlert.create().show();
+
+            return;
+        }
+
+        Integer lRay =
+            lPrefs.getPrefValue(
+                BaseConstants.Attr_Search_Radius,
+                    0);
+
+        String lCulturalObjectType =
+                lPrefs.getPrefValue(
+                        BaseConstants.Attr_TypeOfSearch,
+                        MyString.EMPTY_STRING);
+
+        // Actual position
+        LatLng lLatLngBulle = new LatLng(46.6092369, 7.029020100000025);
 
         lRetrieveTask.execute(
-                MyString.EMPTY_STRING,
-                MyString.EMPTY_STRING,
-                MyString.EMPTY_STRING,
-                EnumClientServerCommunication.ANDROJENA.toString());
+            lCulturalObjectType,
+            lRay.toString(),
+            lLatLngBulle.toString(),
+            lClientServerCommunicationMode);
     }
 
     private class Receiver extends BroadcastReceiver {

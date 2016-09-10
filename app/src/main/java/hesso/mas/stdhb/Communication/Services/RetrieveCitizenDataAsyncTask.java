@@ -6,7 +6,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.eclipse.rdf4j.queryrender.builder.QueryBuilder;
+
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
+import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
@@ -65,41 +71,55 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      */
     public String doInBackground(String... urls) {
 
-        String lPlace = urls[0];
-        String lPeriod = urls[1];
-        String lQuery = urls[2];
-        EnumClientServerCommunication lClientServerCommunicationMode =
-                EnumClientServerCommunication.valueOf(urls[3]);
+        EnumClientServerCommunication lClientServerCommunicationMode = null;
+        String lQuery = MyString.EMPTY_STRING;
+
+        CitizenEndPoint lEndPointWs =
+            new CitizenEndPoint(
+                "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/",
+                "CityZenDM");
+
+        if (mAction == ACTION1) {
+            String lPlace = urls[0];
+            String lPeriod = urls[1];
+            lClientServerCommunicationMode = EnumClientServerCommunication.valueOf(urls[3]);
+            lQuery = CitizenRequests.GetCulturalObject(lPlace, lPeriod);
+        }
+
+        if (mAction == ACTION2) {
+            String lCulturalObjectTypeOfSearch = urls[0];
+            String lRay = urls[1];
+            String lLatLong = urls[2];
+            lClientServerCommunicationMode =
+                    EnumClientServerCommunication.valueOf(urls[3]);
+
+            lQuery =
+                CitizenRequests.GetCulturalObjectsInProximity(
+                    lCulturalObjectTypeOfSearch,
+                    lLatLong,
+                    Integer.parseInt(lRay));
+        }
 
         String lResponse = MyString.EMPTY_STRING;
 
-        if (mAction == ACTION1) {
+        try {
+            IWsClientFactory lFactory = new WsClientFactory();
+
+            IWsClient lWsClient =
+                lFactory.Create(
+                        lClientServerCommunicationMode,
+                        lEndPointWs);
+
             try {
-                IWsClientFactory lFactory = new WsClientFactory();
+                lResponse = lWsClient.executeRequest(lQuery);
 
-                CitizenEndPoint lEndPointWs =
-                        new CitizenEndPoint(
-                                "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/",
-                                "CityZenDM");
-
-                IWsClient lWsClient =
-                        lFactory.Create(
-                                lClientServerCommunicationMode,
-                                lEndPointWs);
-
-                try {
-                    lResponse = lWsClient.executeRequest(lQuery);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             } catch (Exception e) {
+                    e.printStackTrace();
+            }
+        } catch (Exception e) {
                 this.mException = e;
                 return null;
-            }
         }
-
-        if (mAction == ACTION2) {}
 
         return lResponse;
     }

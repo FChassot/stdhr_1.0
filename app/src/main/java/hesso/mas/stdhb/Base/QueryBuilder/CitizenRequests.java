@@ -2,7 +2,8 @@ package hesso.mas.stdhb.Base.QueryBuilder;
 
 import android.location.Location;
 
-import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Base.Checks.Checks;
+import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
 /**
  * Created by chf on 11.05.2016.
@@ -18,19 +19,24 @@ public final class CitizenRequests {
      *  return "select distinct ?Concept where {[] a ?Concept} LIMIT 10";
      *
      * @param aLocation
+     * @param aCulturalObjectTypeOfSearch
+     * @param aSearchRadius
+     *
      * @return
      */
     public static String GetCulturalObjectsInProximity(
-        Location aLocation,
-        Double aSearchRadius) {
+        String aCulturalObjectTypeOfSearch,
+        String aLocation,
+        Integer aSearchRadius) {
 
-        Double lLongitude = aLocation.getLongitude();
-        Double lLatitude = aLocation.getLatitude();
+        Checks.AssertNotEmpty(aCulturalObjectTypeOfSearch);
+        //Checks.AssertNotNull(aLocation);
 
-        /*lQuery += "SELECT ?culturalPerson WHERE {?x culturalPerson. ?y geo:lat ?lat " +
-                "lat < " + lLatitude + "5}";*/
+        String lLongitude = aLocation; //aLocation.getLongitude();
+        String lLatitude = aLocation; //aLocation.getLatitude();
 
-        return "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+        String lQuery =
+                "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                 "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
                 "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -46,6 +52,8 @@ public final class CitizenRequests {
                 "FILTER (?latitude < " + lLatitude + aSearchRadius + ") && \n" +
                 "?longitude < " + lLongitude + aSearchRadius + ")\n" +
                 "}";
+
+        return lQuery;
     }
 
     /**
@@ -60,7 +68,8 @@ public final class CitizenRequests {
         String aPlace,
         String aPeriod) {
 
-        return "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+        String lQuery =
+                "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                 "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
                 "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -76,6 +85,8 @@ public final class CitizenRequests {
                 "FILTER (?Date > " + aPeriod + ") && \n" +
                 "?Place == " + aPlace + ")\n" +
                 "}";
+
+        return lQuery;
     }
 
     /**
@@ -86,7 +97,8 @@ public final class CitizenRequests {
      */
     public static String GetCulturalObjectsTyp() {
 
-        return "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+        String lQuery =
+               "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
                "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -97,5 +109,6 @@ public final class CitizenRequests {
                "FROM <http://www.hevs.ch/datasemlab/cityzen/schema>\n" +
                "WHERE {?culturalObjectType rdfs:domain <http://purl.org/dc/elements/1.1/type>} LIMIT  10";
 
+        return lQuery;
     }
 }
