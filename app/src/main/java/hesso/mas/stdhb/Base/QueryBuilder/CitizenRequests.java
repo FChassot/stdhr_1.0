@@ -15,42 +15,67 @@ public final class CitizenRequests {
     private CitizenRequests() {}
 
     /**
-     *
+     *  return "select distinct ?Concept where {[] a ?Concept} LIMIT 10";
      *
      * @param aLocation
      * @return
      */
-    public static String CulturalObjectRadarQuery(
-        Location aLocation) {
-
-        String lQuery = MyString.EMPTY_STRING;
+    public static String GetCulturalObjectsInProximity(
+        Location aLocation,
+        Double aSearchRadius) {
 
         Double lLongitude = aLocation.getLongitude();
         Double lLatitude = aLocation.getLatitude();
 
-        lQuery += "SELECT ?culturalPerson WHERE {?x culturalPerson. ?y geo:lat ?lat " +
-                "lat < " + lLatitude + "5}";
+        /*lQuery += "SELECT ?culturalPerson WHERE {?x culturalPerson. ?y geo:lat ?lat " +
+                "lat < " + lLatitude + "5}";*/
 
-        return lQuery;
+        return "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+                "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
+                "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
+                "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "SELECT ?CulturalObject " +
+                "FROM <http://www.hevs.ch/datasemlab/cityzen/schema>\n" +
+                "WHERE {\n" +
+                "?culturalObject rdfs:domain <http://purl.org/dc/elements/1.1/> .\n" +
+                "?culturalObjectLocation geo:lat ?latitude .\n" +
+                "?culturalObjectLocation geo:lon ?longitude .\n" +
+                "FILTER (?latitude < " + lLatitude + aSearchRadius + ") && \n" +
+                "?longitude < " + lLongitude + aSearchRadius + ")\n" +
+                "}";
     }
 
     /**
-     * This method allows to do a search of Culturals objects
+     * This method allows to search Culturals objects
      *
      * @param aPlace
      * @param aPeriod
      *
      * @return
      */
-    public static String CulturalObjectSearchQuery(
-            String aPlace,
-            String aPeriod) {
+    public static String GetCulturalObject(
+        String aPlace,
+        String aPeriod) {
 
-        String lQuery = MyString.EMPTY_STRING;
-
-        lQuery += "";
-
-        return lQuery;
+        return "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+                "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
+                "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
+                "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "SELECT * " +
+                "FROM <http://www.hevs.ch/datasemlab/cityzen/schema>\n" +
+                "WHERE {\n" +
+                "?culturalObject rdfs:domain <http://purl.org/dc/elements/1.1/> .\n" +
+                "?culturalObject rdfs:domain ?Date .\n" +
+                "?culturalObject rdfs:domain ?Place .\n" +
+                "FILTER (?Date > " + aPeriod + ") && \n" +
+                "?Place == " + aPlace + ")\n" +
+                "}";
     }
 
     /**
@@ -59,8 +84,18 @@ public final class CitizenRequests {
      *
      * @return
      */
-    public static String GetSearchObjectTyp() {
+    public static String GetCulturalObjectsTyp() {
 
-        return "SELECT DISTINCT ?CulturalInterest WHERE {?CulturalInterest a rdfs:comment.} LIMIT 100";
+        return "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+               "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+               "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
+               "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+               "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
+               "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+               "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+               "SELECT DISTINCT ?culturalObjectType " +
+               "FROM <http://www.hevs.ch/datasemlab/cityzen/schema>\n" +
+               "WHERE {?culturalObjectType rdfs:domain <http://purl.org/dc/elements/1.1/type>} LIMIT  10";
+
     }
 }

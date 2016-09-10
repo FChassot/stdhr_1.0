@@ -129,8 +129,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lPlace = mTxtPlace.getText().toString();
             String lPeriod = mTxtPeriod.getText().toString();
 
-            //String lRequest = "select distinct ?Concept where {[] a ?Concept} LIMIT 10";
-            String lRequest = CitizenRequests.GetSearchObjectTyp();
+            String lRequest = CitizenRequests.GetCulturalObjectsTyp();
 
             startAsyncSearch(
                     lPlace,
@@ -185,8 +184,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             else {
-                RetrieveCitizenDataAsyncTask2 lTask =
-                        new RetrieveCitizenDataAsyncTask2(
+                RetrieveCitizenDataAsyncTask lTask =
+                        new RetrieveCitizenDataAsyncTask(
                                 this,
                                 RetrieveCitizenDataAsyncTask2.ACTION1);
 

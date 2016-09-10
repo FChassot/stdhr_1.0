@@ -56,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRadius);
 
         Preferences lPrefs = new Preferences(this);
+
         String lClientServerCommunication =
                 lPrefs.getPrefValue(
                         BaseConstants.Attr_ClientServer_Communication,
@@ -63,6 +64,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         EnumClientServerCommunication lEnumValue =
                 EnumClientServerCommunication.valueOf(lClientServerCommunication);
+
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);

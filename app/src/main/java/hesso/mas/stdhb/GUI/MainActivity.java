@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Gui;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.ImageView;
 
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Gui.Radar.RadarActivity;

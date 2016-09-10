@@ -78,7 +78,9 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
                 IWsClientFactory lFactory = new WsClientFactory();
 
                 CitizenEndPoint lEndPointWs =
-                        new CitizenEndPoint("http://dbpedia.org/sparql", "");
+                        new CitizenEndPoint(
+                                "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/",
+                                "CityZenDM");
 
                 IWsClient lWsClient =
                         lFactory.Create(
