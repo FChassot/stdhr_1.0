@@ -38,9 +38,9 @@ dependencies {
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services:9.2.1'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
     compile fileTree(dir: 'libs/Androjena', include: ['*.jar'])
-    //compile 'com.squareup.okhttp3:okhttp:3.2.0'
     //compile 'org.roboguice:roboguice:2.0'                 //ioc Framework for Android
 
     // Client functionality for communicating with an RDF4J server over HTTP.
