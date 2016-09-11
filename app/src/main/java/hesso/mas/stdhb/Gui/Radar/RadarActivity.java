@@ -7,8 +7,10 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,7 +31,9 @@ public class RadarActivity extends AppCompatActivity {
 
     RadarView mRadarView = null;
 
-    android.os.Handler mHandler = null;
+    // A Handler allows you to send and process Message
+    // and Runnable objects associated with a thread's MessageQueue.
+    Handler mHandler = new android.os.Handler();
 
     private Receiver mReceiver;
 
@@ -57,10 +61,6 @@ public class RadarActivity extends AppCompatActivity {
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
         mNbrObjectDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
 
-        // A Handler allows you to send and process Message
-        // and Runnable objects associated with a thread's MessageQueue.
-        Handler mHandler = new android.os.Handler();
-
         mReceiver = new Receiver();
 
         IntentFilter lFilter =
@@ -68,7 +68,8 @@ public class RadarActivity extends AppCompatActivity {
 
         this.registerReceiver(mReceiver, lFilter);
 
-        startAsyncSearch();
+        //startAsyncSearch();
+        startUpdateMarkersFromCitizen();
 
         this.startRadar(mRadarView);
 
@@ -159,11 +160,15 @@ public class RadarActivity extends AppCompatActivity {
         if (mRadarView != null) mRadarView.startAnimation();
     }
 
-    Runnable mTick = new Runnable() {
+    /*HandlerThread mUpdateThread = new HandlerThread("HandlerThread");
+    mUpdateThread
+    final Handler mHandler = new Handler(mUpdateThread.getLooper());*/
+
+    Runnable updateData = new Runnable() {
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 10);
+            mHandler.postDelayed(this, 15000);
         }
     };
 
@@ -171,8 +176,15 @@ public class RadarActivity extends AppCompatActivity {
      * This method allows to start the animation
      */
     public void startUpdateMarkersFromCitizen() {
-        mHandler.removeCallbacks(mTick);
-        mHandler.post(mTick);
+        mHandler.removeCallbacks(updateData);
+        mHandler.post(updateData);
+    }
+
+    /**
+     * This method allows to stop the animation
+     */
+    public void stopUpdateMarkersFromCitizen() {
+        mHandler.removeCallbacks(updateData);
     }
 
     /**
