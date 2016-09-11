@@ -135,7 +135,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     lPlace,
                     lPeriod,
                     lRequest,
-                    lClientServerCommunicationMode);
+                    lClientServerCommunicationMode,
+                    true);
         }
     }
 
@@ -151,13 +152,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 String aPlace,
                 String aPeriod,
                 String aRequest,
-                String aClientServerArchitecture) {
+                String aClientServerArchitecture,
+                Boolean aDisplaySearchmessage) {
 
             if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
                         new RetrieveCitizenDataAsyncTask(
                                 this,
                                 RetrieveCitizenDataAsyncTask.ACTION1);
+
+                lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
                         aPlace,
@@ -174,6 +178,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                                 this,
                                 RetrieveCitizenDataAsyncTask2.ACTION1);
 
+                lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
+
                 lTask.execute(
                         aPlace,
                         aPeriod,
@@ -188,6 +194,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         new RetrieveCitizenDataAsyncTask(
                                 this,
                                 RetrieveCitizenDataAsyncTask2.ACTION1);
+
+                lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
                         aPlace,

@@ -23,6 +23,8 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
 
     private Exception mException;
 
+    public static Boolean onPreExecuteMessageDisplay = false;
+
     private static final String TAG = "RetrieveCitizenDataTask";
 
     public static final String ACTION1 = "EXECUTE_REQUEST";
@@ -48,7 +50,9 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      */
     @Override
     protected void onPreExecute() {
-        mProgress = ProgressDialog.show(mContext, "Searching Data..", "Please wait");
+        if (onPreExecuteMessageDisplay) {
+            mProgress = ProgressDialog.show(mContext, "Searching Data..", "Please wait");
+        }
     }
 
     /**

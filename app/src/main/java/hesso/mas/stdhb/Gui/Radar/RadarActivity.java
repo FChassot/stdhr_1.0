@@ -80,10 +80,7 @@ public class RadarActivity extends AppCompatActivity {
                         Basemodel.NULL_KEY);
 
         mRadiusInfo.setText("Radius of search: " + lRadiusOfSearch + "[m]");
-
-        updateRadarText(mNbrObjectDetected);
-
-        //startUpdateMarkersFromCitizen();
+        mNbrObjectDetected.setText("The radar is executing a search!");
 
         //assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);
@@ -242,18 +239,24 @@ public class RadarActivity extends AppCompatActivity {
                     aIntent.getStringExtra(
                             RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-            RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-            RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
-            RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
-
             RadarMarker lMarkers[] = new RadarMarker[3];
 
-            lMarkers[0] = lMarker3;
-            lMarkers[1] = lMarker2;
-            lMarkers[2] = lMarker1;
+            if (lResponse == null) {
+                updateMarkers(lMarkers);
+                updateRadarText(mNbrObjectDetected);
+            }
+            else {
+                RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
+                RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
+                RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
 
-            updateMarkers(lMarkers);
-            updateRadarText(mNbrObjectDetected);
+                lMarkers[0] = lMarker3;
+                lMarkers[1] = lMarker2;
+                lMarkers[2] = lMarker1;
+
+                updateMarkers(lMarkers);
+                updateRadarText(mNbrObjectDetected);
+            }
         }
     }
 
