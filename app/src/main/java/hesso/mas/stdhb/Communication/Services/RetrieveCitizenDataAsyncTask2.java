@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.Base.Tools.MyString;
 
 /**
  * Created by chf on 20.06.2016.
@@ -28,6 +30,8 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
     private static final String TAG = "RetrieveCitizenDataTask";
 
     public static final String ACTION1 = "EXECUTE_REQUEST";
+
+    public static final String ACTION2 = "SEARCH_CULTURAL_OBJECTS";
 
     public static final String HTTP_RESPONSE = "httpResponse";
 
@@ -79,8 +83,8 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
 
             CitizenEndPoint lEndPointWs =
                     new CitizenEndPoint(
-                            "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/",
-                            "CityZenDM");
+                            BaseConstants.Attr_Citizen_Server_URI,
+                            BaseConstants.Attr_Citizen_Repository_NAME);
 
             IWsClient lWsClient =
                     lFactory.Create(

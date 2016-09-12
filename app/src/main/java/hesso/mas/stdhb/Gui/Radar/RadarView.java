@@ -192,8 +192,10 @@ public class RadarView extends 	android.view.View {
     //endregion
 
     //region Design-radar
+
         /**
          * Draw the radar in the view
+         *
          * @param aCanvas
          * @param aLocalPaint
          * @param i

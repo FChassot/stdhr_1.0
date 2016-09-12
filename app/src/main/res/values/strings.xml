@@ -53,6 +53,8 @@
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="Warning">Warning</string>
+    <string name="Ok">Ok</string>
 
     <!-- Strings for the activities -->
     <string name="title_activity_maps">Map</string>
@@ -70,7 +72,13 @@
     <string name="txt_btn_settings">SETTINGS</string>
 
     <!-- String for the radar activity -->
+    <string name="txt_radius_of_search">Radius of search</string>
+    <string name="txt_radar_do_search">The radar is doing a search!</string>
     <string name="txt_btn_radar_stop">RADAR STOP</string>
+    <string name="txt_btn_stop_radar">STOP RADAR</string>
+    <string name="txt_btn_start_radar">START RADAR</string>
+    <string name="txt_radar_possible_mode">The function radar only works with Androjena!</string>
+    <string name="txt_cultural_objects_in_proximity">cultural objects in proximity!</string>
 
     <!-- String for the google Map activity -->
 

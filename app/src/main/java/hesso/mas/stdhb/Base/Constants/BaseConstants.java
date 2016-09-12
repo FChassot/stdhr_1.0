@@ -7,6 +7,12 @@ package hesso.mas.stdhb.Base.Constants;
  */
 public class BaseConstants {
 
+    public static final String Attr_Citizen_Server_URI =
+            "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
+
+    public static final String Attr_Citizen_Repository_NAME =
+            "CityZenDM";
+
     public static final String Attr_Default_Ray_Search = "500";
 
     // constant used to save the GPS Coordinates

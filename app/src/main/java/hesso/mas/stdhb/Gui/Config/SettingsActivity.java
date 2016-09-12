@@ -122,19 +122,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         super.onPause();
 
         EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRadius);
+        Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
+        Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
 
         Preferences lPrefs = new Preferences(this);
-        Integer lRay = Integer.parseInt(lRaySearch.getText().toString());
 
-        Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
+        Integer lRadius = Integer.parseInt(lRaySearch.getText().toString());
         Boolean lMode = lRadarMode.isChecked();
-
-        Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
         lPrefs.setValue(
                 BaseConstants.Attr_Search_Radius,
-                lRay);
+                lRadius);
 
         lPrefs.setValue(
                 BaseConstants.Attr_Radar_Switch,

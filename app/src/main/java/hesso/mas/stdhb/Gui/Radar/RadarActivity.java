@@ -74,7 +74,6 @@ public class RadarActivity extends AppCompatActivity {
 
         this.registerReceiver(mReceiver, lFilter);
 
-        //startAsyncSearch();
         startUpdateMarkersFromCitizen();
 
         this.startRadar(mRadarView);
@@ -86,8 +85,8 @@ public class RadarActivity extends AppCompatActivity {
                         BaseConstants.Attr_Search_Radius,
                         Basemodel.NULL_KEY);
 
-        mRadiusInfo.setText("Radius of search: " + lRadiusOfSearch + "[m]");
-        mNbrOfCulturalObjectsDetected.setText("The radar is doing a search!");
+        mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + lRadiusOfSearch + "[m]");
+        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
 
         //assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);
@@ -99,7 +98,7 @@ public class RadarActivity extends AppCompatActivity {
     private void updateRadarText(TextView aTextView) {
         if (mRadarView.getMarkers() != null) {
             aTextView.setText(
-                    mRadarView.getMarkers().size() - 1 + " cultural objects in proximity!");
+                    mRadarView.getMarkers().size() - 1 + " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
         }
     }
     /**
@@ -140,6 +139,7 @@ public class RadarActivity extends AppCompatActivity {
         super.onPause();
 
         this.stopRadar(mRadarView);
+        this.stopUpdateMarkersFromCitizen();
     }
 
     /**
@@ -165,10 +165,6 @@ public class RadarActivity extends AppCompatActivity {
     public void startRadar(View aView) {
         if (mRadarView != null) mRadarView.startAnimation();
     }
-
-    /*HandlerThread mUpdateThread = new HandlerThread("HandlerThread");
-    mUpdateThread
-    final Handler mHandler = new Handler(mUpdateThread.getLooper());*/
 
     Runnable updateData = new Runnable() {
         @Override
@@ -215,18 +211,15 @@ public class RadarActivity extends AppCompatActivity {
                 EnumClientServerCommunication.valueOf(lClientServerCommunicationMode);
 
         if (lEnumValue != EnumClientServerCommunication.ANDROJENA) {
-            AlertDialog.Builder lDlgAlert  = new AlertDialog.Builder(this);
-
-            lDlgAlert.setMessage("The function radar only works with Androjena!");
-            lDlgAlert.setTitle("Warning");
-            lDlgAlert.setPositiveButton("OK", null);
-            lDlgAlert.setCancelable(true);
-            lDlgAlert.create().show();
+            ShowMessageBox(
+                    getResources().getString(R.string.txt_radar_possible_mode),
+                    getResources().getString(R.string.Warning),
+                    getResources().getString(R.string.Ok));
 
             return;
         }
 
-        Integer lRay =
+        Integer lRadius =
             lPrefs.getPrefValue(
                 BaseConstants.Attr_Search_Radius,
                     0);
@@ -239,14 +232,39 @@ public class RadarActivity extends AppCompatActivity {
         // Actual position
         LatLng lLatLngBulle = new LatLng(46.6092369, 7.029020100000025);
 
+        lRetrieveTask.onPreExecuteMessageDisplay = false;
+
         lRetrieveTask.execute(
             lCulturalObjectType,
-            lRay.toString(),
+            lRadius.toString(),
             lLatLngBulle.toString(),
             lClientServerCommunicationMode);
     }
 
+    /**
+     *
+     * @param aMessage
+     * @param aTitle
+     * @param aPositiveButtonText
+     */
+    private void ShowMessageBox(
+            String aMessage,
+            String aTitle,
+            String aPositiveButtonText) {
+
+        AlertDialog.Builder lDlgAlert  =
+                new AlertDialog.Builder(this);
+
+        lDlgAlert.setMessage(aMessage);
+        lDlgAlert.setTitle(aTitle);
+        lDlgAlert.setPositiveButton(aPositiveButtonText, null);
+        lDlgAlert.setCancelable(true);
+        lDlgAlert.create().show();
+
+    }
+
     private class Receiver extends BroadcastReceiver {
+
         /**
          * Our Broadcast Receiver. We get notified that the data is ready this way.
          */
@@ -296,10 +314,13 @@ public class RadarActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     */
     private void updateButtonText() {
-        if (mBtnStopRadar.getText() == "STOP RADAR")
-        {mBtnStopRadar.setText("START RADAR");}
-        else {mBtnStopRadar.setText("STOP RADAR");}
+        if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
+        {mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_start_radar));}
+        else {mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));}
     }
 
     /**
