@@ -16,6 +16,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.List;
+
 import hesso.mas.stdhb.Base.Constants.*;
 
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
@@ -35,7 +37,7 @@ public class RadarView extends 	android.view.View {
 
         private Context myContext;
 
-        private RadarMarker[] mMarkers;
+        private List<RadarMarker> mMarkers;
 
         private final int POINT_ARRAY_SIZE = 35;
 
@@ -98,7 +100,7 @@ public class RadarView extends 	android.view.View {
             }
         };
 
-        public synchronized RadarMarker[] getMarkers() {
+        public synchronized List<RadarMarker> getMarkers() {
             return mMarkers;
         }
 
@@ -106,7 +108,7 @@ public class RadarView extends 	android.view.View {
         * This method allows to update the markers received
          * by the radar.
         */
-        public synchronized void updateMarkers(RadarMarker[] aMarkers) {
+        public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
             mMarkers = aMarkers;
         }
 
@@ -114,7 +116,7 @@ public class RadarView extends 	android.view.View {
          * This method allows to retrieve from the Citizen Endpoint the cultural
          * objects found in the ray of search
          */
-        public void retrieveMarkersFromCitizen(RadarMarker[] aMarkers) {
+        public void retrieveMarkersFromCitizen(List<RadarMarker> aMarkers) {
             mMarkers = aMarkers;
         }
 
@@ -222,10 +224,10 @@ public class RadarView extends 	android.view.View {
             Canvas aCanvas,
             int aMaxRayOfRadar) {
 
-            RadarMarker[] lMarkers = getMarkers();
+            List<RadarMarker> lMarkers = getMarkers();
 
             if (lMarkers != null){
-                if (lMarkers.length > 0) {
+                if (lMarkers.size() > 0) {
                     int lIndex = 0;
 
                     for (RadarMarker lMarker : lMarkers) {

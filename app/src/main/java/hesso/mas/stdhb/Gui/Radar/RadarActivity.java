@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
+
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
@@ -37,9 +39,13 @@ public class RadarActivity extends AppCompatActivity {
 
     private Receiver mReceiver;
 
+    // Attributs used to test the radar
+    private Boolean mSimulatorMode = true;
+    private Integer mSimulatorIndex = 0;
+
     Button mBtnStopRadar = null;
 
-    TextView mNbrObjectDetected = null;
+    TextView mNbrOfCulturalObjectsDetected = null;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up:
@@ -59,7 +65,7 @@ public class RadarActivity extends AppCompatActivity {
         ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
         ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        mNbrObjectDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
+        mNbrOfCulturalObjectsDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
 
         mReceiver = new Receiver();
 
@@ -81,7 +87,7 @@ public class RadarActivity extends AppCompatActivity {
                         Basemodel.NULL_KEY);
 
         mRadiusInfo.setText("Radius of search: " + lRadiusOfSearch + "[m]");
-        mNbrObjectDetected.setText("The radar is executing a search!");
+        mNbrOfCulturalObjectsDetected.setText("The radar is doing a search!");
 
         //assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);
@@ -93,7 +99,7 @@ public class RadarActivity extends AppCompatActivity {
     private void updateRadarText(TextView aTextView) {
         if (mRadarView.getMarkers() != null) {
             aTextView.setText(
-                    mRadarView.getMarkers().length - 1 + " cultural objects in proximity!");
+                    mRadarView.getMarkers().size() - 1 + " cultural objects in proximity!");
         }
     }
     /**
@@ -148,7 +154,7 @@ public class RadarActivity extends AppCompatActivity {
      *
      * @param aMarkers
      */
-    public synchronized void updateMarkers(RadarMarker[] aMarkers) {
+    public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
         if (mRadarView != null) mRadarView.updateMarkers(aMarkers);
     }
 
@@ -168,7 +174,7 @@ public class RadarActivity extends AppCompatActivity {
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 15000);
+            mHandler.postDelayed(this, 7000);
         }
     };
 
@@ -251,23 +257,41 @@ public class RadarActivity extends AppCompatActivity {
                     aIntent.getStringExtra(
                             RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-            RadarMarker lMarkers[] = new RadarMarker[3];
+            List<RadarMarker> lMarkers =
+                    RadarHelper.GetRadarMarkersFromReponse(
+                            lResponse);
 
-            if (lResponse == null) {
-                updateMarkers(lMarkers);
-                updateRadarText(mNbrObjectDetected);
-            }
-            else {
-                RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-                RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
-                RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
+            if (lMarkers.size() == 0) {
+                if (mSimulatorMode) {
+                    if (mSimulatorIndex == 3) {
+                        RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
+                        RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
 
-                lMarkers[0] = lMarker3;
-                lMarkers[1] = lMarker2;
-                lMarkers[2] = lMarker1;
+                        lMarkers.add(lMarker2);
+                        lMarkers.add(lMarker1);
 
-                updateMarkers(lMarkers);
-                updateRadarText(mNbrObjectDetected);
+                        updateMarkers(lMarkers);
+                        updateRadarText(mNbrOfCulturalObjectsDetected);
+                        mSimulatorIndex=2;
+                    }
+                    else {
+                        RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
+                        RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
+                        RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
+
+                        lMarkers.add(lMarker3);
+                        lMarkers.add(lMarker2);
+                        lMarkers.add(lMarker1);
+
+                        updateMarkers(lMarkers);
+                        updateRadarText(mNbrOfCulturalObjectsDetected);
+                        mSimulatorIndex=3;
+                    }
+                }
+                else {
+                    updateMarkers(lMarkers);
+                    updateRadarText(mNbrOfCulturalObjectsDetected);
+                }
             }
         }
     }

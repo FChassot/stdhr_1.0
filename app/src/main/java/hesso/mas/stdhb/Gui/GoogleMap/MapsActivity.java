@@ -121,16 +121,17 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
     private void handleNewLocation(Location location) {
         //Log.d(TAG, location.toString());
 
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
+        double lCurrentLatitude = location.getLatitude();
+        double lCurrentLongitude = location.getLongitude();
 
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        LatLng lLatLng = new LatLng(lCurrentLatitude, lCurrentLongitude);
 
         //mMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Current Location"));
         MarkerOptions options = new MarkerOptions()
-                .position(latLng)
+                .position(lLatLng)
                 .title("I am here!");
+
         mMapFragment.addMarker(options);
-        mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLng));
     }
 }

@@ -149,11 +149,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
          * @param aPeriod
          */
         private void startAsyncSearch(
-                String aPlace,
-                String aPeriod,
-                String aRequest,
-                String aClientServerArchitecture,
-                Boolean aDisplaySearchmessage) {
+            String aPlace,
+            String aPeriod,
+            String aRequest,
+            String aClientServerArchitecture,
+            Boolean aDisplaySearchmessage) {
 
             if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
