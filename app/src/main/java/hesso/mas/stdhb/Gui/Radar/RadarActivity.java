@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -20,9 +21,13 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
+import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.Notifications.Notifications;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.MainActivity;
@@ -147,10 +152,11 @@ public class RadarActivity extends AppCompatActivity {
      * @param aView
      */
     public void stopRadar(View aView) {
-        if (mRadarView != null) mRadarView.stopAnimation();
+        if (mRadarView != null) mRadarView.stopRadarAnimation();
     }
 
     /**
+     * Updates the property mMarkers of the view class
      *
      * @param aMarkers
      */
@@ -163,7 +169,7 @@ public class RadarActivity extends AppCompatActivity {
      * @param aView
      */
     public void startRadar(View aView) {
-        if (mRadarView != null) mRadarView.startAnimation();
+        if (mRadarView != null) mRadarView.startRadarAnimation();
     }
 
     Runnable updateData = new Runnable() {
@@ -175,7 +181,7 @@ public class RadarActivity extends AppCompatActivity {
     };
 
     /**
-     * This method allows to start the animation
+     * This method allows to start the update of the Markers in the view
      */
     public void startUpdateMarkersFromCitizen() {
         mHandler.removeCallbacks(updateData);
@@ -183,7 +189,7 @@ public class RadarActivity extends AppCompatActivity {
     }
 
     /**
-     * This method allows to stop the animation
+     * This method allows to stop the update of the Markers in the view
      */
     public void stopUpdateMarkersFromCitizen() {
         mHandler.removeCallbacks(updateData);
@@ -194,6 +200,17 @@ public class RadarActivity extends AppCompatActivity {
      *
      */
     private void startAsyncSearch() {
+
+        GpsLocationListener lGeolocationServices = new GpsLocationListener(this);
+
+        Location lActualLocation = lGeolocationServices.getUserCurrentLocation();
+
+        // TODO removes when the application works
+        if (lActualLocation == null) {
+            lActualLocation = new Location("");
+            lActualLocation.setLatitude(46.6092369d);
+            lActualLocation.setLongitude(7.029020100000025d);
+        }
 
         RetrieveCitizenDataAsyncTask lRetrieveTask =
                 new RetrieveCitizenDataAsyncTask(
@@ -211,7 +228,8 @@ public class RadarActivity extends AppCompatActivity {
                 EnumClientServerCommunication.valueOf(lClientServerCommunicationMode);
 
         if (lEnumValue != EnumClientServerCommunication.ANDROJENA) {
-            ShowMessageBox(
+            Notifications.ShowMessageBox(
+                    this,
                     getResources().getString(R.string.txt_radar_possible_mode),
                     getResources().getString(R.string.Warning),
                     getResources().getString(R.string.Ok));
@@ -229,38 +247,17 @@ public class RadarActivity extends AppCompatActivity {
                         BaseConstants.Attr_TypeOfSearch,
                         MyString.EMPTY_STRING);
 
-        // Actual position
-        LatLng lLatLngBulle = new LatLng(46.6092369, 7.029020100000025);
-
         lRetrieveTask.onPreExecuteMessageDisplay = false;
 
+        String lQuery =
+                CitizenRequests.GetCulturalObjectsInProximityQuery(
+                        lCulturalObjectType,
+                        lActualLocation,
+                        lRadius);
+
         lRetrieveTask.execute(
-            lCulturalObjectType,
-            lRadius.toString(),
-            lLatLngBulle.toString(),
+            lQuery,
             lClientServerCommunicationMode);
-    }
-
-    /**
-     *
-     * @param aMessage
-     * @param aTitle
-     * @param aPositiveButtonText
-     */
-    private void ShowMessageBox(
-            String aMessage,
-            String aTitle,
-            String aPositiveButtonText) {
-
-        AlertDialog.Builder lDlgAlert  =
-                new AlertDialog.Builder(this);
-
-        lDlgAlert.setMessage(aMessage);
-        lDlgAlert.setTitle(aTitle);
-        lDlgAlert.setPositiveButton(aPositiveButtonText, null);
-        lDlgAlert.setCancelable(true);
-        lDlgAlert.create().show();
-
     }
 
     private class Receiver extends BroadcastReceiver {
@@ -315,12 +312,16 @@ public class RadarActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * This method updates the text for the mBtnStopRadar Button
      */
     private void updateButtonText() {
         if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
-        {mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_start_radar));}
-        else {mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));}
+        {
+            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_start_radar));
+        }
+        else {
+            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
+        }
     }
 
     /**

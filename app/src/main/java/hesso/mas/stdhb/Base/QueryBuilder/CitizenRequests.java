@@ -3,12 +3,11 @@ package hesso.mas.stdhb.Base.QueryBuilder;
 import android.location.Location;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
-import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
 /**
  * Created by chf on 11.05.2016.
  *
- *
+ * This class contains all the necessary Requests for this application.
  */
 public final class CitizenRequests {
 
@@ -24,16 +23,16 @@ public final class CitizenRequests {
      *
      * @return
      */
-    public static String GetCulturalObjectsInProximity(
+    public static String GetCulturalObjectsInProximityQuery(
         String aCulturalObjectTypeOfSearch,
-        String aLocation,
+        Location aLocation,
         Integer aSearchRadius) {
 
         Checks.AssertNotEmpty(aCulturalObjectTypeOfSearch);
-        //Checks.AssertNotNull(aLocation);
+        Checks.AssertNotNull(aLocation);
 
-        String lLongitude = aLocation; //aLocation.getLongitude();
-        String lLatitude = aLocation; //aLocation.getLatitude();
+        Double lLongitude = aLocation.getLongitude();
+        Double lLatitude = aLocation.getLatitude();
 
         String lQuery =
                 "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
@@ -64,7 +63,7 @@ public final class CitizenRequests {
      *
      * @return
      */
-    public static String GetCulturalObject(
+    public static String GetCulturalObjectQuery(
         String aPlace,
         String aPeriod) {
 
@@ -95,7 +94,7 @@ public final class CitizenRequests {
      *
      * @return
      */
-    public static String GetCulturalObjectsTyp() {
+    public static String GetCulturalObjectsTypQuery() {
 
         String lQuery =
                "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +

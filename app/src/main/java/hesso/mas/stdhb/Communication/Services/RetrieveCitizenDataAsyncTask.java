@@ -71,33 +71,15 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, Void, String
      */
     public String doInBackground(String... urls) {
 
-        EnumClientServerCommunication lClientServerCommunicationMode =
-                EnumClientServerCommunication.valueOf(urls[3]);
+        String lQuery = urls[0];
 
-        String lQuery = MyString.EMPTY_STRING;
+        EnumClientServerCommunication lClientServerCommunicationMode =
+                EnumClientServerCommunication.valueOf(urls[1]);
 
         CitizenEndPoint lEndPointWs =
             new CitizenEndPoint(
                 BaseConstants.Attr_Citizen_Server_URI,
                 BaseConstants.Attr_Citizen_Repository_NAME);
-
-        if (mAction == ACTION1) {
-            String lPlace = urls[0];
-            String lPeriod = urls[1];
-            lQuery = CitizenRequests.GetCulturalObject(lPlace, lPeriod);
-        }
-
-        if (mAction == ACTION2) {
-            String lCulturalObjectTypeOfSearch = urls[0];
-            String lRay = urls[1];
-            String lLatLong = urls[2];
-
-            lQuery =
-                CitizenRequests.GetCulturalObjectsInProximity(
-                    lCulturalObjectTypeOfSearch,
-                    lLatLong,
-                    Integer.parseInt(lRay));
-        }
 
         String lResponse = MyString.EMPTY_STRING;
 

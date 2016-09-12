@@ -113,17 +113,9 @@ public class RadarView extends 	android.view.View {
         }
 
         /**
-         * This method allows to retrieve from the Citizen Endpoint the cultural
-         * objects found in the ray of search
-         */
-        public void retrieveMarkersFromCitizen(List<RadarMarker> aMarkers) {
-            mMarkers = aMarkers;
-        }
-
-        /**
          * This method allows to start the animation
          */
-        public void startAnimation() {
+        public void startRadarAnimation() {
             mHandler.removeCallbacks(mTick);
             mHandler.post(mTick);
         }
@@ -131,7 +123,7 @@ public class RadarView extends 	android.view.View {
         /**
          * This method allows to stop the animation
          */
-        public void stopAnimation() {
+        public void stopRadarAnimation() {
                 mHandler.removeCallbacks(mTick);
             }
 

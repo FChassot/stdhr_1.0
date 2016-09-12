@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
@@ -70,11 +71,10 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      */
     public String doInBackground(String... urls) {
 
-        String lPlace = urls[0];
-        String lPeriod = urls[1];
-        String lQuery = urls[2];
+        String lQuery = urls[0];
+
         EnumClientServerCommunication lClientServerCommunicationMode =
-                EnumClientServerCommunication.valueOf(urls[3]);
+                EnumClientServerCommunication.valueOf(urls[1]);
 
         String lResponse = MyString.EMPTY_STRING;
 

@@ -2,8 +2,10 @@ package hesso.mas.stdhb.Base.Connectivity;
 
 import android.content.Context;
 
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 /**
  * Created by chf on 27.07.2016.
@@ -11,7 +13,11 @@ import android.net.NetworkInfo;
  * This class is used to check internet access connection.
  */
 public class InternetConnectivity {
+
     private final Context mContext;
+
+    // Declaring a Location Manager
+    protected LocationManager locationManager;
 
     // Constructor
     public InternetConnectivity(Context context) {
@@ -35,5 +41,52 @@ public class InternetConnectivity {
         }
 
         return false;
+    }
+
+    /**
+     * Check if the internet connection is available
+     *
+     * @return Returns true when the connection is available
+     */
+    public boolean IsGpsEnabled() {
+
+        boolean lIsGpsEnabled = false;
+
+        try {
+            locationManager = (LocationManager) mContext
+                    .getSystemService(Context.LOCATION_SERVICE);
+
+            // getting GPS status
+            lIsGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lIsGpsEnabled;
+    }
+
+    /**
+     * Check if the internet connection is available
+     *
+     * @return Returns true when the connection is available
+     */
+    public boolean IsNetworkEnabled() {
+
+        boolean lIsNetworkEnabled = false;
+
+        try {
+            locationManager = (LocationManager) mContext
+                    .getSystemService(Context.LOCATION_SERVICE);
+
+            // getting network status
+            lIsNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lIsNetworkEnabled;
     }
 }

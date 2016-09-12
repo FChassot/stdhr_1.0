@@ -40,7 +40,7 @@ public final class GpsLocationListener implements LocationListener {
     // flag for GPS status
     boolean canGetLocation = false;
 
-    Location location; // location
+    Location mLocation; // location
 
     double latitude; // latitude
     double longitude; // longitude
@@ -54,9 +54,11 @@ public final class GpsLocationListener implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+    // Constructor
     public GpsLocationListener(Context context) {
+
         this.mContext = context;
-        getLocation();
+        getUserCurrentLocation();
     }
 
     /**
@@ -64,7 +66,7 @@ public final class GpsLocationListener implements LocationListener {
      *
      * @return the user's current location
      */
-    public Location getLocation() {
+    public Location getUserCurrentLocation() {
         try {
             locationManager = (LocationManager) mContext
                 .getSystemService(Context.LOCATION_SERVICE);
@@ -83,41 +85,50 @@ public final class GpsLocationListener implements LocationListener {
 
             if (!isGpsEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
-            } else {
+            }
+            else {
                 this.canGetLocation = true;
+
                 if (isNetworkEnabled) {
-                    location=null;
+
+                    mLocation=null;
+
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
                     Log.d("Network", "Network");
+
                     if (locationManager != null) {
-                        location = locationManager
+                        mLocation = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
+                        if (mLocation != null) {
+                            latitude = mLocation.getLatitude();
+                            longitude = mLocation.getLongitude();
                         }
                     }
                 }
+
                 // if GPS Enabled get lat/long using GPS Services
                 if (isGpsEnabled) {
 
-                    location = null;
+                    mLocation = null;
 
-                    if (location == null) {
+                    if (mLocation == null) {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
                         Log.d("GPS Enabled", "GPS Enabled");
+
                         if (locationManager != null) {
-                            location = locationManager
+                            mLocation = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+                            if (mLocation != null) {
+                                latitude = mLocation.getLatitude();
+                                longitude = mLocation.getLongitude();
                             }
                         }
                     }
@@ -128,7 +139,7 @@ public final class GpsLocationListener implements LocationListener {
             e.printStackTrace();
         }
 
-        return location;
+        return mLocation;
     }
 
     /**
@@ -145,8 +156,8 @@ public final class GpsLocationListener implements LocationListener {
      * Function to get latitude
      * */
     public double getLatitude() {
-        if (location != null) {
-            latitude = location.getLatitude();
+        if (mLocation != null) {
+            latitude = mLocation.getLatitude();
         }
 
         // return latitude
@@ -157,8 +168,9 @@ public final class GpsLocationListener implements LocationListener {
      * Function to get longitude
      * */
     public double getLongitude() {
-        if (location != null) {
-            longitude = location.getLongitude();
+
+        if (mLocation != null) {
+            return mLocation.getLongitude();
         }
 
         // return longitude

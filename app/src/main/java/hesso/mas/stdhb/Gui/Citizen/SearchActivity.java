@@ -129,28 +129,25 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lPlace = mTxtPlace.getText().toString();
             String lPeriod = mTxtPeriod.getText().toString();
 
-            String lRequest = CitizenRequests.GetCulturalObjectsTyp();
+            String lRequest = CitizenRequests.GetCulturalObjectQuery(lPlace, lPeriod);
 
             startAsyncSearch(
-                    lPlace,
-                    lPeriod,
-                    lRequest,
-                    lClientServerCommunicationMode,
-                    true);
+                lRequest,
+                lClientServerCommunicationMode,
+                true);
         }
     }
 
     //region asyncTask (to request the Citizen Endpoint)
 
-        /**
-         * Start an Async Search on a Sparql endPoint
-         *
-         * @param aPlace
-         * @param aPeriod
-         */
+    /**
+     * Start an Async Search on a Sparql endPoint
+     *
+     * @param aRequest
+     * @param aClientServerArchitecture
+     * @param aDisplaySearchmessage
+     */
         private void startAsyncSearch(
-            String aPlace,
-            String aPeriod,
             String aRequest,
             String aClientServerArchitecture,
             Boolean aDisplaySearchmessage) {
@@ -164,8 +161,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
-                        aPlace,
-                        aPeriod,
                         aRequest,
                         aClientServerArchitecture);
 
@@ -181,8 +176,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
-                        aPlace,
-                        aPeriod,
                         aRequest,
                         aClientServerArchitecture);
 
@@ -198,8 +191,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
-                        aPlace,
-                        aPeriod,
                         aRequest,
                         aClientServerArchitecture);
 

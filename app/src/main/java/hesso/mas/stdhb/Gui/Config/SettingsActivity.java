@@ -44,6 +44,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // I would recommend overriding toString in the Enum class to make the values populated in the spinner more
         // user friendly.
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.Spinner01);
+        EditText mRayon = (EditText)findViewById(R.id.mDTxtRadius);
+        Switch lRadarSwitch = (Switch)findViewById(R.id.RadarSwitch);
 
         ArrayAdapter lAdapter =
                 new ArrayAdapter(
@@ -52,8 +54,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         EnumClientServerCommunication.values());
 
         lCboClientServerCommunication.setAdapter(lAdapter);
-
-        EditText mRayon = (EditText)findViewById(R.id.mDTxtRadius);
 
         Preferences lPrefs = new Preferences(this);
 
@@ -77,7 +77,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         }
 
         Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
-        Switch lRadarSwitch = (Switch)findViewById(R.id.RadarSwitch);
 
         lRadarSwitch.setChecked(lRadarMode);
     }
@@ -101,7 +100,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     /**
