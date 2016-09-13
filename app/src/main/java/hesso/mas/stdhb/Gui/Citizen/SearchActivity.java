@@ -111,8 +111,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view){
         if (view.getId()==R.id.mBtnSearch) {
 
-            // Get the technology using for the communication between the
-            // client and the server. This is configured in the preferences.
+            // Get the technology used for the communication between the
+            // client and the server. This is configured in the shared-preferences.
             Preferences lPrefs = new Preferences(this);
 
             String lClientServerCommunicationMode =
@@ -193,18 +193,23 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 return;
             }
-
-            // means technology not implemented
-            /*Context context = getApplicationContext();
-            CharSequence text = "The type of server communication " + aClientServerCommunication + " has not been yet implemented!";
-
-            Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-            toast.show();*/
         }
 
+        /**
+         * Our Broadcast Receiver. We get notified that the data is ready this way.
+         */
         private class Receiver extends BroadcastReceiver {
+
             /**
-             * Our Broadcast Receiver. We get notified that the data is ready this way.
+             * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+             * During this time you can use the other methods on BroadcastReceiver to view/modify
+             * the current result values. This method is always called within the main thread of
+             * its process, unless you explicitly asked for it to be scheduled on a different thread
+             * using registerReceiver(BroadcastReceiver, IntentFilter, String, android.os.Handler).
+             * When it runs on the main thread you should never perform long-running operations in it
+             * (there is a timeout of 10 seconds that the system allows before considering the receiver
+             * to be blocked and a candidate to be killed). You cannot launch a popup dialog in your
+             * implementation of onReceive().
              */
             @Override
             public void onReceive(Context aContext, Intent aIntent)

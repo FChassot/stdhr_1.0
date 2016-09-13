@@ -1,7 +1,5 @@
 package hesso.mas.stdhb.Communication.WsClient.Rdf4j;
 
-import junit.framework.Assert;
-
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
 import org.eclipse.rdf4j.query.TupleQueryResult;

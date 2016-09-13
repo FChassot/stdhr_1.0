@@ -5,11 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +34,7 @@ import hesso.mas.stdhb.Gui.MainActivity;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
-public class RadarActivity extends AppCompatActivity {
+public class RadarActivity extends AppCompatActivity implements SensorEventListener {
 
     RadarView mRadarView = null;
 
@@ -38,8 +44,15 @@ public class RadarActivity extends AppCompatActivity {
 
     private Receiver mReceiver;
 
+    // device sensor manager
+    private SensorManager mSensorManager;
+
+    private Sensor mCompass;
+
+    // record the compass picture angle turned
+    private float mCurrentDegree = 0f;
+
     // Attributs used to test the radar
-    private Boolean mSimulatorMode = true;
     private Integer mSimulatorIndex = 0;
 
     Button mBtnStopRadar = null;
@@ -51,6 +64,8 @@ public class RadarActivity extends AppCompatActivity {
      * create views, bind data to lists, etc. This method also provides you with a Bundle containing the activity's
      * previously frozen state, if there was one. Always followed by onStart().
      *
+     * The app uses the device's magnetometer (compass).
+     *
      * @param savedInstanceState
      */
     @Override
@@ -61,12 +76,17 @@ public class RadarActivity extends AppCompatActivity {
 
         mRadarView = (RadarView) findViewById(R.id.radarView);
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
+        mNbrOfCulturalObjectsDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
+
         ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
         ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        mNbrOfCulturalObjectsDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
 
         mReceiver = new Receiver();
+
+        // initialize the android device sensor capabilities
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mCompass = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
         IntentFilter lFilter =
                 new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
@@ -94,12 +114,22 @@ public class RadarActivity extends AppCompatActivity {
         //mImgBack.setOnClickListener(this);
     }
 
-    private void updateRadarText(TextView aTextView) {
-        if (mRadarView.getMarkers() != null) {
-            aTextView.setText(
-                    mRadarView.getMarkers().size() - 1 + " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
-        }
+    /**
+     *
+     */
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
+        // for the system's orientation sensor registered listeners
+        mSensorManager.registerListener(
+                this,
+                mSensorManager.getDefaultSensor(
+                        Sensor.TYPE_ORIENTATION),
+                        SensorManager.SENSOR_DELAY_GAME);
     }
+
     /**
      * The final call you receive before your activity is destroyed.
      * This can happen either because the activity is finishing (someone called finish() on it,
@@ -139,6 +169,10 @@ public class RadarActivity extends AppCompatActivity {
 
         this.stopRadar(mRadarView);
         this.stopUpdateMarkersFromCitizen();
+
+        // to stop the listener and save battery
+        mSensorManager.unregisterListener(this);
+
     }
 
     /**
@@ -175,6 +209,17 @@ public class RadarActivity extends AppCompatActivity {
     };
 
     /**
+     *
+     * @param aTextView
+     */
+    private void updateRadarText(TextView aTextView) {
+        if (mRadarView.getMarkers() != null) {
+            aTextView.setText(
+                    mRadarView.getMarkers().size() - 1 + " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
+        }
+    }
+
+    /**
      * This method allows to start the update of the Markers in the view
      */
     public void startUpdateMarkersFromCitizen() {
@@ -187,6 +232,25 @@ public class RadarActivity extends AppCompatActivity {
      */
     public void stopUpdateMarkersFromCitizen() {
         mHandler.removeCallbacks(updateData);
+    }
+
+    /**
+     *
+     * @param aEvent
+     */
+    @Override
+    public void onSensorChanged(SensorEvent aEvent) {
+        // get the angle around the z-axis rotated
+        mCurrentDegree = Math.round(aEvent.values[0]);
+    }
+
+    /**
+     *
+     * @param aSensor
+     * @param aAccuracy
+     */
+    @Override
+    public void onAccuracyChanged(Sensor aSensor, int aAccuracy) {
     }
 
     /**
@@ -280,11 +344,11 @@ public class RadarActivity extends AppCompatActivity {
 
             List<RadarMarker> lMarkers =
                     RadarHelper.GetRadarMarkersFromReponse(
+                            mCurrentDegree,
                             lResponse);
 
             // TODO removes when the application works
             if (lMarkers.size() == 0) {
-                if (mSimulatorMode) {
                     if (mSimulatorIndex == 3) {
                         RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
                         RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
@@ -309,11 +373,10 @@ public class RadarActivity extends AppCompatActivity {
                         updateRadarText(mNbrOfCulturalObjectsDetected);
                         mSimulatorIndex=3;
                     }
-                }
-                else {
-                    updateMarkers(lMarkers);
-                    updateRadarText(mNbrOfCulturalObjectsDetected);
-                }
+            }
+            else {
+                updateMarkers(lMarkers);
+                updateRadarText(mNbrOfCulturalObjectsDetected);
             }
         }
     }

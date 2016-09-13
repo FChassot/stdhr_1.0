@@ -20,7 +20,7 @@ public class WsClientFactory implements IWsClientFactory {
      * @param aClientServerCommunication
      * @param aCitizenEndPoint
      *
-     * @return
+     * @return a IWsClient Instance
      */
     public IWsClient Create(
         EnumClientServerCommunication aClientServerCommunication,
