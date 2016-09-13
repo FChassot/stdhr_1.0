@@ -8,20 +8,14 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.List;
 
-import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Models.Basemodel;
@@ -203,13 +197,13 @@ public class RadarActivity extends AppCompatActivity {
 
         GpsLocationListener lGeolocationServices = new GpsLocationListener(this);
 
-        Location lActualLocation = lGeolocationServices.getUserCurrentLocation();
+        Location lCurrentUserLocation = lGeolocationServices.getUserCurrentLocation();
 
         // TODO removes when the application works
-        if (lActualLocation == null) {
-            lActualLocation = new Location("");
-            lActualLocation.setLatitude(46.6092369d);
-            lActualLocation.setLongitude(7.029020100000025d);
+        if (lCurrentUserLocation == null) {
+            lCurrentUserLocation = new Location(MyString.EMPTY_STRING);
+            lCurrentUserLocation.setLatitude(46.6092369d);
+            lCurrentUserLocation.setLongitude(7.029020100000025d);
         }
 
         RetrieveCitizenDataAsyncTask lRetrieveTask =
@@ -225,7 +219,8 @@ public class RadarActivity extends AppCompatActivity {
                         MyString.EMPTY_STRING);
 
         EnumClientServerCommunication lEnumValue =
-                EnumClientServerCommunication.valueOf(lClientServerCommunicationMode);
+                EnumClientServerCommunication.valueOf(
+                        lClientServerCommunicationMode);
 
         if (lEnumValue != EnumClientServerCommunication.ANDROJENA) {
             Notifications.ShowMessageBox(
@@ -237,7 +232,7 @@ public class RadarActivity extends AppCompatActivity {
             return;
         }
 
-        Integer lRadius =
+        Integer lRadiusOfSearch =
             lPrefs.getPrefValue(
                 BaseConstants.Attr_Search_Radius,
                     0);
@@ -252,18 +247,29 @@ public class RadarActivity extends AppCompatActivity {
         String lQuery =
                 CitizenRequests.GetCulturalObjectsInProximityQuery(
                         lCulturalObjectType,
-                        lActualLocation,
-                        lRadius);
+                        lCurrentUserLocation,
+                        lRadiusOfSearch);
 
         lRetrieveTask.execute(
             lQuery,
             lClientServerCommunicationMode);
     }
 
+    /**
+     * Our Broadcast Receiver. We get notified that the data is ready this way.
+     */
     private class Receiver extends BroadcastReceiver {
 
         /**
-         * Our Broadcast Receiver. We get notified that the data is ready this way.
+         * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+         * During this time you can use the other methods on BroadcastReceiver to view/modify
+         * the current result values. This method is always called within the main thread of
+         * its process, unless you explicitly asked for it to be scheduled on a different thread
+         * using registerReceiver(BroadcastReceiver, IntentFilter, String, android.os.Handler).
+         * When it runs on the main thread you should never perform long-running operations in it
+         * (there is a timeout of 10 seconds that the system allows before considering the receiver
+         * to be blocked and a candidate to be killed). You cannot launch a popup dialog in your
+         * implementation of onReceive().
          */
         @Override
         public void onReceive(Context aContext, Intent aIntent)
@@ -276,6 +282,7 @@ public class RadarActivity extends AppCompatActivity {
                     RadarHelper.GetRadarMarkersFromReponse(
                             lResponse);
 
+            // TODO removes when the application works
             if (lMarkers.size() == 0) {
                 if (mSimulatorMode) {
                     if (mSimulatorIndex == 3) {

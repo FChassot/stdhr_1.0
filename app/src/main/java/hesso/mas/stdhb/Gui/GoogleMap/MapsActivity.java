@@ -27,7 +27,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
     public static final String RADAR_EXTRA = "LATLNG";
 
-    public Location mLocationToDisplay;
+    public Location mCurrentLocation;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -44,7 +44,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         if (this.getIntent().hasExtra(RADAR_EXTRA)) {
             // To retrieve object sent by the radar
-            mLocationToDisplay = (Location)getIntent().getSerializableExtra(RADAR_EXTRA);
+            mCurrentLocation = (Location)getIntent().getSerializableExtra(RADAR_EXTRA);
         }
 
         InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
@@ -85,7 +85,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         mMapFragment = googleMap;
 
-        if (mLocationToDisplay != null) {
+        if (mCurrentLocation == null) {
             // Add a marker in the position found and move the camera
             LatLng lLatLngBulle = new LatLng(46.6092369, 7.029020100000025);
 
@@ -95,12 +95,15 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         }
         else {
-            // Add a marker in the position found and move the camera
-            LatLng lLatLngBulle = new LatLng(46.6092369, 7.029020100000025);
+            // Add a marker in the current location and move the camera
+            LatLng lLatLngCurrentLocation =
+                    new LatLng(
+                            mCurrentLocation.getLatitude(),
+                            mCurrentLocation.getLongitude());
 
-            mMapFragment.animateCamera(CameraUpdateFactory.newLatLngZoom(lLatLngBulle, 14));
-            mMapFragment.addMarker(new MarkerOptions().position(lLatLngBulle).title("Marker in Bulle"));
-            mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLngBulle));
+            mMapFragment.animateCamera(CameraUpdateFactory.newLatLngZoom(lLatLngCurrentLocation, 14));
+            mMapFragment.addMarker(new MarkerOptions().position(lLatLngCurrentLocation).title("Marker"));
+            mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLngCurrentLocation));
         }
     }
 

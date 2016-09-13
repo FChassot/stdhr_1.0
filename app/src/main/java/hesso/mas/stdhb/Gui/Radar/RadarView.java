@@ -235,8 +235,8 @@ public class RadarView extends 	android.view.View {
                             lIndex += 1;
                         } else {
                             aCanvas.drawCircle(
-                                    lMarker.getX(),
-                                    lMarker.getY(),
+                                    lMarker.getPositionX(),
+                                    lMarker.getPositionY(),
                                     (((aMaxRayOfRadar / 2) - 1) >> 5),
                                     aPaint);
 
@@ -295,8 +295,8 @@ public class RadarView extends 	android.view.View {
             if (lCulturalObject != null) {
                 LatLng lGpsCoordonates =
                         new LatLng(
-                                Double.parseDouble(Float.toString(lCulturalObject.getX())),
-                                Double.parseDouble(Float.toString(lCulturalObject.getY())));
+                                Double.parseDouble(Float.toString(lCulturalObject.getPositionX())),
+                                Double.parseDouble(Float.toString(lCulturalObject.getPositionY())));
 
                 lIntent.putExtra(BaseConstants.Attr_Gps_Coordinates, lGpsCoordonates);
 

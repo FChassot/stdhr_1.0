@@ -26,7 +26,8 @@ public final class RadarHelper {
      * @return A list of RadarMarker
      */
     public static List<RadarMarker> GetRadarMarkersFromReponse(String aResponse) {
-        List<RadarMarker> lMarkers = new ArrayList<RadarMarker>();;
+
+        List<RadarMarker> lMarkers = new ArrayList<RadarMarker>();
         return lMarkers;
     }
 
@@ -42,18 +43,18 @@ public final class RadarHelper {
     private String GetXYMarkerPositionInTheRadarView(
             Integer aRadarDimension,
             Location aMobileLocation,
-            RadarMarker aRadarMarker
-    ) {
+            RadarMarker aRadarMarker) {
+
         return MyString.EMPTY_STRING;
     }
 
     /*
-     * Calculate distance between two points in latitude and longitude taking
+     * Calculates the distance between two points in latitude and longitude taking
      * into account height difference.
      *
-     * The Haversine method as its base.
+     * The Haversine method is used.
      *
-     * aLatitude1, aLongitude1 Start point aLatitude2, aLongitude2 End point aElevation1 Start altitude in meters
+     * @Param aLatitude1, aLongitude1 Start point aLatitude2, aLongitude2 End point aElevation1 Start altitude in meters
      * aElevation2 End altitude in meters
      *
      * @returns Distance in Meters

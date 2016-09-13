@@ -2,6 +2,7 @@ package hesso.mas.stdhb.Gui.Radar;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+
 import android.location.Location;
 
 /**
@@ -13,8 +14,10 @@ public class RadarMarker extends Paint {
 
     Location mLocation;
 
-    int mX = 100;
-    int mY = 100;
+    int mPositionX = 100;
+
+    int mPositionY = 100;
+
     int mColor;
 
     // Constructor
@@ -27,9 +30,9 @@ public class RadarMarker extends Paint {
     };
 
     // Constructor
-    RadarMarker(int aX, int aY, int aColor) {
-        mX = aX;
-        mY = aY;
+    RadarMarker(int aPositionX, int aPositionY, int aColor) {
+        mPositionX = aPositionX;
+        mPositionY = aPositionY;
         mColor = aColor;
     };
 
@@ -50,29 +53,40 @@ public class RadarMarker extends Paint {
     };
 
     // Getter
-    public int getX() { return mX; }
+    public int getPositionX() { return mPositionX; }
 
     // Getter
-    public int getY() { return mY; }
+    public int getPositionY() { return mPositionY; }
 
     // Getter
     public int getColor() { return mColor; }
 
+    // Setter
     public void setLocation(Location aLocation) {
         mLocation = aLocation;
     }
 
+    // Getter
+    public Location getLocation() {
+        return mLocation;
+    }
+
+    // Setter
     public void setLongitude(Double aLongitude) {
         mLocation.setLongitude(aLongitude);
     }
 
-    public void setLatitude(Double aLatitude) {
-        mLocation.setLatitude(aLatitude);
-    }
+    // Getter
+    public double getLongitude() { return mLocation.getLongitude(); }
 
-    public Location getLocation() {
-        return mLocation;
-    }
+    // Setter
+    public void setLatitude(Double aLatitude) { mLocation.setLatitude(aLatitude); }
+
+    // Getter
+    public double getLatitude() { return mLocation.getLatitude(); }
+
+    // Getter
+    public double getAltitude() { return mLocation.getAltitude(); }
 
 }
 

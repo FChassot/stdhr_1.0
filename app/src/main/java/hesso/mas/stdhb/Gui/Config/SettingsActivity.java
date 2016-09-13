@@ -13,8 +13,8 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Models.Basemodel;
-
 import hesso.mas.stdhb.Base.Tools.MyString;
+
 import hesso.mas.stdhbtests.R;
 
 /**

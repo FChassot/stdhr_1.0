@@ -42,15 +42,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     // Variable of type OkHttpClient
     //OkHttpClient mOkHttpClient;
 
-    private boolean mReceiverStarted;
-
     private Receiver mReceiver;
 
     ProgressDialog progress;
 
     private String mTextView;
 
-    private static final String TAG = "AsynSearch";
+    private static final String TAG = "AsyncSearch";
 
     private PowerManager.WakeLock mWakeLock;
 
@@ -75,7 +73,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // Set a listener of this button
         mBtnSearch.setOnClickListener(this);
 
-        mReceiverStarted = true;
         mReceiver = new Receiver();
 
         PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -223,7 +220,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
                 if (lResponse.equals(MyString.EMPTY_STRING)) {
-                    mTextView = "no response from the server!";
+                    mTextView = getResources().getString(R.string.txt_no_reponse_from_the_server);
                 } else {
                     mTextView = lResponse;
                 }
