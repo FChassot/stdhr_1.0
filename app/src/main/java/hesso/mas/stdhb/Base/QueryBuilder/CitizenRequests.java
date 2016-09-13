@@ -67,22 +67,20 @@ public final class CitizenRequests {
         String aPeriod) {
 
         String lQuery =
-                "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                 "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
                 "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                 "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
                 "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                 "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                "prefix: geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                "SELECT * " +
-                "FROM <http://www.hevs.ch/datasemlab/cityzen/schema>\n" +
-                "WHERE {\n" +
-                "?culturalObject rdfs:domain <http://purl.org/dc/elements/1.1/> .\n" +
-                "?culturalObject rdfs:domain ?Date .\n" +
-                "?culturalObject rdfs:domain ?Place .\n" +
-                "FILTER (?Date > " + aPeriod + ") && \n" +
-                "?Place == " + aPlace + ")\n" +
+                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "SELECT * WHERE {\n" +
+                "?culturalInterest rdfs:domain dbo:CulturalInterest .\n" +
+                "?x rdfs:domain ?Date .\n" +
+                "?x rdfs:domain ?City .\n" +
+                "FILTER (?hasEnd < " + aPeriod + " && ?hasBeginning > " + aPeriod + "&&\n" +
+                "?City == " + aPlace + ")\n" +
                 "}";
 
         return lQuery;
@@ -94,20 +92,19 @@ public final class CitizenRequests {
      *
      * @return The appropriate Query
      */
-    public static String GetCulturalObjectsTypQuery() {
+    public static String GetCulturalObjectsTypeQuery() {
 
         String lQuery =
-               "prefix : <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+               "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
                "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
                "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
                "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-               "prefix: geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-               "SELECT DISTINCT ?culturalObjectType " +
-               "FROM <http://www.hevs.ch/datasemlab/cityzen/schema>\n" +
-               "WHERE {?culturalObjectType rdfs:domain <http://purl.org/dc/elements/1.1/type>} LIMIT  10";
+               "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+               "SELECT DISTINCT ?culturalInterestType \n" +
+               "WHERE {?culturalInterestType rdfs:domain <http://purl.org/dc/elements/1.1/type>}";
 
         return lQuery;
     }
