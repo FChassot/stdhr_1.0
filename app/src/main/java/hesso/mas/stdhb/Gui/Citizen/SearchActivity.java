@@ -10,6 +10,7 @@ import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import android.content.IntentFilter;
 import android.os.PowerManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.view.View;
@@ -30,6 +31,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
+
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by chf on 11.06.2016.
@@ -126,7 +133,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lPlace = mTxtPlace.getText().toString();
             String lPeriod = mTxtPeriod.getText().toString();
 
-            String lRequest = CitizenRequests.GetCulturalObjectQuery(lPlace, lPeriod);
+            String lRequest =
+                    CitizenRequests.GetCulturalObjectQuery(
+                            lPlace,
+                            new Date(19000101),
+                            new Date(99990101));
 
             startAsyncSearch(
                 lRequest,

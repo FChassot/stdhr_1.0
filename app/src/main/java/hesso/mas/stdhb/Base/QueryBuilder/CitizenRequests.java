@@ -2,6 +2,8 @@ package hesso.mas.stdhb.Base.QueryBuilder;
 
 import android.location.Location;
 
+import java.util.Date;
+
 import hesso.mas.stdhb.Base.Checks.Checks;
 
 /**
@@ -35,21 +37,40 @@ public final class CitizenRequests {
         Double lLongitude = aCurrentUserLocation.getLongitude();
         Double lLatitude = aCurrentUserLocation.getLatitude();
 
+        /**
+         *         String lQuery =
+         "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+         "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+         "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
+         "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+         "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
+         "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+         "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing>\n" +
+         "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+         "SELECT * WHERE {\n" +
+         "?culturalObject a dbo:CulturalPlace .\n" +
+         "?culturalObject geo:lat ?lat .\n" +
+         "?culturalObject geo:long ?long .\n" +
+         "FILTER (?long > " + (lLongitude - aRadius) + " && ?long < " + (lLongitude + aRadius) + "&& \n" +
+         "?lat > " + (lLatitude - aRadius) + " && ?lat < " + (lLatitude + aRadius) + ")} LIMIT 10";
+         */
+
+/*        String lQuery =
+            "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+            "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+            "select * where {\n" +
+            "?x dbo:CulturalEvent ?y .\n" +
+            "?x geo:location ?location .\n" +
+            "?location geo:lat ?lat .\n" +
+            "?location geo:long ?long .\n" +
+            "filter (?long > " + (lLongitude - aRadius) + " && ?long < " + (lLongitude + aRadius) + "&& \n" +
+            "?lat > " + (lLatitude - aRadius) + " && ?lat < " + (lLatitude + aRadius) + ")} LIMIT 10";*/
+
         String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                        "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
-                        "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
-                        "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                        "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
-                        "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                         "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                        "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                        "SELECT ?culturalInterest ?longitude ?latitude WHERE {\n" +
-                        "?culturalInterest rdfs:domain dbo:CulturalInterest .\n" +
-                        "?latitude geo:lat ?lat .\n" +
-                        "?longitude geo:long ?long .\n" +
-                        "FILTER (?long > " + (lLongitude - aRadius) + " && ?long < " + (lLongitude + aRadius) + "&& \n" +
-                        "?lat > " + (lLatitude - aRadius) + " && ?lat < " + (lLatitude + aRadius) + ")}";
+                        "select ?x ?y ?z where {\n" +
+                        "?x ?y ?z} limit 10";
 
         return lQuery;
     }
@@ -58,15 +79,17 @@ public final class CitizenRequests {
      * This method allows to do a specific search of Culturals objects
      *
      * @param aPlace
-     * @param aPeriod
+     * @param aBegin
+     * @param aEnd
      *
      * @return The appropriate Query
      */
     public static String GetCulturalObjectQuery(
         String aPlace,
-        String aPeriod) {
+        Date aBegin,
+        Date aEnd) {
 
-        String lQuery =
+        /*String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                 "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
@@ -76,12 +99,18 @@ public final class CitizenRequests {
                 "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                 "SELECT * WHERE {\n" +
-                "?culturalInterest rdfs:domain dbo:CulturalInterest .\n" +
-                "?x rdfs:domain ?Date .\n" +
-                "?x rdfs:domain ?City .\n" +
-                "FILTER (?hasEnd < " + aPeriod + " && ?hasBeginning > " + aPeriod + "&&\n" +
-                "?City == " + aPlace + ")\n" +
-                "}";
+                "?x dbo:CulturalInterest ?y .\n" +
+                "?x owl:hasEnd ?End .\n" +
+                "?x owl:hasBeginning ?Begin .\n" +
+                "?x dbo:City ?City .\n" +
+                "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
+                " ?City == " + aPlace + ")}";*/
+
+        String lQuery =
+                "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                        "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                        "select ?x ?z where {\n" +
+                        "?x geo:long ?z} limit 36";
 
         return lQuery;
     }

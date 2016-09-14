@@ -9,7 +9,11 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
+import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.engine.binding.Binding;
+import com.hp.hpl.jena.vocabulary.RDF;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 
@@ -49,6 +53,8 @@ public class JenaSparqlWsClient implements IWsClient {
 
         System.out.println(aQuery);
 
+        Integer lCount = 0;
+
         try {
             Query lQuery = QueryFactory.create(aQuery);
 
@@ -65,11 +71,10 @@ public class JenaSparqlWsClient implements IWsClient {
             {
                 QuerySolution lBinding = lResults.nextSolution();
 
-                Resource lSubject = (Resource) lBinding.get("Concept");
-
-                if (lSubject != null){
-                    lResult += lSubject.getURI();
-                }
+                lResult+= TryGetLiteral(lBinding, "?x");
+                lResult+= TryGetResource(lBinding, "?x");
+                lResult+= TryGetLiteral(lBinding, "?z");
+                lResult+= TryGetResource(lBinding, "?z");
             }
         } catch (Exception aException) {
             lResult = aException.getMessage();
@@ -77,6 +82,50 @@ public class JenaSparqlWsClient implements IWsClient {
         finally {
         }
 
+        lResult = "[" + lCount + " Triples]; " + " " + lResult;
+
         return lResult;
+    }
+
+    /**
+     *
+     * @param aBinding
+     * @param aValue
+     * @return
+     */
+    private String TryGetLiteral(
+            QuerySolution aBinding,
+            String aValue) {
+
+        RDFNode lRDFNode = aBinding.get(aValue);
+
+        if (lRDFNode != null) {
+            if (lRDFNode.isLiteral()) {
+                Literal lLiteral = aBinding.getLiteral(aValue);
+                return " " + lLiteral.toString();
+            }
+        }
+
+        return MyString.EMPTY_STRING;
+    }
+
+    /**
+     *
+     * @param aBinding
+     * @param aValue
+     * @return
+     */
+    private String TryGetResource(QuerySolution aBinding, String aValue) {
+
+        RDFNode lRDFNode = aBinding.get(aValue);
+
+        if (lRDFNode != null) {
+            if (lRDFNode.isResource()) {
+                Resource lResource = aBinding.getResource(aValue);
+                return " " + lResource.getURI();
+            }
+        }
+
+        return MyString.EMPTY_STRING;
     }
 }
