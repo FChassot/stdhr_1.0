@@ -70,9 +70,11 @@ public class JenaSparqlWsClient implements IWsClient {
             while (lResults.hasNext())
             {
                 QuerySolution lBinding = lResults.nextSolution();
-
+                lCount += 1;
                 lResult+= TryGetLiteral(lBinding, "?x");
                 lResult+= TryGetResource(lBinding, "?x");
+                lResult+= TryGetLiteral(lBinding, "?y");
+                lResult+= TryGetResource(lBinding, "?y");
                 lResult+= TryGetLiteral(lBinding, "?z");
                 lResult+= TryGetResource(lBinding, "?z");
             }
@@ -82,7 +84,7 @@ public class JenaSparqlWsClient implements IWsClient {
         finally {
         }
 
-        lResult = "[" + lCount + " Triples]; " + " " + lResult;
+        lResult = "[" + lCount + " Triplets]; " + " " + lResult;
 
         return lResult;
     }

@@ -1,5 +1,6 @@
 package hesso.mas.stdhb.Gui.Radar;
 
+import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.location.Location;
 
@@ -31,6 +32,15 @@ public final class RadarHelper {
         String aResponse) {
 
         List<RadarMarker> lMarkers = new ArrayList<RadarMarker>();
+
+        if (!aResponse.equals(MyString.EMPTY_STRING)) {
+            RadarMarker lMarker1 = new RadarMarker(0, 0, Color.RED);
+            RadarMarker lMarker2 = new RadarMarker(120, 150, Color.BLUE);
+
+            lMarkers.add(lMarker1);
+            lMarkers.add(lMarker2);
+        }
+
         return lMarkers;
     }
 

@@ -57,6 +57,7 @@ public final class CitizenRequests {
 
 /*        String lQuery =
             "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+            "prefix data: <http://www.hevs.ch/datasemlab/cityzen/data#>\n" +
             "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
             "select * where {\n" +
             "?x dbo:CulturalEvent ?y .\n" +
@@ -68,9 +69,12 @@ public final class CitizenRequests {
 
         String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                        "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                        "select ?x ?y ?z where {\n" +
-                        "?x ?y ?z} limit 10";
+                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "select ?x ?lat ?long where {\n" +
+                "?x geo:long ?long.\n" +
+                "?x geo:lat ?lat.}\n" +
+                "filter (?long > " + (lLongitude - aRadius) + " && ?long < " + (lLongitude + aRadius) + "&& \n" +
+                "?lat > " + (lLatitude - aRadius) + " && ?lat < " + (lLatitude + aRadius) + ")} LIMIT 1";
 
         return lQuery;
     }
@@ -91,6 +95,7 @@ public final class CitizenRequests {
 
         /*String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                "prefix data: <http://www.hevs.ch/datasemlab/cityzen/data#>\n" +
                 "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                 "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
                 "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -108,9 +113,10 @@ public final class CitizenRequests {
 
         String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                        "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                        "select ?x ?z where {\n" +
-                        "?x geo:long ?z} limit 36";
+                "prefix dta: <http://www.hevs.ch/datasemlab/cityzen/data#>\n" +
+                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "select ?x ?y ?z where {\n" +
+                "?x ?y ?z} limit 1000";
 
         return lQuery;
     }

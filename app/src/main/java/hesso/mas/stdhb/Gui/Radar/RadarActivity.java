@@ -348,7 +348,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                             lResponse);
 
             // TODO removes when the application works
-            if (lMarkers.size() == 0) {
+            /*if (lMarkers.size() == 0) {
                     if (mSimulatorIndex == 3) {
                         RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
                         RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
@@ -374,10 +374,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         mSimulatorIndex=3;
                     }
             }
-            else {
+            else {*/
                 updateMarkers(lMarkers);
                 updateRadarText(mNbrOfCulturalObjectsDetected);
-            }
+            /*}*/
         }
     }
 
