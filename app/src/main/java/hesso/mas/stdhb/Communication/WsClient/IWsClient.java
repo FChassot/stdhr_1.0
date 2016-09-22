@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Communication.WsClient;
 
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
+
 /**
  * Created by chf on 23.08.2016.
  */
@@ -10,5 +12,5 @@ public interface IWsClient {
      * @param aQuery
      * @return
      */
-    String executeRequest(String aQuery);
+    CitizenQueryResult executeRequest(String aQuery);
 }

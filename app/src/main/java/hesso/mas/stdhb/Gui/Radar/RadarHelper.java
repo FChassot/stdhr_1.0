@@ -7,6 +7,7 @@ import android.location.Location;
 import java.util.ArrayList;
 import java.util.List;
 
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 /**
@@ -27,7 +28,7 @@ public final class RadarHelper {
      *
      * @return A list of RadarMarker
      */
-    public static List<RadarMarker> GetRadarMarkersFromReponse(
+    /*public static List<RadarMarker> GetRadarMarkersFromResponse(
         Float aCompassHeading,
         String aResponse) {
 
@@ -39,6 +40,29 @@ public final class RadarHelper {
 
             lMarkers.add(lMarker1);
             lMarkers.add(lMarker2);
+        }
+
+        return lMarkers;
+    }*/
+
+    /**
+     *
+     * @param aCompassHeading
+     * @param aQueryResult
+     *
+     * @return A list of RadarMarker
+     */
+    public static List<RadarMarker> GetRadarMarkersFromResponse(
+        Float aCompassHeading,
+        CitizenQueryResult aQueryResult) {
+
+        List<RadarMarker> lMarkers = new ArrayList<RadarMarker>();
+
+        if (aQueryResult != null) {
+            for (int i = 0; i < aQueryResult.Count(); ++i){
+                RadarMarker lMarker = new RadarMarker(i+10, i+22, Color.RED);
+                lMarkers.add(lMarker);
+            }
         }
 
         return lMarkers;

@@ -8,6 +8,7 @@ import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
@@ -40,7 +41,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
      *
      * @return The result of the request
      */
-    public String executeRequest(
+    public CitizenQueryResult executeRequest(
         String aQuery) {
 
         // Request Sparql using Rdf4j
@@ -81,6 +82,6 @@ public class Rdf4jSparqlWsClient implements IWsClient {
             }
         }
 
-        return lResult;
+        return null;
     }
 }

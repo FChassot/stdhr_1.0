@@ -2,7 +2,7 @@ package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
+import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
@@ -10,7 +10,6 @@ import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import android.content.IntentFilter;
 import android.os.PowerManager;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.view.View;
@@ -32,10 +31,6 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**

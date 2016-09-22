@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
+import java.io.Serializable;
+
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
@@ -22,7 +24,7 @@ import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
  * This class represents a thread used to retrieve Data of the Citizen
  * Server.
  */
-public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, String> {
+public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, CitizenQueryResult, CitizenQueryResult> {
 
     private Exception mException;
 
@@ -69,14 +71,14 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      *
      * @param urls
      */
-    public String doInBackground(String... urls) {
+    public CitizenQueryResult doInBackground(String... urls) {
 
         String lQuery = urls[0];
 
         EnumClientServerCommunication lClientServerCommunicationMode =
                 EnumClientServerCommunication.valueOf(urls[1]);
 
-        String lResponse = MyString.EMPTY_STRING;
+        CitizenQueryResult lResponse = null;
 
         try {
             IWsClientFactory lFactory = new WsClientFactory();
@@ -113,15 +115,15 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
      * Runs on the UI thread after doInBackground(Params...).
      * The specified result is the value returned by doInBackground(Params...).
      */
-    protected void onPostExecute(String aResult) {
+    protected void onPostExecute(CitizenQueryResult aObject) {
         // TODO: check this.exception
         // TODO: do something with the feed
-        Log.i(TAG, "RESULT = " + aResult);
+        Log.i(TAG, "RESULT = " + aObject);
 
         Intent lIntent = new Intent();
 
         lIntent.setAction(mAction);
-        lIntent.putExtra(HTTP_RESPONSE, aResult);
+        lIntent.putExtra(HTTP_RESPONSE, (Serializable) aObject);
 
         // clear the progress indicator
         if (mProgress != null)
@@ -133,8 +135,4 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, Void, Strin
         mContext.sendBroadcast(lIntent);
     }
 
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        //setProgressPercent(progress[0]);
-    }
 }

@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,8 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +24,9 @@ import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenRequests;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenDbObject;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
+import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.MainActivity;
@@ -204,7 +203,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 7000);
+            mHandler.postDelayed(this, 30000);
         }
     };
 
@@ -338,12 +337,22 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onReceive(Context aContext, Intent aIntent)
         {
-            String lResponse =
-                    aIntent.getStringExtra(
+            //CitizenQueryResult lResponse = null;
+                    /*aIntent.getExtra(
+                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);*/
+
+            Bundle lBundle = aIntent.getExtras();
+
+            List<CitizenDbObject> lListOfResult =
+                    (List<CitizenDbObject>) lBundle.getSerializable(
                             RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
+            CitizenQueryResult lResponse = new CitizenQueryResult();
+
+            lResponse.AddRange(lListOfResult);
+
             List<RadarMarker> lMarkers =
-                    RadarHelper.GetRadarMarkersFromReponse(
+                    RadarHelper.GetRadarMarkersFromResponse(
                             mCurrentDegree,
                             lResponse);
 

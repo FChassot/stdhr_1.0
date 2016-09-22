@@ -15,6 +15,8 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.sparql.engine.binding.Binding;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenDbObject;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
@@ -47,13 +49,11 @@ public class JenaSparqlWsClient implements IWsClient {
      *
      * @return The result of the request
      */
-    public String executeRequest(String aQuery) {
+    public CitizenQueryResult executeRequest(String aQuery) {
 
-        String lResult = MyString.EMPTY_STRING;
+        CitizenQueryResult lCitizenQueryResult = new CitizenQueryResult();
 
         System.out.println(aQuery);
-
-        Integer lCount = 0;
 
         try {
             Query lQuery = QueryFactory.create(aQuery);
@@ -70,23 +70,35 @@ public class JenaSparqlWsClient implements IWsClient {
             while (lResults.hasNext())
             {
                 QuerySolution lBinding = lResults.nextSolution();
-                lCount += 1;
-                lResult+= TryGetLiteral(lBinding, "?x");
-                lResult+= TryGetResource(lBinding, "?x");
-                lResult+= TryGetLiteral(lBinding, "?y");
-                lResult+= TryGetResource(lBinding, "?y");
-                lResult+= TryGetLiteral(lBinding, "?z");
-                lResult+= TryGetResource(lBinding, "?z");
+                lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, "title"));
             }
         } catch (Exception aException) {
-            lResult = aException.getMessage();
+            //lResult = aException.getMessage();
         }
         finally {
         }
 
-        lResult = "[" + lCount + " Triplets]; " + " " + lResult;
+        //lResult = "[" + lCitizenQueryResult. + " Triplets]; " + " " + lResult;
 
-        return lResult;
+        return lCitizenQueryResult;
+    }
+
+    private CitizenDbObject ConvertSolutionInCitizenDbObject(
+        QuerySolution lBinding,
+        String aFieldValue) {
+
+        String lLiteral = TryGetLiteral(lBinding, "?" + aFieldValue);
+        String lUri = TryGetResource(lBinding, "?" + aFieldValue);
+
+        if (!lLiteral.equals(MyString.EMPTY_STRING)) {
+            return new CitizenDbObject(lLiteral);
+        }
+
+        if (!lUri.equals(MyString.EMPTY_STRING)) {
+            return new CitizenDbObject(lUri);
+        }
+
+        return null;
     }
 
     /**
