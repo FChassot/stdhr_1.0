@@ -38,6 +38,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
     RadarView mRadarView = null;
 
+    private static final String TAG = "RadarActivity";
+
     // A Handler allows you to send and process Message
     // and Runnable objects associated with a thread's MessageQueue.
     Handler mHandler = new android.os.Handler();
@@ -216,7 +218,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     private void updateRadarText(TextView aTextView) {
         if (mRadarView.getMarkers() != null) {
             aTextView.setText(
-                    mRadarView.getMarkers().size() - 1 + " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
+                    mRadarView.getMarkers().size() + " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
         }
     }
 
@@ -340,6 +342,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         public void onReceive(Context aContext, Intent aIntent)
         {
             Bundle lBundle = aIntent.getExtras();
+
             CitizenQueryResult lCitizenQueryResult = null;
 
             try {
@@ -348,7 +351,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception e) {
-                Log.i("HYY", e.getMessage());
+                Log.i(TAG, e.getMessage());
             }
 
             List<RadarMarker> lMarkers =
@@ -356,47 +359,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                             mCurrentDegree,
                             lCitizenQueryResult);
 
-            // TODO removes when the application works
-            if (lMarkers.size() == 0) {
-                    if (mSimulatorIndex == 3) {
-                        RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-                        lMarker1.setLatitude(46.6092369);
-                        lMarker1.setLongitude(7.029020100000025);
-                        //RadarMarker lMarker2 = new RadarMarker(155, 150, Color.RED);
-                        RadarMarker lMarker3 = new RadarMarker(201, 250, Color.RED);
-                        RadarMarker lMarker4 = new RadarMarker(218, 213, Color.GREEN);
-
-                        lMarkers.add(lMarker4);
-                        lMarkers.add(lMarker3);
-                        //lMarkers.add(lMarker2);
-                        lMarkers.add(lMarker1);
-
-                        updateMarkers(lMarkers);
-                        updateRadarText(mNbrOfCulturalObjectsDetected);
-                        mSimulatorIndex=2;
-                    }
-                    else {
-                        RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-                        lMarker1.setLatitude(46.6092369);
-                        lMarker1.setLongitude(7.029020100000025);
-                        //RadarMarker lMarker2 = new RadarMarker(150, 150, Color.RED);
-                        RadarMarker lMarker3 = new RadarMarker(200, 252, Color.RED);
-                        RadarMarker lMarker4 = new RadarMarker(235, 228, Color.GREEN);
-
-                        lMarkers.add(lMarker4);
-                        lMarkers.add(lMarker3);
-                        //lMarkers.add(lMarker2);
-                        lMarkers.add(lMarker1);
-
-                        updateMarkers(lMarkers);
-                        updateRadarText(mNbrOfCulturalObjectsDetected);
-                        mSimulatorIndex=3;
-                    }
-            }
-            else {
-                updateMarkers(lMarkers);
-                updateRadarText(mNbrOfCulturalObjectsDetected);
-            }
+            updateMarkers(lMarkers);
+            updateRadarText(mNbrOfCulturalObjectsDetected);
         }
     }
 
