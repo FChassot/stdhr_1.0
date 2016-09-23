@@ -5,6 +5,8 @@ import android.graphics.Paint;
 
 import android.location.Location;
 
+import hesso.mas.stdhb.Base.Tools.MyString;
+
 /**
  * Created by chf on 21.07.2016.
  *
@@ -12,11 +14,11 @@ import android.location.Location;
  */
 public class RadarMarker extends Paint {
 
-    Location mLocation;
+    Location mLocation = new Location(MyString.EMPTY_STRING);
 
-    int mPositionX = 100;
+    int mPositionX = 0;
 
-    int mPositionY = 100;
+    int mPositionY = 0;
 
     int mColor;
 
@@ -37,7 +39,7 @@ public class RadarMarker extends Paint {
     };
 
     // Constructor
-    void RadarMarker(
+    RadarMarker(
         int aColor,
         boolean aAntiAlias,
         Paint.Style aStyle,

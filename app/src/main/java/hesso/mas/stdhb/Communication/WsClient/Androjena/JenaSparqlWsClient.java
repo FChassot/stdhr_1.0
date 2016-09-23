@@ -78,8 +78,6 @@ public class JenaSparqlWsClient implements IWsClient {
         finally {
         }
 
-        //lResult = "[" + lCitizenQueryResult. + " Triplets]; " + " " + lResult;
-
         return lCitizenQueryResult;
     }
 

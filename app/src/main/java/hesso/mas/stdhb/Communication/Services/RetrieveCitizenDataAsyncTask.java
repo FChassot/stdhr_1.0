@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -116,17 +117,19 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
      * Runs on the UI thread after doInBackground(Params...).
      * The specified result is the value returned by doInBackground(Params...).
      */
-    protected void onPostExecute(CitizenQueryResult aObject) {
+    protected void onPostExecute(CitizenQueryResult aCitizenQueryResult) {
         // TODO: check this.exception
         // TODO: do something with the feed
-        Log.i(TAG, "RESULT = " + aObject);
+        Log.i(TAG, "RESULT = " + aCitizenQueryResult);
 
         Intent lIntent = new Intent();
 
         lIntent.setAction(mAction);
 
         Bundle lBundle = new Bundle();
-        lBundle.putSerializable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, (Serializable) aObject.Iter());
+
+        //lBundle.putSerializable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, (Serializable) aObject.Iter());
+        lBundle.putParcelable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, aCitizenQueryResult);
         lIntent.putExtras(lBundle);
 
         // clear the progress indicator
@@ -135,8 +138,13 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
             mProgress.dismiss();
         }
 
-        // broadcast the completion
-        //mContext.sendBroadcast(lIntent);
-    }
+        try{
+            mContext.sendBroadcast(lIntent);
 
+        } catch (Exception e){
+            Log.i(TAG, e.getMessage());
+        } finally {
+
+        }
+    }
 }

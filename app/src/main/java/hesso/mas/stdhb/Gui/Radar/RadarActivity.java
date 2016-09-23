@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -12,6 +13,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -203,11 +205,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 30000);
+            mHandler.postDelayed(this, 2000);
         }
     };
 
     /**
+     * Update the TextView which informs about the number of objects in proximity
      *
      * @param aTextView
      */
@@ -337,32 +340,37 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onReceive(Context aContext, Intent aIntent)
         {
-            //CitizenQueryResult lResponse = null;
-                    /*aIntent.getExtra(
-                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);*/
-
             Bundle lBundle = aIntent.getExtras();
+            CitizenQueryResult lCitizenQueryResult = null;
 
-            List<CitizenDbObject> lListOfResult =
-                    (List<CitizenDbObject>) lBundle.getSerializable(
-                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+            try {
+                lCitizenQueryResult =
+                        lBundle.getParcelable(
+                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-            CitizenQueryResult lResponse = new CitizenQueryResult();
+            } catch (Exception e) {
+                Log.i("HYY", e.getMessage());
+            }
 
-            lResponse.AddRange(lListOfResult);
 
             List<RadarMarker> lMarkers =
                     RadarHelper.GetRadarMarkersFromResponse(
                             mCurrentDegree,
-                            lResponse);
+                            lCitizenQueryResult);
 
             // TODO removes when the application works
-            /*if (lMarkers.size() == 0) {
+            if (lMarkers.size() == 0) {
                     if (mSimulatorIndex == 3) {
                         RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-                        RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
+                        lMarker1.setLatitude(46.6092369);
+                        lMarker1.setLongitude(7.029020100000025);
+                        //RadarMarker lMarker2 = new RadarMarker(155, 150, Color.RED);
+                        RadarMarker lMarker3 = new RadarMarker(201, 250, Color.RED);
+                        RadarMarker lMarker4 = new RadarMarker(218, 213, Color.GREEN);
 
-                        lMarkers.add(lMarker2);
+                        lMarkers.add(lMarker4);
+                        lMarkers.add(lMarker3);
+                        //lMarkers.add(lMarker2);
                         lMarkers.add(lMarker1);
 
                         updateMarkers(lMarkers);
@@ -371,11 +379,15 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                     }
                     else {
                         RadarMarker lMarker1 = new RadarMarker(0, 0, Color.BLUE);
-                        RadarMarker lMarker2 = new RadarMarker(120, 150, Color.RED);
-                        RadarMarker lMarker3 = new RadarMarker(150, 201, Color.RED);
+                        lMarker1.setLatitude(46.6092369);
+                        lMarker1.setLongitude(7.029020100000025);
+                        //RadarMarker lMarker2 = new RadarMarker(150, 150, Color.RED);
+                        RadarMarker lMarker3 = new RadarMarker(200, 252, Color.RED);
+                        RadarMarker lMarker4 = new RadarMarker(235, 228, Color.GREEN);
 
+                        lMarkers.add(lMarker4);
                         lMarkers.add(lMarker3);
-                        lMarkers.add(lMarker2);
+                        //lMarkers.add(lMarker2);
                         lMarkers.add(lMarker1);
 
                         updateMarkers(lMarkers);
@@ -383,10 +395,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         mSimulatorIndex=3;
                     }
             }
-            else {*/
+            else {
                 updateMarkers(lMarkers);
                 updateRadarText(mNbrOfCulturalObjectsDetected);
-            /*}*/
+            }
         }
     }
 

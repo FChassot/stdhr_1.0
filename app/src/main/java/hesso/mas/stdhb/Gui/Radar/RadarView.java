@@ -20,6 +20,7 @@ import java.util.List;
 
 import hesso.mas.stdhb.Base.Constants.*;
 
+import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 
 /**
@@ -280,7 +281,7 @@ public class RadarView extends 	android.view.View {
 
             Intent lIntent = new Intent(myContext, MapsActivity.class);
 
-            Location lCoordinates = new Location("");
+            Location lCoordinates = new Location(MyString.EMPTY_STRING);
 
             // coordonnées GPS
             lCoordinates.setAltitude(829);
@@ -290,7 +291,9 @@ public class RadarView extends 	android.view.View {
             lIntent.putExtra(MapsActivity.RADAR_EXTRA, lCoordinates);
 
             RadarMarker lCulturalObject =
-                    FindTheNearestCulturalObject(lXCoordinate, lYCoordinate);
+                    FindTheNearestCulturalObject(
+                            lXCoordinate,
+                            lYCoordinate);
 
             if (lCulturalObject != null) {
                 LatLng lGpsCoordonates =
@@ -308,7 +311,12 @@ public class RadarView extends 	android.view.View {
             return false;
         }
 
-        private RadarMarker FindTheNearestCulturalObject(float aX, float aY) {return null;}
+        private RadarMarker FindTheNearestCulturalObject(
+                float aX,
+                float aY) {
+
+            return mMarkers.get(0);
+        }
 
         /**
          * This method check if the parameters X and Y are in the view or not
@@ -327,8 +335,10 @@ public class RadarView extends 	android.view.View {
             int lViewX = lLocation[0];
             int lViewY = lLocation[1];
 
-            return ((aX > lViewX && aX <(lViewX + aView.getWidth())) &&
-                    (aY > lViewY && aY < (lViewY + aView.getHeight())));
+            //TODO
+            return true;
+            //return ((aX > lViewX && aX <(lViewX + aView.getWidth())) &&
+                    //(aY > lViewY && aY < (lViewY + aView.getHeight())));
         }
 
         /**
