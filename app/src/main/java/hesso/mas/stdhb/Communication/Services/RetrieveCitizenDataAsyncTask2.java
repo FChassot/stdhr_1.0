@@ -8,20 +8,20 @@ import android.util.Log;
 
 import java.io.Serializable;
 
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
-import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 
+import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhbtests.R;
 
 /**
  * Created by chf on 20.06.2016.
  *
- * This class represents a thread used to retrieve Data of the Citizen
+ * This class represents an AsyncTask used to retrieve Data located on the Citizen
  * Server.
  */
 public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, CitizenQueryResult, CitizenQueryResult> {
@@ -58,7 +58,11 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, CitizenQuer
     @Override
     protected void onPreExecute() {
         if (onPreExecuteMessageDisplay) {
-            mProgress = ProgressDialog.show(mContext, "Searching Citizen Data..", "Please wait");
+            mProgress =
+                ProgressDialog.show(
+                    mContext,
+                    mContext.getString(R.string.citizen_search),
+                    mContext.getString(R.string.wait));
         }
     }
 

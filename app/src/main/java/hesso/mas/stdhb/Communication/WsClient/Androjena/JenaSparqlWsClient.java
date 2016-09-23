@@ -12,13 +12,13 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.engine.binding.Binding;
-import com.hp.hpl.jena.vocabulary.RDF;
+
+import org.eclipse.rdf4j.spin.function.spif.For;
 
 import java.util.List;
 
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenDbObject;
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
+import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenDbObject;
+import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;
@@ -73,13 +73,9 @@ public class JenaSparqlWsClient implements IWsClient {
 
             while (lResults.hasNext())
             {
-                if (lResultsVar.size() == 1)  {
-                    QuerySolution lBinding = lResults.nextSolution();
-                    lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, lResultsVar.get(0)));
-                }
-                else {
-                    QuerySolution lBinding = lResults.nextSolution();
-                    lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, "title"));
+                for (String lVariable : lResultsVar) {
+                        QuerySolution lBinding = lResults.nextSolution();
+                        lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, lVariable));
                 }
             }
         } catch (Exception aException) {
@@ -99,11 +95,11 @@ public class JenaSparqlWsClient implements IWsClient {
         String lUri = TryGetResource(lBinding, "?" + aFieldValue);
 
         if (!lLiteral.equals(MyString.EMPTY_STRING)) {
-            return new CitizenDbObject(lLiteral);
+            return new CitizenDbObject(lLiteral, aFieldValue);
         }
 
         if (!lUri.equals(MyString.EMPTY_STRING)) {
-            return new CitizenDbObject(lUri);
+            return new CitizenDbObject(lUri, aFieldValue);
         }
 
         return null;

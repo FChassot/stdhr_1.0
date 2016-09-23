@@ -97,4 +97,7 @@
     <string name="date">Période</string>
     <string name="period">Période</string>
 
+    <!-- Strings for AsyncTask -->
+    <string name="citizen_search">Searching Citizen Data..</string>
+    <string name="wait">Please wait</string>
 </resources>

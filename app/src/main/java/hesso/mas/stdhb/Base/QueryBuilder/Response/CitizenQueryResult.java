@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.QueryBuilder;
+package hesso.mas.stdhb.Base.QueryBuilder.Response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -21,7 +21,7 @@ public class CitizenQueryResult implements Parcelable {
 
     // Constructor
     private CitizenQueryResult(Parcel in) {
-        in.readList(mList, null);
+        in.readList(mList, getClass().getClassLoader());
     }
 
     /**

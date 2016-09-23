@@ -2,7 +2,7 @@ package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
+import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
@@ -187,7 +187,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Start an Async Search on a Sparql endPoint
      *
-     * @param aRequest
+     * @param aRequest represents the sparql request
      * @param aClientServerArchitecture
      * @param aDisplaySearchmessage
      */
@@ -261,12 +261,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onReceive(Context aContext, Intent aIntent)
             {
-                // clear the progress indicator
-                /*if (progress != null)
-                {
-                    progress.dismiss();
-                }*/
-
                 /*String lResponse =
                         aIntent.getStringExtra(
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);*/

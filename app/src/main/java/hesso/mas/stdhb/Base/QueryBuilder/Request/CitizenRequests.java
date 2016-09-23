@@ -49,13 +49,13 @@ public final class CitizenRequests {
 
         String lQuery =
                 "prefix cti: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                        "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                        "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-                        "select ?title ?lat ?long where {\n" +
-                        "?culturalInterest dc:title ?title.\n" +
-                        "?x geo:long ?long.\n" +
-                        "?x geo:lat ?lat}\n" +
-                        "LIMIT 1";
+                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                "select ?title ?lat ?long where {\n" +
+                "?culturalInterest dc:title ?title.\n" +
+                "?x geo:long ?long.\n" +
+                "?x geo:lat ?lat}\n" +
+                "LIMIT 100";
 
         return lQuery;
     }

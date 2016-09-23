@@ -7,7 +7,7 @@ import android.location.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
+import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 /**
@@ -60,7 +60,7 @@ public final class RadarHelper {
 
         if (aQueryResult != null) {
             for (int i = 0; i < aQueryResult.Count(); ++i){
-                RadarMarker lMarker = new RadarMarker(i+10, i+22, Color.RED);
+                RadarMarker lMarker = new RadarMarker(i+200, i+272, Color.RED);
                 lMarkers.add(lMarker);
             }
         }

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.QueryBuilder;
+package hesso.mas.stdhb.Base.QueryBuilder.Response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,6 +11,7 @@ public class CitizenDbObject implements Parcelable {
     //private Literal mLiteral;
     //private URI mUri;
 
+    private String mVariable;
     private String mValue;
 
     /*public CitizenDbObject(Literal aObject) {
@@ -21,9 +22,11 @@ public class CitizenDbObject implements Parcelable {
         if (aObject instanceof  URI) { mUri = aObject; }
     }*/
 
-    public CitizenDbObject(String aObject) {
-        if (aObject instanceof String) {
-            mValue = aObject;
+    public CitizenDbObject(String aVar, String aValue) {
+        mVariable = aVar;
+
+        if (aValue instanceof String) {
+            mValue = aValue;
         }
     }
 
@@ -31,7 +34,6 @@ public class CitizenDbObject implements Parcelable {
     private CitizenDbObject(Parcel in) {
         in.readString();
     }
-
 
     public void writeToParcel(Parcel aDest, int flags) {
         aDest.writeString(mValue);

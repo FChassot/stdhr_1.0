@@ -5,7 +5,7 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 /**
  * Created by chf on 20.06.2016.
  *
- * This class represents the Citizen Endpoint
+ * This class represents the Citizen Endpoint.
  */
 public class CitizenEndPoint extends WsEndPoint {
 
@@ -14,11 +14,6 @@ public class CitizenEndPoint extends WsEndPoint {
 
     // Citizen Repository Name
     private String mCitizenRepositoryName = MyString.EMPTY_STRING;
-
-    private String mService = MyString.EMPTY_STRING;
-
-    // Constructor
-    public CitizenEndPoint() {}
 
     // Constructor
     public CitizenEndPoint(
