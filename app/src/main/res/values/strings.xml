@@ -85,7 +85,7 @@
     <!-- String for the Citizen Search activity -->
     <string name="lbl_place">Lieu</string>
     <string name="lbl_date">Date</string>
-    <string name="lbl_request">CITIZEN REQUEST</string>
+    <string name="lbl_request">Rechercher</string>
     <string name="txt_no_reponse_from_the_server">no response from the server!</string>
 
     <!-- Strings for settings activity -->

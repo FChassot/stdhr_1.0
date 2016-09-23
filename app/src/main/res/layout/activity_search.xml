@@ -50,7 +50,9 @@
             android:id="@+id/imageView"
             android:layout_column="13"
             android:layout_span="5"
-            android:background="#071295" />
+            android:background="#fa0d44"
+            android:adjustViewBounds="true"
+            android:scrollIndicators="right" />
 
         <EditText
             android:layout_width="wrap_content"
