@@ -352,7 +352,6 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                 Log.i("HYY", e.getMessage());
             }
 
-
             List<RadarMarker> lMarkers =
                     RadarHelper.GetRadarMarkersFromResponse(
                             mCurrentDegree,

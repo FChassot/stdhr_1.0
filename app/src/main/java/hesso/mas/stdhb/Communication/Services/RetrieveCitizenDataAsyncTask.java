@@ -60,7 +60,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
     @Override
     protected void onPreExecute() {
         if (onPreExecuteMessageDisplay) {
-            mProgress = ProgressDialog.show(mContext, "Searching Data..", "Please wait");
+            mProgress = ProgressDialog.show(mContext, "Searching Citizen Data..", "Please wait");
         }
     }
 

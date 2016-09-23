@@ -2,12 +2,16 @@ package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
 import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.PowerManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +33,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 /**
@@ -74,6 +84,37 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         // Set a listener of this button
         mBtnSearch.setOnClickListener(this);
+
+        final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
+        final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
+
+        mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (mTxtPlace.getText().toString().equals("")) {
+                        mTxtPlace.setText("Lieu");
+                    }
+                }else {
+                    if (mTxtPlace.getText().toString().equals("Lieu")) {
+                        mTxtPlace.setText(MyString.EMPTY_STRING);
+                    }
+                }
+            }
+        });
+
+        mTxtPeriod.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if (mTxtPeriod.getText().toString().equals("")) {
+                        mTxtPeriod.setText("Période");
+                    }
+                }else {
+                    if (mTxtPeriod.getText().toString().equals("Période")) {
+                        mTxtPeriod.setText(MyString.EMPTY_STRING);
+                    }
+                }
+            }
+        });
 
         mReceiver = new Receiver();
 
@@ -221,28 +262,73 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             public void onReceive(Context aContext, Intent aIntent)
             {
                 // clear the progress indicator
-                if (progress != null)
+                /*if (progress != null)
                 {
                     progress.dismiss();
-                }
+                }*/
 
-                String lResponse =
+                /*String lResponse =
                         aIntent.getStringExtra(
-                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);*/
+                Bundle lBundle = aIntent.getExtras();
+                CitizenQueryResult lCitizenQueryResult = null;
 
-                if (lResponse.equals(MyString.EMPTY_STRING)) {
-                    mTextView = getResources().getString(R.string.txt_no_reponse_from_the_server);
-                } else {
-                    mTextView = lResponse;
+                try {
+                    lCitizenQueryResult =
+                            lBundle.getParcelable(
+                                    RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+
+                } catch (Exception e) {
+                    Log.i("HYY", e.getMessage());
                 }
 
-                TextView mResult = (TextView)findViewById(R.id.mEditTxtCitizenResult);
+                if (lCitizenQueryResult == null) {
+                    ImageView mImageView = (ImageView)findViewById(R.id.imageView);
 
-                mResult.setText(mTextView);
+                    try{
+                        /*Drawable lDrawable =
+                                LoadImageFromWebOperations(
+                                        );*/
+                        mImageView.setImageResource(R.mipmap.ic_tourbillon);
+                        //downloadfile("https://cave.valais-wallis-digital.ch/media/filer_public/dd/e0/dde07542-ff81-47f5-804c-6d027d462d6d/0013cebc-10e8-41b8-80b5-7b6abd532539.jpg", mImageView);
+                        //mImageView.setImageDrawable(lDrawable);
+                    } catch (Exception aExc){
+                        Log.i("HYY", aExc.getMessage());
+                    }
 
-                Log.i(TAG, "RESPONSE = " + lResponse);
+                } else {
+                    //mTextView = lCitizenQueryResult;
+                }
+
+               // TextView mResult = (TextView)findViewById(R.id.mEditTxtCitizenResult);
+
+               // mResult.setText(mTextView);
+
+                Log.i(TAG, "RESPONSE = " + lCitizenQueryResult);
             }
         }
+
+    /**
+     * Load an image on the web
+     *
+     * @param url
+     * @return
+     */
+    private Drawable LoadImageFromWebOperations(String url) {
+
+        Drawable lDrawable = null;
+
+        try
+        {
+            InputStream lInputStream = (InputStream) new URL(url).getContent();
+            lDrawable = Drawable.createFromStream(lInputStream, "src name");
+        }
+        catch (Exception e) {
+            System.out.println("Exc="+e);
+        }
+
+        return lDrawable;
+    }
 
     //endregion (
 
@@ -281,4 +367,34 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }*/
+
+    public static void downloadfile(String fileurl, ImageView img) {
+        Bitmap bmImg = null;
+        URL myfileurl = null;
+        try {
+            myfileurl = new URL(fileurl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myfileurl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            int length = conn.getContentLength();
+            if (length > 0) {
+                int[] bitmapData = new int[length];
+                byte[] bitmapData2 = new byte[length];
+                InputStream is = conn.getInputStream();
+                bmImg = BitmapFactory.decodeStream(is);
+
+                img.setImageBitmap(bmImg);
+            } else {
+
+            }
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

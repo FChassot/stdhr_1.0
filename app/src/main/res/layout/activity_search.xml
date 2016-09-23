@@ -38,13 +38,19 @@
                 android:textIsSelectable="false" />
         </TableRow>
 
-        <EditText
-            android:layout_width="142dp"
-            android:layout_height="301dp"
-            android:id="@+id/mEditTxtCitizenResult"
-            android:height="70px"
-            android:layout_gravity="top"
-            android:background="#9ebdf7" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TableRow>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:id="@+id/imageView"
+            android:layout_column="13"
+            android:layout_span="5"
+            android:background="#071295" />
 
         <EditText
             android:layout_width="wrap_content"

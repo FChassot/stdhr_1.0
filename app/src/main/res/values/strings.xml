@@ -94,6 +94,7 @@
     <string name="action_clientserver_communication">Client-server communication</string>
     <string name="themes_restrictions">Restreindre la recherche</string>
     <string name="action_sign_in">action_sign_in</string>
-    <string name="date">Date</string>
+    <string name="date">Période</string>
+    <string name="period">Période</string>
 
 </resources>

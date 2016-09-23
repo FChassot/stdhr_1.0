@@ -15,6 +15,8 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.sparql.engine.binding.Binding;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+import java.util.List;
+
 import hesso.mas.stdhb.Base.QueryBuilder.CitizenDbObject;
 import hesso.mas.stdhb.Base.QueryBuilder.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
@@ -67,10 +69,18 @@ public class JenaSparqlWsClient implements IWsClient {
 
             ResultSet lResults = lQueryExecution.execSelect();
 
+            List<String> lResultsVar = lResults.getResultVars();
+
             while (lResults.hasNext())
             {
-                QuerySolution lBinding = lResults.nextSolution();
-                lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, "title"));
+                if (lResultsVar.size() == 1)  {
+                    QuerySolution lBinding = lResults.nextSolution();
+                    lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, lResultsVar.get(0)));
+                }
+                else {
+                    QuerySolution lBinding = lResults.nextSolution();
+                    lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, "title"));
+                }
             }
         } catch (Exception aException) {
             //lResult = aException.getMessage();

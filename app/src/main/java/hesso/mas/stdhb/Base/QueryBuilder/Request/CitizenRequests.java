@@ -74,7 +74,7 @@ public final class CitizenRequests {
         Date aBegin,
         Date aEnd) {
 
-        String lQuery =
+        /*String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix data: <http://www.hevs.ch/datasemlab/cityzen/data#>\n" +
                 "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
@@ -88,9 +88,19 @@ public final class CitizenRequests {
                 "?x dbo:CulturalInterest ?y .\n" +
                 "?x owl:hasEnd ?End .\n" +
                 "?x owl:hasBeginning ?Begin .\n" +
-                "?x dbo:City ?City .\n" +
+                "?x dbo:City ?City .}\n" +
                 "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
-                " ?City == " + aPlace + ")}";
+                " ?City == " + aPlace + ")";*/
+
+        String lQuery =
+                "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+                "SELECT ?z WHERE {\n" +
+                "?x dbo:image_url ?z.\n" +
+                "}\n" +
+                "LIMIT 100";
 
         return lQuery;
     }
