@@ -47,6 +47,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     private Receiver mReceiver;
 
     private Location CurrentUserLocation;
+    private double Radius;
 
     // device sensor manager
     private SensorManager mSensorManager;
@@ -103,12 +104,20 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         Preferences lPrefs = new Preferences(this);
 
-        Integer lRadiusOfSearch =
+        double lRadiusOfSearch =
                 lPrefs.getPrefValue(
                         BaseConstants.Attr_Search_Radius,
                         Basemodel.NULL_KEY);
 
-        mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + lRadiusOfSearch + "[m]");
+        Radius = lRadiusOfSearch;
+
+        if (lRadiusOfSearch < 1000) {
+            mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + lRadiusOfSearch + " [m]");
+
+        } else {
+            mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]");
+        }
+
         mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
 
         //assert mBtnStopRadar != null;
@@ -360,6 +369,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                     RadarHelper.GetRadarMarkersFromResponse(
                             mCurrentDegree,
                             CurrentUserLocation,
+                            Radius,
                             lCitizenQueryResult);
 
             updateMarkers(lMarkers);

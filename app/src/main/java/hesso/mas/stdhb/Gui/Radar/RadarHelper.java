@@ -32,6 +32,7 @@ public final class RadarHelper {
     public static List<RadarMarker> GetRadarMarkersFromResponse(
         Float aCompassHeading,
         Location aCurrentLocation,
+        Double aRadiusSearch,
         CitizenQueryResult aQueryResult) {
 
         List<RadarMarker> lMarkers = new ArrayList<>();
@@ -41,7 +42,7 @@ public final class RadarHelper {
                 Double lLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
                 Double lLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
 
-                Double lRadiusInKm = Double.parseDouble("50") / 1000;
+                Double lRadiusInKm = aRadiusSearch / 1000;
                 Double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
                 Double lLatDelta = lLatDegree / lRadiusInKm;
 
