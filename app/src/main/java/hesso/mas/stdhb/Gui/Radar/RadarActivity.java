@@ -46,6 +46,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
     private Receiver mReceiver;
 
+    private Location CurrentUserLocation;
+
     // device sensor manager
     private SensorManager mSensorManager;
 
@@ -268,9 +270,9 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         // TODO removes when the application works
         if (lCurrentUserLocation == null) {
-            lCurrentUserLocation = new Location(MyString.EMPTY_STRING);
-            lCurrentUserLocation.setLatitude(46.6092369d);
-            lCurrentUserLocation.setLongitude(7.029020100000025d);
+            CurrentUserLocation = new Location(MyString.EMPTY_STRING);
+            CurrentUserLocation.setLatitude(46.256119d);
+            CurrentUserLocation.setLongitude(7.6245001d);
         }
 
         RetrieveCitizenDataAsyncTask lRetrieveTask =
@@ -314,7 +316,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         String lQuery =
                 CitizenRequests.GetCulturalObjectsInProximityQuery(
                         lCulturalObjectType,
-                        lCurrentUserLocation,
+                        CurrentUserLocation,
                         lRadiusOfSearch);
 
         lRetrieveTask.execute(
@@ -357,6 +359,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             List<RadarMarker> lMarkers =
                     RadarHelper.GetRadarMarkersFromResponse(
                             mCurrentDegree,
+                            CurrentUserLocation,
                             lCitizenQueryResult);
 
             updateMarkers(lMarkers);

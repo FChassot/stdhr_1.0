@@ -7,6 +7,7 @@ import android.location.Location;
 import java.util.ArrayList;
 import java.util.List;
 
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenDbObject;
 import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 
@@ -30,24 +31,39 @@ public final class RadarHelper {
      */
     public static List<RadarMarker> GetRadarMarkersFromResponse(
         Float aCompassHeading,
+        Location aCurrentLocation,
         CitizenQueryResult aQueryResult) {
 
-        List<RadarMarker> lMarkers = new ArrayList<RadarMarker>();
+        List<RadarMarker> lMarkers = new ArrayList<>();
 
         if (aQueryResult != null && aQueryResult.Count() > 0) {
             for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
+                Double lLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
+                Double lLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
+
+                Double lRadiusInKm = Double.parseDouble("50") / 1000;
+                Double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
+                Double lLatDelta = lLatDegree / lRadiusInKm;
+
+                Double lRadius = 1 / lLatDelta;
+
                 RadarViewPosition lRadarViewPosition =
                         GetXYPositionOfTheMarkerInTheRadarView(
                                 900,
                                 900,
-                                null,
-                                Double.parseDouble(lCulturalInterestObject.GetValue("lat")),
-                                Double.parseDouble(lCulturalInterestObject.GetValue("long")));
+                                lLatitude,
+                                lLongitude,
+                                lLatitude - lRadius,
+                                lLatitude + lRadius,
+                                lLongitude - lRadius,
+                                lLongitude + lRadius);
 
                 RadarMarker lMarker =
                         new RadarMarker(
                                 lRadarViewPosition.getX(),
                                 lRadarViewPosition.getY(),
+                                lLatitude,
+                                lLongitude,
                                 Color.RED);
 
                 lMarkers.add(lMarker);
@@ -62,20 +78,38 @@ public final class RadarHelper {
      *
      * @param aHeightView
      * @param aWithView
-     * @param aMobileLocation
-     * @param aLatitude
-     * @param aLongitude
+     * @param aCulturalInterestLatitude
+     * @param aCulturalInterestLongitude
+     * @param aMinLatitude
+     * @param aMaxLatitude
+     * @param aMinLongitude
+     * @param aMaxLongitude
      *
      * @return The X, Y Positions in the view
      */
     private static RadarViewPosition GetXYPositionOfTheMarkerInTheRadarView(
-        Integer aHeightView,
-        Integer aWithView,
-        Location aMobileLocation,
-        Double aLatitude,
-        Double aLongitude) {
+        int aHeightView,
+        int aWithView,
+        double aCulturalInterestLatitude,
+        double aCulturalInterestLongitude,
+        double aMinLatitude,
+        double aMaxLatitude,
+        double aMinLongitude,
+        double aMaxLongitude) {
 
-        return new RadarViewPosition(800, 800);
+        double lDeltaLatitude= aMaxLatitude - aMinLatitude;
+        double lUnView = lDeltaLatitude / aWithView;
+
+        double lCIDeltaLatitude = aCulturalInterestLatitude - aMinLatitude;
+        double lPosX = lCIDeltaLatitude / lUnView;
+
+        double lDeltaLongitude = aMaxLongitude - aMinLongitude;
+        double lLongView = lDeltaLongitude / aHeightView;
+        double lCIDeltaLongitude = aCulturalInterestLongitude - aMinLongitude;
+
+        double lPosY = lCIDeltaLongitude / lLongView;
+
+        return new RadarViewPosition( (int)lPosX, (int)lPosY);
     }
 
     /*
@@ -101,14 +135,14 @@ public final class RadarHelper {
 
         final int lRadiusEarth = 6371; // Radius of the earth
 
-        Double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
-        Double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
+        double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
+        double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
 
-        Double a = Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
+        double a = Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
                 + Math.cos(Math.toRadians(aLatitude1)) * Math.cos(Math.toRadians(aLatitude2))
                 * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
 
-        Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         double lDistance = lRadiusEarth * c * 1000; // convert to meters
 
@@ -128,15 +162,6 @@ public final class RadarHelper {
 
         return 0.0F;
     };
-
-    /**
-     *
-     * @param aLocation
-     * @return
-     */
-    public String GetRadiansLatLongOfCulturalObject(Location aLocation) {
-        return null;
-    }
 
     /**
      * Calculate angle to lat2/lon2 in relation to north.

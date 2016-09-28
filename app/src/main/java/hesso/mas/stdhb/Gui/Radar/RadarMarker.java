@@ -16,9 +16,9 @@ public class RadarMarker extends Paint {
 
     Location mLocation = new Location(MyString.EMPTY_STRING);
 
-    int mPositionX = 0;
+    int mXViewPosition = 0;
 
-    int mPositionY = 0;
+    int mYViewPosition = 0;
 
     int mColor;
 
@@ -34,9 +34,11 @@ public class RadarMarker extends Paint {
     };
 
     // Constructor
-    RadarMarker(int aPositionX, int aPositionY, int aColor) {
-        mPositionX = aPositionX;
-        mPositionY = aPositionY;
+    RadarMarker(int aPositionX, int aPositionY, double aLatitude, double aLongitude, int aColor) {
+        mXViewPosition = aPositionX;
+        mYViewPosition = aPositionY;
+        mLocation.setLatitude(aLatitude);
+        mLocation.setLongitude(aLongitude);
         mColor = aColor;
     };
 
@@ -57,10 +59,10 @@ public class RadarMarker extends Paint {
     };
 
     // Getter
-    public int getPositionX() { return mPositionX; }
+    public int getPositionX() { return mXViewPosition; }
 
     // Getter
-    public int getPositionY() { return mPositionY; }
+    public int getPositionY() { return mYViewPosition; }
 
     // Getter
     public int getColor() { return mColor; }
