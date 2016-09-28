@@ -22,6 +22,8 @@ public class RadarMarker extends Paint {
 
     int mColor;
 
+    String mTitle = MyString.EMPTY_STRING;
+
     // Constructor
     RadarMarker() {
         super.setColor(Color.BLUE);
@@ -62,6 +64,16 @@ public class RadarMarker extends Paint {
 
     // Getter
     public int getColor() { return mColor; }
+
+    // Setter
+    public void setTitle(String aTitle) {
+        mTitle = aTitle;
+    }
+
+    // Getter
+    public String getTitle() {
+        return mTitle;
+    }
 
     // Setter
     public void setLocation(Location aLocation) {

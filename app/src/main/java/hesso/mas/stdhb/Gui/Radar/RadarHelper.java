@@ -7,8 +7,8 @@ import android.location.Location;
 import java.util.ArrayList;
 import java.util.List;
 
+import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenDbObject;
 import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
-import hesso.mas.stdhb.Base.Tools.MyString;
 
 /**
  * Created by chf on 01.09.2016.
@@ -24,30 +24,6 @@ public final class RadarHelper {
     /**
      *
      * @param aCompassHeading
-     * @param aResponse
-     *
-     * @return A list of RadarMarker
-     */
-    /*public static List<RadarMarker> GetRadarMarkersFromResponse(
-        Float aCompassHeading,
-        String aResponse) {
-
-        List<RadarMarker> lMarkers = new ArrayList<RadarMarker>();
-
-        if (!aResponse.equals(MyString.EMPTY_STRING)) {
-            RadarMarker lMarker1 = new RadarMarker(0, 0, Color.RED);
-            RadarMarker lMarker2 = new RadarMarker(120, 150, Color.BLUE);
-
-            lMarkers.add(lMarker1);
-            lMarkers.add(lMarker2);
-        }
-
-        return lMarkers;
-    }*/
-
-    /**
-     *
-     * @param aCompassHeading
      * @param aQueryResult
      *
      * @return A list of RadarMarker
@@ -58,9 +34,22 @@ public final class RadarHelper {
 
         List<RadarMarker> lMarkers = new ArrayList<RadarMarker>();
 
-        if (aQueryResult != null) {
-            for (int i = 0; i < aQueryResult.Count(); ++i){
-                RadarMarker lMarker = new RadarMarker(i+200, i+272, Color.RED);
+        if (aQueryResult != null && aQueryResult.Count() > 0) {
+            for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
+                RadarViewPosition lRadarViewPosition =
+                        GetXYPositionOfTheMarkerInTheRadarView(
+                                900,
+                                900,
+                                null,
+                                Double.parseDouble(lCulturalInterestObject.GetValue("lat")),
+                                Double.parseDouble(lCulturalInterestObject.GetValue("long")));
+
+                RadarMarker lMarker =
+                        new RadarMarker(
+                                lRadarViewPosition.getX(),
+                                lRadarViewPosition.getY(),
+                                Color.RED);
+
                 lMarkers.add(lMarker);
             }
         }
@@ -71,18 +60,22 @@ public final class RadarHelper {
     /**
      * This method calculates the position of the RadarMarker in the view.
      *
-     * @param aRadarDimension
+     * @param aHeightView
+     * @param aWithView
      * @param aMobileLocation
-     * @param aRadarMarker
+     * @param aLatitude
+     * @param aLongitude
      *
      * @return The X, Y Positions in the view
      */
-    private String GetXYMarkerPositionInTheRadarView(
-            Integer aRadarDimension,
-            Location aMobileLocation,
-            RadarMarker aRadarMarker) {
+    private static RadarViewPosition GetXYPositionOfTheMarkerInTheRadarView(
+        Integer aHeightView,
+        Integer aWithView,
+        Location aMobileLocation,
+        Double aLatitude,
+        Double aLongitude) {
 
-        return MyString.EMPTY_STRING;
+        return new RadarViewPosition(800, 800);
     }
 
     /*
@@ -106,7 +99,7 @@ public final class RadarHelper {
         double aElevation1,
         double aElevation2) {
 
-        final int lRadiusEarth = 6371;                             // Radius of the earth
+        final int lRadiusEarth = 6371; // Radius of the earth
 
         Double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
         Double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);

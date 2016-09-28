@@ -3,40 +3,35 @@ package hesso.mas.stdhb.Base.QueryBuilder.Response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by chf on 21.09.2016.
  */
 public class CitizenDbObject implements Parcelable {
 
-    //private Literal mLiteral;
-    //private URI mUri;
+    private Map<String, String> mMap = new HashMap<String, String>();
 
-    private String mVariable;
-    private String mValue;
-
-    /*public CitizenDbObject(Literal aObject) {
-        if (aObject instanceof  Literal) { mLiteral = aObject; }
-    }
-
-    public CitizenDbObject(URI aObject) {
-        if (aObject instanceof  URI) { mUri = aObject; }
-    }*/
-
-    public CitizenDbObject(String aVar, String aValue) {
-        mVariable = aVar;
-
-        if (aValue instanceof String) {
-            mValue = aValue;
-        }
+    // Constructor
+    public CitizenDbObject() {
     }
 
     // Constructor
     private CitizenDbObject(Parcel in) {
-        in.readString();
+        in.readMap(mMap, getClass().getClassLoader());
+    }
+
+    public void put(String aVariable, String aValue) {
+        mMap.put(aVariable, aValue);
+    }
+
+    public String GetValue(String aVariable) {
+        return mMap.get(aVariable);
     }
 
     public void writeToParcel(Parcel aDest, int flags) {
-        aDest.writeString(mValue);
+        aDest.writeMap(mMap);
     }
 
     /**

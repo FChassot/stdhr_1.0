@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Communication.WsClient.Androjena;
 
+import android.util.Log;
+
 import junit.framework.Assert;
 
 import com.hp.hpl.jena.query.Query;
@@ -12,8 +14,6 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
-
-import org.eclipse.rdf4j.spin.function.spif.For;
 
 import java.util.List;
 
@@ -73,13 +73,18 @@ public class JenaSparqlWsClient implements IWsClient {
 
             while (lResults.hasNext())
             {
+                CitizenDbObject lCitizenDbObject = new CitizenDbObject();
+
                 for (String lVariable : lResultsVar) {
-                        QuerySolution lBinding = lResults.nextSolution();
-                        lCitizenQueryResult.Add(ConvertSolutionInCitizenDbObject(lBinding, lVariable));
+                    QuerySolution lBinding = lResults.nextSolution();
+                    lCitizenDbObject.put(lVariable, GetValue(lBinding, lVariable));
                 }
+
+                lCitizenQueryResult.Add(lCitizenDbObject);
             }
-        } catch (Exception aException) {
-            //lResult = aException.getMessage();
+        }
+        catch (Exception aException) {
+            Log.e("JenaClient", aException.getMessage());
         }
         finally {
         }
@@ -87,7 +92,7 @@ public class JenaSparqlWsClient implements IWsClient {
         return lCitizenQueryResult;
     }
 
-    private CitizenDbObject ConvertSolutionInCitizenDbObject(
+    /*private CitizenDbObject ConvertSolutionInCitizenDbObject(
         QuerySolution lBinding,
         String aFieldValue) {
 
@@ -95,11 +100,29 @@ public class JenaSparqlWsClient implements IWsClient {
         String lUri = TryGetResource(lBinding, "?" + aFieldValue);
 
         if (!lLiteral.equals(MyString.EMPTY_STRING)) {
-            return new CitizenDbObject(lLiteral, aFieldValue);
+            //return new CitizenDbObject(lLiteral, aFieldValue);
         }
 
         if (!lUri.equals(MyString.EMPTY_STRING)) {
-            return new CitizenDbObject(lUri, aFieldValue);
+            //return new CitizenDbObject(lUri, aFieldValue);
+        }
+
+        return null;
+    }*/
+
+    private String GetValue(
+        QuerySolution lBinding,
+        String aFieldValue) {
+
+        String lLiteral = TryGetLiteral(lBinding, "?" + aFieldValue);
+        String lUri = TryGetResource(lBinding, "?" + aFieldValue);
+
+        if (!lLiteral.equals(MyString.EMPTY_STRING)) {
+            return lLiteral;
+        }
+
+        if (!lUri.equals(MyString.EMPTY_STRING)) {
+            return lUri;
         }
 
         return null;

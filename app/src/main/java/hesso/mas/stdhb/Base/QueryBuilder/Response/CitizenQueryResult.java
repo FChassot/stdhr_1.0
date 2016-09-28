@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class CitizenQueryResult implements Parcelable {
 
-    private List<CitizenDbObject> mList = new ArrayList<>();
+    public List<CitizenDbObject> mList = new ArrayList<>();
 
     // Constructor
     public CitizenQueryResult() {}
@@ -56,7 +56,7 @@ public class CitizenQueryResult implements Parcelable {
      *
      * @return
      */
-    public List<CitizenDbObject> Iter() { return mList; }
+    public List<CitizenDbObject> Results() { return mList; }
 
     public void writeToParcel(Parcel aDest, int flags) {
         aDest.writeList(mList);

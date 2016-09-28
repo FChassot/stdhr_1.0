@@ -5,6 +5,7 @@ import android.location.Location;
 import java.util.Date;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
 
 /**
  * Created by chf on 11.05.2016.
@@ -17,44 +18,44 @@ public final class CitizenRequests {
     private CitizenRequests() {}
 
     /**
-     * Points around a given co-ordinate can be retrieved with the following query :
+     * Points around a given co-ordinate can be retrieved with the following query
      *
-     * @param aCulturalObjectTypeOfSearch
-     * @param aCurrentUserLocation
-     * @param aRadius
+     * @param aCulturalInterestType
+     * @param aCurrentUserLocation The current Location of the mobile
+     * @param aRadius The radius of search
      *
      * @return The appropriate Query
      */
     public static String GetCulturalObjectsInProximityQuery(
-        String aCulturalObjectTypeOfSearch,
+        String aCulturalInterestType,
         Location aCurrentUserLocation,
         Integer aRadius) {
 
-        Checks.AssertNotEmpty(aCulturalObjectTypeOfSearch);
+        Checks.AssertNotEmpty(aCulturalInterestType);
         Checks.AssertNotNull(aCurrentUserLocation);
 
         Double lLongitude = aCurrentUserLocation.getLongitude();
         Double lLatitude = aCurrentUserLocation.getLatitude();
 
-        /*String lQuery =
-                "prefix cti: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-                "select ?title ?lat ?long where {\n" +
-                "?culturalInterest dc:title ?title.\n" +
-                "?x geo:long ?long.\n" +
-                "?x geo:lat ?lat}\n" +
-                "filter (?long > " + (lLongitude - aRadius) + " && ?long < " + (lLongitude + aRadius) + " && \n" +
-                "?lat > " + (lLatitude - aRadius) + " && ?lat < " + (lLatitude + aRadius) + ")} LIMIT 1000";*/
+        Double lRadius = 1.0 / ((Integer.parseInt(BaseConstants.Attr_Lat_Degree) / (aRadius / 1000)));
+
+        Double lMinLongitude = (lLongitude - lRadius);
+        Double lMaxLongitude = (lLongitude + lRadius);;
+        Double lMinLatitude = (lLatitude - lRadius);
+        Double lMaxLatitude = (lLatitude + lRadius);
 
         String lQuery =
                 "prefix cti: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                 "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
                 "select ?title ?lat ?long where {\n" +
-                "?culturalInterest dc:title ?title.\n" +
-                "?x geo:long ?long.\n" +
-                "?x geo:lat ?lat}\n" +
+                "?culturalInterest dc:title ?title .\n" +
+                "?culturalInterest geo:location ?x .\n" +
+                "?x geo:long ?long .\n" +
+                "?x geo:lat ?lat .\n" +
+                "FILTER ( ?long > '" + lMinLongitude + "' && ?long < '" + lMaxLongitude + "' && \n" +
+                "?lat > '" + lMinLatitude + "' && ?lat < '" + lMaxLatitude + "') .\n" +
+                "}\n" +
                 "LIMIT 100";
 
         return lQuery;
@@ -88,9 +89,9 @@ public final class CitizenRequests {
                 "?x dbo:CulturalInterest ?y .\n" +
                 "?x owl:hasEnd ?End .\n" +
                 "?x owl:hasBeginning ?Begin .\n" +
-                "?x dbo:City ?City .}\n" +
+                "?x dbo:City ?City .\n" +
                 "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
-                " ?City == " + aPlace + ")";*/
+                " ?City == " + aPlace + ". })";*/
 
         String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +

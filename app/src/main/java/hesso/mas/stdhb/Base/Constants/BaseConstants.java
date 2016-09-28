@@ -18,6 +18,10 @@ public class BaseConstants {
     // constant used to save the GPS Coordinates
     public static final String Attr_Gps_Coordinates = "gps_coordinates";
 
+    public static final String Attr_Lat_Degree = "80";
+
+    public static final String Attr_Long_Degree = "80";
+
     // constant used to save the radius of search of the radar
     public static final String Attr_Search_Radius = "search_radius";
 
@@ -29,4 +33,5 @@ public class BaseConstants {
 
     // constant used to define the type of search
     public static final String Attr_TypeOfSearch = "radar_type_of_search";
+
 }

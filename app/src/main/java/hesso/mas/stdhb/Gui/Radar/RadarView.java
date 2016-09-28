@@ -67,9 +67,9 @@ public class RadarView extends 	android.view.View {
 
     // Constructor
     public RadarView(
-            Context aContext,
-            AttributeSet aAttributes,
-            int aDefStyleAttr) {
+        Context aContext,
+        AttributeSet aAttributes,
+        int aDefStyleAttr) {
 
         super(aContext, aAttributes, aDefStyleAttr);
 
@@ -122,7 +122,7 @@ public class RadarView extends 	android.view.View {
         }
 
         /**
-         * This method allows to stop the animation
+         * This method allows to stop the radar's animation
          */
         public void stopRadarAnimation() {
                 mHandler.removeCallbacks(mTick);
@@ -134,8 +134,8 @@ public class RadarView extends 	android.view.View {
          * The Canvas class defines methods for drawing text, lines, bitmaps, and many other graphics
          * primitives. You can use these methods in onDraw() to create your custom user interface (UI).
          *
-         * Before you can call any drawing methods, though, it's necessary to create a Paint object. The next section
-         * discusses Paint in more detail.
+         * Before you can call any drawing methods, though, it's necessary to create a Paint object.
+         * The next section discusses Paint in more detail.
          *
          * @param aCanvas
          */
@@ -209,40 +209,26 @@ public class RadarView extends 	android.view.View {
         }
 
         /**
-         * Display the markers in the view.
+         * Displays the markers in the view.
          *
          * @param aPaint
-         * @param aMaxRayOfRadar
+         * @param aMaxRadiusOfRadar
          */
         public void DrawTheMarkers(
             Paint aPaint,
             Canvas aCanvas,
-            int aMaxRayOfRadar) {
+            int aMaxRadiusOfRadar) {
 
             List<RadarMarker> lMarkers = getMarkers();
 
             if (lMarkers != null){
                 if (lMarkers.size() > 0) {
-                    int lIndex = 0;
-
                     for (RadarMarker lMarker : lMarkers) {
-                        if (lIndex == 0) {
-                            aCanvas.drawCircle(
-                                    aMaxRayOfRadar / 2,
-                                    aMaxRayOfRadar / 2,
-                                    (((aMaxRayOfRadar / 2) - 1) >> 5),
-                                    aPaint);
-
-                            lIndex += 1;
-                        } else {
-                            aCanvas.drawCircle(
-                                    lMarker.getPositionX(),
-                                    lMarker.getPositionY(),
-                                    (((aMaxRayOfRadar / 2) - 1) >> 5),
-                                    aPaint);
-
-                            lIndex += 1;
-                        }
+                        aCanvas.drawCircle(
+                            lMarker.getPositionX(),
+                            lMarker.getPositionY(),
+                            (((aMaxRadiusOfRadar / 2) - 1) >> 5),
+                            aPaint);
 
                         aPaint.setColor(lMarker.getColor());
                         aPaint.setStyle(Paint.Style.FILL);
@@ -283,7 +269,7 @@ public class RadarView extends 	android.view.View {
 
             Location lCoordinates = new Location(MyString.EMPTY_STRING);
 
-            // coordonnées GPS
+            // GPS Coordinates
             lCoordinates.setAltitude(829);
             lCoordinates.setLatitude(46.6092369);
             lCoordinates.setLongitude(7.029020100000025);
