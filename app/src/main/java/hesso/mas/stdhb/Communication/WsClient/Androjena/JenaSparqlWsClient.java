@@ -74,9 +74,9 @@ public class JenaSparqlWsClient implements IWsClient {
             while (lResults.hasNext())
             {
                 CitizenDbObject lCitizenDbObject = new CitizenDbObject();
+                QuerySolution lBinding = lResults.nextSolution();
 
                 for (String lVariable : lResultsVar) {
-                    QuerySolution lBinding = lResults.nextSolution();
                     lCitizenDbObject.put(lVariable, GetValue(lBinding, lVariable));
                 }
 

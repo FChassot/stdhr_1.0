@@ -143,7 +143,7 @@ public class RadarView extends 	android.view.View {
         protected void onDraw(Canvas aCanvas) {
             super.onDraw(aCanvas);
 
-            Paint lLocalPaint = latestPaint[0];
+            Paint lRadarPaint = latestPaint[0];
 
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
@@ -153,8 +153,8 @@ public class RadarView extends 	android.view.View {
             int i = lMaxRayOfRadar / 2;
             int j = i - 1;
 
-            this.DrawTheRadar(aCanvas, lLocalPaint, i, j);
-            this.DrawTheMarkers(lLocalPaint, aCanvas, lMaxRayOfRadar);
+            this.DrawTheRadar(aCanvas, lRadarPaint, i, j);
+            this.DrawTheMarkers(aCanvas, lMaxRayOfRadar);
 
             lAlpha -= 3;
 
@@ -189,35 +189,39 @@ public class RadarView extends 	android.view.View {
         /**
          * Draw the radar in the view
          *
-         * @param aCanvas
-         * @param aLocalPaint
+         * @param aCanvas allows to describe the colors and styles for the drawing
+         * @param aRadarPaint allows to describe the colors and styles for the radar
          * @param i
          * @param j
          */
         public void DrawTheRadar(
             Canvas aCanvas,
-            Paint aLocalPaint,
+            Paint aRadarPaint,
             int i,
             int j) {
 
-            aCanvas.drawCircle(i, i, j, aLocalPaint);
-            aCanvas.drawCircle(i, i, j-25, aLocalPaint);
-            aCanvas.drawCircle(i, i, j * 3 / 4, aLocalPaint);
-            aCanvas.drawCircle(i, i, j >> 1, aLocalPaint);
-            aCanvas.drawCircle(i, i, j >> 2, aLocalPaint);
+            aCanvas.drawCircle(i, i, j, aRadarPaint);
+            aCanvas.drawCircle(i, i, j-25, aRadarPaint);
+            aCanvas.drawCircle(i, i, j * 3 / 4, aRadarPaint);
+            aCanvas.drawCircle(i, i, j >> 1, aRadarPaint);
+            aCanvas.drawCircle(i, i, j >> 2, aRadarPaint);
 
         }
 
         /**
-         * Displays the markers in the view.
+         * Draws the markers on the view.
          *
-         * @param aPaint
+         * @param aCanvas Canvas hosts the draw calls
          * @param aMaxRadiusOfRadar
          */
         public void DrawTheMarkers(
-            Paint aPaint,
             Canvas aCanvas,
             int aMaxRadiusOfRadar) {
+
+            Paint lMarkerPaint = new Paint();
+
+            lMarkerPaint.setColor(Color.RED);
+            lMarkerPaint.setStyle(Paint.Style.FILL);
 
             List<RadarMarker> lMarkers = getMarkers();
 
@@ -228,17 +232,18 @@ public class RadarView extends 	android.view.View {
                             lMarker.getPositionX(),
                             lMarker.getPositionY(),
                             (((aMaxRadiusOfRadar / 2) - 1) >> 5),
-                            aPaint);
+                            lMarkerPaint);
 
-                        aPaint.setColor(lMarker.getColor());
-                        aPaint.setStyle(Paint.Style.FILL);
+                        //aPaint.setColor(lMarker.getColor());
+                        //aPaint.setStyle(Paint.Style.FILL);
                     }
                 }
 
-                aPaint.setStyle(Paint.Style.STROKE);
-                aPaint.setColor(Color.WHITE);
+                //aPaint.setStyle(Paint.Style.STROKE);
+                //aPaint.setColor(Color.WHITE);
             }
         }
+
     //endregion
 
     //region Help-methods
@@ -247,7 +252,8 @@ public class RadarView extends 	android.view.View {
          * Called when a touch screen motion event occurs.
          *
          * @param event
-         * @return
+         *
+         * @return True when a CulturalInterest Object has been detected
          */
         @Override
         public boolean onTouchEvent(MotionEvent event) {
@@ -297,6 +303,14 @@ public class RadarView extends 	android.view.View {
             return false;
         }
 
+    /**
+     * This method searches the naerest Cultural object
+     *
+     * @param aX
+     * @param aY
+     *
+     * @return
+     */
         private RadarMarker FindTheNearestCulturalObject(
                 float aX,
                 float aY) {

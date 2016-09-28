@@ -118,7 +118,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]");
         }
 
-        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
+        //mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
 
         //assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);
@@ -217,7 +217,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 2000);
+            mHandler.postDelayed(this, 5000);
         }
     };
 
@@ -327,6 +327,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         lCulturalObjectType,
                         CurrentUserLocation,
                         lRadiusOfSearch);
+
+        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
 
         lRetrieveTask.execute(
             lQuery,

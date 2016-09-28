@@ -46,7 +46,7 @@ public final class RadarHelper {
                 Double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
                 Double lLatDelta = lLatDegree / lRadiusInKm;
 
-                Double lRadius = 1 / lLatDelta;
+                Double lRadius = 0.1 / lLatDelta;
 
                 RadarViewPosition lRadarViewPosition =
                         GetXYPositionOfTheMarkerInTheRadarView(

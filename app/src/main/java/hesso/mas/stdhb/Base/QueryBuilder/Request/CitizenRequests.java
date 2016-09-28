@@ -41,7 +41,7 @@ public final class CitizenRequests {
         Double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
         Double lLatDelta = lLatDegree / lRadiusInKm;
 
-        Double lRadius = 1 / lLatDelta;
+        Double lRadius = 0.1 / lLatDelta;
 
         Double lMinLongitude = (lCurrentLongitude - lRadius);
         Double lMaxLongitude = (lCurrentLongitude + lRadius);;
