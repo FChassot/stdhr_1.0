@@ -301,7 +301,11 @@ public class RadarView extends 	android.view.View {
                 float aX,
                 float aY) {
 
-            return mMarkers.get(0);
+            if (mMarkers != null && mMarkers.size() > 0) {
+                return mMarkers.get(0);
+            }
+
+            return null;
         }
 
         /**
