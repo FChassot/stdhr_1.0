@@ -9,8 +9,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -73,7 +71,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
                         .show();
             }
         }
-
     }
 
     /**
@@ -102,7 +99,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
             mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
         }
         else {
-            googleMap.setMyLocationEnabled(true);
+            mMapFragment.setMyLocationEnabled(true);
 
             // Add a marker in the current location and move the camera
             LatLng lLatLngCurrentUserLocation =
@@ -116,12 +113,18 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
                             mCulturalObjectMarker.getLatitude(),
                             mCulturalObjectMarker.getLongitude());
 
-            mMapFragment.addMarker(new MarkerOptions().position(lLatLngCurrentUserLocation).title("CITIZEN RADAR USER"));
-            mMapFragment.addMarker(new MarkerOptions().position(lLatLngCulturalObjectLocation).title("Marker" + mCulturalObjectMarker.getTitle()));
-            mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLngCulturalObjectLocation));
+            mMapFragment.addMarker(
+                    new MarkerOptions()
+                            .position(lLatLngCurrentUserLocation)
+                            .title("CITIZEN RADAR USER"));
+
+            mMapFragment.addMarker(
+                    new MarkerOptions()
+                            .position(lLatLngCulturalObjectLocation)
+                            .title(mCulturalObjectMarker.getTitle()));
 
             LatLngBounds lBounds = new LatLngBounds(lLatLngCurrentUserLocation, lLatLngCulturalObjectLocation);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
+            mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
         }
     }
 
