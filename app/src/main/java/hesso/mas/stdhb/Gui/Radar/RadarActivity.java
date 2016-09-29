@@ -363,11 +363,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             }
 
             List<RadarMarker> lMarkers =
-                    RadarHelper.GetRadarMarkersFromResponse(
+                    RadarHelper.getRadarMarkersFromResponse(
                             mCurrentDegree,
                             CurrentUserLocation,
                             Radius,
-                            lCitizenQueryResult);
+                            lCitizenQueryResult,
+                            mRadarView);
 
             updateMarkers(lMarkers);
             updateRadarText(mNbrOfCulturalObjectsDetected);

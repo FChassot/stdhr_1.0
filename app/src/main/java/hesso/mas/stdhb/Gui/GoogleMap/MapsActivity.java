@@ -9,10 +9,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
+import hesso.mas.stdhb.Gui.Radar.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -25,9 +29,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
     // GoogleMap instance
     private GoogleMap mMapFragment;
 
-    public static final String RADAR_EXTRA = "LATLNG";
+    public static final String RADAR_MARKER = "RADAR_MARKER";
 
-    public Location mCurrentLocation;
+    public RadarMarker mCurrentUserMarker;
+    public RadarMarker mCulturalObjectMarker;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -42,9 +47,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.activity_maps);
 
-        if (this.getIntent().hasExtra(RADAR_EXTRA)) {
-            // To retrieve object sent by the radar
-            mCurrentLocation = (Location)getIntent().getSerializableExtra(RADAR_EXTRA);
+        if (this.getIntent().hasExtra(RADAR_MARKER)) {
+            // To retrieve the cultural object selected in the radar view
+            mCulturalObjectMarker = (RadarMarker) getIntent().getSerializableExtra(RADAR_MARKER);
         }
 
         InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
@@ -68,8 +73,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
                         .show();
             }
         }
-    }
 
+    }
 
     /**
      * Manipulates the map once available.
@@ -85,25 +90,38 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         mMapFragment = googleMap;
 
-        if (mCurrentLocation == null) {
+        if (mCulturalObjectMarker == null) {
             // Add a marker in the position found and move the camera
             LatLng lLatLngBulle = new LatLng(46.6092369, 7.029020100000025);
+            LatLng lLatLngBulle2 = new LatLng(46.8092369, 7.029020100000025);
 
             mMapFragment.animateCamera(CameraUpdateFactory.newLatLngZoom(lLatLngBulle, 14));
             mMapFragment.addMarker(new MarkerOptions().position(lLatLngBulle).title("Marker in Bulle"));
-            mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLngBulle));
-
+            mMapFragment.addMarker(new MarkerOptions().position(lLatLngBulle2).title("Marker in Bulle 2"));
+            LatLngBounds lBounds = new LatLngBounds(lLatLngBulle, lLatLngBulle2);
+            mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
         }
         else {
-            // Add a marker in the current location and move the camera
-            LatLng lLatLngCurrentLocation =
-                    new LatLng(
-                            mCurrentLocation.getLatitude(),
-                            mCurrentLocation.getLongitude());
+            googleMap.setMyLocationEnabled(true);
 
-            mMapFragment.animateCamera(CameraUpdateFactory.newLatLngZoom(lLatLngCurrentLocation, 14));
-            mMapFragment.addMarker(new MarkerOptions().position(lLatLngCurrentLocation).title("Marker"));
-            mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLngCurrentLocation));
+            // Add a marker in the current location and move the camera
+            LatLng lLatLngCurrentUserLocation =
+                    new LatLng(
+                            mCulturalObjectMarker.getLatitude(),
+                            mCulturalObjectMarker.getLongitude());
+
+            // Add a marker in the current location and move the camera
+            LatLng lLatLngCulturalObjectLocation =
+                    new LatLng(
+                            mCulturalObjectMarker.getLatitude(),
+                            mCulturalObjectMarker.getLongitude());
+
+            mMapFragment.addMarker(new MarkerOptions().position(lLatLngCurrentUserLocation).title("CITIZEN RADAR USER"));
+            mMapFragment.addMarker(new MarkerOptions().position(lLatLngCulturalObjectLocation).title("Marker" + mCulturalObjectMarker.getTitle()));
+            mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLngCulturalObjectLocation));
+
+            LatLngBounds lBounds = new LatLngBounds(lLatLngCurrentUserLocation, lLatLngCulturalObjectLocation);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
         }
     }
 
@@ -137,4 +155,14 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
         mMapFragment.addMarker(options);
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLng));
     }
+
+    /*@Override
+    public boolean onMarkerClick(Marker marker) {
+        // TODO Auto-generated method stub
+       // if(marker.equals(marker_1)){
+            //Log.w("Click", "test");
+            return true;
+        //}
+        return false;
+    }*/
 }

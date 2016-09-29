@@ -2,11 +2,8 @@ package hesso.mas.stdhb.Base.Storage.Local;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
-
-import hesso.mas.stdhb.Base.Constants.BaseConstants;
 
 /**
  * Created by chf on 14.07.2016.

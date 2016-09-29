@@ -3,6 +3,7 @@ package hesso.mas.stdhb.Gui.Radar;
 import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +30,16 @@ public final class RadarHelper {
      * @param aCurrentLocation
      * @param aRadiusSearch
      * @param aQueryResult
+     * @param aView
      *
      * @return A list of RadarMarker
      */
-    public static List<RadarMarker> GetRadarMarkersFromResponse(
+    public static List<RadarMarker> getRadarMarkersFromResponse(
         Float aCompassHeading,
         Location aCurrentLocation,
-        Double aRadiusSearch,
-        CitizenQueryResult aQueryResult) {
+        double aRadiusSearch,
+        CitizenQueryResult aQueryResult,
+        View aView) {
 
         List<RadarMarker> lMarkers = new ArrayList<>();
 
@@ -52,9 +55,9 @@ public final class RadarHelper {
                 Double lRadius = 0.1 / lLatDelta;
 
                 RadarViewPosition lRadarViewPosition =
-                        GetXYPositionOfTheMarkerInTheRadarView(
-                                900,
-                                900,
+                        getXYPositionOfTheMarkerInTheRadarView(
+                                aView.getHeight(),
+                                aView.getWidth(),
                                 lLatitude,
                                 lLongitude,
                                 lLatitude - lRadius,
@@ -91,7 +94,7 @@ public final class RadarHelper {
      *
      * @return The X, Y Positions in the view
      */
-    private static RadarViewPosition GetXYPositionOfTheMarkerInTheRadarView(
+    private static RadarViewPosition getXYPositionOfTheMarkerInTheRadarView(
         int aHeightView,
         int aWithView,
         double aCulturalInterestLatitude,

@@ -2,6 +2,7 @@ package hesso.mas.stdhb.Gui.Radar;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import android.app.AlertDialog;
 import android.location.Location;
 import android.os.*;
 
@@ -15,11 +16,13 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Constants.*;
 
+import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 
@@ -251,7 +254,7 @@ public class RadarView extends 	android.view.View {
          *
          * @param event
          *
-         * @return True when a CulturalInterest Object has been detected
+         * @return True when a cultural object has been detected
          */
         @Override
         public boolean onTouchEvent(MotionEvent event) {
@@ -269,16 +272,14 @@ public class RadarView extends 	android.view.View {
                 //return false;
             //}
 
-            Location lCoordinates = new Location(MyString.EMPTY_STRING);
+            /*Location lCoordinates = new Location(MyString.EMPTY_STRING);
 
             // GPS Coordinates
             lCoordinates.setAltitude(829);
             lCoordinates.setLatitude(46.6092369);
             lCoordinates.setLongitude(7.029020100000025);
 
-            Intent lIntent = new Intent(myContext, MapsActivity.class);
-
-            lIntent.putExtra(MapsActivity.RADAR_EXTRA, lCoordinates);
+            lIntent.putExtra(MapsActivity.RADAR_EXTRA, lCoordinates);*/
 
             RadarMarker lCulturalObject =
                     findTheNearestCulturalObject(
@@ -287,16 +288,23 @@ public class RadarView extends 	android.view.View {
                             this);
 
             if (lCulturalObject != null) {
-                LatLng lGpsCoordonates =
-                        new LatLng(
-                                Double.parseDouble(Float.toString(lCulturalObject.getPositionX())),
-                                Double.parseDouble(Float.toString(lCulturalObject.getPositionY())));
+                Intent lIntent = new Intent(myContext, MapsActivity.class);
 
-                lIntent.putExtra(BaseConstants.Attr_Gps_Coordinates, lGpsCoordonates);
+                Location lCulturalObjectLocation = new Location(MyString.EMPTY_STRING);
+                lCulturalObjectLocation.setLatitude(lCulturalObject.getLatitude());
+                lCulturalObjectLocation.setLongitude(lCulturalObject.getLongitude());
+
+                lIntent.putExtra(MapsActivity.RADAR_MARKER, lCulturalObjectLocation);
 
                 myContext.startActivity(lIntent);
 
                 return true;
+            } else {
+                Notifications.ShowMessageBox(
+                        myContext,
+                        "None cultural object has been selected!",
+                        "Heritage cultural radar",
+                        "OK");
             }
 
             return false;
@@ -328,12 +336,17 @@ public class RadarView extends 	android.view.View {
                 for (RadarMarker lMarker : mMarkers) {
                     double lHypotenuse =
                             RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
-                            lXPositionOnScreen,
-                            lYPositionOnScreen,
-                            lMarker.getPositionX(),
-                            lMarker.getPositionY());
+                                    lXPositionOnScreen,
+                                    lYPositionOnScreen,
+                                    lMarker.getPositionX(),
+                                    lMarker.getPositionY());
 
-                    if (lOldHypotenuse != 0 && (lHypotenuse < lOldHypotenuse)){
+                    if (lOldHypotenuse == 0) {
+                        lOldHypotenuse = lHypotenuse;
+                        lSelectedMarker = lMarker;
+                    }
+
+                    if (lOldHypotenuse != 0 && (lHypotenuse < lOldHypotenuse)) {
                         lSelectedMarker = lMarker;
                     }
                 }
@@ -366,22 +379,6 @@ public class RadarView extends 	android.view.View {
 
             return ((aX > lXPositionOnScreen && aX <(lXPositionOnScreen + aView.getWidth())) &&
                     (aY > lYPositionOnScreen && aY < (lYPositionOnScreen + aView.getHeight())));
-        }
-
-        /**
-         * Retrieve the coordinates touched
-         *
-         * @param aView
-         *
-         * @return
-         */
-        private int[] getOnTouchCoordinates(View aView) {
-
-            int lLocation[] = new int[2];
-
-            aView.getLocationOnScreen(lLocation);
-
-            return lLocation;
         }
 
     //endregion
