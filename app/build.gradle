@@ -33,15 +33,28 @@ android {
     //targetCompatibility = '1.7'
 }
 dependencies {
+    //You also need to configure the testing dependencies for your project to use the standard APIs provided
+    // by the JUnit 4 framework. If your test needs to interact with Android dependencies, include the Mockito
+    // library to simplify your local unit tests. To learn more about using mock objects in your local unit tests,
+    // see Mocking Android dependencies.
+
+    // Set up the testing environment
     testCompile 'junit:junit:4.12'
+    // Mockito Framework
+    //testCompile 'org.mockito:mockito-core:1.10.19'
+
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services:9.2.1'
+
+    // Libraries for the communication between the Client and the Server
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
     compile fileTree(dir: 'libs/Androjena', include: ['*.jar'])
-    //compile 'org.roboguice:roboguice:2.0'                 //ioc Framework for Android
+
+    // Ioc Framework for Android
+    //compile 'org.roboguice:roboguice:2.0'
 
     // Client functionality for communicating with an RDF4J server over HTTP.
     //compile group: 'org.eclipse.rdf4j', name: 'rdf4j-http-client', version: '1.0'
