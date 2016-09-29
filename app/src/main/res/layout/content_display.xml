@@ -85,6 +85,7 @@
         android:layout_marginBottom="52dp"
         android:layout_toLeftOf="@+id/mBtnStopRadar"
         android:layout_toStartOf="@+id/mBtnStopRadar"
-        android:textColor="#ee1616" />
+        android:textColor="#ffffff"
+        android:textStyle="bold" />
 
 </RelativeLayout>

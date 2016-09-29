@@ -20,8 +20,14 @@ public class RadarMarker extends Paint {
 
     int mYViewPosition = 0;
 
+    /**
+     * The color of the marker
+     */
     int mColor;
 
+    /**
+     * The text which will be displayed by selecting the cultural object
+     */
     String mTitle = MyString.EMPTY_STRING;
 
     // Constructor
@@ -31,16 +37,22 @@ public class RadarMarker extends Paint {
         super.setStyle(Paint.Style.FILL);
         super.setStrokeWidth(5.0F);
         super.setAlpha(0);
-    };
+    }
 
     // Constructor
-    RadarMarker(int aPositionX, int aPositionY, double aLatitude, double aLongitude, int aColor) {
+    RadarMarker(
+        int aPositionX,
+        int aPositionY,
+        double aLatitude,
+        double aLongitude,
+        int aColor) {
+
         mXViewPosition = aPositionX;
         mYViewPosition = aPositionY;
         mLocation.setLatitude(aLatitude);
         mLocation.setLongitude(aLongitude);
         mColor = aColor;
-    };
+    }
 
     // Constructor
     RadarMarker(
@@ -56,7 +68,7 @@ public class RadarMarker extends Paint {
         super.setStrokeWidth(aStrokeWidth);
         super.setAlpha(aAlpha);
 
-    };
+    }
 
     // Getter
     public int getPositionX() { return mXViewPosition; }

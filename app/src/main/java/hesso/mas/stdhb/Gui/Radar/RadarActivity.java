@@ -57,9 +57,6 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     // record the compass picture angle turned
     private float mCurrentDegree = 0f;
 
-    // Attributs used to test the radar
-    private Integer mSimulatorIndex = 0;
-
     Button mBtnStopRadar = null;
 
     TextView mNbrOfCulturalObjectsDetected = null;
@@ -118,12 +115,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]");
         }
 
-        //mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
+        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
 
-        //assert mBtnStopRadar != null;
+        assert mBtnStopRadar != null;
         //mBtnStopRadar.setOnClickListener(this);
 
-        //assert mImgBack != null;
+        assert mImgBack != null;
         //mImgBack.setOnClickListener(this);
     }
 
@@ -199,7 +196,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     /**
      * Updates the property mMarkers of the view class
      *
-     * @param aMarkers
+     * @param aMarkers The list of the markers to be updated on the view
      */
     public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
         if (mRadarView != null) mRadarView.updateMarkers(aMarkers);
@@ -327,8 +324,6 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         lCulturalObjectType,
                         CurrentUserLocation,
                         lRadiusOfSearch);
-
-        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
 
         lRetrieveTask.execute(
             lQuery,

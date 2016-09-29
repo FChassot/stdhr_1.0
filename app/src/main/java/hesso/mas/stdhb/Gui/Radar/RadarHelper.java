@@ -14,8 +14,7 @@ import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 /**
  * Created by chf on 01.09.2016.
  *
- * This helper class provides methods to calculate the distances useful
- * for the radar function.
+ * This helper class provides methods to calculate the distances useful for the radar function.
  */
 public final class RadarHelper {
 
@@ -23,8 +22,12 @@ public final class RadarHelper {
     private RadarHelper() {}
 
     /**
+     * This method analyses the response from the sparql request and converts this one into a list
+     * of radarMarker
      *
      * @param aCompassHeading
+     * @param aCurrentLocation
+     * @param aRadiusSearch
      * @param aQueryResult
      *
      * @return A list of RadarMarker
@@ -75,7 +78,7 @@ public final class RadarHelper {
     }
 
     /**
-     * This method calculates the position of the RadarMarker in the view.
+     * This method calculates the position of the marker in the view.
      *
      * @param aHeightView
      * @param aWithView
@@ -111,6 +114,30 @@ public final class RadarHelper {
         double lPosY = lCIDeltaLongitude / lLongView;
 
         return new RadarViewPosition( (int)lPosX, (int)lPosY);
+    }
+
+    /**
+     *
+     * @param aXPositionOnScreen
+     * @param aYPositionOnScreen
+     * @param aXPositionOfMarker
+     * @param aYPositionOfMarker
+     *
+     * @return
+     */
+    public static double calculateDistanceInTheViewBetweenTwoPoint(
+            double aXPositionOnScreen,
+            double aYPositionOnScreen,
+            double aXPositionOfMarker,
+            double aYPositionOfMarker
+    ) {
+
+        double lDeltaX = aXPositionOnScreen - aXPositionOfMarker;
+        double lDeltaY = aYPositionOnScreen - aYPositionOfMarker;
+        double lTan = lDeltaY / lDeltaX;
+        double lAngle = Math.atan(lTan);
+
+        return lDeltaY / Math.cos(lAngle);
     }
 
     /*
