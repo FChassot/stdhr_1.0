@@ -78,18 +78,18 @@ public class RadarView extends 	android.view.View {
 
         myContext = aContext;
 
-        Paint localPaint = new Paint();
+        Paint lRadarPaint = new Paint();
 
-        localPaint.setColor(Color.WHITE);
-        localPaint.setAntiAlias(true);
-        localPaint.setStyle(Paint.Style.STROKE);
-        localPaint.setStrokeWidth(5.0F);
-        localPaint.setAlpha(0);
+        lRadarPaint.setColor(Color.WHITE);
+        lRadarPaint.setAntiAlias(true);
+        lRadarPaint.setStyle(Paint.Style.STROKE);
+        lRadarPaint.setStrokeWidth(5.0F);
+        lRadarPaint.setAlpha(0);
 
         int lAlpha_step = 255 / POINT_ARRAY_SIZE;
 
         for (int i=0; i < latestPaint.length; i++) {
-            latestPaint[i] = new Paint(localPaint);
+            latestPaint[i] = new Paint(lRadarPaint);
             latestPaint[i].setAlpha(255 - (i* lAlpha_step));
         }
     }
@@ -119,7 +119,7 @@ public class RadarView extends 	android.view.View {
         /**
          * This method allows to start the animation
          */
-        public void startRadarAnimation() {
+        public void startRadar() {
             mHandler.removeCallbacks(mTick);
             mHandler.post(mTick);
         }
@@ -127,7 +127,7 @@ public class RadarView extends 	android.view.View {
         /**
          * This method allows to stop the radar's animation
          */
-        public void stopRadarAnimation() {
+        public void stopRadar() {
                 mHandler.removeCallbacks(mTick);
             }
 
@@ -158,8 +158,8 @@ public class RadarView extends 	android.view.View {
             int lPosY = lMaxDiameterOfTheRadarView / 2;
             int lRadiusOfCircle = lPosX - 1;
 
-            this.drawTheRadar(aCanvas, lRadarPaint, lPosX, lPosY, lRadiusOfCircle);
-            this.drawTheMarkers(aCanvas, lMaxDiameterOfTheRadarView);
+            drawRadar(aCanvas, lRadarPaint, lPosX, lPosY, lRadiusOfCircle);
+            drawMarkers(aCanvas, lMaxDiameterOfTheRadarView);
 
             lAlpha -= 3;
 
@@ -185,10 +185,6 @@ public class RadarView extends 	android.view.View {
             }
         }
 
-    //region Markers
-
-    //endregion
-
     //region Design-radar
 
         /**
@@ -200,7 +196,7 @@ public class RadarView extends 	android.view.View {
          * @param aYStartpoint the Y coordinate of the center of the circle
          * @param aRadiusOfCircle the radius of the circle
          */
-        public void drawTheRadar(
+        public void drawRadar(
             Canvas aCanvas,
             Paint aRadarPaint,
             int aXStartpoint,
@@ -221,7 +217,7 @@ public class RadarView extends 	android.view.View {
          * @param aCanvas Canvas hosts the draw calls
          * @param aMaxRadiusOfRadar
          */
-        public void drawTheMarkers(
+        public void drawMarkers(
             Canvas aCanvas,
             int aMaxRadiusOfRadar) {
 
@@ -314,7 +310,7 @@ public class RadarView extends 	android.view.View {
         }
 
         /**
-         * This method searches the naerest Cultural object
+         * This method searches the nearest Cultural object
          *
          * @param aOnTouchXCoordinate
          * @param aOnTouchYCoordinate

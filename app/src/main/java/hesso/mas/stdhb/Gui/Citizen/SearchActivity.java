@@ -2,10 +2,12 @@ package hesso.mas.stdhb.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Base.ValidationDescCollection;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.view.View;
 
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
+import hesso.mas.stdhb.Gui.Validation.GuiValidation;
 import hesso.mas.stdhbtests.R;
 /*import okhttp3.Call;
 import okhttp3.Callback;
@@ -169,6 +172,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lPlace = mTxtPlace.getText().toString();
             String lPeriod = mTxtPeriod.getText().toString();
 
+            ValidationDescCollection lValDescCollection =
+                    GuiValidation.ValidateSearch(lPlace, lPeriod);
+
+            if (lValDescCollection.count() > 0) {
+                Notifications.ShowMessageBox(
+                        this,
+                        lValDescCollection,
+                        "Warning",
+                        "Ok"
+                );
+
+                return;
+            }
             String lRequest =
                     CitizenRequests.GetCulturalObjectQuery(
                             lPlace,

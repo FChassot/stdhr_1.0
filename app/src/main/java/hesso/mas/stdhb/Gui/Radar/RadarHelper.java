@@ -120,23 +120,26 @@ public final class RadarHelper {
     }
 
     /**
+     * This method gives the distance in the view beetwen two points.
+     * This method will be used to determine the nearest cultural objects compared
+     * the citizen's user.
      *
-     * @param aXPositionOnScreen
-     * @param aYPositionOnScreen
-     * @param aXPositionOfMarker
-     * @param aYPositionOfMarker
+     * @param aXPosition1OnScreen
+     * @param aYPosition1OnScreen
+     * @param aXPosition2OnScreen
+     * @param aYPosition2OnScreen
      *
      * @return
      */
     public static double calculateDistanceInTheViewBetweenTwoPoint(
-            double aXPositionOnScreen,
-            double aYPositionOnScreen,
-            double aXPositionOfMarker,
-            double aYPositionOfMarker
+            double aXPosition1OnScreen,
+            double aYPosition1OnScreen,
+            double aXPosition2OnScreen,
+            double aYPosition2OnScreen
     ) {
 
-        double lDeltaX = aXPositionOnScreen - aXPositionOfMarker;
-        double lDeltaY = aYPositionOnScreen - aYPositionOfMarker;
+        double lDeltaX = aXPosition1OnScreen - aXPosition2OnScreen;
+        double lDeltaY = aYPosition1OnScreen - aYPosition2OnScreen;
         double lTan = lDeltaY / lDeltaX;
         double lAngle = Math.atan(lTan);
 

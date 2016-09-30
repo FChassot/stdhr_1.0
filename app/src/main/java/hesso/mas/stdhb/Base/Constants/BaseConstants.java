@@ -28,8 +28,11 @@ public class BaseConstants {
     // constant used to switch on/off the mode radar
     public static final String Attr_Radar_Switch = "radar_on_off";
 
-    // constant used to switch on/off the mode radar
+    // constant used to identify the client-server communication type configured
     public static final String Attr_ClientServer_Communication = "client_server_communication";
+
+    // constant used to identify the culturalInterest type configured
+    public static final String Attr_CulturalInterest_type = "cultural_interest_type";
 
     // constant used to define the type of search
     public static final String Attr_TypeOfSearch = "radar_type_of_search";

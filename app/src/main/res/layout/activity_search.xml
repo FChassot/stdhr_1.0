@@ -33,7 +33,7 @@
                 android:id="@+id/textView"
                 android:layout_column="13"
                 android:textColor="#f21c1c"
-                android:textSize="36dp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 android:textIsSelectable="false" />
         </TableRow>
@@ -50,9 +50,9 @@
             android:id="@+id/imageView"
             android:layout_column="13"
             android:layout_span="5"
-            android:background="#fa0d44"
             android:adjustViewBounds="true"
-            android:scrollIndicators="right" />
+            android:scrollIndicators="right"
+            android:backgroundTintMode="screen" />
 
         <EditText
             android:layout_width="wrap_content"

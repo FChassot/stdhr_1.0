@@ -185,11 +185,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
+     * Start the radar's animation
      *
      * @param aView
      */
-    public void stopRadar(View aView) {
-        if (mRadarView != null) mRadarView.stopRadarAnimation();
+    public void startRadar(View aView) {
+        if (mRadarView != null) mRadarView.startRadar();
     }
 
     /**
@@ -202,11 +203,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
+     * Stop the radar's animation
      *
      * @param aView
      */
-    public void startRadar(View aView) {
-        if (mRadarView != null) mRadarView.startRadarAnimation();
+    public void stopRadar(View aView) {
+        if (mRadarView != null) mRadarView.stopRadar();
     }
 
     Runnable updateData = new Runnable() {
@@ -264,7 +266,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * Start an Async Search on the endPoint Sparql Server
+     * Start an Async search on the endPoint Sparql Server
      *
      */
     private void startAsyncSearch() {
@@ -375,7 +377,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * This method updates the text for the mBtnStopRadar Button
+     * Update the text displayed on the mBtnStopRadar Button
      */
     private void updateButtonText() {
         if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))

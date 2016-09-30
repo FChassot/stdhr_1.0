@@ -11,10 +11,10 @@ public class ComboBoxHelper {
 
     /**
      *
-     * @param aSpiner
+     * @param aCbo
      * @param aEnumeration
      */
-    public void fillCombo(Spinner aSpiner, Enum aEnumeration) {
+    public void fillCombo(Spinner aCbo, Enum aEnumeration) {
 
     };
 }

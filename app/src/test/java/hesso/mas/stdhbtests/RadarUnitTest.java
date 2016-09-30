@@ -36,10 +36,11 @@ public class RadarUnitTest {
     public void get_markers_from_sparql_response() throws Exception {
 
         List<RadarMarker> lMarkers =
-                RadarHelper.GetRadarMarkersFromResponse(
+                RadarHelper.getRadarMarkersFromResponse(
                         (float)45.0,
                         null,
                         45.0,
+                        null,
                         null);
 
         assertNotNull(lMarkers);

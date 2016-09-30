@@ -3,10 +3,6 @@ package hesso.mas.stdhb.Gui.GoogleMap;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,7 +23,7 @@ import hesso.mas.stdhbtests.R;
 /**
  * Created by chf on 11.07.2016.
  *
- * Activity for the google Map function
+ * Activity for the google Map functionality
  */
 public class MapsActivity extends Activity implements OnMapReadyCallback {
 

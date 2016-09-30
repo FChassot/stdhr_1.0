@@ -5,7 +5,7 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 /**
  * Created by chf on 20.06.2016.
  *
- * This class represents a Web service endpoint
+ * This class is the base class for a Web service endpoint
  */
 public abstract class WsEndPoint {
 

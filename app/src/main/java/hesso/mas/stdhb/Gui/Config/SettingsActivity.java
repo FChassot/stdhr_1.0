@@ -11,6 +11,7 @@ import android.widget.Switch;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.Models.Enum.EnumCulturalInterestType;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Tools.MyString;
@@ -43,7 +44,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // Similar to another answer, but you can use an ArrayAdapter to populate based on an Enum class.
         // I would recommend overriding toString in the Enum class to make the values populated in the spinner more
         // user friendly.
-        Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.Spinner01);
+        Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
+        Spinner lCboCulturalInterestType = (Spinner) findViewById(R.id.mDcboCulturalInterestType);
         EditText mRayon = (EditText)findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch)findViewById(R.id.RadarSwitch);
 
@@ -53,7 +55,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         android.R.layout.simple_spinner_item,
                         EnumClientServerCommunication.values());
 
+        ArrayAdapter lCIAdapter =
+                new ArrayAdapter(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        EnumCulturalInterestType.values());
+
         lCboClientServerCommunication.setAdapter(lAdapter);
+        lCboCulturalInterestType.setAdapter(lCIAdapter);
 
         Preferences lPrefs = new Preferences(this);
 
@@ -66,6 +75,16 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 EnumClientServerCommunication.valueOf(lClientServerCommunication);
 
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
+
+        String lCIType =
+                lPrefs.getPrefValue(
+                        BaseConstants.Attr_CulturalInterest_type,
+                        MyString.EMPTY_STRING);
+
+        EnumCulturalInterestType lEnumCITypeValue =
+                EnumCulturalInterestType.valueOf(lCIType);
+
+        lCboCulturalInterestType.setSelection(lEnumCITypeValue.showValue());
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
 
@@ -121,13 +140,15 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         EditText lRaySearch = (EditText)findViewById(R.id.mDTxtRadius);
         Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
-        Spinner lCboCommunication = (Spinner) findViewById(R.id.Spinner01);
+        Spinner lCboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
+        Spinner lCboCulturalInterestType = (Spinner) findViewById(R.id.mDcboCulturalInterestType);
 
         Preferences lPrefs = new Preferences(this);
 
         Integer lRadius = Integer.parseInt(lRaySearch.getText().toString());
         Boolean lMode = lRadarMode.isChecked();
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
+        String lCIType = lCboCulturalInterestType.getSelectedItem().toString();
 
         lPrefs.setValue(
                 BaseConstants.Attr_Search_Radius,
@@ -140,5 +161,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lPrefs.setValue(
                 BaseConstants.Attr_ClientServer_Communication,
                 lClientServerCommunication);
+
+        lPrefs.setValue(
+                BaseConstants.Attr_CulturalInterest_type,
+                lCIType);
     }
 }
