@@ -97,7 +97,7 @@ public final class CitizenRequests {
                 "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
                 " ?City == " + aPlace + ". })";*/
 
-        String lQuery =
+        /*String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                 "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
@@ -105,7 +105,50 @@ public final class CitizenRequests {
                 "SELECT ?z WHERE {\n" +
                 "?x dbo:image_url ?z.\n" +
                 "}\n" +
-                "LIMIT 100";
+                "LIMIT 100";*/
+
+        /*prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>
+        prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        prefix dc: <http://purl.org/dc/elements/1.1/>
+        prefix edm: <http://www.europeana.eu/schemas/edm#>
+        prefix tm: <http://purl.org/dc/terms/>
+        prefix cr: <http://purl.org/dc/elements/1.1/creator>
+        SELECT ?CPlace ?sujet ?long ?lat ?drepr ?ditem ?imageUrl WHERE {
+            ?CPlace dc:title ?title .
+                    ?CPlace tm:subject ?sujet .
+                    ?CPlace geo:location ?x .
+                    ?CPlace dc:creator ?creator .
+                    ?CAgg edm:hasView ?drepr .
+                    ?drepr tm:hasPart ?ditem .
+                    ?ditem dbo:image_url ?imageUrl .
+                    ?x geo:long ?long .
+                    ?x geo:lat ?lat .
+        }
+        LIMIT 100*/
+
+        /**
+         * CPlace	sujet	long	lat	imagePreview
+         http://www.hevs.ch/datasemlab/cityzen/data#9dec8165-50ff-4e66-a208-9c9db66ae880	Nature, landscape	7.6245001	46.256119	https: //cave.valais-wallis-digital.ch/media/filer_public/c7/da/c7da19b7-5f79-4a1b-9706-d44721cb065a/9dec8165-50ff-4e66-a208-9c9db66ae880.jpg
+         */
+        String lQuery =
+            "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+            "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+            "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+            "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+            "prefix tm: <http://purl.org/dc/terms/>\n" +
+            "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
+            "SELECT ?CPlace ?sujet ?long ?lat ?imagePreview WHERE {\n" +
+                "?CPlace dc:title ?title .\n" +
+                "?CPlace tm:subject ?sujet .\n" +
+                "?CPlace geo:location ?x .\n" +
+                "?CPlace dc:creator ?creator .\n" +
+                "?CAgg edm:hasView ?drepr .\n" +
+                "?drepr tm:hasPart ?ditem .\n" +
+                "?ditem dbo:image_url ?imagePreview.\n" +
+                "?x geo:long ?long .\n" +
+                "?x geo:lat ?lat .\n" +
+                "}\n" +
+                "LIMIT 100\n";
 
         return lQuery;
     }

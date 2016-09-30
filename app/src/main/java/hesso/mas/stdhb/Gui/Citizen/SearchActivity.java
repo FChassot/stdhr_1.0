@@ -3,6 +3,7 @@ package hesso.mas.stdhb.Gui.Citizen;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
+import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenDbObject;
 import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -14,6 +15,9 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -36,8 +40,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +69,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private String mTextView;
 
-    private static final String TAG = "AsyncSearch";
+    private static final String TAG = "SearchActivity";
 
     private PowerManager.WakeLock mWakeLock;
 
@@ -275,12 +281,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
              * implementation of onReceive().
              */
             @Override
-            public void onReceive(Context aContext, Intent aIntent)
-            {
-                /*String lResponse =
-                        aIntent.getStringExtra(
-                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);*/
+            public void onReceive(Context aContext, Intent aIntent) {
                 Bundle lBundle = aIntent.getExtras();
+
                 CitizenQueryResult lCitizenQueryResult = null;
 
                 try {
@@ -289,55 +292,98 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                                     RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
                 } catch (Exception e) {
-                    Log.i("HYY", e.getMessage());
+                    Log.i(TAG, e.getMessage());
                 }
 
-                if (lCitizenQueryResult == null) {
-                    ImageView mImageView = (ImageView)findViewById(R.id.imageView);
+                ImageView mImageView = (ImageView) findViewById(R.id.imageView);
 
-                    try{
-                        /*Drawable lDrawable =
-                                LoadImageFromWebOperations(
-                                        );*/
-                        mImageView.setImageResource(R.mipmap.ic_tourbillon);
-                        //downloadfile("https://cave.valais-wallis-digital.ch/media/filer_public/dd/e0/dde07542-ff81-47f5-804c-6d027d462d6d/0013cebc-10e8-41b8-80b5-7b6abd532539.jpg", mImageView);
-                        //mImageView.setImageDrawable(lDrawable);
-                    } catch (Exception aExc){
-                        Log.i("HYY", aExc.getMessage());
+                if (lCitizenQueryResult != null) {
+                    if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
+                        CitizenDbObject lCulturalInterestObject = lCitizenQueryResult.Results().get(0);
+                        //String lImagePreview = lCulturalInterestObject.GetValue("imagePreview");                        String lImagePreview = lCulturalInterestObject.GetValue("imagePreview");
+                        String lImagePreview = lCulturalInterestObject.GetValue("https://cave.valais-wallis-digital.ch/media/filer_public/fe/9b/fe9b2eda-2d74-4011-a3d1-2940509de2b9/2b3ca380-0889-4c86-8a16-3c65c1802b1d.png");
+
+                        if(isNetworkAvailable()){
+                            // Creating a new non-ui thread task
+                            DownloadTask downloadTask = new DownloadTask();
+
+                            // Starting the task created above
+                            downloadTask.execute(lImagePreview);
+                        }else{
+                            Toast.makeText(getBaseContext(), "Network is not Available", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
-                } else {
-                    //mTextView = lCitizenQueryResult;
                 }
-
-               // TextView mResult = (TextView)findViewById(R.id.mEditTxtCitizenResult);
-
-               // mResult.setText(mTextView);
-
-                Log.i(TAG, "RESPONSE = " + lCitizenQueryResult);
             }
         }
 
-    /**
-     * Load an image on the web
-     *
-     * @param url
-     * @return
-     */
-    private Drawable LoadImageFromWebOperations(String url) {
+    private boolean isNetworkAvailable(){
+        boolean available = false;
+        // Getting the system's connectivity service
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        Drawable lDrawable = null;
+        // Getting active network interface  to get the network's status
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        try
-        {
-            InputStream lInputStream = (InputStream) new URL(url).getContent();
-            lDrawable = Drawable.createFromStream(lInputStream, "src name");
+        if(networkInfo !=null && networkInfo.isAvailable())
+            available = true;
+
+        /** Returning the status of the network */
+        return available;
+    }
+
+    private Bitmap downloadUrl(String strUrl) throws IOException{
+
+        Bitmap lBitmap=null;
+        InputStream lInputStream = null;
+
+        try{
+            URL url = new URL(strUrl);
+            // create an http connection to communicate with url
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+            // connecting to url
+            urlConnection.connect();
+
+            // read date from url
+            lInputStream = urlConnection.getInputStream();
+
+            // create a bitmap from teh stream returned from the url
+            lBitmap = BitmapFactory.decodeStream(lInputStream);
+
+        }catch(Exception e){
+            Log.d("Exception while downl", e.toString());
+        }finally{
+            lInputStream.close();
         }
-        catch (Exception e) {
-            System.out.println("Exc="+e);
+        return lBitmap;
+    }
+
+    private class DownloadTask extends AsyncTask<String, Integer, Bitmap> {
+
+        Bitmap bitmap = null;
+
+        @Override
+        protected Bitmap doInBackground(String... url) {
+            try{
+                bitmap = downloadUrl(url[0]);
+            }catch(Exception e){
+                Log.d("Background Task",e.toString());
+            }
+            return bitmap;
         }
 
-        return lDrawable;
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // Getting a reference to ImageView to display the downloaded image
+            ImageView iView = (ImageView) findViewById(R.id.imageView);
+
+            // Displaying the downloaded image
+            iView.setImageBitmap(result);
+
+            // Showing a message, on completion of download process
+            Toast.makeText(getBaseContext(), "Image downloaded successfully", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //endregion (
@@ -377,34 +423,4 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }*/
-
-    public static void downloadfile(String fileurl, ImageView img) {
-        Bitmap bmImg = null;
-        URL myfileurl = null;
-        try {
-            myfileurl = new URL(fileurl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        try {
-            HttpURLConnection conn = (HttpURLConnection) myfileurl.openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            int length = conn.getContentLength();
-            if (length > 0) {
-                int[] bitmapData = new int[length];
-                byte[] bitmapData2 = new byte[length];
-                InputStream is = conn.getInputStream();
-                bmImg = BitmapFactory.decodeStream(is);
-
-                img.setImageBitmap(bmImg);
-            } else {
-
-            }
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 }
