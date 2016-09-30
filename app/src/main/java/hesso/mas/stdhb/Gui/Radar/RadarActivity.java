@@ -34,7 +34,7 @@ import hesso.mas.stdhb.Gui.MainActivity;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
-public class RadarActivity extends AppCompatActivity implements SensorEventListener {
+public class RadarActivity extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
 
     RadarView mRadarView = null;
 
@@ -115,13 +115,13 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]");
         }
 
-        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_do_search));
+        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_doing_first_search));
 
         assert mBtnStopRadar != null;
-        //mBtnStopRadar.setOnClickListener(this);
+        mBtnStopRadar.setOnClickListener(this);
 
         assert mImgBack != null;
-        //mImgBack.setOnClickListener(this);
+        mImgBack.setOnClickListener(this);
     }
 
     /**
@@ -394,7 +394,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      */
     public void onClick(View view){
         if (view.getId()==R.id.mBtnStopRadar){
-            this.stopRadar(this.mRadarView);
+            if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
+                this.stopRadar(this.mRadarView);
+            } else {
+                this.startRadar(this.mRadarView);
+            }
+
             this.updateButtonText();
         }
         if (view.getId()==R.id.mImgBack){

@@ -44,7 +44,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_btn_radar_stop"
+        android:text="@string/txt_btn_stop_radar"
         android:id="@+id/mBtnStopRadar"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

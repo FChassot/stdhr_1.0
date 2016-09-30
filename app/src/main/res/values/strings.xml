@@ -73,10 +73,9 @@
 
     <!-- String for the radar activity -->
     <string name="txt_radius_of_search">Radius of search</string>
-    <string name="txt_radar_do_search">The radar is doing a search!</string>
-    <string name="txt_btn_radar_stop">RADAR STOP</string>
-    <string name="txt_btn_stop_radar">STOP RADAR</string>
-    <string name="txt_btn_start_radar">START RADAR</string>
+    <string name="txt_radar_doing_first_search">The radar is doing a first search!</string>
+    <string name="txt_btn_stop_radar">STOP</string>
+    <string name="txt_btn_start_radar">START</string>
     <string name="txt_radar_possible_mode">The function radar only works with Androjena!</string>
     <string name="txt_cultural_objects_in_proximity">cultural object(s) in proximity!</string>
 
