@@ -120,13 +120,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
                             mCulturalObjectMarkerLatitude,
                             mCulturalObjectMarkerLongitude);
 
-        lBuilder.include(lLatLngCurrentUserLocation).include(lLatLngCulturalObjectLocation);
+        lBuilder.include(lLatLngCulturalObjectLocation).include(lLatLngCurrentUserLocation);
 
         // Add a marker in the marker location
         mMapFragment.addMarker(
                     new MarkerOptions()
                             .position(lLatLngCurrentUserLocation)
-                            .title("CITIZEN RADAR USER"));
+                            .title("CITIZEN RADAR's USER"));
 
         mMapFragment.addMarker(
                     new MarkerOptions()
@@ -149,11 +149,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 2));
     }
 
-    @Override
+    /*@Override
     public void onPause() {
         super.onPause();
 
-    }
+    }*/
 
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
