@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 
@@ -86,7 +88,7 @@ public class RadarMarker extends Paint {
 
     // Getter
     public String getTitle() {
-        return mTitle;
+        return "Marker";
     }
 
     // Setter

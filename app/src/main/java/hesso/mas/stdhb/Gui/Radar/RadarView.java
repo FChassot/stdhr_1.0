@@ -294,7 +294,10 @@ public class RadarView extends 	android.view.View {
                 lCulturalObjectLocation.setLatitude(lCulturalObject.getLatitude());
                 lCulturalObjectLocation.setLongitude(lCulturalObject.getLongitude());
 
-                lIntent.putExtra(MapsActivity.RADAR_MARKER, lCulturalObjectLocation);
+                lIntent.putExtra("currentlat", 46.6167);
+                lIntent.putExtra("currentlong", 7.0667);
+                lIntent.putExtra("lat", lCulturalObject.getLatitude());
+                lIntent.putExtra("long", lCulturalObject.getLongitude());
 
                 myContext.startActivity(lIntent);
 

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
+
 import hesso.mas.stdhb.Gui.Radar.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
@@ -31,6 +32,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
     public RadarMarker mCurrentUserMarker;
     public RadarMarker mCulturalObjectMarker;
+    public double mCulturalObjectMarkerLatitude;
+    public double mCulturalObjectMarkerLongitude;
+    public double mCurrentUserLatitude;
+    public double mCurrentUserLongitude;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -45,9 +50,14 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.activity_maps);
 
-        if (this.getIntent().hasExtra(RADAR_MARKER)) {
-            // To retrieve the cultural object selected in the radar view
-            mCulturalObjectMarker = (RadarMarker) getIntent().getSerializableExtra(RADAR_MARKER);
+        if (this.getIntent().hasExtra("lat")) {
+            Bundle bundle = getIntent().getExtras();
+            // to retrieve the cultural object selected in the radar view
+            //mCulturalObjectMarker = getIntent().getParcelableExtra(RADAR_MARKER);
+            mCulturalObjectMarkerLatitude = bundle.getDouble("lat");
+            mCulturalObjectMarkerLongitude = bundle.getDouble("long");
+            mCurrentUserLatitude = bundle.getDouble("currentlat");
+            mCurrentUserLatitude = bundle.getDouble("currentlong");
         }
 
         InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
@@ -87,45 +97,32 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         mMapFragment = googleMap;
 
-        if (mCulturalObjectMarker == null) {
-            // Add a marker in the position found and move the camera
-            LatLng lLatLngBulle = new LatLng(46.6092369, 7.029020100000025);
-            LatLng lLatLngBulle2 = new LatLng(46.8092369, 7.029020100000025);
+        mMapFragment.setMyLocationEnabled(true);
 
-            mMapFragment.animateCamera(CameraUpdateFactory.newLatLngZoom(lLatLngBulle, 14));
-            mMapFragment.addMarker(new MarkerOptions().position(lLatLngBulle).title("Marker in Bulle"));
-            mMapFragment.addMarker(new MarkerOptions().position(lLatLngBulle2).title("Marker in Bulle 2"));
-            LatLngBounds lBounds = new LatLngBounds(lLatLngBulle, lLatLngBulle2);
-            mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
-        }
-        else {
-            mMapFragment.setMyLocationEnabled(true);
-
-            // Add a marker in the current location and move the camera
-            LatLng lLatLngCurrentUserLocation =
+        // Add a marker in the current location and move the camera
+        LatLng lLatLngCurrentUserLocation =
                     new LatLng(
-                            mCulturalObjectMarker.getLatitude(),
-                            mCulturalObjectMarker.getLongitude());
+                            mCurrentUserLatitude,
+                            mCurrentUserLongitude);
 
-            // Add a marker in the current location and move the camera
-            LatLng lLatLngCulturalObjectLocation =
+        // Add a marker in the current location and move the camera
+        LatLng lLatLngCulturalObjectLocation =
                     new LatLng(
-                            mCulturalObjectMarker.getLatitude(),
-                            mCulturalObjectMarker.getLongitude());
+                            mCulturalObjectMarkerLatitude,
+                            mCulturalObjectMarkerLongitude);
 
-            mMapFragment.addMarker(
+        mMapFragment.addMarker(
                     new MarkerOptions()
                             .position(lLatLngCurrentUserLocation)
                             .title("CITIZEN RADAR USER"));
 
-            mMapFragment.addMarker(
+        mMapFragment.addMarker(
                     new MarkerOptions()
                             .position(lLatLngCulturalObjectLocation)
-                            .title(mCulturalObjectMarker.getTitle()));
+                            .title("MARKER"));
 
-            LatLngBounds lBounds = new LatLngBounds(lLatLngCurrentUserLocation, lLatLngCulturalObjectLocation);
-            mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
-        }
+        LatLngBounds lBounds = new LatLngBounds(lLatLngCurrentUserLocation, lLatLngCulturalObjectLocation);
+        mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBounds, 2));
     }
 
     /**
