@@ -151,7 +151,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             mWakeLock.release();                      //keep screen on
 
         } catch (Exception e) {
-            //Log.e(MatabbatManager.TAG, getClass() + " Releasing receivers-" + e.getMessage());
+            Log.e(TAG, getClass() + " Releasing receivers-" + e.getMessage());
         }
     }
 
@@ -301,7 +301,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
                         CitizenDbObject lCulturalInterestObject = lCitizenQueryResult.Results().get(0);
                         //String lImagePreview = lCulturalInterestObject.GetValue("imagePreview");                        String lImagePreview = lCulturalInterestObject.GetValue("imagePreview");
-                        String lImagePreview = lCulturalInterestObject.GetValue("https://cave.valais-wallis-digital.ch/media/filer_public/fe/9b/fe9b2eda-2d74-4011-a3d1-2940509de2b9/2b3ca380-0889-4c86-8a16-3c65c1802b1d.png");
+                        String lImagePreview = "https://cave.valais-wallis-digital.ch/media/filer_public/4c/a1/4ca12ada-3fa2-4d61-bdb5-7fa542a0725f/e3f651ad-0671-459b-b256-0332884f47f2.png";
 
                         if(isNetworkAvailable()){
                             // Creating a new non-ui thread task
@@ -367,6 +367,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         protected Bitmap doInBackground(String... url) {
             try{
                 bitmap = downloadUrl(url[0]);
+
             }catch(Exception e){
                 Log.d("Background Task",e.toString());
             }
@@ -374,12 +375,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(Bitmap aResult) {
             // Getting a reference to ImageView to display the downloaded image
-            ImageView iView = (ImageView) findViewById(R.id.imageView);
+            ImageView lImageView = (ImageView) findViewById(R.id.imageView);
 
             // Displaying the downloaded image
-            iView.setImageBitmap(result);
+            lImageView.setImageBitmap(aResult);
 
             // Showing a message, on completion of download process
             Toast.makeText(getBaseContext(), "Image downloaded successfully", Toast.LENGTH_SHORT).show();
