@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -381,7 +380,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     private void updateButtonText() {
         if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
         {
-            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_start_radar));
+            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
         }
         else {
             mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
@@ -403,6 +402,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             this.updateButtonText();
         }
         if (view.getId()==R.id.mImgBack){
+            this.stopRadar(this.mRadarView);
+
             Intent intent = new Intent(RadarActivity.this, MainActivity.class);
             startActivity(intent);
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">STDHR</string>
+    <string name="app_name">STDHR (Cultural heritage)</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
@@ -76,6 +76,7 @@
     <string name="txt_radar_doing_first_search">The radar is doing a first search!</string>
     <string name="txt_btn_stop_radar">STOP</string>
     <string name="txt_btn_start_radar">START</string>
+    <string name="txt_btn_continue_radar">CONTINUE</string>
     <string name="txt_radar_possible_mode">The function radar only works with Androjena!</string>
     <string name="txt_cultural_objects_in_proximity">cultural object(s) in proximity!</string>
 

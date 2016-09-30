@@ -1,7 +1,5 @@
 package hesso.mas.stdhb.Gui;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,11 +10,12 @@ import android.widget.ImageView;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+
 import hesso.mas.stdhb.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Gui.Radar.RadarActivity;
-
 import hesso.mas.stdhb.Gui.Citizen.SearchActivity;
+
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -36,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState); // Always call the superclass method first
+
         setContentView(R.layout.activity_main);
 
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
@@ -55,6 +55,43 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         assert mImgSettings != null;
         mImgSettings.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();  // Always call the superclass method first
+
+        Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
+        Preferences lPrefs = new Preferences(this);
+        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
+
+        if (lRadarMode == false) {mRadarButton.setEnabled(false); }
+    }
+
+    /**
+     * When the user resumes your activity from the Paused state, the system calls the onResume() method.
+     *
+     *      Be aware that the system calls this method every time your activity comes into the foreground,
+     *      including when it's created for the first time. As such, you should implement onResume() to initialize
+     *      components that you release during onPause() and perform any other initializations that must occur each time
+     *      the activity enters the Resumed state (such as begin animations and initialize components only used while
+     *      the activity has user focus).
+     */
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
+        Preferences lPrefs = new Preferences(this);
+        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
+
+        if (lRadarMode == false) {mRadarButton.setEnabled(false); }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     /**
