@@ -64,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // I would recommend overriding toString in the Enum class to make the values populated in the spinner more
         // user friendly.
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
-        Spinner lCboCulturalInterestType = (Spinner) findViewById(R.id.mDcboCulturalInterestType);
+        //Spinner lCboCulturalInterestType = (Spinner) findViewById(R.id.mDcboCulturalInterestType);
         EditText mRayon = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
 
@@ -81,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         EnumCulturalInterestType.values());
 
         lCboClientServerCommunication.setAdapter(lAdapter);
-        lCboCulturalInterestType.setAdapter(lCIAdapter);
+        //lCboCulturalInterestType.setAdapter(lCIAdapter);
 
         Preferences lPrefs = new Preferences(this);
 
@@ -103,7 +103,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EnumCulturalInterestType lEnumCITypeValue =
                 EnumCulturalInterestType.valueOf(lCIType);
 
-        lCboCulturalInterestType.setSelection(lEnumCITypeValue.showValue());
+        //lCboCulturalInterestType.setSelection(lEnumCITypeValue.showValue());
 
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
 
@@ -202,10 +202,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v;
                         CulturalInterestType lCulturalInterestType = (CulturalInterestType) cb.getTag();
-                        Toast.makeText(getApplicationContext(),
+                        /*Toast.makeText(getApplicationContext(),
                                 "Clicked on Checkbox: " + cb.getText() +
                                         " is " + cb.isChecked(),
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_LONG).show();*/
                         lCulturalInterestType.setSelected(cb.isChecked());
                     }
                 });
@@ -293,7 +293,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EditText lRadiusSearch = (EditText)findViewById(R.id.mDTxtRadius);
         Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
         Spinner lCboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
-        Spinner lCboCulturalInterestType = (Spinner) findViewById(R.id.mDcboCulturalInterestType);
+        //Spinner lCboCulturalInterestType = (Spinner) findViewById(R.id.mDcboCulturalInterestType);
 
         Preferences lPrefs = new Preferences(this);
 
@@ -317,7 +317,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         Boolean lMode = lRadarMode.isChecked();
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
-        String lCIType = lCboCulturalInterestType.getSelectedItem().toString();
+        //String lCIType = lCboCulturalInterestType.getSelectedItem().toString();
 
         lPrefs.setValue(
                 BaseConstants.Attr_Radar_Switch,
@@ -327,9 +327,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 BaseConstants.Attr_ClientServer_Communication,
                 lClientServerCommunication);
 
-        lPrefs.setValue(
+        /*lPrefs.setValue(
                 BaseConstants.Attr_CulturalInterest_type,
-                lCIType);
+                lCIType);*/
     }
 
     /**
