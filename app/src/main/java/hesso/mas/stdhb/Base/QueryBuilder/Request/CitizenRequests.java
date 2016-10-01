@@ -31,7 +31,7 @@ public final class CitizenRequests {
         Location aCurrentUserLocation,
         Integer aRadius) {
 
-        //Checks.AssertNotEmpty(aCulturalInterestType);
+        Checks.AssertNotEmpty(aCulturalInterestType);
         Checks.AssertNotNull(aCurrentUserLocation);
 
         Double lCurrentLongitude = aCurrentUserLocation.getLongitude();
@@ -79,53 +79,6 @@ public final class CitizenRequests {
         Date aBegin,
         Date aEnd) {
 
-        /*String lQuery =
-                "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                "prefix data: <http://www.hevs.ch/datasemlab/cityzen/data#>\n" +
-                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
-                "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
-                "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
-                "prefix xml: <http://www.w3.org/XML/1998/namespace>\n" +
-                "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                "SELECT * WHERE {\n" +
-                "?x dbo:CulturalInterest ?y .\n" +
-                "?x owl:hasEnd ?End .\n" +
-                "?x owl:hasBeginning ?Begin .\n" +
-                "?x dbo:City ?City .\n" +
-                "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
-                " ?City == " + aPlace + ". })";*/
-
-        /*String lQuery =
-                "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
-                "SELECT ?z WHERE {\n" +
-                "?x dbo:image_url ?z.\n" +
-                "}\n" +
-                "LIMIT 100";*/
-
-        /*prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>
-        prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
-        prefix dc: <http://purl.org/dc/elements/1.1/>
-        prefix edm: <http://www.europeana.eu/schemas/edm#>
-        prefix tm: <http://purl.org/dc/terms/>
-        prefix cr: <http://purl.org/dc/elements/1.1/creator>
-        SELECT ?CPlace ?sujet ?long ?lat ?drepr ?ditem ?imageUrl WHERE {
-            ?CPlace dc:title ?title .
-                    ?CPlace tm:subject ?sujet .
-                    ?CPlace geo:location ?x .
-                    ?CPlace dc:creator ?creator .
-                    ?CAgg edm:hasView ?drepr .
-                    ?drepr tm:hasPart ?ditem .
-                    ?ditem dbo:image_url ?imageUrl .
-                    ?x geo:long ?long .
-                    ?x geo:lat ?lat .
-        }
-        LIMIT 100*/
-
         /**
          * CPlace	sujet	long	lat	imagePreview
          http://www.hevs.ch/datasemlab/cityzen/data#9dec8165-50ff-4e66-a208-9c9db66ae880	Nature, landscape	7.6245001	46.256119	https: //cave.valais-wallis-digital.ch/media/filer_public/c7/da/c7da19b7-5f79-4a1b-9706-d44721cb065a/9dec8165-50ff-4e66-a208-9c9db66ae880.jpg
@@ -137,11 +90,11 @@ public final class CitizenRequests {
             "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
             "prefix tm: <http://purl.org/dc/terms/>\n" +
             "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-            "SELECT ?CPlace ?sujet ?long ?lat ?imagePreview WHERE {\n" +
-                "?CPlace dc:title ?title .\n" +
-                "?CPlace tm:subject ?sujet .\n" +
-                "?CPlace geo:location ?x .\n" +
-                "?CPlace dc:creator ?creator .\n" +
+            "SELECT ?culturalPlace ?sujet ?long ?lat ?imagePreview WHERE {\n" +
+                "?culturalPlace dc:title ?title .\n" +
+                "?culturalPlace tm:subject ?sujet .\n" +
+                "?culturalPlace geo:location ?x .\n" +
+                "?culturalPlace dc:creator ?creator .\n" +
                 "?CAgg edm:hasView ?drepr .\n" +
                 "?drepr tm:hasPart ?ditem .\n" +
                 "?ditem dbo:image_url ?imagePreview.\n" +
@@ -149,6 +102,12 @@ public final class CitizenRequests {
                 "?x geo:lat ?lat .\n" +
                 "}\n" +
                 "LIMIT 100\n";
+
+                        /*"?x owl:hasEnd ?End .\n" +
+                "?x owl:hasBeginning ?Begin .\n" +
+                "?x dbo:City ?City .\n" +
+                "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
+                " ?City == " + aPlace + ". })";*/
 
         return lQuery;
     }

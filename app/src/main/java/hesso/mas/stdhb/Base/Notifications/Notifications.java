@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Base.ValidationDescCollection;
+import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
 /**
  * Created by chf on 12.09.2016.

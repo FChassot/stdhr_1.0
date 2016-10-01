@@ -8,13 +8,12 @@ import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Base.ValidationDescCollection;
+import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -40,7 +39,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +46,6 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
@@ -72,6 +69,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = "SearchActivity";
 
     private PowerManager.WakeLock mWakeLock;
+
+    //final View lView = findViewById(R.id.imageView);
+
+    //final Animation lAnimation =
+            //AnimationUtils.loadAnimation(this, R.animator.anim);
 
     /**
      * Called when the activity is first created. This is where you should do all of your
@@ -124,6 +126,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
+
+        /*ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+
+        lImageView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                lView.startAnimation(lAnimation);
+            }
+        });*/
 
         mReceiver = new Receiver();
 
@@ -294,8 +305,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 } catch (Exception e) {
                     Log.i(TAG, e.getMessage());
                 }
-
-                ImageView mImageView = (ImageView) findViewById(R.id.imageView);
 
                 if (lCitizenQueryResult != null) {
                     if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {

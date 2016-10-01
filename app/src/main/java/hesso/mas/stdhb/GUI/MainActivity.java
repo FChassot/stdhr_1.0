@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         Preferences lPrefs = new Preferences(this);
         Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
 
-        if (lRadarMode == false) {mRadarButton.setEnabled(false); }
+        mRadarButton.setEnabled(lRadarMode);
     }
 
     @Override
