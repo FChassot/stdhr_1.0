@@ -5,7 +5,6 @@ import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 /**
  * Created by chf on 27.07.2016.
@@ -44,7 +43,7 @@ public class InternetConnectivity {
     }
 
     /**
-     * Check if the internet connection is available
+     * Check if the gps is available
      *
      * @return Returns true when the connection is available
      */
@@ -71,22 +70,22 @@ public class InternetConnectivity {
      *
      * @return Returns true when the connection is available
      */
-    public boolean IsNetworkEnabled() {
+    public boolean IsNetworkAvailable() {
 
-        boolean lIsNetworkEnabled = false;
+        boolean lIsNetworkAvailable = false;
 
         try {
             locationManager = (LocationManager) mContext
                     .getSystemService(Context.LOCATION_SERVICE);
 
             // getting network status
-            lIsNetworkEnabled = locationManager
+            lIsNetworkAvailable = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return lIsNetworkEnabled;
+        return lIsNetworkAvailable;
     }
 }

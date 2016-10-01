@@ -308,12 +308,14 @@ public class RadarView extends 	android.view.View {
                 Bundle lBundle = new Bundle();
 
                 RadarMarker lUserMarker = new RadarMarker();
-                lUserMarker.setLatitude(46.6167);
-                lUserMarker.setLongitude(7.0667);
+
+                lUserMarker.setLatitude(46.2333);
+                lUserMarker.setLongitude(7.35);
                 lUserMarker.setTitle("Citizen radar's user");
 
                 lBundle.putParcelable(MapsActivity.USER_MARKER, lUserMarker);
                 lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+
                 lIntent.putExtras(lBundle);
 
                 myContext.startActivity(lIntent);

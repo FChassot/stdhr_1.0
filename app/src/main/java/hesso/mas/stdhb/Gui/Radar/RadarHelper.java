@@ -45,33 +45,37 @@ public final class RadarHelper {
 
         if (aQueryResult != null && aQueryResult.Count() > 0) {
             for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
-                Double lLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
-                Double lLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
+                double lCulturalObjectLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
+                double lCulturalObjectLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
                 String lTitle = lCulturalInterestObject.GetValue("title");
 
-                Double lRadiusInKm = aRadiusSearch / 1000;
-                Double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
-                Double lLatDelta = lLatDegree / lRadiusInKm;
+                double lRadiusInKm = aRadiusSearch / 1000;
+                double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
+                double lLatDelta = lLatDegree / lRadiusInKm;
+                double lRadius = 0.1 / lLatDelta;
 
-                Double lRadius = 0.1 / lLatDelta;
+                double lLatitudeMin = lCulturalObjectLatitude - lRadius;
+                double lLatitudeMax = lCulturalObjectLatitude + lRadius;
+                double lLongitudeMin = lCulturalObjectLongitude - lRadius;
+                double lLongitudeMax = lCulturalObjectLongitude + lRadius;
 
                 RadarViewPosition lRadarViewPosition =
                         getXYPositionOfTheMarkerInTheRadarView(
                                 aView.getHeight(),
                                 aView.getWidth(),
-                                lLatitude,
-                                lLongitude,
-                                lLatitude - lRadius,
-                                lLatitude + lRadius,
-                                lLongitude - lRadius,
-                                lLongitude + lRadius);
+                                aCurrentLocation.getLatitude(),
+                                aCurrentLocation.getLongitude(),
+                                lLatitudeMin,
+                                lLatitudeMax,
+                                lLongitudeMin,
+                                lLongitudeMax);
 
                 RadarMarker lMarker =
                         new RadarMarker(
                                 lRadarViewPosition.getX(),
                                 lRadarViewPosition.getY(),
-                                lLatitude,
-                                lLongitude,
+                                lCulturalObjectLatitude,
+                                lCulturalObjectLongitude,
                                 Color.RED,
                                 lTitle);
 
@@ -106,7 +110,7 @@ public final class RadarHelper {
         double aMinLongitude,
         double aMaxLongitude) {
 
-        double lDeltaLatitude= aMaxLatitude - aMinLatitude;
+        double lDeltaLatitude = aMaxLatitude - aMinLatitude;
         double lUnView = lDeltaLatitude / aWithView;
 
         double lCIDeltaLatitude = aCulturalInterestLatitude - aMinLatitude;

@@ -1,8 +1,11 @@
 package hesso.mas.stdhb.Gui.GoogleMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,7 +28,7 @@ import hesso.mas.stdhbtests.R;
  *
  * Activity for the google Map functionality
  */
-public class MapsActivity extends Activity implements OnMapReadyCallback {
+public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     // GoogleMap instance
     private GoogleMap mMapFragment;
@@ -34,12 +37,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
     public static final String RADAR_MARKER = "RADAR_MARKER";
 
     public RadarMarker mCurrentUserMarker;
-    public RadarMarker mCulturalObjectMarker;
 
-    //public double mCulturalObjectMarkerLatitude;
-    //public double mCulturalObjectMarkerLongitude;
-    //public double mCurrentUserLatitude;
-    //public double mCurrentUserLongitude;
+    public RadarMarker mCulturalObjectMarker;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -54,12 +53,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.activity_maps);
 
-     //   if (this.getIntent().hasExtra("lat")) {
-            Bundle lBundle = getIntent().getExtras();
-            // to retrieve the cultural object selected in the radar view
-            mCurrentUserMarker = (RadarMarker)lBundle.getParcelable(USER_MARKER);
-            mCulturalObjectMarker = (RadarMarker)lBundle.getParcelable(RADAR_MARKER);
-       // }
+        Bundle lBundle = getIntent().getExtras();
+
+        // to retrieve the current user marker
+        mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
+        // to retrieve the cultural object selected in the radar view
+        mCulturalObjectMarker = lBundle.getParcelable(RADAR_MARKER);
 
         InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
         boolean lIsActive = lInterConnectivity.IsActive();
@@ -102,13 +101,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         LatLngBounds.Builder lBuilder = new LatLngBounds.Builder();
 
-        // Add a marker in the current location and move the camera
         LatLng lLatLngCurrentUserLocation =
                     new LatLng(
                             mCurrentUserMarker.getLatitude(),
                             mCurrentUserMarker.getLongitude());
 
-        // Add a marker in the current location
         LatLng lLatLngCulturalObjectLocation =
                     new LatLng(
                             mCulturalObjectMarker.getLatitude(),
@@ -122,6 +119,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
                             .position(lLatLngCurrentUserLocation)
                             .title(mCurrentUserMarker.getTitle()));
 
+        // Add a marker in the current location and move the camera
         mMapFragment.addMarker(
                     new MarkerOptions()
                             .position(lLatLngCulturalObjectLocation)
@@ -130,11 +128,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 2));
     }
 
-    /*@Override
-    public void onPause() {
-        super.onPause();
-
-    }*/
+    public void onMapClick (LatLng point) {
+        // Do Something
+    }
 
     /**
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
@@ -166,14 +162,4 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
         mMapFragment.addMarker(options);
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLng));
     }
-
-    /*@Override
-    public boolean onMarkerClick(Marker marker) {
-        // TODO Auto-generated method stub
-       // if(marker.equals(marker_1)){
-            //Log.w("Click", "test");
-            return true;
-        //}
-        return false;
-    }*/
 }

@@ -93,7 +93,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // to retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
-        // Set a listener of this button
+        // set a listener of this button
         mBtnSearch.setOnClickListener(this);
 
         final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
@@ -318,7 +318,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                             // Starting the task created above
                             downloadTask.execute(lImagePreview);
-                        }else{
+                        }
+                        else{
                             Toast.makeText(getBaseContext(), "Network is not Available", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -326,47 +327,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
 
-    private boolean isNetworkAvailable(){
-        boolean available = false;
-        // Getting the system's connectivity service
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    //endregion
 
-        // Getting active network interface  to get the network's status
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        if(networkInfo !=null && networkInfo.isAvailable())
-            available = true;
-
-        /** Returning the status of the network */
-        return available;
-    }
-
-    private Bitmap downloadUrl(String strUrl) throws IOException{
-
-        Bitmap lBitmap=null;
-        InputStream lInputStream = null;
-
-        try{
-            URL url = new URL(strUrl);
-            // create an http connection to communicate with url
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            // connecting to url
-            urlConnection.connect();
-
-            // read date from url
-            lInputStream = urlConnection.getInputStream();
-
-            // create a bitmap from teh stream returned from the url
-            lBitmap = BitmapFactory.decodeStream(lInputStream);
-
-        }catch(Exception e){
-            Log.d("Exception while downl", e.toString());
-        }finally{
-            lInputStream.close();
-        }
-        return lBitmap;
-    }
+    //region AsyncTask
 
     private class DownloadTask extends AsyncTask<String, Integer, Bitmap> {
 
@@ -396,7 +359,66 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    //endregion (
+    //endregion
+
+    /**
+     * get is the network is available
+     *
+     * @return
+     */
+    private boolean isNetworkAvailable(){
+
+        boolean lIsNetworkAvailable = false;
+
+        // get the system's connectivity service
+        ConnectivityManager lConnManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // get the active network interface to get the network's status
+        NetworkInfo lNetworkInfo = lConnManager.getActiveNetworkInfo();
+
+        if(lNetworkInfo !=null && lNetworkInfo.isAvailable()) {
+            lIsNetworkAvailable = true;
+        }
+
+        // return the status of the network
+        return lIsNetworkAvailable;
+    }
+
+    /**
+     *
+     *
+     * @param strUrl
+     * @return
+     * @throws IOException
+     */
+    private Bitmap downloadUrl(String strUrl) throws IOException{
+
+        Bitmap lBitmap=null;
+
+        InputStream lInputStream = null;
+
+        try{
+            URL lUrl = new URL(strUrl);
+
+            // create an http connection to communicate with url
+            HttpURLConnection lUrlConnection = (HttpURLConnection) lUrl.openConnection();
+
+            // connecting to url
+            lUrlConnection.connect();
+
+            // read date from url
+            lInputStream = lUrlConnection.getInputStream();
+
+            // create a bitmap from teh stream returned from the url
+            lBitmap = BitmapFactory.decodeStream(lInputStream);
+
+        }catch(Exception e){
+            Log.d("Exception while downl", e.toString());
+        }finally{
+            lInputStream.close();
+        }
+        return lBitmap;
+    }
 
     /**
      *

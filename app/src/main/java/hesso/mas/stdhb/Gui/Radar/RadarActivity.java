@@ -43,6 +43,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     // and Runnable objects associated with a thread's MessageQueue.
     Handler mHandler = new android.os.Handler();
 
+    private GpsLocationListener mGeolocationServices;
+
     private Receiver mReceiver;
 
     private Location CurrentUserLocation;
@@ -74,6 +76,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_display);
+
+        mGeolocationServices = new GpsLocationListener(this);
+
+        if (mGeolocationServices.canGetLocation() == false) {mGeolocationServices.showSettingsAlert();}
 
         mRadarView = (RadarView) findViewById(R.id.radarView);
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
@@ -121,6 +127,9 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         assert mImgBack != null;
         mImgBack.setOnClickListener(this);
+
+        assert mImgBack != null;
+        mImgRadarInfo.setOnClickListener(this);
     }
 
     /**
@@ -271,15 +280,14 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      */
     private void startAsyncSearch() {
 
-        GpsLocationListener lGeolocationServices = new GpsLocationListener(this);
-
-        Location lCurrentUserLocation = lGeolocationServices.getUserCurrentLocation();
+        Location lCurrentUserLocation =
+                mGeolocationServices.getUserCurrentLocation();
 
         // TODO removes when the application works
         if (lCurrentUserLocation == null) {
             CurrentUserLocation = new Location(MyString.EMPTY_STRING);
-            CurrentUserLocation.setLatitude(46.256119d);
-            CurrentUserLocation.setLongitude(7.6245001d);
+            CurrentUserLocation.setLatitude(46.2333d);
+            CurrentUserLocation.setLongitude(7.35d);
         }
 
         RetrieveCitizenDataAsyncTask lRetrieveTask =

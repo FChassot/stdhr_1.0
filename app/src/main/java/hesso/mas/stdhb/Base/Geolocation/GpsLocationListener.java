@@ -40,10 +40,14 @@ public final class GpsLocationListener implements LocationListener {
     // flag for GPS status
     boolean canGetLocation = false;
 
-    Location mLocation; // location
+    // location
+    Location mLocation;
 
-    double latitude; // latitude
-    double longitude; // longitude
+    // latitude
+    double latitude;
+
+    // longitude
+    double longitude;
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
@@ -103,6 +107,7 @@ public final class GpsLocationListener implements LocationListener {
                     if (locationManager != null) {
                         mLocation = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
                         if (mLocation != null) {
                             latitude = mLocation.getLatitude();
                             longitude = mLocation.getLongitude();
