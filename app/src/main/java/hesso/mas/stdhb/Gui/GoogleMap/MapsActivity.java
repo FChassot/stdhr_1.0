@@ -30,15 +30,16 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
     // GoogleMap instance
     private GoogleMap mMapFragment;
 
+    public static final String USER_MARKER = "USER_MARKER";
     public static final String RADAR_MARKER = "RADAR_MARKER";
 
     public RadarMarker mCurrentUserMarker;
     public RadarMarker mCulturalObjectMarker;
 
-    public double mCulturalObjectMarkerLatitude;
-    public double mCulturalObjectMarkerLongitude;
-    public double mCurrentUserLatitude;
-    public double mCurrentUserLongitude;
+    //public double mCulturalObjectMarkerLatitude;
+    //public double mCulturalObjectMarkerLongitude;
+    //public double mCurrentUserLatitude;
+    //public double mCurrentUserLongitude;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -53,15 +54,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
 
         setContentView(R.layout.activity_maps);
 
-        if (this.getIntent().hasExtra("lat")) {
-            Bundle bundle = getIntent().getExtras();
+     //   if (this.getIntent().hasExtra("lat")) {
+            Bundle lBundle = getIntent().getExtras();
             // to retrieve the cultural object selected in the radar view
-            //mCulturalObjectMarker = getIntent().getParcelableExtra(RADAR_MARKER);
-            mCulturalObjectMarkerLatitude = bundle.getDouble("lat");
-            mCulturalObjectMarkerLongitude = bundle.getDouble("long");
-            mCurrentUserLatitude = bundle.getDouble("currentlat");
-            mCurrentUserLongitude = bundle.getDouble("currentlong");
-        }
+            mCurrentUserMarker = (RadarMarker)lBundle.getParcelable(USER_MARKER);
+            mCulturalObjectMarker = (RadarMarker)lBundle.getParcelable(RADAR_MARKER);
+       // }
 
         InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
         boolean lIsActive = lInterConnectivity.IsActive();
@@ -107,14 +105,14 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
         // Add a marker in the current location and move the camera
         LatLng lLatLngCurrentUserLocation =
                     new LatLng(
-                            mCurrentUserLatitude,
-                            mCurrentUserLongitude);
+                            mCurrentUserMarker.getLatitude(),
+                            mCurrentUserMarker.getLongitude());
 
         // Add a marker in the current location
         LatLng lLatLngCulturalObjectLocation =
                     new LatLng(
-                            mCulturalObjectMarkerLatitude,
-                            mCulturalObjectMarkerLongitude);
+                            mCulturalObjectMarker.getLatitude(),
+                            mCulturalObjectMarker.getLongitude());
 
         lBuilder.include(lLatLngCulturalObjectLocation).include(lLatLngCurrentUserLocation);
 
@@ -122,25 +120,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
         mMapFragment.addMarker(
                     new MarkerOptions()
                             .position(lLatLngCurrentUserLocation)
-                            .title("CITIZEN RADAR's USER"));
+                            .title(mCurrentUserMarker.getTitle()));
 
         mMapFragment.addMarker(
                     new MarkerOptions()
                             .position(lLatLngCulturalObjectLocation)
-                            .title("MARKER"));
-
-       /* LatLngBounds lBounds = null;
-
-        try{
-            lBounds =
-                    new LatLngBounds(
-                            lLatLngCulturalObjectLocation,
-                            lLatLngCurrentUserLocation);
-
-        }
-        catch (Exception e){
-            Log.i("GoogleMap", e.getMessage());
-        }*/
+                            .title(mCulturalObjectMarker.getTitle()));
 
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 2));
     }

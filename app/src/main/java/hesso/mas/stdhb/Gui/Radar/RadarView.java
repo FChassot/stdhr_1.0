@@ -80,7 +80,7 @@ public class RadarView extends 	android.view.View {
 
         Paint lRadarPaint = new Paint();
 
-        lRadarPaint.setColor(Color.WHITE);
+        lRadarPaint.setColor(Color.RED);
         lRadarPaint.setAntiAlias(true);
         lRadarPaint.setStyle(Paint.Style.STROKE);
         lRadarPaint.setStrokeWidth(5.0F);
@@ -110,7 +110,7 @@ public class RadarView extends 	android.view.View {
 
         /**
         * This method allows to update the markers received
-         * by the radar.
+        * by the radar.
         */
         public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
             mMarkers = aMarkers;
@@ -223,7 +223,7 @@ public class RadarView extends 	android.view.View {
 
             Paint lMarkerPaint = new Paint();
 
-            lMarkerPaint.setColor(Color.RED);
+            lMarkerPaint.setColor(Color.WHITE);
             lMarkerPaint.setStyle(Paint.Style.FILL);
 
             List<RadarMarker> lMarkers = getMarkers();
@@ -236,9 +236,37 @@ public class RadarView extends 	android.view.View {
                             lMarker.getPositionY(),
                             (((aMaxRadiusOfRadar / 2) - 1) >> 5),
                             lMarkerPaint);
+                        /*drawMarker(
+                                aCanvas,
+                                lMarker,
+                                (((aMaxRadiusOfRadar / 2) - 1) >> 5));*/
                     }
                 }
             }
+        }
+
+        /**
+         * Draws a marker on the view.
+         *
+         * @param aCanvas Canvas hosts the draw calls
+         * @param aRadarMarker The marker to draw
+         * @param aMaxRadiusOfRadar
+         */
+        private void drawMarker(
+                Canvas aCanvas,
+                RadarMarker aRadarMarker,
+                int aMaxRadiusOfRadar) {
+
+            Paint lMarkerPaint = new Paint();
+
+            lMarkerPaint.setColor(Color.WHITE);
+            lMarkerPaint.setStyle(Paint.Style.FILL);
+
+            aCanvas.drawCircle(
+                    aRadarMarker.getPositionX(),
+                    aRadarMarker.getPositionY(),
+                    (((aMaxRadiusOfRadar / 2) - 1) >> 5),
+                    lMarkerPaint);
         }
 
     //endregion
@@ -268,15 +296,6 @@ public class RadarView extends 	android.view.View {
                 //return false;
             //}
 
-            /*Location lCoordinates = new Location(MyString.EMPTY_STRING);
-
-            // GPS Coordinates
-            lCoordinates.setAltitude(829);
-            lCoordinates.setLatitude(46.6092369);
-            lCoordinates.setLongitude(7.029020100000025);
-
-            lIntent.putExtra(MapsActivity.RADAR_EXTRA, lCoordinates);*/
-
             RadarMarker lCulturalObject =
                     findTheNearestCulturalObject(
                             lOnTouchXCoordinate,
@@ -286,14 +305,16 @@ public class RadarView extends 	android.view.View {
             if (lCulturalObject != null) {
                 Intent lIntent = new Intent(myContext, MapsActivity.class);
 
-                Location lCulturalObjectLocation = new Location(MyString.EMPTY_STRING);
-                lCulturalObjectLocation.setLatitude(lCulturalObject.getLatitude());
-                lCulturalObjectLocation.setLongitude(lCulturalObject.getLongitude());
+                Bundle lBundle = new Bundle();
 
-                lIntent.putExtra("currentlat", 46.6167);
-                lIntent.putExtra("currentlong", 7.0667);
-                lIntent.putExtra("lat", lCulturalObject.getLatitude());
-                lIntent.putExtra("long", lCulturalObject.getLongitude());
+                RadarMarker lUserMarker = new RadarMarker();
+                lUserMarker.setLatitude(46.6167);
+                lUserMarker.setLongitude(7.0667);
+                lUserMarker.setTitle("Citizen radar's user");
+
+                lBundle.putParcelable(MapsActivity.USER_MARKER, lUserMarker);
+                lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+                lIntent.putExtras(lBundle);
 
                 myContext.startActivity(lIntent);
 

@@ -47,6 +47,7 @@ public final class RadarHelper {
             for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
                 Double lLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
                 Double lLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
+                String lTitle = lCulturalInterestObject.GetValue("title");
 
                 Double lRadiusInKm = aRadiusSearch / 1000;
                 Double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
@@ -71,7 +72,8 @@ public final class RadarHelper {
                                 lRadarViewPosition.getY(),
                                 lLatitude,
                                 lLongitude,
-                                Color.RED);
+                                Color.RED,
+                                lTitle);
 
                 lMarkers.add(lMarker);
             }
