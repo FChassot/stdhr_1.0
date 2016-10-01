@@ -117,14 +117,20 @@
                 android:textSize="11dp"
                 android:layout_column="22" />
         </TableRow>
-    </TableLayout>
 
-    <!--<ListPreference
-        android:key="prefSyncFrequency"
-        android:entries="@categories/syncFrequency"
-        android:entryValues="@categories/syncFrequencyValues"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />-->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/mLstViewCITyp"
+                android:layout_alignBottom="@+id/tableLayout"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="155dp"
+                android:layout_column="22" />
+        </TableRow>
+    </TableLayout>
 
 </RelativeLayout>
 

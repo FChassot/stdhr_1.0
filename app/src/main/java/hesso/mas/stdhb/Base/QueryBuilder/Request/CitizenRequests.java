@@ -34,19 +34,19 @@ public final class CitizenRequests {
         Checks.AssertNotEmpty(aCulturalInterestType);
         Checks.AssertNotNull(aCurrentUserLocation);
 
-        Double lCurrentLongitude = aCurrentUserLocation.getLongitude();
-        Double lCurrentLatitude = aCurrentUserLocation.getLatitude();
+        double lCurrentLongitude = aCurrentUserLocation.getLongitude();
+        double lCurrentLatitude = aCurrentUserLocation.getLatitude();
 
-        Double lRadiusInKm = Double.parseDouble(aRadius.toString()) / 1000;
-        Double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
-        Double lLatDelta = lLatDegree / lRadiusInKm;
+        double lRadiusInKm = Double.parseDouble(aRadius.toString()) / 1000;
+        double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
+        double lLatDelta = lLatDegree / lRadiusInKm;
 
-        Double lRadius = 0.1 / lLatDelta;
+        double lRadius = 0.1 / lLatDelta;
 
-        Double lMinLongitude = (lCurrentLongitude - lRadius);
-        Double lMaxLongitude = (lCurrentLongitude + lRadius);;
-        Double lMinLatitude = (lCurrentLatitude - lRadius);
-        Double lMaxLatitude = (lCurrentLatitude + lRadius);
+        double lMinLongitude = (lCurrentLongitude - lRadius);
+        double lMaxLongitude = (lCurrentLongitude + lRadius);;
+        double lMinLatitude = (lCurrentLatitude - lRadius);
+        double lMaxLatitude = (lCurrentLatitude + lRadius);
 
         String lQuery =
                 "prefix cti: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
