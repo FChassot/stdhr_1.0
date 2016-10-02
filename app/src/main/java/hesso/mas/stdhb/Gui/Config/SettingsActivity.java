@@ -87,11 +87,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
-        String lCIType =
-                lPrefs.getPrefValue(
-                        BaseConstants.Attr_CulturalInterest_type,
-                        MyString.EMPTY_STRING);
-
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
 
         if (lRaySearch.equals(Basemodel.NULL_KEY)) {
@@ -108,31 +103,29 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     //region Listbox-Checkbox
 
-    private ArrayList<CulturalInterestType> getCountryData() {
+    private ArrayList<CulturalInterestType> getCulturalInterestTypes() {
 
-        //Array list of countries
-        ArrayList<CulturalInterestType> countryList = new ArrayList<>();
+        //Array list of type of cultural interest
+        ArrayList<CulturalInterestType> lListOfCIType = new ArrayList<>();
 
-        CulturalInterestType country = new CulturalInterestType("", "Cultural place", false);
-        countryList.add(country);
-        country = new CulturalInterestType("", "Cultural person", false);
-        countryList.add(country);
-        country = new CulturalInterestType("", "Cultural event", false);
-        countryList.add(country);
-        country = new CulturalInterestType("", "Folklore", false);
-        countryList.add(country);
-        country = new CulturalInterestType("", "Physical object", false);
-        countryList.add(country);
+        lListOfCIType.add(new CulturalInterestType("", "Cultural place", false));
+        lListOfCIType.add(new CulturalInterestType("", "Cultural person", false));
+        lListOfCIType.add(new CulturalInterestType("", "Cultural event", false));
+        lListOfCIType.add(new CulturalInterestType("", "Folklore", false));
+        lListOfCIType.add(new CulturalInterestType("", "Physical object", false));
 
-        return countryList;
+        return lListOfCIType;
     }
 
+    /**
+     *
+     */
     private void displayListView() {
 
-        ArrayList<CulturalInterestType> countryList = getCountryData();
+        ArrayList<CulturalInterestType> lListOfCulturalInterestTypes = getCulturalInterestTypes();
 
         // create an ArrayAdapter from the String Array
-        mDataAdapter = new MyCustomAdapter(this, R.layout.culturalinterest_info, countryList);
+        mDataAdapter = new MyCustomAdapter(this, R.layout.culturalinterest_info, lListOfCulturalInterestTypes);
 
         ListView listView = (ListView) findViewById(R.id.mLstViewCITyp);
 
@@ -154,13 +147,17 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     private class MyCustomAdapter extends ArrayAdapter<CulturalInterestType> {
 
-        private ArrayList<CulturalInterestType> countryList;
+        private ArrayList<CulturalInterestType> mListOfCulturalInterestType;
 
-        public MyCustomAdapter(Context context, int textViewResourceId, ArrayList<CulturalInterestType> countryList) {
+        public MyCustomAdapter(
+                Context context,
+                int textViewResourceId,
+                ArrayList<CulturalInterestType> aListOfCulturalInterestType) {
 
-            super(context, textViewResourceId, countryList);
-            this.countryList = new ArrayList<>();
-            this.countryList.addAll(countryList);
+            super(context, textViewResourceId, aListOfCulturalInterestType);
+
+            this.mListOfCulturalInterestType = new ArrayList<>();
+            this.mListOfCulturalInterestType.addAll(aListOfCulturalInterestType);
         }
 
         private class ViewHolder {
@@ -171,7 +168,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder = null;
+            ViewHolder lHolder = null;
 
             Log.v("ConvertView", String.valueOf(position));
 
@@ -180,35 +177,30 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
                 convertView = vi.inflate(R.layout.culturalinterest_info, null);
 
-                holder = new ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
-                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
-                convertView.setTag(holder);
+                lHolder = new ViewHolder();
+                lHolder.code = (TextView) convertView.findViewById(R.id.code);
+                lHolder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(lHolder);
 
-                holder.name.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v;
-                        CulturalInterestType lCulturalInterestType = (CulturalInterestType) cb.getTag();
-                        /*Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked(),
-                                Toast.LENGTH_LONG).show();*/
-                        lCulturalInterestType.setSelected(cb.isChecked());
+                lHolder.name.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View aView) {
+                        CheckBox lCheckbox = (CheckBox) aView;
+                        CulturalInterestType lCulturalInterestType = (CulturalInterestType) lCheckbox.getTag();
+                        lCulturalInterestType.setSelected(lCheckbox.isChecked());
                     }
                 });
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                lHolder = (ViewHolder) convertView.getTag();
             }
 
-            CulturalInterestType llCulturalInterestType = countryList.get(position);
-            holder.code.setText(" (" + llCulturalInterestType.getCode() + ")");
-            holder.name.setText(llCulturalInterestType.getName());
-            holder.name.setChecked(llCulturalInterestType.isSelected());
-            holder.name.setTag(llCulturalInterestType);
+            CulturalInterestType llCulturalInterestType = mListOfCulturalInterestType.get(position);
+            lHolder.code.setText(" (" + llCulturalInterestType.getCode() + ")");
+            lHolder.name.setText(llCulturalInterestType.getName());
+            lHolder.name.setChecked(llCulturalInterestType.isSelected());
+            lHolder.name.setTag(llCulturalInterestType);
 
             return convertView;
         }
-
     }
 
     /*private void checkButtonClick() {
@@ -239,6 +231,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     }*/
 
     //endregion
+
     /**
      * The onClick() method is called when a button is actually clicked (or tapped).
      * This method is called by the listener.
