@@ -24,7 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.CulturalInterestType;
+import hesso.mas.stdhb.Base.Models.CulturalInterestType;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;

@@ -1,11 +1,11 @@
 package hesso.mas.stdhb.Communication.WsClient.Rdf4j;
 
-import org.eclipse.rdf4j.query.BindingSet;
+/*import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
 import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.repository.http.HTTPRepository;
+import org.eclipse.rdf4j.repository.http.HTTPRepository;*/
 
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
@@ -49,7 +49,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
 
         String lResult = MyString.EMPTY_STRING;
 
-        Repository lCitizenRepository =
+        /*Repository lCitizenRepository =
                 new HTTPRepository(
                         mWsEndpoint.CitizenServerUri(),
                         mWsEndpoint.CitizenRepositoryName());
@@ -80,7 +80,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
             {
                 lRepositoryConnection.close();
             }
-        }
+        }*/
 
         return null;
     }

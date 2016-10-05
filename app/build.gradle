@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt' //needed for source code generation (IOC)
 
 android {
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
     // To continue using the Apache HTTP APIs,
     // you must first declare the following compile-time dependency in your build.gradle file:
-    //useLibrary 'org.apache.http.legacy'
+    // useLibrary 'org.apache.http.legacy'
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -49,21 +50,14 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.2.1'
 
     // Libraries for the communication between the Client and the Server
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
     compile fileTree(dir: 'libs/Androjena', include: ['*.jar'])
+    //compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
+    //compile 'com.squareup.okhttp3:okhttp:3.2.0'
 
     // Ioc Framework for Android
-    //compile 'org.roboguice:roboguice:2.0'
-    compile 'com.squareup.dagger:dagger:1.2.0'
-
-    // Client functionality for communicating with an RDF4J server over HTTP.
-    //compile group: 'org.eclipse.rdf4j', name: 'rdf4j-http-client', version: '1.0'
-    // <Virtual> repository that communicates with a (remote) repository over the HTTP protocol.
-    //compile group: 'org.eclipse.rdf4j', name: 'rdf4j-repository-http', version: '1.0'
-
-    //compile group: 'cz.msebera.android' , name: 'httpclient', version: '4.4.1.1'
-    //compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
-    //compile files('../app/libs/guava-18.0.jar')
-    //compile group: 'xerces', name: 'xerces', version: '2.4.0'
+    //compile 'com.squareup.dagger:dagger:1.2.0'
+    apt 'com.google.dagger:dagger-compiler:2.0.1' //needed for source code generation
+    compile 'com.google.dagger:dagger:2.0'
+    provided 'com.google.dagger:dagger-compiler:2.0'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }
