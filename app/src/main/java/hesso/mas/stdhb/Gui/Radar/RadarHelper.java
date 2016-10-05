@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenDbObject;
-import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 
 /**
  * Created by chf on 01.09.2016.

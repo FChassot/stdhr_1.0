@@ -1,6 +1,9 @@
 package hesso.mas.stdhb.Gui.Config;
 
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Loader;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,14 +12,12 @@ import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +26,10 @@ import java.util.ArrayList;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.CulturalInterestType;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.Base.Models.Enum.EnumCulturalInterestType;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Models.Basemodel;
+import hesso.mas.stdhb.Base.Storage.Local.SharedPreferencesLoader;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhbtests.R;
@@ -38,9 +39,8 @@ import hesso.mas.stdhbtests.R;
  *
  * Activity for the settings
  */
-public class SettingsActivity extends AppCompatActivity implements OnClickListener {
-
-    private String mComboBoxArray[];
+public class SettingsActivity extends AppCompatActivity implements OnClickListener,
+        LoaderManager.LoaderCallbacks<SharedPreferences> {
 
     MyCustomAdapter mDataAdapter = null;
 
@@ -101,11 +101,35 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lRadarSwitch.setChecked(lRadarMode);
     }
 
+    @Override
+    public Loader<SharedPreferences> onCreateLoader(int id, Bundle args) {
+        return (new SharedPreferencesLoader(this));
+    }
+
+    @Override
+    public void onLoadFinished(
+            Loader<SharedPreferences> loader,
+            SharedPreferences prefs) {
+
+        /*int value = prefs.getInt(KEY, 0);
+        value += 1;
+        textView.setText(String.valueOf(value));
+        // update value
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(KEY, value);
+        SharedPreferencesLoader.persist(editor);*/
+    }
+
+    @Override
+    public void onLoaderReset(Loader<SharedPreferences> loader) {
+        // NOT used
+    }
+
     //region Listbox-Checkbox
 
     private ArrayList<CulturalInterestType> getCulturalInterestTypes() {
 
-        //Array list of type of cultural interest
+        // array list of type of cultural interest
         ArrayList<CulturalInterestType> lListOfCIType = new ArrayList<>();
 
         lListOfCIType.add(new CulturalInterestType("", "Cultural place", false));
@@ -142,7 +166,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     private class MyCustomAdapter extends ArrayAdapter<CulturalInterestType> {
@@ -168,7 +191,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder lHolder = null;
+            ViewHolder lHolder;
 
             Log.v("ConvertView", String.valueOf(position));
 
@@ -202,33 +225,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             return convertView;
         }
     }
-
-    /*private void checkButtonClick() {
-
-        Button myButton = (Button) findViewById(R.id.findSelected);
-
-        myButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                StringBuffer responseText = new StringBuffer();
-                responseText.append("The following were selected...\n");
-
-                ArrayList<Country> countryList = mDataAdapter.countryList;
-                for(int i=0;i<countryList.size();i++){
-                    Country country = countryList.get(i);
-                    if(country.isSelected()){
-                        responseText.append("\n" + country.getName());
-                    }
-                }
-
-                Toast.makeText(getApplicationContext(),
-                        responseText, Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }*/
 
     //endregion
 

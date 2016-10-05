@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.QueryBuilder;
+package hesso.mas.stdhb.DataAccess.QueryEngine;
 
 /**
  * Created by chf on 18.09.2016.

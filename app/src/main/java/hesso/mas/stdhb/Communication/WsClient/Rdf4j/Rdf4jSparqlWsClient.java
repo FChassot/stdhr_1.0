@@ -8,7 +8,7 @@ import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
-import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;

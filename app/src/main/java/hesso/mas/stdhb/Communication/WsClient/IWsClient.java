@@ -1,6 +1,6 @@
 package hesso.mas.stdhb.Communication.WsClient;
 
-import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 
 /**
  * Created by chf on 23.08.2016.

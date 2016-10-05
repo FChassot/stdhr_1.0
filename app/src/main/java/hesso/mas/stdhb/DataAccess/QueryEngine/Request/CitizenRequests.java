@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.QueryBuilder.Request;
+package hesso.mas.stdhb.DataAccess.QueryEngine.Request;
 
 import android.location.Location;
 

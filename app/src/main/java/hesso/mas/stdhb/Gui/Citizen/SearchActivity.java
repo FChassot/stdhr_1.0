@@ -3,9 +3,9 @@ package hesso.mas.stdhb.Gui.Citizen;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
-import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenDbObject;
-import hesso.mas.stdhb.Base.QueryBuilder.Response.CitizenQueryResult;
-import hesso.mas.stdhb.Base.QueryBuilder.Request.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
@@ -169,10 +169,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Method processed by the listener when one button is clicked
      *
-     * @param view
+     * @param aView
      */
-    public void onClick(View view){
-        if (view.getId()==R.id.mBtnSearch) {
+    public void onClick(View aView){
+        if (aView.getId()==R.id.mBtnSearch) {
+
+            startProgress(aView);
 
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
@@ -330,6 +332,43 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     //endregion
 
     //region AsyncTask
+
+    //region Handler
+
+    public void startProgress(View view) {
+        // do something long
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i <= 10; i++) {
+                    final int value = i;
+
+                    doFakeWork();
+
+                    /*progress.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            text.setText("Updating");
+                            progress.setProgress(value);
+                        }
+                    });*/
+                }
+            }
+        };
+
+        new Thread(runnable).start();
+    }
+
+    // Simulating something timeconsuming
+    private void doFakeWork() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //endregion
 
     private class DownloadTask extends AsyncTask<String, Integer, Bitmap> {
 

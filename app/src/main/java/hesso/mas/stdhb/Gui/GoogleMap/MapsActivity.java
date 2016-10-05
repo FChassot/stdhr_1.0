@@ -1,11 +1,8 @@
 package hesso.mas.stdhb.Gui.GoogleMap;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,8 +15,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 
-import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Gui.Radar.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
@@ -63,7 +58,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
         boolean lIsActive = lInterConnectivity.IsActive();
 
-        // Obtain the MapFragment and get notified when the map is ready to be used.
+        // obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 
         mMapFragment.getMapAsync(this);

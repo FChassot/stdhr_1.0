@@ -55,6 +55,7 @@ dependencies {
 
     // Ioc Framework for Android
     //compile 'org.roboguice:roboguice:2.0'
+    compile 'com.squareup.dagger:dagger:1.2.0'
 
     // Client functionality for communicating with an RDF4J server over HTTP.
     //compile group: 'org.eclipse.rdf4j', name: 'rdf4j-http-client', version: '1.0'
