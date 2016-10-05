@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Models.Basemodel;
@@ -29,7 +30,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Client.Gui.MainActivity;
+import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
@@ -328,11 +329,15 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         lRetrieveTask.onPreExecuteMessageDisplay = false;
 
+        double lRadius = RadarHelper.getRadius(lRadiusOfSearch);
+
         String lQuery =
                 CitizenRequests.GetCulturalObjectsInProximityQuery(
                         lCulturalObjectType,
-                        CurrentUserLocation,
-                        lRadiusOfSearch);
+                        (CurrentUserLocation.getLatitude() - lRadius),
+                        (CurrentUserLocation.getLatitude() + lRadius),
+                        (CurrentUserLocation.getLongitude() - lRadius),
+                        (CurrentUserLocation.getLongitude() + lRadius));
 
         lRetrieveTask.execute(
             lQuery,

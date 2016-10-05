@@ -49,10 +49,7 @@ public final class RadarHelper {
                 double lCulturalObjectLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
                 String lTitle = lCulturalInterestObject.GetValue("title");
 
-                double lRadiusInKm = aRadiusSearch / 1000;
-                double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
-                double lLatDelta = lLatDegree / lRadiusInKm;
-                double lRadius = 0.1 / lLatDelta;
+                double lRadius = getRadius((int)aRadiusSearch);
 
                 double lLatitudeMin = lCulturalObjectLatitude - lRadius;
                 double lLatitudeMax = lCulturalObjectLatitude + lRadius;
@@ -86,6 +83,20 @@ public final class RadarHelper {
         return lMarkers;
     }
 
+    /**
+     *
+     * @param aRadiusSearch
+     * @return
+     */
+    public static double getRadius(int aRadiusSearch) {
+
+        double lRadiusInKm = aRadiusSearch / 1000;
+        double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
+        double lLatDelta = lLatDegree / lRadiusInKm;
+        double lRadius = 1 / lLatDelta;
+
+        return lRadius;
+    }
     /**
      * This method calculates the position of the marker in the view.
      *
@@ -165,7 +176,7 @@ public final class RadarHelper {
      *
      * @returns Distance in Meters
      */
-    public static double GetGreatCircleDistanceBetweenTwoPoints(
+    public static double getGreatCircleDistanceBetweenTwoPoints(
         double aLatitude1,
         double aLatitude2,
         double aLongitude1,
@@ -198,7 +209,7 @@ public final class RadarHelper {
      * @param aSensorManager
      * @return
      */
-    public Float GetCurrentCompassHeading(SensorManager aSensorManager) {
+    public Float getCurrentCompassHeading(SensorManager aSensorManager) {
 
         return 0.0F;
     };
@@ -210,7 +221,7 @@ public final class RadarHelper {
      *
      * @return Angle
      */
-    public double GetAngleFromTwoPoints(
+    public double getAngleFromTwoPoints(
         double lat1,
         double lat2,
         double long1,

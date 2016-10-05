@@ -6,6 +6,8 @@ import java.util.Date;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 
 /**
  * Created by chf on 11.05.2016.
@@ -21,35 +23,39 @@ public final class CitizenRequests {
      * Points around a given co-ordinate can be retrieved with the following query
      *
      * @param aCulturalInterestType
-     * @param aCurrentUserLocation The current Location of the mobile
-     * @param aRadius The radius of search
+     * @param aMinLatitude The current Location of the mobile
+     * @param aMaxLatitude The current Location of the mobile
+     * @param aMinLongitude The current Location of the mobile
+     * @param aMaxLongitude The current Location of the mobile
      *
      * @return The appropriate Query
      */
     public static String GetCulturalObjectsInProximityQuery(
         String aCulturalInterestType,
-        Location aCurrentUserLocation,
-        Integer aRadius) {
+        double aMinLatitude,
+        double aMaxLatitude,
+        double aMinLongitude,
+        double aMaxLongitude) {
 
         Checks.AssertNotEmpty(aCulturalInterestType);
-        Checks.AssertNotNull(aCurrentUserLocation);
 
-        double lCurrentLongitude = aCurrentUserLocation.getLongitude();
-        double lCurrentLatitude = aCurrentUserLocation.getLatitude();
+        //Location lObject = new Location(MyString.EMPTY_STRING);
+        //lObject.setLongitude(aCurrentUserLocation.getLongitude());
+        //lObject.setLatitude(aCurrentUserLocation.getLatitude());
+        //lObject.setLatitude(lMaxLatitude);
+        //lObject.setLongitude(lMinLongitude);
 
-        double lRadiusInKm = Double.parseDouble(aRadius.toString()) / 1000;
-        double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
-        double lLatDelta = lLatDegree / lRadiusInKm;
-
-        double lRadius = 0.1 / lLatDelta;
-
-        double lMinLongitude = (lCurrentLongitude - lRadius);
-        double lMaxLongitude = (lCurrentLongitude + lRadius);;
-        double lMinLatitude = (lCurrentLatitude - lRadius);
-        double lMaxLatitude = (lCurrentLatitude + lRadius);
+        /*double lDistance =
+                RadarHelper.getGreatCircleDistanceBetweenTwoPoints(
+                aCurrentUserLocation.getLatitude(),
+                lObject.getLatitude(),
+                aCurrentUserLocation.getLongitude(),
+                lObject.getLongitude(),
+                0,
+                0);*/
 
         String lQuery =
-                "prefix cti: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                 "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
                 "select ?title ?lat ?long where {\n" +
@@ -57,10 +63,10 @@ public final class CitizenRequests {
                 "?culturalInterest geo:location ?x .\n" +
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
-                "FILTER ( ?long > '" + lMinLongitude + "' && ?long < '" + lMaxLongitude + "' && \n" +
-                "?lat > '" + lMinLatitude + "' && ?lat < '" + lMaxLatitude + "') .\n" +
+                "FILTER ( ?long > '" + aMinLongitude + "' && ?long < '" + aMaxLongitude + "' && \n" +
+                "?lat > '" + aMinLatitude + "' && ?lat < '" + aMaxLatitude + "') .\n" +
                 "}\n" +
-                "LIMIT 100";
+                "LIMIT 1";
 
         return lQuery;
     }

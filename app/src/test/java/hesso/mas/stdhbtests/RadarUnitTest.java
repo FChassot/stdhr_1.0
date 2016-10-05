@@ -21,7 +21,7 @@ public class RadarUnitTest {
     public void calculate_distance_between_two_points_isCorrect() throws Exception {
 
         double lDistance =
-                RadarHelper.GetGreatCircleDistanceBetweenTwoPoints(
+                RadarHelper.getGreatCircleDistanceBetweenTwoPoints(
                     45,
                     45,
                     45,
@@ -29,7 +29,7 @@ public class RadarUnitTest {
                     45,
                     45);
 
-        assertEquals(lDistance, 45, 1);
+        assertEquals((int)lDistance, 0);
     }
 
     @Test
