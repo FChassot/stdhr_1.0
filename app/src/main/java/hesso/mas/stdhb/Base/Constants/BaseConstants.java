@@ -32,7 +32,7 @@ public class BaseConstants {
     public static final String Attr_ClientServer_Communication = "client_server_communication";
 
     // constant used to identify the culturalInterest type configured
-    public static final String Attr_CulturalInterest_type = "cultural_interest_type";
+    public static final String Attr_CulturalInterest_type = "cultural_object_type";
 
     // constant used to define the type of search
     public static final String Attr_TypeOfSearch = "radar_type_of_search";

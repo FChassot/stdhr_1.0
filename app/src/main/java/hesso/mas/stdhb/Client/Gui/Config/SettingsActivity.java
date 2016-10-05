@@ -22,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.CulturalInterestType;
@@ -43,6 +46,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         LoaderManager.LoaderCallbacks<SharedPreferences> {
 
     MyCustomAdapter mDataAdapter = null;
+
+    ArrayList<CulturalInterestType> lListOfCulturalInterestTypes = null;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -146,7 +151,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      */
     private void displayListView() {
 
-        ArrayList<CulturalInterestType> lListOfCulturalInterestTypes = getCulturalInterestTypes();
+        lListOfCulturalInterestTypes = getCulturalInterestTypes();
 
         // create an ArrayAdapter from the String Array
         mDataAdapter = new MyCustomAdapter(this, R.layout.culturalinterest_info, lListOfCulturalInterestTypes);
@@ -216,10 +221,20 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 lHolder = (ViewHolder) convertView.getTag();
             }
 
+            Preferences lPrefs = new Preferences(this.getContext());
+            Set<String> lSet = lPrefs.getSetPrefValue(BaseConstants.Attr_CulturalInterest_type, null);
+
             CulturalInterestType llCulturalInterestType = mListOfCulturalInterestType.get(position);
             lHolder.code.setText(" (" + llCulturalInterestType.getCode() + ")");
             lHolder.name.setText(llCulturalInterestType.getName());
-            lHolder.name.setChecked(llCulturalInterestType.isSelected());
+            if (lSet != null) {
+                for (String aCIType : lSet) {
+                    if (llCulturalInterestType.getName().equals(aCIType)) {
+                        lHolder.name.setChecked(true);
+                    }
+                }
+            }
+            //lHolder.name.setChecked(llCulturalInterestType.isSelected());
             lHolder.name.setTag(llCulturalInterestType);
 
             return convertView;
@@ -300,6 +315,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lPrefs.setValue(
                 BaseConstants.Attr_ClientServer_Communication,
                 lClientServerCommunication);
+
+        Set<String> lSet = new HashSet<>();
+
+        for (CulturalInterestType aCIType : lListOfCulturalInterestTypes) {
+            if (aCIType.isSelected()) {
+                lSet.add(aCIType.getName());
+            }
+        }
+
+        lPrefs.setValue(
+                BaseConstants.Attr_CulturalInterest_type,
+                lSet);
     }
 
     /**

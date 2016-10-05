@@ -1,7 +1,7 @@
 package hesso.mas.stdhb.Base.Models;
 
 /**
- * Created by frede on 01.10.2016.
+ * Created by chf on 01.10.2016.
  */
 public class CulturalInterestType {
 

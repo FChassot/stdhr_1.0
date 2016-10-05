@@ -1,13 +1,8 @@
 package hesso.mas.stdhb.DataAccess.QueryEngine.Request;
 
-import android.location.Location;
-
 import java.util.Date;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
-import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 
 /**
  * Created by chf on 11.05.2016.
@@ -66,7 +61,7 @@ public final class CitizenRequests {
                 "FILTER ( ?long > '" + aMinLongitude + "' && ?long < '" + aMaxLongitude + "' && \n" +
                 "?lat > '" + aMinLatitude + "' && ?lat < '" + aMaxLatitude + "') .\n" +
                 "}\n" +
-                "LIMIT 1";
+                "LIMIT 10000";
 
         return lQuery;
     }
