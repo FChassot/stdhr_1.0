@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui.Radar;
+package hesso.mas.stdhb.Client.Gui.Radar;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +29,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Gui.MainActivity;
+import hesso.mas.stdhb.Client.Gui.MainActivity;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 

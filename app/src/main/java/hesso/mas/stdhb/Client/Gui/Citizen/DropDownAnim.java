@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui.Citizen;
+package hesso.mas.stdhb.Client.Gui.Citizen;
 
 import android.view.View;
 import android.view.animation.Animation;

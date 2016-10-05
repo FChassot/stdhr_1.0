@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui.GoogleMap;
+package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
 import android.app.Activity;
 import android.location.Location;
@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 
-import hesso.mas.stdhb.Gui.Radar.RadarMarker;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
 /**

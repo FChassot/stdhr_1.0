@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import hesso.mas.stdhb.Gui.Radar.RadarHelper;
-import hesso.mas.stdhb.Gui.Radar.RadarMarker;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui.Citizen;
+package hesso.mas.stdhb.Client.Gui.Citizen;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.view.View;
 
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
-import hesso.mas.stdhb.Gui.Validation.GuiValidation;
+import hesso.mas.stdhb.Client.Gui.Validation.GuiValidation;
 import hesso.mas.stdhbtests.R;
 /*import okhttp3.Call;
 import okhttp3.Callback;

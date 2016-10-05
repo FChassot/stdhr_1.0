@@ -1,6 +1,5 @@
-package hesso.mas.stdhb.Gui;
+package hesso.mas.stdhb.Client.Gui;
 
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,17 +8,13 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.ImageView;
 
-import javax.inject.Inject;
-
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.IOC.CustomApplication;
-import hesso.mas.stdhb.Base.IOC.Injector;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 
-import hesso.mas.stdhb.Gui.Config.SettingsActivity;
-import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
-import hesso.mas.stdhb.Gui.Radar.RadarActivity;
-import hesso.mas.stdhb.Gui.Citizen.SearchActivity;
+import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
+import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
+import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 
 import hesso.mas.stdhbtests.R;
 
@@ -30,8 +25,8 @@ import hesso.mas.stdhbtests.R;
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-    @Inject
-    CustomApplication customApplication;
+    /*@Inject
+    CustomApplication customApplication;*/
 
     /**
      * Called when the activity is first created. This is where you should do all of your

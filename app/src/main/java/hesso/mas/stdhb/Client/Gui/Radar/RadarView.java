@@ -1,9 +1,5 @@
-package hesso.mas.stdhb.Gui.Radar;
+package hesso.mas.stdhb.Client.Gui.Radar;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import android.app.AlertDialog;
-import android.location.Location;
 import android.os.*;
 
 import android.content.Context;
@@ -16,15 +12,11 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 
-import hesso.mas.stdhb.Base.Constants.*;
-
 import hesso.mas.stdhb.Base.Notifications.Notifications;
-import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Gui.GoogleMap.MapsActivity;
+import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 
 /**
  * Created by chf on 15.07.2016.

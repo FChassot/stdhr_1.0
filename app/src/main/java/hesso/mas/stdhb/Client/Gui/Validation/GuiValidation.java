@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui.Validation;
+package hesso.mas.stdhb.Client.Gui.Validation;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;

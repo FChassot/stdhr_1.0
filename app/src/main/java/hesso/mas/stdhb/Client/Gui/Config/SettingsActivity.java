@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui.Config;
+package hesso.mas.stdhb.Client.Gui.Config;
 
 import android.app.LoaderManager;
 import android.content.Context;

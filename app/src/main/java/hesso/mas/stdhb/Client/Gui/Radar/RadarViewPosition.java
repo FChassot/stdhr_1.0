@@ -1,6 +1,4 @@
-package hesso.mas.stdhb.Gui.Radar;
-
-import hesso.mas.stdhb.Base.Checks.Checks;
+package hesso.mas.stdhb.Client.Gui.Radar;
 
 /**
  * Created by chf on 27.09.2016.

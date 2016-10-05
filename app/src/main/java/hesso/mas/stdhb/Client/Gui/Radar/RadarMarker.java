@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Gui.Radar;
+package hesso.mas.stdhb.Client.Gui.Radar;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -6,8 +6,6 @@ import android.graphics.Paint;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.Serializable;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 

@@ -41,7 +41,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="hesso.mas.stdhb.Gui.MainActivity">
+        <activity android:name="hesso.mas.stdhb.Client.Gui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,7 +49,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="hesso.mas.stdhb.Gui.Citizen.SearchActivity" />
+        <activity android:name="hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -63,13 +63,13 @@
             android:value="@string/google_maps_key" />-->
 
         <activity
-            android:name="hesso.mas.stdhb.Gui.Radar.RadarActivity"
+            android:name="hesso.mas.stdhb.Client.Gui.Radar.RadarActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Added by chf -->
 
-        <activity android:name="hesso.mas.stdhb.Gui.Config.SettingsActivity"
+        <activity android:name="hesso.mas.stdhb.Client.Gui.Config.SettingsActivity"
             android:label="@string/app_name"/>
 
         <!-- Sert à indiquer l'utilisation des Google Play Services -->
@@ -83,7 +83,7 @@
             android:value="AIzaSyB2tF07Rc15FTA-uTh6e7ZED19VDhC3hts" />
 
         <activity
-            android:name="hesso.mas.stdhb.Gui.GoogleMap.MapsActivity"
+            android:name="hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
     </application>
 
