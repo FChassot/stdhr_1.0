@@ -205,7 +205,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
             String lRequest =
-                    CitizenRequests.GetCulturalObjectQuery(
+                    CitizenRequests.getCulturalObjectQuery(
                             lPlace,
                             new Date(19000101),
                             new Date(99990101));

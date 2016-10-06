@@ -8,7 +8,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Models.CulturalInterestType;
+
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 
@@ -27,8 +28,8 @@ public final class RadarHelper {
      * of radarMarker
      *
      * @param aCompassHeading
-     * @param aCurrentLocation
-     * @param aRadiusSearch
+     * @param aCurrentUserLocation The current location of the app's user
+     * @param aRadius The radius of the radar's search
      * @param aQueryResult
      * @param aView
      *
@@ -36,36 +37,36 @@ public final class RadarHelper {
      */
     public static List<RadarMarker> getRadarMarkersFromResponse(
         Float aCompassHeading,
-        Location aCurrentLocation,
-        double aRadiusSearch,
+        Location aCurrentUserLocation,
+        double aRadius,
         CitizenQueryResult aQueryResult,
         View aView) {
 
         List<RadarMarker> lMarkers = new ArrayList<>();
 
-        if (aQueryResult != null && aQueryResult.Count() > 0) {
+        if (aQueryResult != null) {
             for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
                 double lCulturalObjectLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
                 double lCulturalObjectLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
                 String lTitle = lCulturalInterestObject.GetValue("title");
 
-                double lRadius = getRadius((int)aRadiusSearch);
+                double lRadius = getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
 
-                double lLatitudeMin = lCulturalObjectLatitude - lRadius;
-                double lLatitudeMax = lCulturalObjectLatitude + lRadius;
-                double lLongitudeMin = lCulturalObjectLongitude - lRadius;
-                double lLongitudeMax = lCulturalObjectLongitude + lRadius;
+                //double lLatitudeMin = lCulturalObjectLatitude - lRadius;
+                //double lLatitudeMax = lCulturalObjectLatitude + lRadius;
+                //double lLongitudeMin = lCulturalObjectLongitude - lRadius;
+                //double lLongitudeMax = lCulturalObjectLongitude + lRadius;
 
                 RadarViewPosition lRadarViewPosition =
-                        getXYPositionOfTheMarkerInTheRadarView(
+                        calculateXYPositionOfTheMarkerInTheRadarView(
                                 aView.getHeight(),
                                 aView.getWidth(),
-                                aCurrentLocation.getLatitude(),
-                                aCurrentLocation.getLongitude(),
-                                lLatitudeMin,
-                                lLatitudeMax,
-                                lLongitudeMin,
-                                lLongitudeMax);
+                                aCurrentUserLocation.getLatitude(),
+                                aCurrentUserLocation.getLongitude(),
+                                lCulturalObjectLatitude - lRadius,
+                                lCulturalObjectLatitude + lRadius,
+                                lCulturalObjectLongitude - lRadius,
+                                lCulturalObjectLongitude + lRadius);
 
                 RadarMarker lMarker =
                         new RadarMarker(
@@ -84,19 +85,143 @@ public final class RadarHelper {
     }
 
     /**
+     * This method allows to convert the radius of search
      *
-     * @param aRadiusSearch
-     * @return
+     * @param aRadiusSearch The radius of search in meters
+     *
+     * @return the radius of search in radians
      */
-    public static double getRadius(int aRadiusSearch) {
+    public static double getRadiusInRadian(
+            Location aCurrentUserLocation,
+            int aRadiusSearch) {
 
         double lRadiusInKm = aRadiusSearch / 1000;
-        double lLatDegree = Double.parseDouble(BaseConstants.Attr_Lat_Degree);
-        double lLatDelta = lLatDegree / lRadiusInKm;
+        double lNbrOfKilometersForOneLatitudeDegree =
+                getNbrOfKilometersForOneLatitudeDegree(
+                        aCurrentUserLocation);
+
+        double lLatDelta = (lNbrOfKilometersForOneLatitudeDegree/1000) / lRadiusInKm;
         double lRadius = 1 / lLatDelta;
 
         return lRadius;
     }
+
+    /**
+     * ...
+     *
+     * @param aCurrentUserLocation The current location of the app's user
+     *
+     * @return the distance for one degree in meters
+     */
+    public static double getNbrOfKilometersForOneLatitudeDegree(
+            Location aCurrentUserLocation) {
+
+        double lDistance =
+            getGreatCircleDistanceBetweenTwoPoints(
+                aCurrentUserLocation.getLatitude(),
+                aCurrentUserLocation.getLatitude() + 1,
+                aCurrentUserLocation.getLongitude(),
+                aCurrentUserLocation.getLongitude(),
+                0,
+                0);
+
+        return lDistance;
+    }
+
+    /**
+     * ...
+     *
+     * @param aCurrentUserLocation The current location of the app's user
+     *
+     * @return the number of kilometers
+     */
+    public static double getNbrOfKilometersForOneLongitudeDegree(
+            Location aCurrentUserLocation) {
+
+        double lDistance =
+                getGreatCircleDistanceBetweenTwoPoints(
+                        aCurrentUserLocation.getLatitude(),
+                        aCurrentUserLocation.getLatitude(),
+                        aCurrentUserLocation.getLongitude(),
+                        aCurrentUserLocation.getLongitude() + 1,
+                        0,
+                        0);
+
+        return lDistance;
+    }
+
+    /*
+     * Calculates the distance between two points in latitude and longitude taking
+     * into account height difference.
+     *
+     * The Haversine formula is used to calculate the great-circle distance between two points –
+     * that is, the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’ distance
+     * between the points (ignoring any hills they fly over, of course!).
+     *
+     * @Param aLatitude1, aLongitude1 Start point aLatitude2, aLongitude2 End point aElevation1 Start altitude
+     * in meters aElevation2 End altitude in meters
+     *
+     * @returns the distance in meters
+     */
+    public static double getGreatCircleDistanceBetweenTwoPoints(
+            double aLatitude1,
+            double aLatitude2,
+            double aLongitude1,
+            double aLongitude2,
+            double aElevation1,
+            double aElevation2) {
+
+        final int lRadiusOfEarth = 6371;                                       // Radius of the earth
+
+        double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
+        double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
+
+        double a = Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
+                + Math.cos(Math.toRadians(aLatitude1)) * Math.cos(Math.toRadians(aLatitude2))
+                * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        double lDistance = lRadiusOfEarth * c * 1000; // convert to meters
+
+        double lHeight = aElevation1 - aElevation2;
+
+        lDistance = Math.pow(lDistance, 2) + Math.pow(lHeight, 2);
+
+        return Math.sqrt(lDistance);
+    }
+
+    /**
+     * This method analyses the response from the sparql request and converts this one into a list
+     * of radarMarker
+     *
+     * @param aQueryResult
+     *
+     * @return A list of RadarMarker
+     */
+    public static ArrayList<CulturalInterestType> getRadarMarkersFromResponse(
+            CitizenQueryResult aQueryResult) {
+
+        // array list of type of cultural interest
+        ArrayList<CulturalInterestType> lListOfCIType = new ArrayList<>();
+
+        if (aQueryResult == null) {
+            lListOfCIType.add(new CulturalInterestType("","Cultural place", false));
+            lListOfCIType.add(new CulturalInterestType("","Cultural person", false));
+            lListOfCIType.add(new CulturalInterestType("","Cultural event", false));
+            lListOfCIType.add(new CulturalInterestType("","Folklore", false));
+            lListOfCIType.add(new CulturalInterestType("","Physical object", false));
+        }
+        else {
+            for (CitizenDbObject lCitizenObject : aQueryResult.Results()) {
+                lListOfCIType.add(new CulturalInterestType("","cultural object conversion to do", false));
+            }
+
+        }
+
+        return lListOfCIType;
+    }
+
     /**
      * This method calculates the position of the marker in the view.
      *
@@ -111,7 +236,7 @@ public final class RadarHelper {
      *
      * @return The X, Y Positions in the view
      */
-    private static RadarViewPosition getXYPositionOfTheMarkerInTheRadarView(
+    private static RadarViewPosition calculateXYPositionOfTheMarkerInTheRadarView(
         int aHeightView,
         int aWithView,
         double aCulturalInterestLatitude,
@@ -163,46 +288,7 @@ public final class RadarHelper {
         return lDeltaY / Math.cos(lAngle);
     }
 
-    /*
-     * Calculates the distance between two points in latitude and longitude taking
-     * into account height difference.
-     *
-     * The Haversine formula is used to calculate the great-circle distance between two points –
-     * that is, the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’ distance
-     * between the points (ignoring any hills they fly over, of course!).
-     *
-     * @Param aLatitude1, aLongitude1 Start point aLatitude2, aLongitude2 End point aElevation1 Start altitude in meters
-     * aElevation2 End altitude in meters
-     *
-     * @returns Distance in Meters
-     */
-    public static double getGreatCircleDistanceBetweenTwoPoints(
-        double aLatitude1,
-        double aLatitude2,
-        double aLongitude1,
-        double aLongitude2,
-        double aElevation1,
-        double aElevation2) {
 
-        final int lRadiusEarth = 6371; // Radius of the earth
-
-        double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
-        double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
-
-        double a = Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
-                + Math.cos(Math.toRadians(aLatitude1)) * Math.cos(Math.toRadians(aLatitude2))
-                * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        double lDistance = lRadiusEarth * c * 1000; // convert to meters
-
-        double lHeight = aElevation1 - aElevation2;
-
-        lDistance = Math.pow(lDistance, 2) + Math.pow(lHeight, 2);
-
-        return Math.sqrt(lDistance);
-    }
 
     /**
      *
@@ -234,12 +320,12 @@ public final class RadarHelper {
         double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2)* Math.cos(lonDelta);
         double angle = Math.atan2(y, x); //not finished here yet
         double headingDeg = aCurrentHeading;
-        double angleDeg = angle * 180/Math.PI;
+        double lAndleDeg = angle * 180/Math.PI;
         double heading = headingDeg*Math.PI/180;
         //angle = fmod(angleDeg + 360, 360) * Math.PI/180; //normalize to 0 to 360 (instead of -180 to 180), then convert back to radians
-        angleDeg = angle * 180/Math.PI;
+        lAndleDeg = angle * 180/Math.PI;
 
-        return angleDeg;
+        return lAndleDeg;
     }
 
     // http://stackoverflow.com/questions/5314724/get-screen-coordinates-by-specific-location-and-longitude-android

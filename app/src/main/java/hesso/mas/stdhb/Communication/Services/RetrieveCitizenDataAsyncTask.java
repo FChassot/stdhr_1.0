@@ -129,7 +129,6 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
 
         Bundle lBundle = new Bundle();
 
-        //lBundle.putSerializable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, (Serializable) aObject.Iter());
         lBundle.putParcelable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, aCitizenQueryResult);
         lIntent.putExtras(lBundle);
 

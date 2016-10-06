@@ -25,7 +25,7 @@ public final class CitizenRequests {
      *
      * @return The appropriate Query
      */
-    public static String GetCulturalObjectsInProximityQuery(
+    public static String getCulturalObjectsInProximityQuery(
         String aCulturalInterestType,
         double aMinLatitude,
         double aMaxLatitude,
@@ -61,7 +61,7 @@ public final class CitizenRequests {
                 "FILTER ( ?long > '" + aMinLongitude + "' && ?long < '" + aMaxLongitude + "' && \n" +
                 "?lat > '" + aMinLatitude + "' && ?lat < '" + aMaxLatitude + "') .\n" +
                 "}\n" +
-                "LIMIT 10000";
+                "LIMIT 1";
 
         return lQuery;
     }
@@ -75,7 +75,7 @@ public final class CitizenRequests {
      *
      * @return The appropriate Query
      */
-    public static String GetCulturalObjectQuery(
+    public static String getCulturalObjectQuery(
         String aPlace,
         Date aBegin,
         Date aEnd) {
@@ -119,7 +119,7 @@ public final class CitizenRequests {
      *
      * @return The appropriate Query
      */
-    public static String GetCulturalObjectsTypeQuery() {
+    public static String getCulturalObjectTypeQuery() {
 
         String lQuery =
             "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +

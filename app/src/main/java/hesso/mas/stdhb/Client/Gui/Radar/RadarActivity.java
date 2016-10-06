@@ -329,10 +329,13 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         lRetrieveTask.onPreExecuteMessageDisplay = false;
 
-        double lRadius = RadarHelper.getRadius(lRadiusOfSearch);
+        double lRadius =
+                RadarHelper.getRadiusInRadian(
+                    CurrentUserLocation,
+                    lRadiusOfSearch);
 
         String lQuery =
-                CitizenRequests.GetCulturalObjectsInProximityQuery(
+                CitizenRequests.getCulturalObjectsInProximityQuery(
                         lCulturalObjectType,
                         (CurrentUserLocation.getLatitude() - lRadius),
                         (CurrentUserLocation.getLatitude() + lRadius),
@@ -406,8 +409,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      * The onClick() method is called when a button is actually clicked (or tapped).
      * This method is called by the listener.
      */
-    public void onClick(View view){
-        if (view.getId()==R.id.mBtnStopRadar){
+    public void onClick(View aView){
+        if (aView.getId()==R.id.mBtnStopRadar){
             if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
                 this.stopRadar(this.mRadarView);
             } else {
@@ -416,7 +419,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
             this.updateButtonText();
         }
-        if (view.getId()==R.id.mImgBack){
+        if (aView.getId()==R.id.mImgBack){
             this.stopRadar(this.mRadarView);
 
             Intent intent = new Intent(RadarActivity.this, MainActivity.class);
