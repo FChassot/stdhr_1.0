@@ -1,6 +1,7 @@
 package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -49,10 +50,18 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         Bundle lBundle = getIntent().getExtras();
 
-        // to retrieve the current user marker
-        mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
-        // to retrieve the cultural object selected in the radar view
-        mCulturalObjectMarker = lBundle.getParcelable(RADAR_MARKER);
+        if (lBundle != null) {
+            // to retrieve the current user marker
+            mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
+            // to retrieve the cultural object selected in the radar view
+            mCulturalObjectMarker = lBundle.getParcelable(RADAR_MARKER);
+        }
+        else {
+            mCurrentUserMarker = new RadarMarker();
+            mCurrentUserMarker.setLatitude(46.2333);
+            mCurrentUserMarker.setLongitude(7.35);
+            mCurrentUserMarker.setTitle("Citizen radar's user");
+        }
 
         InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
         boolean lIsActive = lInterConnectivity.IsActive();
@@ -100,12 +109,20 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 mCurrentUserMarker.getLatitude(),
                 mCurrentUserMarker.getLongitude());
 
-        LatLng lLatLngCulturalObjectLocation =
+        if (mCulturalObjectMarker != null) {
+            LatLng lLatLngCulturalObjectLocation =
                 new LatLng(
                     mCulturalObjectMarker.getLatitude(),
                     mCulturalObjectMarker.getLongitude());
 
-        lBuilder.include(lLatLngCulturalObjectLocation).include(lLatLngCurrentUserLocation);
+            lBuilder.include(lLatLngCulturalObjectLocation).include(lLatLngCurrentUserLocation);
+
+            // Add a marker in the current location and move the camera
+            mMapFragment.addMarker(
+                new MarkerOptions()
+                    .position(lLatLngCulturalObjectLocation)
+                    .title(mCulturalObjectMarker.getTitle()));
+        } else { lBuilder.include(lLatLngCurrentUserLocation);}
 
         // Add a marker in the marker location
         mMapFragment.addMarker(
@@ -113,14 +130,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 .position(lLatLngCurrentUserLocation)
                 .title(mCurrentUserMarker.getTitle()));
 
-        // Add a marker in the current location and move the camera
-        mMapFragment.addMarker(
-            new MarkerOptions()
-                .position(lLatLngCulturalObjectLocation)
-                .title(mCulturalObjectMarker.getTitle()));
-
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 2));
-
     }
 
     public void onMapClick (LatLng point) {

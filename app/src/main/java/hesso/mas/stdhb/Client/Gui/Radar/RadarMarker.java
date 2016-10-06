@@ -35,7 +35,7 @@ public class RadarMarker extends Paint implements Parcelable {
     //region Constructors
 
     // Constructor
-    RadarMarker() {
+    public RadarMarker() {
         super.setColor(Color.BLUE);
         super.setAntiAlias(true);
         super.setStyle(Paint.Style.FILL);
@@ -44,7 +44,7 @@ public class RadarMarker extends Paint implements Parcelable {
     }
 
     // Constructor
-    RadarMarker(
+    public RadarMarker(
         int aPositionX,
         int aPositionY,
         double aLatitude,
@@ -60,12 +60,12 @@ public class RadarMarker extends Paint implements Parcelable {
 
     // Constructor
     RadarMarker(
-            int aPositionX,
-            int aPositionY,
-            double aLatitude,
-            double aLongitude,
-            int aColor,
-            String aTitle) {
+        int aPositionX,
+        int aPositionY,
+        double aLatitude,
+        double aLongitude,
+        int aColor,
+        String aTitle) {
 
         mXViewPosition = aPositionX;
         mYViewPosition = aPositionY;
