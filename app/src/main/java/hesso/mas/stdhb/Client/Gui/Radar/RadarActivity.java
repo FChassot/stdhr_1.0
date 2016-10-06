@@ -423,8 +423,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         if (aView.getId()==R.id.mImgBack){
             this.stopRadar(this.mRadarView);
 
-            Intent intent = new Intent(RadarActivity.this, MainActivity.class);
-            startActivity(intent);
+            Intent lIntent = new Intent(RadarActivity.this, MainActivity.class);
+            startActivity(lIntent);
         }
     }
 }

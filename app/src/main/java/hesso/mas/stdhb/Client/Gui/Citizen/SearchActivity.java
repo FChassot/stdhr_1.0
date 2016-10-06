@@ -3,6 +3,7 @@ package hesso.mas.stdhb.Client.Gui.Citizen;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Request.CitizenRequests;
@@ -93,11 +94,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // to retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
+        final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
+        final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
+
         // set a listener of this button
         mBtnSearch.setOnClickListener(this);
 
-        final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-        final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
+        Bundle lBundle = getIntent().getExtras();
+
+        if (lBundle != null) {
+            // to retrieve the cultural object selected in the radar view
+            RadarMarker lCulturalObjectMarker = lBundle.getParcelable("RADAR_MARKER");
+            mTxtPlace.setText(lCulturalObjectMarker.getTitle());
+        }
 
         mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
@@ -176,7 +185,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             startProgress(aView);
 
-            // Get the technology used for the communication between the
+            // get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
             Preferences lPrefs = new Preferences(this);
 

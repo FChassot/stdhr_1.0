@@ -16,6 +16,7 @@ import android.view.View;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Notifications.Notifications;
+import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 
 /**
@@ -277,7 +278,10 @@ public class RadarView extends	android.view.View {
             if(event.getAction() == MotionEvent.ACTION_DOWN){
                 lOnTouchXCoordinate = event.getX();
                 lOnTouchYCoordinate = event.getY();
-            } else {return false;}
+            } else
+            {
+                return false;
+            }
 
             // Check if the click in the view has been done
             //if (!isPointInsideView(lOnTouchXCoordinate, lOnTouchYCoordinate, this)) {
@@ -299,22 +303,42 @@ public class RadarView extends	android.view.View {
 
                 if ((-8.0 < lDistance) && (lDistance > 8.0)) { return false;}
 
-                Intent lIntent = new Intent(myContext, MapsActivity.class);
+                if (false) {
+                    Intent lIntent = new Intent(myContext, MapsActivity.class);
 
-                Bundle lBundle = new Bundle();
+                    Bundle lBundle = new Bundle();
 
-                RadarMarker lCurrentUserMarker = new RadarMarker();
+                    RadarMarker lCurrentUserMarker = new RadarMarker();
 
-                lCurrentUserMarker.setLatitude(46.2333);
-                lCurrentUserMarker.setLongitude(7.35);
-                lCurrentUserMarker.setTitle("Citizen radar's user");
+                    lCurrentUserMarker.setLatitude(46.2333);
+                    lCurrentUserMarker.setLongitude(7.35);
+                    lCurrentUserMarker.setTitle("Citizen radar's user");
 
-                lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
-                lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+                    lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
+                    lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
 
-                lIntent.putExtras(lBundle);
+                    lIntent.putExtras(lBundle);
 
-                myContext.startActivity(lIntent);
+                    myContext.startActivity(lIntent);
+                }
+                  else {
+                    Intent lIntent = new Intent(myContext, SearchActivity.class);
+
+                    Bundle lBundle = new Bundle();
+
+                    RadarMarker lCurrentUserMarker = new RadarMarker();
+
+                    lCurrentUserMarker.setLatitude(46.2333);
+                    lCurrentUserMarker.setLongitude(7.35);
+                    lCurrentUserMarker.setTitle("Citizen radar's user");
+
+                    lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
+                    lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+
+                    lIntent.putExtras(lBundle);
+
+                    myContext.startActivity(lIntent);
+                }
 
                 return true;
             }
