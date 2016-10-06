@@ -1,14 +1,13 @@
 package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
 import android.app.Activity;
-import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -97,30 +96,31 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         LatLngBounds.Builder lBuilder = new LatLngBounds.Builder();
 
         LatLng lLatLngCurrentUserLocation =
-                    new LatLng(
-                            mCurrentUserMarker.getLatitude(),
-                            mCurrentUserMarker.getLongitude());
+            new LatLng(
+                mCurrentUserMarker.getLatitude(),
+                mCurrentUserMarker.getLongitude());
 
         LatLng lLatLngCulturalObjectLocation =
-                    new LatLng(
-                            mCulturalObjectMarker.getLatitude(),
-                            mCulturalObjectMarker.getLongitude());
+                new LatLng(
+                    mCulturalObjectMarker.getLatitude(),
+                    mCulturalObjectMarker.getLongitude());
 
         lBuilder.include(lLatLngCulturalObjectLocation).include(lLatLngCurrentUserLocation);
 
         // Add a marker in the marker location
         mMapFragment.addMarker(
-                    new MarkerOptions()
-                            .position(lLatLngCurrentUserLocation)
-                            .title(mCurrentUserMarker.getTitle()));
+            new MarkerOptions()
+                .position(lLatLngCurrentUserLocation)
+                .title(mCurrentUserMarker.getTitle()));
 
         // Add a marker in the current location and move the camera
         mMapFragment.addMarker(
-                    new MarkerOptions()
-                            .position(lLatLngCulturalObjectLocation)
-                            .title(mCulturalObjectMarker.getTitle()));
+            new MarkerOptions()
+                .position(lLatLngCulturalObjectLocation)
+                .title(mCulturalObjectMarker.getTitle()));
 
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 2));
+
     }
 
     public void onMapClick (LatLng point) {
@@ -137,24 +137,4 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         mMapFragment.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
 
-    /**
-     *
-     * @param location
-     */
-    private void handleNewLocation(Location location) {
-        //Log.d(TAG, location.toString());
-
-        double lCurrentLatitude = location.getLatitude();
-        double lCurrentLongitude = location.getLongitude();
-
-        LatLng lLatLng = new LatLng(lCurrentLatitude, lCurrentLongitude);
-
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Current Location"));
-        MarkerOptions options = new MarkerOptions()
-                .position(lLatLng)
-                .title("I am here!");
-
-        mMapFragment.addMarker(options);
-        mMapFragment.moveCamera(CameraUpdateFactory.newLatLng(lLatLng));
-    }
 }

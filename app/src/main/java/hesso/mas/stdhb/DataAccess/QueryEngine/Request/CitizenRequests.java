@@ -61,7 +61,7 @@ public final class CitizenRequests {
                 "FILTER ( ?long > '" + aMinLongitude + "' && ?long < '" + aMaxLongitude + "' && \n" +
                 "?lat > '" + aMinLatitude + "' && ?lat < '" + aMaxLatitude + "') .\n" +
                 "}\n" +
-                "LIMIT 20";
+                "LIMIT 10";
 
         return lQuery;
     }

@@ -8,6 +8,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Models.CulturalInterestType;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
@@ -44,43 +45,43 @@ public final class RadarHelper {
         int aHeightView,
         int aWidthView) {
 
+        Checks.AssertNotNull(aQueryResult);
+
         List<RadarMarker> lMarkers = new ArrayList<>();
 
-        if (aQueryResult != null) {
-            for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
-                double lCulturalObjectLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
-                double lCulturalObjectLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
-                String lTitle = lCulturalInterestObject.GetValue("title");
+        for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
+            double lCulturalObjectLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
+            double lCulturalObjectLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
+            String lTitle = lCulturalInterestObject.GetValue("title");
 
-                double lRadius = getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
+            double lRadius = getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
 
-                //double lLatitudeMin = lCulturalObjectLatitude - lRadius;
-                //double lLatitudeMax = lCulturalObjectLatitude + lRadius;
-                //double lLongitudeMin = lCulturalObjectLongitude - lRadius;
-                //double lLongitudeMax = lCulturalObjectLongitude + lRadius;
+            //double lLatitudeMin = lCulturalObjectLatitude - lRadius;
+            //double lLatitudeMax = lCulturalObjectLatitude + lRadius;
+            //double lLongitudeMin = lCulturalObjectLongitude - lRadius;
+            //double lLongitudeMax = lCulturalObjectLongitude + lRadius;
 
-                RadarViewPosition lRadarViewPosition =
-                        calculateXYPositionOfTheMarkerInTheRadarView(
-                                aHeightView,
-                                aWidthView,
-                                aCurrentUserLocation.getLatitude(),
-                                aCurrentUserLocation.getLongitude(),
-                                lCulturalObjectLatitude - lRadius,
-                                lCulturalObjectLatitude + lRadius,
-                                lCulturalObjectLongitude - lRadius,
-                                lCulturalObjectLongitude + lRadius);
+            RadarViewPosition lRadarViewPosition =
+                calculateXYPositionOfTheMarkerInTheRadarView(
+                    aHeightView,
+                    aWidthView,
+                    aCurrentUserLocation.getLatitude(),
+                    aCurrentUserLocation.getLongitude(),
+                    lCulturalObjectLatitude - lRadius,
+                    lCulturalObjectLatitude + lRadius,
+                    lCulturalObjectLongitude - lRadius,
+                    lCulturalObjectLongitude + lRadius);
 
-                RadarMarker lMarker =
-                        new RadarMarker(
-                                lRadarViewPosition.getX(),
-                                lRadarViewPosition.getY(),
-                                lCulturalObjectLatitude,
-                                lCulturalObjectLongitude,
-                                Color.RED,
-                                lTitle);
+            RadarMarker lMarker =
+                new RadarMarker(
+                    lRadarViewPosition.getX(),
+                    lRadarViewPosition.getY(),
+                    lCulturalObjectLatitude,
+                    lCulturalObjectLongitude,
+                    Color.RED,
+                    lTitle);
 
-                lMarkers.add(lMarker);
-            }
+            lMarkers.add(lMarker);
         }
 
         return lMarkers;
@@ -94,8 +95,8 @@ public final class RadarHelper {
      * @return the radius of search in radians
      */
     public static double getRadiusInRadian(
-            Location aCurrentUserLocation,
-            int aRadiusSearch) {
+        Location aCurrentUserLocation,
+        int aRadiusSearch) {
 
         double lRadiusInKm = aRadiusSearch / 1000;
         double lNbrOfKilometersForOneLatitudeDegree =
@@ -116,7 +117,7 @@ public final class RadarHelper {
      * @return the distance for one degree in meters
      */
     public static double getNbrOfKilometersForOneLatitudeDegree(
-            Location aCurrentUserLocation) {
+        Location aCurrentUserLocation) {
 
         double lDistance =
             getGreatCircleDistanceBetweenTwoPoints(
@@ -166,12 +167,12 @@ public final class RadarHelper {
      * @returns the distance in meters
      */
     public static double getGreatCircleDistanceBetweenTwoPoints(
-            double aLatitude1,
-            double aLatitude2,
-            double aLongitude1,
-            double aLongitude2,
-            double aElevation1,
-            double aElevation2) {
+        double aLatitude1,
+        double aLatitude2,
+        double aLongitude1,
+        double aLongitude2,
+        double aElevation1,
+        double aElevation2) {
 
         final int lRadiusOfEarth = 6371;                                       // Radius of the earth
 
@@ -202,7 +203,7 @@ public final class RadarHelper {
      * @return A list of RadarMarker
      */
     public static ArrayList<CulturalInterestType> getRadarMarkersFromResponse(
-            CitizenQueryResult aQueryResult) {
+        CitizenQueryResult aQueryResult) {
 
         // array list of type of cultural interest
         ArrayList<CulturalInterestType> lListOfCIType = new ArrayList<>();

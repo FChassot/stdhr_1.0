@@ -27,7 +27,7 @@ import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
  * The ViewGroup subclass is the base class for layouts,
  * which are invisible containers that hold other Views (or other ViewGroups) and define their layout properties.
  */
-public class RadarView extends 	android.view.View {
+public class RadarView extends	android.view.View {
 
         Handler mHandler = new android.os.Handler();
 
@@ -54,8 +54,8 @@ public class RadarView extends 	android.view.View {
 
     // Constructor
     public RadarView(
-            Context aContext,
-            AttributeSet aAttributeSet) {
+        Context aContext,
+        AttributeSet aAttributeSet) {
 
         this(aContext, aAttributeSet, 0);
     }
@@ -228,10 +228,6 @@ public class RadarView extends 	android.view.View {
                             lMarker.getPositionY(),
                             (((aMaxRadiusOfRadar / 2) - 1) >> 5),
                             lMarkerPaint);
-                        /*drawMarker(
-                                aCanvas,
-                                lMarker,
-                                (((aMaxRadiusOfRadar / 2) - 1) >> 5));*/
                     }
                 }
             }
@@ -245,9 +241,9 @@ public class RadarView extends 	android.view.View {
          * @param aMaxRadiusOfRadar
          */
         private void drawMarker(
-                Canvas aCanvas,
-                RadarMarker aRadarMarker,
-                int aMaxRadiusOfRadar) {
+            Canvas aCanvas,
+            RadarMarker aRadarMarker,
+            int aMaxRadiusOfRadar) {
 
             Paint lMarkerPaint = new Paint();
 
@@ -275,13 +271,13 @@ public class RadarView extends 	android.view.View {
         @Override
         public boolean onTouchEvent(MotionEvent event) {
 
-            float lOnTouchXCoordinate = 0;
-            float lOnTouchYCoordinate = 0;
+            float lOnTouchXCoordinate;
+            float lOnTouchYCoordinate;
 
-            if(event.getAction() == MotionEvent.ACTION_UP){
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
                 lOnTouchXCoordinate = event.getX();
                 lOnTouchYCoordinate = event.getY();
-            }
+            } else {return false;}
 
             // Check if the click in the view has been done
             //if (!isPointInsideView(lOnTouchXCoordinate, lOnTouchYCoordinate, this)) {
@@ -289,23 +285,31 @@ public class RadarView extends 	android.view.View {
             //}
 
             RadarMarker lCulturalObject =
-                    findTheNearestCulturalObject(
-                            lOnTouchXCoordinate,
-                            lOnTouchYCoordinate,
-                            this);
+                findTheNearestCulturalObject(
+                    lOnTouchXCoordinate,
+                    lOnTouchYCoordinate);
 
-            if (lCulturalObject != null) {
+              if (lCulturalObject != null) {
+                double lDistance =
+                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
+                        lOnTouchXCoordinate,
+                        lOnTouchYCoordinate,
+                        lCulturalObject.getPositionX(),
+                        lCulturalObject.getPositionY());
+
+                if ((-8.0 < lDistance) && (lDistance > 8.0)) { return false;}
+
                 Intent lIntent = new Intent(myContext, MapsActivity.class);
 
                 Bundle lBundle = new Bundle();
 
-                RadarMarker lUserMarker = new RadarMarker();
+                RadarMarker lCurrentUserMarker = new RadarMarker();
 
-                lUserMarker.setLatitude(46.2333);
-                lUserMarker.setLongitude(7.35);
-                lUserMarker.setTitle("Citizen radar's user");
+                lCurrentUserMarker.setLatitude(46.2333);
+                lCurrentUserMarker.setLongitude(7.35);
+                lCurrentUserMarker.setTitle("Citizen radar's user");
 
-                lBundle.putParcelable(MapsActivity.USER_MARKER, lUserMarker);
+                lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
                 lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
 
                 lIntent.putExtras(lBundle);
@@ -313,13 +317,14 @@ public class RadarView extends 	android.view.View {
                 myContext.startActivity(lIntent);
 
                 return true;
-            } else {
+            }
+            /*else {
                 Notifications.ShowMessageBox(
                         myContext,
                         "None cultural object has been selected!",
                         "Heritage cultural radar",
                         "OK");
-            }
+            }*/
 
             return false;
         }
@@ -334,43 +339,33 @@ public class RadarView extends 	android.view.View {
          */
         private RadarMarker findTheNearestCulturalObject(
             float aOnTouchXCoordinate,
-            float aOnTouchYCoordinate,
-            View aView) {
+            float aOnTouchYCoordinate) {
 
-            int lLocation[] = new int[2];
-            RadarMarker lSelectedMarker = null;
+            double lDistance = 0;
 
-            aView.getLocationOnScreen(lLocation);
-
-            int lXPositionOnScreen = lLocation[0];
-            int lYPositionOnScreen = lLocation[1];
-            double lOldHypotenuse = 0;
+            RadarMarker lNearestMarker = null;
 
             if (mMarkers != null && mMarkers.size() > 0) {
                 for (RadarMarker lMarker : mMarkers) {
                     double lHypotenuse =
-                            RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
-                                    lXPositionOnScreen,
-                                    lYPositionOnScreen,
-                                    lMarker.getPositionX(),
-                                    lMarker.getPositionY());
+                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
+                            aOnTouchXCoordinate,
+                            aOnTouchYCoordinate,
+                            lMarker.getPositionX(),
+                            lMarker.getPositionY());
 
-                    if (lOldHypotenuse == 0) {
-                        lOldHypotenuse = lHypotenuse;
-                        lSelectedMarker = lMarker;
+                    if (lDistance == 0) {
+                        lDistance = lHypotenuse;
+                        lNearestMarker = lMarker;
                     }
 
-                    if (lOldHypotenuse != 0 && (lHypotenuse < lOldHypotenuse)) {
-                        lSelectedMarker = lMarker;
+                    if (lDistance != 0 && (lHypotenuse < lDistance)) {
+                        lNearestMarker = lMarker;
                     }
                 }
             }
 
-            if (lSelectedMarker != null) {
-                return lSelectedMarker;
-            }
-
-            return null;
+            return lNearestMarker;
         }
 
         /**
@@ -382,12 +377,14 @@ public class RadarView extends 	android.view.View {
          *
          * @return yes, if the point is inside the view
          */
-        private boolean isPointInsideView(float aX, float aY, View aView) {
+        private boolean isPointInsideView(
+            float aX,
+            float aY,
+            View aView) {
 
             int lLocation[] = new int[2];
 
             aView.getLocationOnScreen(lLocation);
-
             int lXPositionOnScreen = lLocation[0];
             int lYPositionOnScreen = lLocation[1];
 
