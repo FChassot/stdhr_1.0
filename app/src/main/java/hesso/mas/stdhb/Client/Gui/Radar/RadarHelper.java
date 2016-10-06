@@ -27,20 +27,22 @@ public final class RadarHelper {
      * This method analyses the response from the sparql request and converts this one into a list
      * of radarMarker
      *
+     * @param aQueryResult
      * @param aCompassHeading
      * @param aCurrentUserLocation The current location of the app's user
      * @param aRadius The radius of the radar's search
-     * @param aQueryResult
-     * @param aView
+     * @param aHeightView
+     * @param aWidthView
      *
      * @return A list of RadarMarker
      */
     public static List<RadarMarker> getRadarMarkersFromResponse(
+        CitizenQueryResult aQueryResult,
         Float aCompassHeading,
         Location aCurrentUserLocation,
         double aRadius,
-        CitizenQueryResult aQueryResult,
-        View aView) {
+        int aHeightView,
+        int aWidthView) {
 
         List<RadarMarker> lMarkers = new ArrayList<>();
 
@@ -59,8 +61,8 @@ public final class RadarHelper {
 
                 RadarViewPosition lRadarViewPosition =
                         calculateXYPositionOfTheMarkerInTheRadarView(
-                                aView.getHeight(),
-                                aView.getWidth(),
+                                aHeightView,
+                                aWidthView,
                                 aCurrentUserLocation.getLatitude(),
                                 aCurrentUserLocation.getLongitude(),
                                 lCulturalObjectLatitude - lRadius,

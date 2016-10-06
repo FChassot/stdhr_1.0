@@ -381,11 +381,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
             List<RadarMarker> lMarkers =
                     RadarHelper.getRadarMarkersFromResponse(
+                            lCitizenQueryResult,
                             mCurrentDegree,
                             CurrentUserLocation,
                             Radius,
-                            lCitizenQueryResult,
-                            mRadarView);
+                            mRadarView.getHeight(),
+                            mRadarView.getWidth());
 
             updateMarkers(lMarkers);
             updateRadarText(mNbrOfCulturalObjectsDetected);
