@@ -54,6 +54,11 @@
             android:scrollIndicators="right"
             android:backgroundTintMode="screen" />
 
+        <Spinner android:id="@+id/mDcboSujet"
+            android:textColor="@android:color/white"
+            android:textSize="11dp"
+            android:layout_column="22" />
+
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

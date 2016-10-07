@@ -22,10 +22,10 @@ public final class Notifications {
      * @param aPositiveBtnText
      */
     public static void ShowMessageBox(
-            Context aContext,
-            String aMessage,
-            String aTitle,
-            String aPositiveBtnText) {
+        Context aContext,
+        String aMessage,
+        String aTitle,
+        String aPositiveBtnText) {
 
         AlertDialog.Builder lAlertDialog =
             new AlertDialog.Builder(aContext);
@@ -45,13 +45,13 @@ public final class Notifications {
      * @param aPositiveBtnText
      */
     public static void ShowMessageBox(
-            Context aContext,
-            ValidationDescCollection aValDescCollection,
-            String aTitle,
-            String aPositiveBtnText) {
+        Context aContext,
+        ValidationDescCollection aValDescCollection,
+        String aTitle,
+        String aPositiveBtnText) {
 
         AlertDialog.Builder lAlertDialog =
-                new AlertDialog.Builder(aContext);
+            new AlertDialog.Builder(aContext);
 
         String lFormattedMsg = MyString.EMPTY_STRING;
 

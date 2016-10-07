@@ -369,7 +369,7 @@ public class RadarView extends	android.view.View {
 
             RadarMarker lNearestMarker = null;
 
-            if (mMarkers != null && mMarkers.size() > 0) {
+            if (mMarkers != null){
                 for (RadarMarker lMarker : mMarkers) {
                     double lHypotenuse =
                         RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(

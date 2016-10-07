@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.DataAccess.QueryEngine.Request;
+package hesso.mas.stdhb.DataAccess.QueryBuilder.Request;
 
 import java.util.Date;
 
@@ -173,6 +173,25 @@ public final class CitizenRequests {
             "SELECT DISTINCT ?culturalInterestType \n" +
             "WHERE {?culturalInterestType rdfs:subClassOf ?x.\n" +
             "?culturalInterestType dc:comment ?comment}";
+
+        return lQuery;
+    }
+
+    /**
+     * This method allows to retrieve the typ of cultural objects available in
+     * the Citizen triplestore.
+     *
+     * @return The appropriate Query
+     */
+    public static String getSujetQuery() {
+
+        String lQuery =
+                "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                        "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                        "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                        "SELECT DISTINCT ?culturalInterestType \n" +
+                        "WHERE {?culturalInterestType rdfs:subClassOf ?x.\n" +
+                        "?culturalInterestType dc:comment ?comment}";
 
         return lQuery;
     }
