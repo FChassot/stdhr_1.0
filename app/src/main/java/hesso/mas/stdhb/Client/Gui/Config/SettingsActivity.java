@@ -26,11 +26,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Models.CulturalInterestType;
+import hesso.mas.stdhb.Base.Models.Class.CulturalObjectType;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -51,20 +50,20 @@ import hesso.mas.stdhbtests.R;
  * Activity for the settings
  */
 public class SettingsActivity extends AppCompatActivity implements OnClickListener,
-        LoaderManager.LoaderCallbacks<SharedPreferences> {
+    LoaderManager.LoaderCallbacks<SharedPreferences> {
 
     private Receiver mReceiver;
 
     MyCustomAdapter mDataAdapter = null;
 
-    ArrayList<CulturalInterestType> mCulturalObjectTypes = null;
+    ArrayList<CulturalObjectType> mCulturalObjectTypes = null;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
      * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
      * if there was one. Always followed by onStart().
      *
-     * @param savedInstanceState
+     * @param savedInstanceState ...
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +73,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         setContentView(R.layout.activity_setting);
 
         mReceiver = new Receiver();
+
         IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION2);
         this.registerReceiver(mReceiver, lFilter);
 
@@ -91,6 +91,11 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         EnumClientServerCommunication.values());
 
         lCboClientServerCommunication.setAdapter(lAdapter);
+
+        /*ComboBoxHelper.fillComboClientServerTechnology(
+                lCboClientServerCommunication,
+                this,
+                android.R.layout.simple_spinner_item);*/
 
         Preferences lPrefs = new Preferences(this);
 
@@ -157,10 +162,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         // create an ArrayAdapter from the String Array
         mDataAdapter =
-                new MyCustomAdapter(
-                        this,
-                        R.layout.culturalinterest_info,
-                        mCulturalObjectTypes);
+            new MyCustomAdapter(
+                this,
+                R.layout.culturalinterest_info,
+                mCulturalObjectTypes);
 
         ListView listView = (ListView) findViewById(R.id.mLstViewCITyp);
 
@@ -170,28 +175,29 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // when clicked, show a toast with the TextView text
-                CulturalInterestType CulturalInterestType = (CulturalInterestType) parent.getItemAtPosition(position);
+                CulturalObjectType CulturalObjectType =
+                    (CulturalObjectType) parent.getItemAtPosition(position);
 
                 Toast.makeText(getApplicationContext(),
-                        "Clicked on Row: " + CulturalInterestType.getName(),
+                        "Clicked on Row: " + CulturalObjectType.getName(),
                         Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private class MyCustomAdapter extends ArrayAdapter<CulturalInterestType> {
+    private class MyCustomAdapter extends ArrayAdapter<CulturalObjectType> {
 
-        private ArrayList<CulturalInterestType> mListOfCulturalInterestType;
+        private ArrayList<CulturalObjectType> mListOfCulturalObjectType;
 
         public MyCustomAdapter(
                 Context context,
                 int textViewResourceId,
-                ArrayList<CulturalInterestType> aListOfCulturalInterestType) {
+                ArrayList<CulturalObjectType> aListOfCulturalObjectType) {
 
-            super(context, textViewResourceId, aListOfCulturalInterestType);
+            super(context, textViewResourceId, aListOfCulturalObjectType);
 
-            this.mListOfCulturalInterestType = new ArrayList<>();
-            this.mListOfCulturalInterestType.addAll(aListOfCulturalInterestType);
+            this.mListOfCulturalObjectType = new ArrayList<>();
+            this.mListOfCulturalObjectType.addAll(aListOfCulturalObjectType);
         }
 
         private class ViewHolder {
@@ -222,8 +228,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 lHolder.name.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View aView) {
                         CheckBox lCheckbox = (CheckBox) aView;
-                        CulturalInterestType lCulturalInterestType = (CulturalInterestType) lCheckbox.getTag();
-                        lCulturalInterestType.setSelected(lCheckbox.isChecked());
+                        CulturalObjectType lCulturalObjectType = (CulturalObjectType) lCheckbox.getTag();
+                        lCulturalObjectType.setSelected(lCheckbox.isChecked());
                     }
                 });
             } else {
@@ -233,18 +239,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             Preferences lPrefs = new Preferences(this.getContext());
             Set<String> lSet = lPrefs.getSetPrefValue(BaseConstants.Attr_CulturalInterest_type, null);
 
-            CulturalInterestType llCulturalInterestType = mListOfCulturalInterestType.get(aPosition);
-            lHolder.code.setText(" (" + llCulturalInterestType.getCode() + ")");
-            lHolder.name.setText(llCulturalInterestType.getName());
+            CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(aPosition);
+            lHolder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
+            lHolder.name.setText(llCulturalObjectType.getName());
             if (lSet != null) {
                 for (String aCIType : lSet) {
-                    if (llCulturalInterestType.getName().equals(aCIType)) {
+                    if (llCulturalObjectType.getName().equals(aCIType)) {
                         lHolder.name.setChecked(true);
                     }
                 }
             }
             //lHolder.name.setChecked(llCulturalInterestType.isSelected());
-            lHolder.name.setTag(llCulturalInterestType);
+            lHolder.name.setTag(llCulturalObjectType);
 
             return aConvertView;
         }
@@ -327,7 +333,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         Set<String> lSet = new HashSet<>();
 
-        for (CulturalInterestType aCIType : mCulturalObjectTypes) {
+        for (CulturalObjectType aCIType : mCulturalObjectTypes) {
             if (aCIType.isSelected()) {
                 lSet.add(aCIType.getName());
             }
@@ -362,20 +368,20 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     private void startAsyncSearch() {
 
         RetrieveCitizenDataAsyncTask lRetrieveTask =
-                new RetrieveCitizenDataAsyncTask(
-                        this,
-                        RetrieveCitizenDataAsyncTask.ACTION2);
+            new RetrieveCitizenDataAsyncTask(
+                this,
+                RetrieveCitizenDataAsyncTask.ACTION2);
 
         Preferences lPrefs = new Preferences(this);
 
         String lClientServerCommunicationMode =
-                lPrefs.getPrefValue(
-                        BaseConstants.Attr_ClientServer_Communication,
-                        MyString.EMPTY_STRING);
+            lPrefs.getPrefValue(
+                BaseConstants.Attr_ClientServer_Communication,
+                MyString.EMPTY_STRING);
 
         EnumClientServerCommunication lEnumValue =
-                EnumClientServerCommunication.valueOf(
-                        lClientServerCommunicationMode);
+            EnumClientServerCommunication.valueOf(
+                lClientServerCommunicationMode);
 
         if (lEnumValue != EnumClientServerCommunication.ANDROJENA) {
             Notifications.ShowMessageBox(
@@ -392,8 +398,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         String lQuery = CitizenRequests.getCulturalObjectTypeQuery();
 
         lRetrieveTask.execute(
-                lQuery,
-                lClientServerCommunicationMode);
+            lQuery,
+            lClientServerCommunicationMode);
     }
 
     /**
@@ -421,16 +427,16 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             try {
                 lCitizenQueryResult =
-                        lBundle.getParcelable(
-                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                    lBundle.getParcelable(
+                        RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception e) {
                 Log.i("Settings AsyncTask", e.getMessage());
             }
 
             mCulturalObjectTypes =
-                    RadarHelper.getRadarMarkersFromResponse(
-                            lCitizenQueryResult);
+                RadarHelper.getRadarMarkersFromResponse(
+                    lCitizenQueryResult);
         }
     }
 
@@ -438,16 +444,16 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      *
      * @return
      */
-    private ArrayList<CulturalInterestType> getCulturalInterestTypes() {
+    private ArrayList<CulturalObjectType> getCulturalInterestTypes() {
 
         // array list of type of cultural interest
-        ArrayList<CulturalInterestType> lListOfCIType = new ArrayList<>();
+        ArrayList<CulturalObjectType> lListOfCIType = new ArrayList<>();
 
-        lListOfCIType.add(new CulturalInterestType("","Cultural place", false));
-        lListOfCIType.add(new CulturalInterestType("","Cultural person", false));
-        lListOfCIType.add(new CulturalInterestType("","Cultural event", false));
-        lListOfCIType.add(new CulturalInterestType("","Folklore", false));
-        lListOfCIType.add(new CulturalInterestType("","Physical object", false));
+        lListOfCIType.add(new CulturalObjectType("","Cultural place", false));
+        lListOfCIType.add(new CulturalObjectType("","Cultural person", false));
+        lListOfCIType.add(new CulturalObjectType("","Cultural event", false));
+        lListOfCIType.add(new CulturalObjectType("","Folklore", false));
+        lListOfCIType.add(new CulturalObjectType("","Physical object", false));
 
         return lListOfCIType;
     }

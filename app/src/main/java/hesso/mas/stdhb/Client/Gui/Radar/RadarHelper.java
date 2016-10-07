@@ -3,13 +3,12 @@ package hesso.mas.stdhb.Client.Gui.Radar;
 import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
-import hesso.mas.stdhb.Base.Models.CulturalInterestType;
+import hesso.mas.stdhb.Base.Models.Class.CulturalObjectType;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
@@ -104,9 +103,8 @@ public final class RadarHelper {
                         aCurrentUserLocation);
 
         double lLatDelta = (lNbrOfKilometersForOneLatitudeDegree/1000) / lRadiusInKm;
-        double lRadius = 1 / lLatDelta;
 
-        return lRadius;
+        return 1 / lLatDelta;
     }
 
     /**
@@ -202,22 +200,22 @@ public final class RadarHelper {
      *
      * @return A list of RadarMarker
      */
-    public static ArrayList<CulturalInterestType> getRadarMarkersFromResponse(
+    public static ArrayList<CulturalObjectType> getRadarMarkersFromResponse(
         CitizenQueryResult aQueryResult) {
 
         // array list of type of cultural interest
-        ArrayList<CulturalInterestType> lListOfCIType = new ArrayList<>();
+        ArrayList<CulturalObjectType> lListOfCIType = new ArrayList<>();
 
         if (aQueryResult == null) {
-            lListOfCIType.add(new CulturalInterestType("","Cultural place", false));
-            lListOfCIType.add(new CulturalInterestType("","Cultural person", false));
-            lListOfCIType.add(new CulturalInterestType("","Cultural event", false));
-            lListOfCIType.add(new CulturalInterestType("","Folklore", false));
-            lListOfCIType.add(new CulturalInterestType("","Physical object", false));
+            lListOfCIType.add(new CulturalObjectType("","Cultural place", false));
+            lListOfCIType.add(new CulturalObjectType("","Cultural person", false));
+            lListOfCIType.add(new CulturalObjectType("","Cultural event", false));
+            lListOfCIType.add(new CulturalObjectType("","Folklore", false));
+            lListOfCIType.add(new CulturalObjectType("","Physical object", false));
         }
         else {
             for (CitizenDbObject lCitizenObject : aQueryResult.Results()) {
-                lListOfCIType.add(new CulturalInterestType("","cultural object conversion to do", false));
+                lListOfCIType.add(new CulturalObjectType("","cultural object conversion to do", false));
             }
 
         }
@@ -228,8 +226,8 @@ public final class RadarHelper {
     /**
      * This method calculates the position of the marker in the view.
      *
-     * @param aHeightView
-     * @param aWithView
+     * @param aHeightView the height of the view is necessary to calculate the position of the marker in the view
+     * @param aWidthView the width of the view is necessary to calculate the position of the marker in the view
      * @param aCulturalInterestLatitude
      * @param aCulturalInterestLongitude
      * @param aMinLatitude
@@ -241,7 +239,7 @@ public final class RadarHelper {
      */
     private static RadarViewPosition calculateXYPositionOfTheMarkerInTheRadarView(
         int aHeightView,
-        int aWithView,
+        int aWidthView,
         double aCulturalInterestLatitude,
         double aCulturalInterestLongitude,
         double aMinLatitude,
@@ -250,7 +248,7 @@ public final class RadarHelper {
         double aMaxLongitude) {
 
         double lDeltaLatitude = aMaxLatitude - aMinLatitude;
-        double lUnView = lDeltaLatitude / aWithView;
+        double lUnView = lDeltaLatitude / aWidthView;
 
         double lCIDeltaLatitude = aCulturalInterestLatitude - aMinLatitude;
         double lPosX = lCIDeltaLatitude / lUnView;
@@ -301,7 +299,7 @@ public final class RadarHelper {
     public Float getCurrentCompassHeading(SensorManager aSensorManager) {
 
         return 0.0F;
-    };
+    }
 
     /**
      * Calculate angle to lat2/lon2 in relation to north.

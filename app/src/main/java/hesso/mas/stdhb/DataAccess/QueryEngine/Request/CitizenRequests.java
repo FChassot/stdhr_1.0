@@ -17,7 +17,7 @@ public final class CitizenRequests {
     /**
      * Points around a given co-ordinate can be retrieved with the following query
      *
-     * @param aCulturalInterestType
+     * @param aCulturalObjectType The type of the cultural object to search
      * @param aMinLatitude The current Location of the mobile
      * @param aMaxLatitude The current Location of the mobile
      * @param aMinLongitude The current Location of the mobile
@@ -26,13 +26,13 @@ public final class CitizenRequests {
      * @return The appropriate Query
      */
     public static String getCulturalObjectsInProximityQuery(
-        String aCulturalInterestType,
+        String aCulturalObjectType,
         double aMinLatitude,
         double aMaxLatitude,
         double aMinLongitude,
         double aMaxLongitude) {
 
-        Checks.AssertNotEmpty(aCulturalInterestType);
+        Checks.AssertNotEmpty(aCulturalObjectType);
 
         //Location lObject = new Location(MyString.EMPTY_STRING);
         //lObject.setLongitude(aCurrentUserLocation.getLongitude());
@@ -69,16 +69,18 @@ public final class CitizenRequests {
     /**
      * This method allows to do a specific search of Culturals objects
      *
-     * @param aPlace
-     * @param aBegin
-     * @param aEnd
+     * @param aTitle the title of the object to search
+     * @param aBegin the begin date of the picture
+     * @param aEnd the end date of the picture
      *
      * @return The appropriate Query
      */
     public static String getCulturalObjectQuery(
-        String aPlace,
+        String aTitle,
         Date aBegin,
         Date aEnd) {
+
+        Checks.AssertNotEmpty(aTitle);
 
         /**
          * CPlace	sujet	long	lat	imagePreview
@@ -91,7 +93,7 @@ public final class CitizenRequests {
             "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
             "prefix tm: <http://purl.org/dc/terms/>\n" +
             "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-            "SELECT ?culturalPlace ?sujet ?long ?lat ?imagePreview WHERE {\n" +
+            "SELECT ?culturalPlace ?title ?sujet ?long ?lat ?imagePreview WHERE {\n" +
                 "?culturalPlace dc:title ?title .\n" +
                 "?culturalPlace tm:subject ?sujet .\n" +
                 "?culturalPlace geo:location ?x .\n" +
@@ -109,6 +111,49 @@ public final class CitizenRequests {
                 "?x dbo:City ?City .\n" +
                 "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
                 " ?City == " + aPlace + ". })";*/
+
+        return lQuery;
+    }
+
+    /**
+     * This method allows to do a specific search of Culturals objects
+     *
+     * @param aTitle the title of the picture
+     * @param aBegin tne begin date of the picture
+     * @param aEnd the end date of the picture
+     *
+     * @return The appropriate Query
+     */
+    public static String getCulturalObjectInfoQuery(
+        String aTitle,
+        Date aBegin,
+        Date aEnd) {
+
+        Checks.AssertNotEmpty(aTitle);
+
+        /**
+         * CPlace	sujet	long	lat	imagePreview
+         http://www.hevs.ch/datasemlab/cityzen/data#9dec8165-50ff-4e66-a208-9c9db66ae880	Nature, landscape	7.6245001	46.256119	https: //cave.valais-wallis-digital.ch/media/filer_public/c7/da/c7da19b7-5f79-4a1b-9706-d44721cb065a/9dec8165-50ff-4e66-a208-9c9db66ae880.jpg
+         */
+        String lQuery =
+            "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+            "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+            "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+            "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+            "prefix tm: <http://purl.org/dc/terms/>\n" +
+            "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
+            "SELECT ?culturalPlace ?title ?sujet ?long ?lat ?imagePreview WHERE {\n" +
+            "?culturalPlace dc:title ?title .\n" +
+            "?culturalPlace tm:subject ?sujet .\n" +
+            "?culturalPlace geo:location ?x .\n" +
+            "?culturalPlace dc:creator ?creator .\n" +
+            "?CAgg edm:hasView ?drepr .\n" +
+            "?drepr tm:hasPart ?ditem .\n" +
+            "?ditem dbo:image_url ?imagePreview.\n" +
+            "?x geo:long ?long .\n" +
+            "?x geo:lat ?lat .\n" +
+            "FILTER regex(?title, '" + aTitle + "') . }\n" +
+            "LIMIT 1\n";
 
         return lQuery;
     }

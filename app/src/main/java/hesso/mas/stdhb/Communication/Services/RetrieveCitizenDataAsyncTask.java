@@ -27,7 +27,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
 
     private Exception mException;
 
-    public static Boolean onPreExecuteMessageDisplay = false;
+    public Boolean onPreExecuteMessageDisplay = false;
 
     private static final String TAG = "RetrieveCitizenDataTask";
 

@@ -1,15 +1,16 @@
-package hesso.mas.stdhb.Base.Models;
+package hesso.mas.stdhb.Base.Models.Class;
 
 /**
  * Created by chf on 01.10.2016.
  */
-public class CulturalInterestType {
+public class CulturalObjectType {
 
     String code = null;
     String name = null;
     boolean selected = false;
 
-    public CulturalInterestType(String code, String name, boolean selected) {
+    // constructor
+    public CulturalObjectType(String code, String name, boolean selected) {
         super();
         this.code = code;
         this.name = name;

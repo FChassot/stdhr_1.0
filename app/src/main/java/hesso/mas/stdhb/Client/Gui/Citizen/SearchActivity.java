@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Created by chf on 11.06.2016.
@@ -106,6 +107,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             // to retrieve the cultural object selected in the radar view
             RadarMarker lCulturalObjectMarker = lBundle.getParcelable("RADAR_MARKER");
             mTxtPlace.setText(lCulturalObjectMarker.getTitle());
+            mTxtPeriod.setText("1000-2016");
+            Preferences lPrefs = new Preferences(this);
+
+            String lClientServerCommunicationMode =
+                lPrefs.getPrefValue(
+                    BaseConstants.Attr_ClientServer_Communication,
+                    MyString.EMPTY_STRING);
+
+            String lRequest =
+                CitizenRequests.getCulturalObjectInfoQuery(
+                    lCulturalObjectMarker.getTitle(),
+                        new Date(19000101),
+                        new Date(99990101));
+
+            startAsyncSearch(
+                lRequest,
+                lClientServerCommunicationMode,
+                false);
         }
 
         mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -114,7 +133,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     if (mTxtPlace.getText().toString().equals("")) {
                         mTxtPlace.setText("Lieu");
                     }
-                }else {
+                }
+                else {
                     if (mTxtPlace.getText().toString().equals("Lieu")) {
                         mTxtPlace.setText(MyString.EMPTY_STRING);
                     }
@@ -128,7 +148,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     if (mTxtPeriod.getText().toString().equals("")) {
                         mTxtPeriod.setText("Période");
                     }
-                }else {
+                }
+                else {
                     if (mTxtPeriod.getText().toString().equals("Période")) {
                         mTxtPeriod.setText(MyString.EMPTY_STRING);
                     }
@@ -205,14 +226,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             if (lValDescCollection.count() > 0) {
                 Notifications.ShowMessageBox(
-                        this,
-                        lValDescCollection,
-                        "Warning",
-                        "Ok"
+                    this,
+                    lValDescCollection,
+                    "Warning",
+                    "Ok"
                 );
 
                 return;
             }
+
             String lRequest =
                     CitizenRequests.getCulturalObjectQuery(
                             lPlace,
@@ -232,8 +254,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * Start an Async Search on a Sparql endPoint
      *
      * @param aRequest represents the sparql request
-     * @param aClientServerArchitecture
-     * @param aDisplaySearchmessage
+     * @param aClientServerArchitecture provides the type of architecture choosen
+     *                                  for the communication with the server
+     * @param aDisplaySearchmessage when true a wait-message will be displayed on the
+     *                              screnn until the response has been received from the
+     *                              server
      */
         private void startAsyncSearch(
             String aRequest,
@@ -242,45 +267,45 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
-                        new RetrieveCitizenDataAsyncTask(
-                                this,
-                                RetrieveCitizenDataAsyncTask.ACTION1);
+                    new RetrieveCitizenDataAsyncTask(
+                        this,
+                        RetrieveCitizenDataAsyncTask.ACTION1);
 
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
-                        aRequest,
-                        aClientServerArchitecture);
+                    aRequest,
+                    aClientServerArchitecture);
 
                 return;
             }
 
             if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
                 RetrieveCitizenDataAsyncTask2 lTask =
-                        new RetrieveCitizenDataAsyncTask2(
-                                this,
-                                RetrieveCitizenDataAsyncTask2.ACTION1);
+                    new RetrieveCitizenDataAsyncTask2(
+                        this,
+                        RetrieveCitizenDataAsyncTask2.ACTION1);
 
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
-                        aRequest,
-                        aClientServerArchitecture);
+                    aRequest,
+                    aClientServerArchitecture);
 
                 return;
             }
 
             else {
                 RetrieveCitizenDataAsyncTask lTask =
-                        new RetrieveCitizenDataAsyncTask(
-                                this,
-                                RetrieveCitizenDataAsyncTask2.ACTION1);
+                    new RetrieveCitizenDataAsyncTask(
+                        this,
+                        RetrieveCitizenDataAsyncTask2.ACTION1);
 
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
 
                 lTask.execute(
-                        aRequest,
-                        aClientServerArchitecture);
+                    aRequest,
+                    aClientServerArchitecture);
 
                 return;
             }
@@ -304,35 +329,38 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
              */
             @Override
             public void onReceive(Context aContext, Intent aIntent) {
+
+                // A bundle contains a mapping from String keys to various Parcelable values.
                 Bundle lBundle = aIntent.getExtras();
 
                 CitizenQueryResult lCitizenQueryResult = null;
 
                 try {
+                    // The bundle should contain our Sparql Result
                     lCitizenQueryResult =
-                            lBundle.getParcelable(
-                                    RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                        lBundle.getParcelable(
+                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-                } catch (Exception e) {
-                    Log.i(TAG, e.getMessage());
+                } catch (Exception aExc) {
+                    Log.i(TAG, aExc.getMessage());
                 }
 
-                if (lCitizenQueryResult != null) {
-                    if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
-                        CitizenDbObject lCulturalInterestObject = lCitizenQueryResult.Results().get(0);
-                        //String lImagePreview = lCulturalInterestObject.GetValue("imagePreview");                        String lImagePreview = lCulturalInterestObject.GetValue("imagePreview");
-                        String lImagePreview = "https://cave.valais-wallis-digital.ch/media/filer_public/4c/a1/4ca12ada-3fa2-4d61-bdb5-7fa542a0725f/e3f651ad-0671-459b-b256-0332884f47f2.png";
+                if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
+                    CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
-                        if(isNetworkAvailable()){
-                            // Creating a new non-ui thread task
-                            DownloadTask downloadTask = new DownloadTask();
+                    String lImagePreview = lCulturalObject.GetValue("imagePreview");
 
-                            // Starting the task created above
-                            downloadTask.execute(lImagePreview);
-                        }
-                        else{
-                            Toast.makeText(getBaseContext(), "Network is not Available", Toast.LENGTH_SHORT).show();
-                        }
+                    //String lImagePreview = "https://cave.valais-wallis-digital.ch/media/filer_public/4c/a1/4ca12ada-3fa2-4d61-bdb5-7fa542a0725f/e3f651ad-0671-459b-b256-0332884f47f2.png";
+
+                    if(isNetworkAvailable()){
+                        // Creating a new non-ui thread task
+                        DownloadTask downloadTask = new DownloadTask();
+
+                        // Starting the task created above
+                        downloadTask.execute(lImagePreview);
+                    }
+                    else{
+                        Toast.makeText(getBaseContext(), "Network is not available", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -433,10 +461,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
+     * This method allows to download the resource available on the web
      *
+     * @param strUrl the url which corresponds to the resource
      *
-     * @param strUrl
-     * @return
+     * @return returns an image
+     *
      * @throws IOException
      */
     private Bitmap downloadUrl(String strUrl) throws IOException{
@@ -460,9 +490,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             // create a bitmap from teh stream returned from the url
             lBitmap = BitmapFactory.decodeStream(lInputStream);
 
-        }catch(Exception e){
+        }
+        catch(Exception e){
             Log.d("Exception while downl", e.toString());
-        }finally{
+        }
+        finally{
             lInputStream.close();
         }
         return lBitmap;
