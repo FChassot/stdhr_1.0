@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.DataAccess.QueryEngine.Response;
+package hesso.mas.stdhb.DataAccess.QueryEngine;
 
 import android.os.Parcel;
 import android.os.Parcelable;

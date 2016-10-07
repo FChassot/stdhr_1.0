@@ -17,8 +17,8 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 import java.util.List;
 
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Communication.WsClient.IWsClient;

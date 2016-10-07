@@ -6,8 +6,8 @@ import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
 import hesso.mas.stdhb.Client.GuiHandler.ComboBoxHelper;
 import hesso.mas.stdhb.DataAccess.BusinessServices.CitizenServices;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
@@ -52,6 +52,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by chf on 11.06.2016.
@@ -161,13 +162,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         Spinner lCboSujet = (Spinner) findViewById(R.id.mDcboSujet);
-        CitizenQueryResult lResponse = CitizenServices.getSujets();
+        List<String> lResponse = CitizenServices.getSujets();
 
         ComboBoxHelper.fillComboSujet(
             lCboSujet,
             this,
             android.R.layout.simple_spinner_item,
-            lResponse.Results());
+            lResponse);
 
         /*ImageView lImageView = (ImageView) findViewById(R.id.imageView);
 

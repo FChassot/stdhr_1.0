@@ -10,8 +10,8 @@ import java.util.List;
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Models.Class.CulturalObjectType;
 
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 
 /**
  * Created by chf on 01.09.2016.

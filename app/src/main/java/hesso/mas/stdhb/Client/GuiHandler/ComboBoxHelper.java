@@ -7,7 +7,6 @@ import android.widget.Spinner;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 
 /**
  * Created by chf on 24.08.2016.
@@ -43,16 +42,16 @@ public class ComboBoxHelper {
      * @param aResource
      */
     public static void fillComboSujet(
-            Spinner aCbo,
-            Context aContext,
-            int aResource,
-            List<CitizenDbObject> aValues) {
+        Spinner aCbo,
+        Context aContext,
+        int aResource,
+        List<String> aValues) {
 
         ArrayAdapter lAdapter =
                 new ArrayAdapter(
                         aContext,
                         aResource,
-                        EnumClientServerCommunication.values());
+                        aValues.toArray());
 
         aCbo.setAdapter(lAdapter);
     };

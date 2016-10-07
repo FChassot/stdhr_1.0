@@ -41,7 +41,7 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.QueryBuilder.Request.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhbtests.R;
 
 /**
