@@ -10,16 +10,19 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.QueryEngine;
 /**
  * Created by chf on 07.10.2016.
  *
- *
+ * This class provides methods to retrieve synchronously Business Data on the
+ * Citizen Sparql DB
  */
 public class CitizenServices {
+
+    public void CitizenServices() {}
 
     /**
      * This method allow to retrieve the possible subjects in the Citizen DB
      *
      * @return a list of the subjects
      */
-    public static List<String> getSujets() {
+    public List<String> getCulturalObjectSubjects() {
 
         List<String> lList = new ArrayList<>();
 
@@ -29,7 +32,7 @@ public class CitizenServices {
 
         if (lResponse != null) {
             for (CitizenDbObject lObjet : lResponse) {
-                lList.add(lObjet.GetValue("sujet"));
+                lList.add(lObjet.GetValue("subject"));
             }
         }
 

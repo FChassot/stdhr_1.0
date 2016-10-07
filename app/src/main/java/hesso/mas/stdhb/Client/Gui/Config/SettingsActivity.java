@@ -92,7 +92,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lCboClientServerCommunication.setAdapter(lAdapter);
 
-        /*ComboBoxHelper.fillComboClientServerTechnology(
+        /*ComboBoxHandler.fillComboClientServerTechnology(
                 lCboClientServerCommunication,
                 this,
                 android.R.layout.simple_spinner_item);*/

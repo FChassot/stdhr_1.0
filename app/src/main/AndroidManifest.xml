@@ -23,18 +23,23 @@
         android:name="android.hardware.location.gps"
         android:required="false" />
 
-    <!-- Les trois permissions suivantes sont nécessaires pour l'utilisation
-     des services Google Maps -->
+    <!--
+     Les trois permissions suivantes sont nécessaires pour l'utilisation
+     des services Google Maps
+    -->
+
 
     <!-- Permission permettant d'utiliser la connection Internet de l'appareil, ceci pour télécharger la carte -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- permet à l'API Google Maps de vérifier l'état du réseau
-    pour savoir quand télécharger les cartes -->
+    <!--
+    permet à l'API Google Maps de vérifier l'état du réseau
+    pour savoir quand télécharger les cartes
+    -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- permet à l'API de stocker des cartes (zones) en cache -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- Fin des permissions nécessaires pour les services Google Maps -->
 
+    <!-- Fin des permissions nécessaires pour les services Google Maps -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -48,7 +53,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name="hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -58,9 +62,11 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />-->
+            android:value="@string/google_maps_key" />
+        -->
 
         <activity
             android:name="hesso.mas.stdhb.Client.Gui.Radar.RadarActivity"
@@ -69,8 +75,9 @@
 
         <!-- Added by chf -->
 
-        <activity android:name="hesso.mas.stdhb.Client.Gui.Config.SettingsActivity"
-            android:label="@string/app_name"/>
+        <activity
+            android:name="hesso.mas.stdhb.Client.Gui.Config.SettingsActivity"
+            android:label="@string/app_name" />
 
         <!-- Sert à indiquer l'utilisation des Google Play Services -->
         <meta-data
@@ -84,7 +91,8 @@
 
         <activity
             android:name="hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity android:name="hesso.mas.stdhb.Client.Gui.Radar.SurfaceView.RadarSActivity"></activity>
     </application>
 
 </manifest>

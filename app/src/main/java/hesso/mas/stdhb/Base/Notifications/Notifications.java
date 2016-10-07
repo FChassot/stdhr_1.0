@@ -9,8 +9,8 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 /**
  * Created by chf on 12.09.2016.
  *
- * This class provides methods for the display of messages and comments
- * for the app's user.
+ * This class provides methods for the display of messages of different types
+ * on the app's user.
  */
 public final class Notifications {
 
@@ -19,20 +19,19 @@ public final class Notifications {
      * @param aContext
      * @param aMessage
      * @param aTitle
-     * @param aPositiveBtnText
+     * @param aPositiveButtonText
      */
     public static void ShowMessageBox(
         Context aContext,
         String aMessage,
         String aTitle,
-        String aPositiveBtnText) {
+        String aPositiveButtonText) {
 
-        AlertDialog.Builder lAlertDialog =
-            new AlertDialog.Builder(aContext);
+        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(aContext);
 
         lAlertDialog.setMessage(aMessage);
         lAlertDialog.setTitle(aTitle);
-        lAlertDialog.setPositiveButton(aPositiveBtnText, null);
+        lAlertDialog.setPositiveButton(aPositiveButtonText, null);
         lAlertDialog.setCancelable(true);
         lAlertDialog.create().show();
     }
@@ -42,26 +41,25 @@ public final class Notifications {
      * @param aContext
      * @param aValDescCollection
      * @param aTitle
-     * @param aPositiveBtnText
+     * @param aPositiveButtonText
      */
     public static void ShowMessageBox(
         Context aContext,
         ValidationDescCollection aValDescCollection,
         String aTitle,
-        String aPositiveBtnText) {
+        String aPositiveButtonText) {
 
-        AlertDialog.Builder lAlertDialog =
-            new AlertDialog.Builder(aContext);
+        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(aContext);
 
         String lFormattedMsg = MyString.EMPTY_STRING;
 
-        for (String lMessage : aValDescCollection.mListOfValidationDesc) {
+        for (String lMessage : aValDescCollection.values()) {
             lFormattedMsg += lMessage;
         }
 
         lAlertDialog.setMessage(lFormattedMsg);
         lAlertDialog.setTitle(aTitle);
-        lAlertDialog.setPositiveButton(aPositiveBtnText, null);
+        lAlertDialog.setPositiveButton(aPositiveButtonText, null);
         lAlertDialog.setCancelable(true);
         lAlertDialog.create().show();
     }

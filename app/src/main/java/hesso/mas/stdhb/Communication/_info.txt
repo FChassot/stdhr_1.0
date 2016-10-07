@@ -1,2 +1,2 @@
-The package Communication contains different Web Service Clients
+The package Communication allow to perform database operations using Async Task
 

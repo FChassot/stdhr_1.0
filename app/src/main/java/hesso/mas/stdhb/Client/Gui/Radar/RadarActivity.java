@@ -11,6 +11,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 
+import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
@@ -36,13 +38,14 @@ import hesso.mas.stdhb.DataAccess.QueryBuilder.Request.CitizenRequests;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
-public class RadarActivity extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
+//Todo I change AppCompatActivity to FragmentActivity
+public class RadarActivity extends FragmentActivity implements SensorEventListener, View.OnClickListener {
 
     RadarView mRadarView = null;
 
     private static final String TAG = "RadarActivity";
 
-    // A Handler allows you to send and process Message
+    // An handler allows you to send and process message
     // and Runnable objects associated with a thread's MessageQueue.
     Handler mHandler = new android.os.Handler();
 
@@ -133,6 +136,9 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         assert mImgBack != null;
         mImgRadarInfo.setOnClickListener(this);
+
+        assert mRadiusInfo != null;
+        mRadiusInfo.setOnClickListener(this);
     }
 
     /**
@@ -142,6 +148,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     protected void onResume() {
 
         super.onResume();
+
+        mRadarView.startRadar();
 
         // for the system's orientation sensor registered listeners
         mSensorManager.registerListener(
@@ -426,6 +434,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             this.stopRadar(this.mRadarView);
 
             Intent lIntent = new Intent(RadarActivity.this, MainActivity.class);
+            startActivity(lIntent);
+        }
+        if (aView.getId()==R.id.mDtxtRadiusInfo){
+            Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
             startActivity(lIntent);
         }
     }

@@ -92,24 +92,6 @@ public class JenaSparqlWsClient implements IWsClient {
         return lCitizenQueryResult;
     }
 
-    /*private CitizenDbObject ConvertSolutionInCitizenDbObject(
-        QuerySolution lBinding,
-        String aFieldValue) {
-
-        String lLiteral = TryGetLiteral(lBinding, "?" + aFieldValue);
-        String lUri = TryGetResource(lBinding, "?" + aFieldValue);
-
-        if (!lLiteral.equals(MyString.EMPTY_STRING)) {
-            //return new CitizenDbObject(lLiteral, aFieldValue);
-        }
-
-        if (!lUri.equals(MyString.EMPTY_STRING)) {
-            //return new CitizenDbObject(lUri, aFieldValue);
-        }
-
-        return null;
-    }*/
-
     private String GetValue(
         QuerySolution lBinding,
         String aFieldValue) {

@@ -4,7 +4,7 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
-import hesso.mas.stdhb.Client.GuiHandler.ComboBoxHelper;
+import hesso.mas.stdhb.Client.Tools.ComboBoxHandler;
 import hesso.mas.stdhb.DataAccess.BusinessServices.CitizenServices;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
@@ -75,6 +75,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private PowerManager.WakeLock mWakeLock;
 
+    private CitizenServices mCitizenServices;
+
     //final View lView = findViewById(R.id.imageView);
 
     //final Animation lAnimation =
@@ -94,6 +96,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         // create a view
         setContentView(R.layout.activity_search);
+
+        mCitizenServices = new CitizenServices();
 
         // to retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
@@ -120,10 +124,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     MyString.EMPTY_STRING);
 
             String lRequest =
-                CitizenRequests.getCulturalObjectInfoQuery(
+                CitizenRequests.getUniqueCulturalObjectInfoQuery(
                     lCulturalObjectMarker.getTitle(),
-                        new Date(19000101),
-                        new Date(99990101));
+                    new Date(19000101),
+                    new Date(99990101));
 
             startAsyncSearch(
                 lRequest,
@@ -162,13 +166,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         Spinner lCboSujet = (Spinner) findViewById(R.id.mDcboSujet);
-        List<String> lResponse = CitizenServices.getSujets();
 
-        ComboBoxHelper.fillComboSujet(
+        List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
+
+        ComboBoxHandler.fillComboSujet(
             lCboSujet,
             this,
             android.R.layout.simple_spinner_item,
-            lResponse);
+            lCOSubjects);
 
         /*ImageView lImageView = (ImageView) findViewById(R.id.imageView);
 
@@ -361,7 +366,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
                     CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
-                    String lImagePreview = lCulturalObject.GetValue("imagePreview");
+                    String lImagePreview = lCulturalObject.GetValue("image_url");
 
                     //String lImagePreview = "https://cave.valais-wallis-digital.ch/media/filer_public/4c/a1/4ca12ada-3fa2-4d61-bdb5-7fa542a0725f/e3f651ad-0671-459b-b256-0332884f47f2.png";
 

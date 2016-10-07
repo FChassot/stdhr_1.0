@@ -1,28 +1,27 @@
-package hesso.mas.stdhb.Client.Gui.Radar;
+package hesso.mas.stdhb.Client.Gui.Radar.SurfaceView;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.os.*;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-
+import android.os.Bundle;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 
 import java.util.List;
 
-import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.Fragments.RadarDialogFragment;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
 
 /**
  * Created by chf on 15.07.2016.
@@ -33,9 +32,9 @@ import hesso.mas.stdhb.Client.Gui.Radar.Fragments.RadarDialogFragment;
  * The ViewGroup subclass is the base class for layouts,
  * which are invisible containers that hold other Views (or other ViewGroups) and define their layout properties.
  */
-public class RadarView extends android.view.View {
+public class RadarSView extends SurfaceView {
 
-        Handler mHandler = new android.os.Handler();
+        Handler mHandler = new Handler();
 
         private Context mContext;
 
@@ -55,13 +54,13 @@ public class RadarView extends android.view.View {
     //region Constructors
 
     // Default constructor
-    public RadarView(Context aContext) {
+    public RadarSView(Context aContext) {
 
         this(aContext, null);
     }
 
     // Constructor
-    public RadarView(
+    public RadarSView(
         Context aContext,
         AttributeSet aAttributeSet) {
 
@@ -69,7 +68,7 @@ public class RadarView extends android.view.View {
     }
 
     // Constructor
-    public RadarView(
+    public RadarSView(
         Context aContext,
         AttributeSet aAttributes,
         int aDefStyleAttr) {
@@ -312,7 +311,7 @@ public class RadarView extends android.view.View {
 
                     if ((-8.0 < lDistance) && (lDistance > 8.0)) { return false;}
 
-                    if (false) {
+                    if (mCitizenSearch) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
 
                         Bundle lBundle = new Bundle();
@@ -401,7 +400,7 @@ public class RadarView extends android.view.View {
                         lNearestMarker = lMarker;
                     }
 
-                    if (lDistance != 0 && (lHypotenuse < Math.abs(lDistance))) {
+                    if (lDistance != 0 && (lHypotenuse < lDistance)) {
                         lNearestMarker = lMarker;
                     }
                 }

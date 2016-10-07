@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.GuiHandler;
+package hesso.mas.stdhb.Client.Tools;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
@@ -11,20 +11,24 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 /**
  * Created by chf on 24.08.2016.
  *
+ * Hinweis: die Klasse muss nach und nach so umgestellt werden, dass die Methoden nicht mehr
+ * statisch angeboten werden, sondern dass es sich nur noch um Instanzmethoden handelt, welche
+ * durch das entsprechende Interface definiert werden
  *
  */
-public class ComboBoxHelper {
+public class ComboBoxHandler {
 
     /**
+     * The method fill a combobox with the given enum
      *
-     * @param aCbo
+     * @param aCbo the combobox to fill
      * @param aContext
      * @param aResource
      */
     public static void fillComboClientServerTechnology(
-            Spinner aCbo,
-            Context aContext,
-            int aResource) {
+        Spinner aCbo,
+        Context aContext,
+        int aResource) {
 
         ArrayAdapter lAdapter =
             new ArrayAdapter(
@@ -36,10 +40,12 @@ public class ComboBoxHelper {
     };
 
     /**
+     * The method fill a combobox the given list of String
      *
-     * @param aCbo
+     * @param aCbo the combobox to fill
      * @param aContext
      * @param aResource
+     * @param aValues
      */
     public static void fillComboSujet(
         Spinner aCbo,

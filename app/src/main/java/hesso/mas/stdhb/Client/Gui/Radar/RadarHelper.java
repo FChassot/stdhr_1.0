@@ -16,7 +16,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 /**
  * Created by chf on 01.09.2016.
  *
- * This helper class provides methods to calculate the distances useful for the radar function.
+ * This helper class provides methods to calculate the distances useful for the radar module.
  */
 public final class RadarHelper {
 
@@ -64,12 +64,12 @@ public final class RadarHelper {
                 calculateXYPositionOfTheMarkerInTheRadarView(
                     aHeightView,
                     aWidthView,
-                    aCurrentUserLocation.getLatitude(),
-                    aCurrentUserLocation.getLongitude(),
-                    lCulturalObjectLatitude - lRadius,
-                    lCulturalObjectLatitude + lRadius,
-                    lCulturalObjectLongitude - lRadius,
-                    lCulturalObjectLongitude + lRadius);
+                    lCulturalObjectLatitude,
+                    lCulturalObjectLongitude,
+                    aCurrentUserLocation.getLatitude() - lRadius,
+                    aCurrentUserLocation.getLatitude() + lRadius,
+                    aCurrentUserLocation.getLongitude() - lRadius,
+                    aCurrentUserLocation.getLongitude() + lRadius);
 
             RadarMarker lMarker =
                 new RadarMarker(
@@ -108,7 +108,7 @@ public final class RadarHelper {
     }
 
     /**
-     * ...
+     * This method calculate the number of kilometers who corresponds to one degree
      *
      * @param aCurrentUserLocation The current location of the app's user
      *
@@ -228,8 +228,8 @@ public final class RadarHelper {
      *
      * @param aHeightView the height of the view is necessary to calculate the position of the marker in the view
      * @param aWidthView the width of the view is necessary to calculate the position of the marker in the view
-     * @param aCulturalInterestLatitude
-     * @param aCulturalInterestLongitude
+     * @param aCulturalObjectLatitude
+     * @param aCulturalObjectLongitude
      * @param aMinLatitude
      * @param aMaxLatitude
      * @param aMinLongitude
@@ -240,8 +240,8 @@ public final class RadarHelper {
     private static RadarViewPosition calculateXYPositionOfTheMarkerInTheRadarView(
         int aHeightView,
         int aWidthView,
-        double aCulturalInterestLatitude,
-        double aCulturalInterestLongitude,
+        double aCulturalObjectLatitude,
+        double aCulturalObjectLongitude,
         double aMinLatitude,
         double aMaxLatitude,
         double aMinLongitude,
@@ -250,12 +250,12 @@ public final class RadarHelper {
         double lDeltaLatitude = aMaxLatitude - aMinLatitude;
         double lUnView = lDeltaLatitude / aWidthView;
 
-        double lCIDeltaLatitude = aCulturalInterestLatitude - aMinLatitude;
+        double lCIDeltaLatitude = aCulturalObjectLatitude - aMinLatitude;
         double lPosX = lCIDeltaLatitude / lUnView;
 
         double lDeltaLongitude = aMaxLongitude - aMinLongitude;
         double lLongView = lDeltaLongitude / aHeightView;
-        double lCIDeltaLongitude = aCulturalInterestLongitude - aMinLongitude;
+        double lCIDeltaLongitude = aCulturalObjectLongitude - aMinLongitude;
 
         double lPosY = lCIDeltaLongitude / lLongView;
 
