@@ -54,7 +54,7 @@ public final class CitizenRequests {
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                 "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
                 "prefix tm: <http://purl.org/dc/terms/>\n" +
-                "select ?title ?subject ?description ?lat ?long where {\n" +
+                "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
                 "?culturalInterest tm:subject ?subject .\n" +
                 "?culturalInterest dc:title ?title .\n" +
                 "?culturalInterest dc:description ?title .\n" +
@@ -96,12 +96,12 @@ public final class CitizenRequests {
             "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
             "prefix tm: <http://purl.org/dc/terms/>\n" +
             "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-            "SELECT ?title ?subject ?long ?lat ?image_url WHERE {\n" +
-                "?culturalPlace dc:title ?title .\n" +
-                "?culturalPlace tm:subject ?subject .\n" +
-                "?culturalPlace geo:location ?x .\n" +
-                "?culturalPlace dc:creator ?creator .\n" +
-                "?cAggregator edm:aggregatedCHO ?culturalPlace .\n" +
+            "SELECT ?CulturalInterest ?title ?subject ?long ?lat ?image_url WHERE {\n" +
+                "?CulturalInterest dc:title ?title .\n" +
+                "?CulturalInterest tm:subject ?subject .\n" +
+                "?CulturalInterest geo:location ?x .\n" +
+                "?CulturalInterest dc:creator ?creator .\n" +
+                "?cAggregator edm:aggregatedCHO ?CulturalInterest .\n" +
                 "?cAggregator edm:hasView ?digitalrepresentation .\n" +
                 "?digitalrepresentation tm:hasPart ?digitalitem .\n" +
                 "?digitalitem dbo:image_url ?image_url .\n" +
@@ -146,11 +146,11 @@ public final class CitizenRequests {
             "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
             "prefix tm: <http://purl.org/dc/terms/>\n" +
             "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-            "SELECT ?culturalPlace ?title ?subject ?long ?lat ?image_url WHERE {\n" +
-            "?culturalPlace dc:title ?title .\n" +
-            "?culturalPlace tm:subject ?subject .\n" +
-            "?culturalPlace geo:location ?x .\n" +
-            "?cAggregator edm:aggregatedCHO ?culturalPlace .\n" +
+            "SELECT ?culturalInterest ?title ?subject ?long ?lat ?image_url WHERE {\n" +
+            "?culturalInterest dc:title ?title .\n" +
+            "?culturalInterest tm:subject ?subject .\n" +
+            "?culturalInterest geo:location ?x .\n" +
+            "?cAggregator edm:aggregatedCHO ?culturalInterest .\n" +
             "?cAggregator edm:hasView ?drepr .\n" +
             "?drepr tm:hasPart ?ditem .\n" +
             "?ditem dbo:image_url ?image_url.\n" +
@@ -173,6 +173,7 @@ public final class CitizenRequests {
      */
     public static String getUniqueCulturalObjectInfoQuery(
             String aTitle,
+            String aCulturalInterest,
             Date aBegin,
             Date aEnd) {
 
@@ -189,18 +190,18 @@ public final class CitizenRequests {
                         "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
                         "prefix tm: <http://purl.org/dc/terms/>\n" +
                         "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-                        "SELECT ?culturalPlace ?title ?subject ?description ?long ?lat ?image_url WHERE {\n" +
-                        "?culturalPlace dc:title ?title .\n" +
-                        "?culturalPlace tm:subject ?subject .\n" +
-                        "?culturalPlace dc:description ?description .\n" +
-                        "?culturalPlace geo:location ?x .\n" +
-                        "?cAggregator edm:aggregatedCHO ?culturalPlace .\n" +
+                        "SELECT ?culturalInterest ?title ?subject ?description ?long ?lat ?image_url WHERE {\n" +
+                        "?culturalInterest dc:title ?title .\n" +
+                        "?culturalInterest tm:subject ?subject .\n" +
+                        "?culturalInterest dc:description ?description .\n" +
+                        "?culturalInterest geo:location ?x .\n" +
+                        "?cAggregator edm:aggregatedCHO ?culturalInterest .\n" +
                         "?cAggregator edm:hasView ?drepr .\n" +
                         "?drepr tm:hasPart ?ditem .\n" +
                         "?ditem dbo:image_url ?image_url.\n" +
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
-                        "FILTER regex(?title, '" + aTitle + "') . }\n" +
+                        "filter (?culturalInterest = <" + aCulturalInterest + ">) . }\n" +
                         "LIMIT 1\n";
 
         return lQuery;

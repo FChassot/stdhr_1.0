@@ -32,7 +32,7 @@ public class QueryEngine {
                         BaseConstants.Attr_Citizen_Server_URI,
                         BaseConstants.Attr_Citizen_Repository_NAME);
 
-        hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult lResponse = null;
+        hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult lResponse;
 
         IWsClientFactory lFactory = new WsClientFactory();
 

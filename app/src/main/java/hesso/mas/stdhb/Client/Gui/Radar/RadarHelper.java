@@ -49,9 +49,10 @@ public final class RadarHelper {
         List<RadarMarker> lMarkers = new ArrayList<>();
 
         for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
+            String lCulturalObjectData = lCulturalInterestObject.GetValue("culturalInterest");
+            String lTitle = lCulturalInterestObject.GetValue("title");
             double lCulturalObjectLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
             double lCulturalObjectLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
-            String lTitle = lCulturalInterestObject.GetValue("title");
 
             double lRadius = getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
 
@@ -78,7 +79,8 @@ public final class RadarHelper {
                     lCulturalObjectLatitude,
                     lCulturalObjectLongitude,
                     Color.RED,
-                    lTitle);
+                    lTitle,
+                    lCulturalObjectData);
 
             lMarkers.add(lMarker);
         }

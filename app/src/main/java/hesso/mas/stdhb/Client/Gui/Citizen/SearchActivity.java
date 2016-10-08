@@ -126,6 +126,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lRequest =
                 CitizenRequests.getUniqueCulturalObjectInfoQuery(
                     lCulturalObjectMarker.getTitle(),
+                    lCulturalObjectMarker.getData(),
                     new Date(19000101),
                     new Date(99990101));
 
@@ -367,8 +368,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
                     String lImagePreview = lCulturalObject.GetValue("image_url");
-
-                    //String lImagePreview = "https://cave.valais-wallis-digital.ch/media/filer_public/4c/a1/4ca12ada-3fa2-4d61-bdb5-7fa542a0725f/e3f651ad-0671-459b-b256-0332884f47f2.png";
 
                     if(isNetworkAvailable()){
                         // Creating a new non-ui thread task

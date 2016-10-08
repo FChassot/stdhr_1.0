@@ -32,6 +32,8 @@ public class RadarMarker extends Paint implements Parcelable {
      */
     String mTitle = MyString.EMPTY_STRING;
 
+    String mData = MyString.EMPTY_STRING;
+
     //region Constructors
 
     // Constructor
@@ -65,7 +67,8 @@ public class RadarMarker extends Paint implements Parcelable {
         double aLatitude,
         double aLongitude,
         int aColor,
-        String aTitle) {
+        String aTitle,
+        String aData) {
 
         mXViewPosition = aPositionX;
         mYViewPosition = aPositionY;
@@ -73,6 +76,7 @@ public class RadarMarker extends Paint implements Parcelable {
         mLocation.setLongitude(aLongitude);
         mColor = aColor;
         mTitle = aTitle;
+        mData = aData;
     }
 
     // Constructor
@@ -99,6 +103,7 @@ public class RadarMarker extends Paint implements Parcelable {
         mYViewPosition = in.readInt();
         mColor = in.readInt();
         mTitle = in.readString();
+        mData = in.readString();
 
     }
 
@@ -122,6 +127,12 @@ public class RadarMarker extends Paint implements Parcelable {
     public String getTitle() {
         return mTitle;
     }
+
+    // Setter
+    public void setData(String aData) { mData = aData; }
+
+    // Getter
+    public String getData() { return mData; }
 
     // Setter
     public void setLocation(Location aLocation) {
@@ -159,6 +170,7 @@ public class RadarMarker extends Paint implements Parcelable {
         aDest.writeInt(mYViewPosition);
         aDest.writeInt(mColor);
         aDest.writeString(mTitle);
+        aDest.writeString(mData);
     }
 
     /**

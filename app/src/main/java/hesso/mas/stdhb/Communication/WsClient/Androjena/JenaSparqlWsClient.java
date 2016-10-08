@@ -125,7 +125,7 @@ public class JenaSparqlWsClient implements IWsClient {
         if (lRDFNode != null) {
             if (lRDFNode.isLiteral()) {
                 Literal lLiteral = aBinding.getLiteral(aValue);
-                return " " + lLiteral.toString();
+                return lLiteral.toString();
             }
         }
 
@@ -145,7 +145,7 @@ public class JenaSparqlWsClient implements IWsClient {
         if (lRDFNode != null) {
             if (lRDFNode.isResource()) {
                 Resource lResource = aBinding.getResource(aValue);
-                return " " + lResource.getURI();
+                return lResource.getURI();
             }
         }
 
