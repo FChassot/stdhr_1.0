@@ -1,5 +1,6 @@
 package hesso.mas.stdhb.Client.Gui.Radar;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,8 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,9 +42,12 @@ import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
 //Todo I change AppCompatActivity to FragmentActivity
-public class RadarActivity extends FragmentActivity implements SensorEventListener, View.OnClickListener {
+public class RadarActivity extends FragmentActivity
+        implements SensorEventListener, View.OnClickListener {
 
     RadarView mRadarView = null;
+
+    private GestureDetector mGestureDetector;
 
     private static final String TAG = "RadarActivity";
 
@@ -54,6 +60,7 @@ public class RadarActivity extends FragmentActivity implements SensorEventListen
     private Receiver mReceiver;
 
     private Location CurrentUserLocation;
+
     private double Radius;
 
     // device sensor manager
@@ -139,6 +146,14 @@ public class RadarActivity extends FragmentActivity implements SensorEventListen
 
         assert mRadiusInfo != null;
         mRadiusInfo.setOnClickListener(this);
+
+        mGestureDetector = new GestureDetector(this, new GestureListener());
+    }
+
+    // delegate the event to the gesture detector
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        return mGestureDetector.onTouchEvent(e);
     }
 
     /**
@@ -441,4 +456,26 @@ public class RadarActivity extends FragmentActivity implements SensorEventListen
             startActivity(lIntent);
         }
     }
+
+    //region GestureListener
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+        // event when double tap occurs
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            float x = e.getX();
+            float y = e.getY();
+
+            Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
+
+            return true;
+        }
+    }
+
+    //endregion
 }

@@ -118,6 +118,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             RadarMarker lCulturalObjectMarker = lBundle.getParcelable("RADAR_MARKER");
             mTxtPlace.setText(lCulturalObjectMarker.getTitle());
             mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 10) + "...");
+            mDescription = lCulturalObjectMarker.getDescription();
             mTxtPeriod.setText("1000-2016");
 
             Preferences lPrefs = new Preferences(this);

@@ -1,9 +1,7 @@
 package hesso.mas.stdhb.Client.Gui.Radar;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.*;
 
 import android.content.Context;
@@ -19,7 +17,6 @@ import android.view.View;
 
 import java.util.List;
 
-import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.Fragments.RadarDialogFragment;
@@ -435,4 +432,5 @@ public class RadarView extends android.view.View {
         }
 
     //endregion
+
 }

@@ -4,7 +4,7 @@ package hesso.mas.stdhb.Base.Models.Class;
  * Created by chf on 01.10.2016.
  *
  * This class represents a cultural object type which will be displayed in
- * the combo-listview
+ * a listview
  */
 public class CulturalObjectType {
 

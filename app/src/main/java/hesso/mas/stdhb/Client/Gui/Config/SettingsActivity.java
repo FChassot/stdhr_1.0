@@ -237,7 +237,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
 
             Preferences lPrefs = new Preferences(this.getContext());
-            Set<String> lSet = lPrefs.getSetPrefValue(BaseConstants.Attr_CulturalInterest_type, null);
+            Set<String> lSet = lPrefs.getSetPrefValue(BaseConstants.Attr_CulturalObject_Type, null);
 
             CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(aPosition);
             lHolder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
@@ -340,7 +340,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         }
 
         lPrefs.setValue(
-                BaseConstants.Attr_CulturalInterest_type,
+                BaseConstants.Attr_CulturalObject_Type,
                 lSet);
     }
 

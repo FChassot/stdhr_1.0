@@ -3,7 +3,7 @@ package hesso.mas.stdhb.Base.Constants;
 /**
  * Created by chf on 21.07.2016.
  *
- * Class for general Constants
+ * Class for general constants
  */
 public class BaseConstants {
 
@@ -19,16 +19,16 @@ public class BaseConstants {
     // constant used to save the radius of search of the radar
     public static final String Attr_Search_Radius = "search_radius";
 
-    // constant used to switch on/off the mode radar
+    // constant used to save the mode on/off of the radar
     public static final String Attr_Radar_Switch = "radar_on_off";
 
-    // constant used to identify the client-server communication type configured
+    // constant used to save the mode of communication client-server
     public static final String Attr_ClientServer_Communication = "client_server_communication";
 
-    // constant used to identify the culturalInterest type configured
-    public static final String Attr_CulturalInterest_type = "cultural_object_type";
+    // constant used to save the type of the cultural object to search
+    public static final String Attr_CulturalObject_Type = "cultural_object_type";
 
-    // constant used to define the type of search
+    // constant used to save the type of search
     public static final String Attr_TypeOfSearch = "radar_type_of_search";
 
 }

@@ -40,14 +40,14 @@ public class ComboBoxHandler {
     };
 
     /**
-     * The method fill a combobox the given list of String
+     * The method fill a combobox with the possible subject contained in the Citizen DB.
      *
      * @param aCbo the combobox to fill
      * @param aContext
      * @param aResource
      * @param aValues
      */
-    public static void fillComboSujet(
+    public static void fillComboSubject(
         Spinner aCbo,
         Context aContext,
         int aResource,

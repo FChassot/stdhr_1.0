@@ -3,8 +3,8 @@ package hesso.mas.stdhb.Base.Models.Enum;
 /**
  * Created by chf on 25.08.2016.
  *
- * This enum represents the different technologies who are used for the
- * communication between the client and the server.
+ * This enum represents the different technologies who can be used for the
+ * communication between the client and the server sparql.
  */
 public enum EnumClientServerCommunication {
 
