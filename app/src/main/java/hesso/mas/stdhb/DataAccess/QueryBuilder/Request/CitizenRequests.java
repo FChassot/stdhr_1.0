@@ -57,7 +57,7 @@ public final class CitizenRequests {
                 "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
                 "?culturalInterest tm:subject ?subject .\n" +
                 "?culturalInterest dc:title ?title .\n" +
-                "?culturalInterest dc:description ?title .\n" +
+                "?culturalInterest dc:description ?description .\n" +
                 "?culturalInterest geo:location ?x .\n" +
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
@@ -108,56 +108,13 @@ public final class CitizenRequests {
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
                 "}\n" +
-                "LIMIT 10\n";
+                "LIMIT 1\n";
 
                         /*"?x owl:hasEnd ?End .\n" +
                 "?x owl:hasBeginning ?Begin .\n" +
                 "?x dbo:City ?City .\n" +
                 "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
                 " ?City == " + aPlace + ". })";*/
-
-        return lQuery;
-    }
-
-    /**
-     * This method allows to do a specific search of Culturals objects
-     *
-     * @param aTitle the title of the picture
-     * @param aBegin tne begin date of the picture
-     * @param aEnd the end date of the picture
-     *
-     * @return The appropriate Query
-     */
-    public static String getCulturalObjectInfoQuery(
-        String aTitle,
-        Date aBegin,
-        Date aEnd) {
-
-        Checks.AssertNotEmpty(aTitle);
-
-        /**
-         * CPlace	sujet	long	lat	imagePreview
-         http://www.hevs.ch/datasemlab/cityzen/data#9dec8165-50ff-4e66-a208-9c9db66ae880	Nature, landscape	7.6245001	46.256119	https: //cave.valais-wallis-digital.ch/media/filer_public/c7/da/c7da19b7-5f79-4a1b-9706-d44721cb065a/9dec8165-50ff-4e66-a208-9c9db66ae880.jpg
-         */
-        String lQuery =
-            "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-            "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-            "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-            "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
-            "prefix tm: <http://purl.org/dc/terms/>\n" +
-            "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-            "SELECT ?culturalInterest ?title ?subject ?long ?lat ?image_url WHERE {\n" +
-            "?culturalInterest dc:title ?title .\n" +
-            "?culturalInterest tm:subject ?subject .\n" +
-            "?culturalInterest geo:location ?x .\n" +
-            "?cAggregator edm:aggregatedCHO ?culturalInterest .\n" +
-            "?cAggregator edm:hasView ?drepr .\n" +
-            "?drepr tm:hasPart ?ditem .\n" +
-            "?ditem dbo:image_url ?image_url.\n" +
-            "?x geo:long ?long .\n" +
-            "?x geo:lat ?lat .\n" +
-            "FILTER regex(?title, '" + aTitle + "') . }\n" +
-            "LIMIT 1\n";
 
         return lQuery;
     }
@@ -179,10 +136,6 @@ public final class CitizenRequests {
 
         Checks.AssertNotEmpty(aTitle);
 
-        /**
-         * CPlace	sujet	long	lat	imagePreview
-         http://www.hevs.ch/datasemlab/cityzen/data#9dec8165-50ff-4e66-a208-9c9db66ae880	Nature, landscape	7.6245001	46.256119	https: //cave.valais-wallis-digital.ch/media/filer_public/c7/da/c7da19b7-5f79-4a1b-9706-d44721cb065a/9dec8165-50ff-4e66-a208-9c9db66ae880.jpg
-         */
         String lQuery =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                         "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
@@ -236,8 +189,8 @@ public final class CitizenRequests {
 
         String lQuery =
             "prefix tm: <http://purl.org/dc/terms/>\n" +
-                "SELECT distinct ?subjet WHERE {\n" +
-                "?culturalObject tm:subject ?subjet .\n" +
+                "SELECT distinct ?subject WHERE {\n" +
+                "?culturalObject tm:subject ?subject .\n" +
                 "}";
 
         return lQuery;

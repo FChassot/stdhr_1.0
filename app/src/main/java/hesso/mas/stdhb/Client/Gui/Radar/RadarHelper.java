@@ -51,6 +51,7 @@ public final class RadarHelper {
         for (CitizenDbObject lCulturalInterestObject : aQueryResult.Results()) {
             String lCulturalObjectData = lCulturalInterestObject.GetValue("culturalInterest");
             String lTitle = lCulturalInterestObject.GetValue("title");
+            String lDescription = lCulturalInterestObject.GetValue("description");
             double lCulturalObjectLatitude = Double.parseDouble(lCulturalInterestObject.GetValue("lat"));
             double lCulturalObjectLongitude = Double.parseDouble(lCulturalInterestObject.GetValue("long"));
 
@@ -80,7 +81,8 @@ public final class RadarHelper {
                     lCulturalObjectLongitude,
                     Color.RED,
                     lTitle,
-                    lCulturalObjectData);
+                    lCulturalObjectData,
+                    lDescription);
 
             lMarkers.add(lMarker);
         }

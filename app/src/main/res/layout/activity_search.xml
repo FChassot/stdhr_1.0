@@ -73,6 +73,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
+            android:text="@string/lbl_description"
+            android:textColor="#ffffff"
+            android:ems="10"
+            android:height="10px"
+            android:id="@+id/mTxtDescription" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:text="@string/date"
             android:textColor="#ffffff"
             android:ems="10"

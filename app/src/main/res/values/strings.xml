@@ -84,6 +84,7 @@
 
     <!-- String for the Citizen Search activity -->
     <string name="lbl_place">Lieu</string>
+    <string name="lbl_description">Description...</string>
     <string name="lbl_date">Date</string>
     <string name="date">Période</string>
     <string name="period">Période</string>

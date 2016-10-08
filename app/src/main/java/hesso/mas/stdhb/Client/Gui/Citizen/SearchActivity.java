@@ -71,6 +71,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private String mTextView;
 
+    private String mDescription = MyString.EMPTY_STRING;
+
     private static final String TAG = "SearchActivity";
 
     private PowerManager.WakeLock mWakeLock;
@@ -104,6 +106,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
         final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
+        TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
 
         // set a listener of this button
         mBtnSearch.setOnClickListener(this);
@@ -114,6 +117,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             // to retrieve the cultural object selected in the radar view
             RadarMarker lCulturalObjectMarker = lBundle.getParcelable("RADAR_MARKER");
             mTxtPlace.setText(lCulturalObjectMarker.getTitle());
+            mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 10) + "...");
             mTxtPeriod.setText("1000-2016");
 
             Preferences lPrefs = new Preferences(this);
@@ -184,6 +188,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lView.startAnimation(lAnimation);
             }
         });*/
+
+        assert mTxtDescription != null;
+        mTxtDescription.setOnClickListener(this);
 
         mReceiver = new Receiver();
 
@@ -264,6 +271,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lRequest,
                 lClientServerCommunicationMode,
                 true);
+        }
+        if (aView.getId()==R.id.mTxtDescription) {
+            Notifications.ShowMessageBox(
+                    this,
+                    mDescription,
+                    "Title,",
+                    "Close");
         }
     }
 
@@ -368,6 +382,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
                     String lImagePreview = lCulturalObject.GetValue("image_url");
+                    mDescription = lCulturalObject.GetValue("description");
 
                     if(isNetworkAvailable()){
                         // Creating a new non-ui thread task
@@ -448,7 +463,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             lImageView.setImageBitmap(aResult);
 
             // Showing a message, on completion of download process
-            Toast.makeText(getBaseContext(), "Image downloaded successfully", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getBaseContext(), "Image downloaded successfully", Toast.LENGTH_SHORT).show();
         }
     }
 
