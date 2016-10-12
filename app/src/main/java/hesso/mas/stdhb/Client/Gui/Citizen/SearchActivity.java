@@ -387,15 +387,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     String lImageUrl = lCulturalObject.GetValue("image_url");
                     mDescription = lCulturalObject.GetValue("description");
 
-                    ImageView lImageView = (ImageView) findViewById(R.id.imageView);
-                    Picasso.with(aContext).load(lImageUrl).into(lImageView);
-
                     if(isNetworkAvailable()){
-                        // Creating a new non-ui thread task
-                        DownloadTask downloadTask = new DownloadTask();
-
-                        // Starting the task created above
-                        downloadTask.execute(lImageUrl);
+                        // Use of Picasso to load images
+                        ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+                        Picasso.with(aContext).load(lImageUrl).into(lImageView);
                     }
                     else{
                         Toast.makeText(getBaseContext(), "Network is not available", Toast.LENGTH_SHORT).show();
@@ -445,7 +440,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     //endregion
 
-    private class DownloadTask extends AsyncTask<String, Integer, Bitmap> {
+    //region DownloadTask
+
+    private class DownloadImage extends AsyncTask<String, Integer, Bitmap> {
 
         Bitmap bitmap = null;
 
@@ -475,68 +472,71 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     //endregion
 
-    /**
-     * get is the network is available
-     *
-     * @return
-     */
-    private boolean isNetworkAvailable(){
+        /**
+         * get is the network is available
+         *
+         * @return
+         */
+        private boolean isNetworkAvailable(){
 
-        boolean lIsNetworkAvailable = false;
+            boolean lIsNetworkAvailable = false;
 
-        // get the system's connectivity service
-        ConnectivityManager lConnManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            // get the system's connectivity service
+            ConnectivityManager lConnManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        // get the active network interface to get the network's status
-        NetworkInfo lNetworkInfo = lConnManager.getActiveNetworkInfo();
+            // get the active network interface to get the network's status
+            NetworkInfo lNetworkInfo = lConnManager.getActiveNetworkInfo();
 
-        if(lNetworkInfo !=null && lNetworkInfo.isAvailable()) {
-            lIsNetworkAvailable = true;
+            if(lNetworkInfo !=null && lNetworkInfo.isAvailable()) {
+                lIsNetworkAvailable = true;
+            }
+
+            // return the status of the network
+            return lIsNetworkAvailable;
         }
 
-        // return the status of the network
-        return lIsNetworkAvailable;
-    }
+        /**
+         * This method allows to download the resource available on the web
+         *
+         * @param strUrl the url which corresponds to the resource
+         *
+         * @return returns an image
+         *
+         * @throws IOException
+         */
+        private Bitmap downloadUrl(String strUrl) throws IOException{
 
-    /**
-     * This method allows to download the resource available on the web
-     *
-     * @param strUrl the url which corresponds to the resource
-     *
-     * @return returns an image
-     *
-     * @throws IOException
-     */
-    private Bitmap downloadUrl(String strUrl) throws IOException{
+            Bitmap lBitmap=null;
 
-        Bitmap lBitmap=null;
+            InputStream lInputStream = null;
 
-        InputStream lInputStream = null;
+            try{
+                URL lUrl = new URL(strUrl);
 
-        try{
-            URL lUrl = new URL(strUrl);
+                // create an http connection to communicate with url
+                HttpURLConnection lUrlConnection = (HttpURLConnection) lUrl.openConnection();
 
-            // create an http connection to communicate with url
-            HttpURLConnection lUrlConnection = (HttpURLConnection) lUrl.openConnection();
+                // connecting to url
+                lUrlConnection.connect();
 
-            // connecting to url
-            lUrlConnection.connect();
+                // read date from url
+                lInputStream = lUrlConnection.getInputStream();
 
-            // read date from url
-            lInputStream = lUrlConnection.getInputStream();
+                // create a bitmap from teh stream returned from the url
+                lBitmap = BitmapFactory.decodeStream(lInputStream);
 
-            // create a bitmap from teh stream returned from the url
-            lBitmap = BitmapFactory.decodeStream(lInputStream);
-
+            }
+            catch(Exception e){
+                Log.d("Exception while downl", e.toString());
+            }
+            finally{
+                lInputStream.close();
+            }
+            return lBitmap;
         }
-        catch(Exception e){
-            Log.d("Exception while downl", e.toString());
-        }
-        finally{
-            lInputStream.close();
-        }
-        return lBitmap;
-    }
+
+    //endregion
+
 
     /**
      *

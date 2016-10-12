@@ -1,6 +1,5 @@
 package hesso.mas.stdhb.Client.Gui.Radar;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -51,7 +49,7 @@ public class RadarActivity extends FragmentActivity
 
     private static final String TAG = "RadarActivity";
 
-    // An handler allows you to send and process message
+    // an handler allows you to send and process message
     // and Runnable objects associated with a thread's MessageQueue.
     Handler mHandler = new android.os.Handler();
 
@@ -229,7 +227,7 @@ public class RadarActivity extends FragmentActivity
     }
 
     /**
-     * Updates the property mMarkers of the view class
+     * Update the list of marker (property mMarkers) of the view class
      *
      * @param aMarkers The list of the markers to be updated on the view
      */

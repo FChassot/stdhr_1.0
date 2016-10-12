@@ -47,8 +47,6 @@ public class RadarView extends android.view.View {
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
-        boolean mCitizenSearch = true;
-
     //region Constructors
 
     // Default constructor
@@ -301,7 +299,7 @@ public class RadarView extends android.view.View {
 
               if (lCulturalObject != null) {
                     double lDistance =
-                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
+                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                         lOnTouchXCoordinate,
                         lOnTouchYCoordinate,
                         lCulturalObject.getPositionX(),
@@ -348,13 +346,6 @@ public class RadarView extends android.view.View {
 
                 return true;
             }
-            /*else {
-                Notifications.ShowMessageBox(
-                        myContext,
-                        "None cultural object has been selected!",
-                        "Heritage cultural radar",
-                        "OK");
-            }*/
 
             return false;
         }
@@ -387,19 +378,20 @@ public class RadarView extends android.view.View {
             if (mMarkers != null){
                 for (RadarMarker lMarker : mMarkers) {
                     double lHypotenuse =
-                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
+                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                             aOnTouchXCoordinate,
                             aOnTouchYCoordinate,
                             lMarker.getPositionX(),
                             lMarker.getPositionY());
 
                     if (lDistance == 0) {
-                        lDistance = lHypotenuse;
+                        lDistance = Math.abs(lHypotenuse);
                         lNearestMarker = lMarker;
                     }
 
-                    if (lDistance != 0 && (lHypotenuse < Math.abs(lDistance))) {
+                    if (lDistance != 0 && (Math.abs(lHypotenuse) < Math.abs(lDistance))) {
                         lNearestMarker = lMarker;
+                        lDistance = Math.abs(lHypotenuse);
                     }
                 }
             }

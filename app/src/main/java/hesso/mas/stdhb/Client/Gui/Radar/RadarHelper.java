@@ -91,9 +91,9 @@ public final class RadarHelper {
     }
 
     /**
-     * This method allows to convert the radius of search
+     * This method allows to search the radius of search in radians
      *
-     * @param aRadiusSearch The radius of search in meters
+     * @param aRadiusSearch the radius of search in meters
      *
      * @return the radius of search in radians
      */
@@ -101,26 +101,26 @@ public final class RadarHelper {
         Location aCurrentUserLocation,
         int aRadiusSearch) {
 
-        double lRadiusInKm = aRadiusSearch / 1000;
-        double lNbrOfKilometersForOneLatitudeDegree =
-                getNbrOfKilometersForOneLatitudeDegree(
+        double lRadiusInKm = aRadiusSearch / 1000; // convert to kilometers
+
+        double lDistanceInMetersForOneLatitudeDegree =
+                getDistanceForOneLatitudeDegree(
                         aCurrentUserLocation);
 
-        double lLatDelta = (lNbrOfKilometersForOneLatitudeDegree/1000) / lRadiusInKm;
+        double lLatDelta = (lDistanceInMetersForOneLatitudeDegree/1000) / lRadiusInKm;
 
-        double lRadius = 1 / lLatDelta;
-
-        return lRadius;
+        return 1 / lLatDelta;
     }
 
     /**
-     * This method calculate the number of kilometers who corresponds to one degree
+     * This method calculate the number of meters who corresponds to one degree
      *
      * @param aCurrentUserLocation The current location of the app's user
      *
-     * @return the distance for one degree in meters
+     * @return the distance in meters between the current latitude and this one
+     * with one degree more
      */
-    public static double getNbrOfKilometersForOneLatitudeDegree(
+    public static double getDistanceForOneLatitudeDegree(
         Location aCurrentUserLocation) {
 
         double lDistance =
@@ -136,13 +136,14 @@ public final class RadarHelper {
     }
 
     /**
-     * ...
+     * This method calculate the number of meters who corresponds to one degree
      *
      * @param aCurrentUserLocation The current location of the app's user
      *
-     * @return the number of kilometers
+     * @return the distance in meters between the current longitude and this one
+     * with one degree more
      */
-    public static double getNbrOfKilometersForOneLongitudeDegree(
+    public static double getDistanceForOneLongitudeDegree(
             Location aCurrentUserLocation) {
 
         double lDistance =
@@ -178,7 +179,7 @@ public final class RadarHelper {
         double aElevation1,
         double aElevation2) {
 
-        final int lRadiusOfEarth = 6371;                                       // Radius of the earth
+        final int lRadiusOfEarth = 6371; // Radius of the earth
 
         double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
         double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
@@ -199,12 +200,12 @@ public final class RadarHelper {
     }
 
     /**
-     * This method analyses the response from the sparql request and converts this one into a list
+     * This method analyses the response from the sparql server and convert this one into a list
      * of radarMarker
      *
-     * @param aQueryResult
+     * @param aQueryResult the response of the sparql server
      *
-     * @return A list of RadarMarker
+     * @return a list of RadarMarker
      */
     public static ArrayList<CulturalObjectType> getRadarMarkersFromResponse(
         CitizenQueryResult aQueryResult) {
@@ -230,7 +231,8 @@ public final class RadarHelper {
     }
 
     /**
-     * This method calculates the position of the marker in the view.
+     * This method calculates the position of the marker in the view taking
+     * into account the height and the width of the view.
      *
      * @param aHeightView the height of the view is necessary to calculate the position of the marker in the view
      * @param aWidthView the width of the view is necessary to calculate the position of the marker in the view
@@ -269,7 +271,7 @@ public final class RadarHelper {
     }
 
     /**
-     * This method gives the distance in the view beetwen two points.
+     * This method gives the distance in the view between two points.
      * This method will be used to determine the nearest cultural objects compared
      * the citizen's user.
      *
@@ -280,7 +282,7 @@ public final class RadarHelper {
      *
      * @return
      */
-    public static double calculateDistanceInTheViewBetweenTwoPoint(
+    public static double calculateDistanceInTheViewBetweenTwoPoints(
             double aXPosition1OnScreen,
             double aYPosition1OnScreen,
             double aXPosition2OnScreen,

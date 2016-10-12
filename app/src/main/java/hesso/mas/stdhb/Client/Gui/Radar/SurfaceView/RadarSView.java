@@ -303,7 +303,7 @@ public class RadarSView extends SurfaceView {
 
               if (lCulturalObject != null) {
                     double lDistance =
-                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
+                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                         lOnTouchXCoordinate,
                         lOnTouchYCoordinate,
                         lCulturalObject.getPositionX(),
@@ -389,7 +389,7 @@ public class RadarSView extends SurfaceView {
             if (mMarkers != null){
                 for (RadarMarker lMarker : mMarkers) {
                     double lHypotenuse =
-                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
+                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                             aOnTouchXCoordinate,
                             aOnTouchYCoordinate,
                             lMarker.getPositionX(),

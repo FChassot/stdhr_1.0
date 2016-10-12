@@ -9,8 +9,10 @@ import junit.framework.Assert;
  */
 public final class Checks<T> {
 
-    // Private constructor
-    // It's not possible to instanciate this class
+    /**
+     * Private constructor
+     * It's not possible to instanciate this class
+     */
     private Checks() {}
 
     /**
