@@ -49,8 +49,7 @@ import hesso.mas.stdhbtests.R;
  *
  * Activity for the settings
  */
-public class SettingsActivity extends AppCompatActivity implements OnClickListener,
-    LoaderManager.LoaderCallbacks<SharedPreferences> {
+public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
     private Receiver mReceiver;
 
@@ -125,30 +124,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         startAsyncSearch();
 
         tryToDisplayListview();
-    }
-
-    @Override
-    public Loader<SharedPreferences> onCreateLoader(int id, Bundle args) {
-        return (new SharedPreferencesLoader(this));
-    }
-
-    @Override
-    public void onLoadFinished(
-            Loader<SharedPreferences> loader,
-            SharedPreferences prefs) {
-
-        /*int value = prefs.getInt(KEY, 0);
-        value += 1;
-        textView.setText(String.valueOf(value));
-        // update value
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(KEY, value);
-        SharedPreferencesLoader.persist(editor);*/
-    }
-
-    @Override
-    public void onLoaderReset(Loader<SharedPreferences> loader) {
-        // NOT used
     }
 
     //region Listbox-Checkbox

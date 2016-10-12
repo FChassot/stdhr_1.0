@@ -97,7 +97,7 @@ public class RadarView extends android.view.View {
         mGridPaint.setStyle(Paint.Style.STROKE);
         mGridPaint.setStrokeWidth(1.0f);
         mGridPaint.setTextSize(30.0f);
-        mGridPaint.setTextAlign(Paint.Align.LEFT);
+        mGridPaint.setTextAlign(Paint.Align.CENTER);
 
         int lAlpha_step = 255 / POINT_ARRAY_SIZE;
 
@@ -222,14 +222,14 @@ public class RadarView extends android.view.View {
             Double lPoint4 = 5.0; //aRadiusOfCircle;
 
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle, aRadarPaint);
-            addText(aCanvas, lPoint1.toString(), aXStartpoint, (aYStartpoint/4)*3);
+            addText(aCanvas, lPoint1.toString(), aXStartpoint, ((aYStartpoint/4)*3)-2);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle-25, aRadarPaint);
-            addText(aCanvas, lPoint2.toString(), aXStartpoint, aYStartpoint/2);
+            addText(aCanvas, lPoint2.toString(), aXStartpoint, (aYStartpoint/2)-2);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle * 3 / 4, aRadarPaint);
-            addText(aCanvas, lPoint3.toString(), aXStartpoint, (aYStartpoint/4));
+            addText(aCanvas, lPoint3.toString(), aXStartpoint, (aYStartpoint/4)-2);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle >> 1, aRadarPaint);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle >> 2, aRadarPaint);
-            addText(aCanvas, lPoint4.toString(), aXStartpoint, 0);
+            addText(aCanvas, lPoint4.toString(), aXStartpoint, 22);
 
         }
 
