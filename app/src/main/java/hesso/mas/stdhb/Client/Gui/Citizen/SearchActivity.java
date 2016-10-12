@@ -119,7 +119,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             // to retrieve the cultural object selected in the radar view
             RadarMarker lCulturalObjectMarker = lBundle.getParcelable("RADAR_MARKER");
             mTxtPlace.setText(lCulturalObjectMarker.getTitle());
-            mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 10) + "...");
+
+            if (lCulturalObjectMarker.getDescription() != null) {
+                if (lCulturalObjectMarker.getDescription().length() < 10) {
+                    mTxtDescription.setText(lCulturalObjectMarker.getDescription() + "...");
+                }
+                else {
+                    mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 10) + "...");
+                }
+            }
+
             mDescription = lCulturalObjectMarker.getDescription();
             mTxtPeriod.setText("1000-2016");
 

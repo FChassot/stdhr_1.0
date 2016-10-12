@@ -40,6 +40,8 @@ public class RadarView extends android.view.View {
 
         private List<RadarMarker> mMarkers;
 
+        public Double mRadius;
+
         private final int POINT_ARRAY_SIZE = 35;
 
         private int fps = 100;
@@ -205,31 +207,39 @@ public class RadarView extends android.view.View {
          *
          * @param aCanvas hosts the draw calls
          * @param aRadarPaint allows to describe the colors and styles for the radar
-         * @param aXStartpoint the X coordinate of the center of the circle
-         * @param aYStartpoint the Y coordinate of the center of the circle
+         * @param aX the X coordinate of the center of the circle
+         * @param aY the Y coordinate of the center of the circle
          * @param aRadiusOfCircle the radius of the circle
          */
         public void drawRadar(
             Canvas aCanvas,
             Paint aRadarPaint,
-            int aXStartpoint,
-            int aYStartpoint,
+            int aX,
+            int aY,
             Integer aRadiusOfCircle) {
 
-            Double lPoint1 = 1.25;//aRadiusOfCircle/4;
-            Double lPoint2 = 2.5; //aRadiusOfCircle/2;
-            Double lPoint3 = 3.75;//(aRadiusOfCircle/4)*3;
-            Double lPoint4 = 5.0; //aRadiusOfCircle;
+            Double lRadius = 0.0;
+            Boolean lMeter = true;
 
-            aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle, aRadarPaint);
-            addText(aCanvas, lPoint1.toString(), aXStartpoint, ((aYStartpoint/4)*3)-2);
-            aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle-25, aRadarPaint);
-            addText(aCanvas, lPoint2.toString(), aXStartpoint, (aYStartpoint/2)-2);
-            aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle * 3 / 4, aRadarPaint);
-            addText(aCanvas, lPoint3.toString(), aXStartpoint, (aYStartpoint/4)-2);
-            aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle >> 1, aRadarPaint);
-            aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle >> 2, aRadarPaint);
-            addText(aCanvas, lPoint4.toString(), aXStartpoint, 22);
+            if (mRadius < 1000) {lRadius = mRadius;}
+            else {
+                lRadius = mRadius/1000;
+                lMeter = false;}
+
+            Double lPoint1 = lRadius/4;
+            Double lPoint2 = lRadius/2;
+            Double lPoint3 = (lRadius/4)*3;
+            Double lPoint4 = lRadius;
+
+            aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
+            addText(aCanvas, lPoint1.toString(), aX, ((aY/4)*3)-2, lMeter);
+            aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
+            addText(aCanvas, lPoint2.toString(), aX, (aY/2)-2, lMeter);
+            aCanvas.drawCircle(aX, aY, aRadiusOfCircle * 3 / 4, aRadarPaint);
+            addText(aCanvas, lPoint3.toString(), aX, (aY/4)-2, lMeter);
+            aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 1, aRadarPaint);
+            aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 2, aRadarPaint);
+            addText(aCanvas, lPoint4.toString(), aX, 22, lMeter);
 
         }
 
@@ -293,15 +303,25 @@ public class RadarView extends android.view.View {
          * our view for indicating the radius of the circle
          *
          * @param aCanvas Canvas hosts the draw calls
-         * @param aText The text of the label
+         * @param aDisplayText The text of the label to draw in the view
          * @param x The position in x of the label's rectangle
          * @param y The position in y of the label's rectangle
          */
-        private void addText(Canvas aCanvas, String aText, int x, int y) {
+        private void addText(
+            Canvas aCanvas,
+            String aDisplayText,
+            int x,
+            int y,
+            Boolean aMeter) {
 
-            String lText = aText + "km";
+            String lText = aDisplayText;
 
-            mGridPaint.getTextBounds(lText, 0, aText.length(), mTextBounds);
+            if (aMeter) {
+                lText += "m";
+            } else {
+                lText += "km";
+            }
+            mGridPaint.getTextBounds(lText, 0, aDisplayText.length(), mTextBounds);
             mTextBounds.offset(x - (mTextBounds.width() >> 1), y);
             mTextBounds.inset(-2, -2);
             aCanvas.drawText(lText, x, y, mGridPaint);

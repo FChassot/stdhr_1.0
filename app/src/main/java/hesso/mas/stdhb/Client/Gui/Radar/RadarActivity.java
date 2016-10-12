@@ -43,7 +43,7 @@ import hesso.mas.stdhbtests.R;
 public class RadarActivity extends FragmentActivity
         implements SensorEventListener, View.OnClickListener {
 
-    RadarView mRadarView = null;
+    RadarView mRadarView;
 
     private GestureDetector mGestureDetector;
 
@@ -69,7 +69,7 @@ public class RadarActivity extends FragmentActivity
     // record the compass picture angle turned
     private float mCurrentDegree = 0f;
 
-    Button mBtnStopRadar = null;
+    Button mBtnStopRadar;
 
     TextView mNbrOfCulturalObjectsDetected = null;
 
@@ -113,8 +113,6 @@ public class RadarActivity extends FragmentActivity
 
         startUpdateMarkersFromCitizen();
 
-        this.startRadar(mRadarView);
-
         Preferences lPrefs = new Preferences(this);
 
         double lRadiusOfSearch =
@@ -130,6 +128,10 @@ public class RadarActivity extends FragmentActivity
         } else {
             mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]");
         }
+
+        mRadarView.mRadius = Radius;
+
+        this.startRadar(mRadarView);
 
         mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_doing_first_search));
 
