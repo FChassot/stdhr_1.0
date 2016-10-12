@@ -218,7 +218,7 @@ public class RadarView extends android.view.View {
             int aY,
             Integer aRadiusOfCircle) {
 
-            Double lRadius = 0.0;
+            Double lRadius;
             Boolean lMeter = true;
 
             if (mRadius < 1000) {lRadius = mRadius;}
@@ -226,20 +226,28 @@ public class RadarView extends android.view.View {
                 lRadius = mRadius/1000;
                 lMeter = false;}
 
-            Double lPoint1 = lRadius/4;
-            Double lPoint2 = lRadius/2;
-            Double lPoint3 = (lRadius/4)*3;
-            Double lPoint4 = lRadius;
+            Double lText1 = lRadius/4;
+            String lStrText1 = lText1.toString();
+            if (lMeter) {lStrText1 += "m"; } else {lStrText1 += "km";}
+            Double lText2 = lRadius/2;
+            String lStrText2 = lText2.toString();
+            if (lMeter) {lStrText2 += "m"; } else {lStrText2 += "km";}
+            Double lText3 = (lRadius/4)*3;
+            String lStrText3 = lText3.toString();
+            if (lMeter) {lStrText3 += "m"; } else {lStrText3 += "km";}
+            Double lText4 = lRadius;
+            String lStrText4 = lText4.toString();
+            if (lMeter) {lStrText4 += "m"; } else {lStrText4 += "km";}
 
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
-            addText(aCanvas, lPoint1.toString(), aX, ((aY/4)*3)-2, lMeter);
+            addText(aCanvas, lStrText1, aX, ((aY/4)*3)-2);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
-            addText(aCanvas, lPoint2.toString(), aX, (aY/2)-2, lMeter);
+            addText(aCanvas, lStrText2, aX, (aY/2)-2);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle * 3 / 4, aRadarPaint);
-            addText(aCanvas, lPoint3.toString(), aX, (aY/4)-2, lMeter);
+            addText(aCanvas, lStrText3, aX, (aY/4)-2);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 1, aRadarPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 2, aRadarPaint);
-            addText(aCanvas, lPoint4.toString(), aX, 22, lMeter);
+            addText(aCanvas, lStrText4, aX, 22);
 
         }
 
@@ -311,20 +319,12 @@ public class RadarView extends android.view.View {
             Canvas aCanvas,
             String aDisplayText,
             int x,
-            int y,
-            Boolean aMeter) {
+            int y) {
 
-            String lText = aDisplayText;
-
-            if (aMeter) {
-                lText += "m";
-            } else {
-                lText += "km";
-            }
-            mGridPaint.getTextBounds(lText, 0, aDisplayText.length(), mTextBounds);
+            mGridPaint.getTextBounds(aDisplayText, 0, aDisplayText.length(), mTextBounds);
             mTextBounds.offset(x - (mTextBounds.width() >> 1), y);
             mTextBounds.inset(-2, -2);
-            aCanvas.drawText(lText, x, y, mGridPaint);
+            aCanvas.drawText(aDisplayText, x, y, mGridPaint);
         }
     //endregion
 

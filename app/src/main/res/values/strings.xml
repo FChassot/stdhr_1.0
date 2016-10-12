@@ -95,6 +95,7 @@
     <string name="title_settings_raysearch">Rayon de recherche [m]</string>
     <string name="activate_radar">Activer le radar</string>
     <string name="action_clientserver_communication">Client-server communication</string>
+    <string name="action_subject">Restreindre les sujets</string>
     <string name="themes_restrictions">Restreindre la recherche</string>
     <string name="action_sign_in">action_sign_in</string>
 

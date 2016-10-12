@@ -307,7 +307,7 @@ public class RadarActivity extends FragmentActivity
     private void startAsyncSearch() {
 
         Location lCurrentUserLocation =
-                mGeolocationServices.getUserCurrentLocation();
+            mGeolocationServices.getUserCurrentLocation();
 
         // TODO removes when the application works
         if (lCurrentUserLocation == null) {
@@ -359,13 +359,19 @@ public class RadarActivity extends FragmentActivity
                     CurrentUserLocation,
                     lRadiusOfSearch);
 
+        String lSubject =
+                lPrefs.getPrefValue(
+                        BaseConstants.Attr_Subject_Search_Type,
+                        MyString.EMPTY_STRING);
+
         String lQuery =
                 CitizenRequests.getCulturalObjectsInProximityQuery(
                         lCulturalObjectType,
                         (CurrentUserLocation.getLatitude() - lRadius),
                         (CurrentUserLocation.getLatitude() + lRadius),
                         (CurrentUserLocation.getLongitude() - lRadius),
-                        (CurrentUserLocation.getLongitude() + lRadius));
+                        (CurrentUserLocation.getLongitude() + lRadius),
+                        lSubject);
 
         lRetrieveTask.execute(
             lQuery,

@@ -26,7 +26,7 @@ public class CitizenServices {
 
         List<String> lList = new ArrayList<>();
 
-        String lQuery = CitizenRequests.getSujetQuery();
+        String lQuery = CitizenRequests.getSubjectQuery();
 
         List<CitizenDbObject> lResponse = QueryEngine.request(lQuery);
 

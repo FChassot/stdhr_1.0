@@ -91,6 +91,26 @@ public final class RadarHelper {
     }
 
     /**
+     *
+     * @param aQueryResult
+     * @return
+     */
+    public static List<String> getCulturalObjectSubjectFromResponse(
+        CitizenQueryResult aQueryResult) {
+
+        Checks.AssertNotNull(aQueryResult);
+
+        List<String> lSubjects = new ArrayList<>();
+
+        for (CitizenDbObject lObject : aQueryResult.Results()) {
+            String lSubject = lObject.GetValue("subject");
+            lSubjects.add(lSubject);
+        }
+
+        return lSubjects;
+    }
+
+    /**
      * This method allows to search the radius of search in radians
      *
      * @param aRadiusSearch the radius of search in meters

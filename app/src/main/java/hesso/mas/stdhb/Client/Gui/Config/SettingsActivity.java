@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -52,6 +53,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     MyCustomAdapter mDataAdapter = null;
 
     ArrayList<CulturalObjectType> mCulturalObjectTypes = null;
+
+    List<String> mCulturalObjectSubjects = new ArrayList<>();
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -120,6 +123,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         startAsyncSearch();
 
         tryToDisplayListview();
+
     }
 
     //region Listbox-Checkbox
@@ -146,8 +150,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // when clicked, show a toast with the TextView text
-                CulturalObjectType CulturalObjectType =
-                    (CulturalObjectType) parent.getItemAtPosition(position);
+                CulturalObjectType CulturalObjectType = (CulturalObjectType) parent.getItemAtPosition(position);
 
                 Toast.makeText(getApplicationContext(),
                         "Clicked on Row: " + CulturalObjectType.getName(),
@@ -156,6 +159,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         });
     }
 
+    /**
+     * Class myCustomAdapter
+     */
     private class MyCustomAdapter extends ArrayAdapter<CulturalObjectType> {
 
         private ArrayList<CulturalObjectType> mListOfCulturalObjectType;
@@ -213,6 +219,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(aPosition);
             lHolder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
             lHolder.name.setText(llCulturalObjectType.getName());
+
             if (lSet != null) {
                 for (String aCIType : lSet) {
                     if (llCulturalObjectType.getName().equals(aCIType)) {
@@ -270,6 +277,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EditText lRadiusSearch = (EditText)findViewById(R.id.mDTxtRadius);
         Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
         Spinner lCboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
+        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSubject);
 
         Preferences lPrefs = new Preferences(this);
 
@@ -293,6 +301,12 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         Boolean lMode = lRadarMode.isChecked();
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
+
+        if (lCboSubject.getSelectedItem() != null){
+            lPrefs.setValue(
+                    BaseConstants.Attr_Subject_Search_Type,
+                    lCboSubject.getSelectedItem().toString());
+        }
 
         lPrefs.setValue(
                 BaseConstants.Attr_Radar_Switch,
@@ -366,7 +380,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lRetrieveTask.onPreExecuteMessageDisplay = false;
 
-        String lQuery = CitizenRequests.getCulturalObjectTypeQuery();
+        //String lQuery = CitizenRequests.getCulturalObjectTypeQuery();
+        String lQuery = CitizenRequests.getSubjectQuery();
 
         lRetrieveTask.execute(
             lQuery,
@@ -400,14 +415,30 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 lCitizenQueryResult =
                     lBundle.getParcelable(
                         RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
-
-            } catch (Exception e) {
-                Log.i("Settings AsyncTask", e.getMessage());
+            }
+            catch (Exception aExc) {
+                Log.i("Settings AsyncTask", aExc.getMessage());
             }
 
-            mCulturalObjectTypes =
+            /*mCulturalObjectTypes =
                 RadarHelper.getRadarMarkersFromResponse(
-                    lCitizenQueryResult);
+                    lCitizenQueryResult);*/
+            List<String> lCulturalObjectSubjects =
+                    RadarHelper.getCulturalObjectSubjectFromResponse(
+                            lCitizenQueryResult);
+
+            Spinner lSubjectSpinner;
+
+            lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
+
+            ArrayAdapter<String> lSubjectAdapter =
+                    new ArrayAdapter<>(
+                            aContext,
+                            android.R.layout.simple_spinner_item,
+                            lCulturalObjectSubjects);
+
+            lSubjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            lSubjectSpinner.setAdapter(lSubjectAdapter);
         }
     }
 
