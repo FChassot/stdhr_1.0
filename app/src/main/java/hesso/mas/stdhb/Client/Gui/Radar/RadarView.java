@@ -2,6 +2,7 @@ package hesso.mas.stdhb.Client.Gui.Radar;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.graphics.Rect;
 import android.os.*;
 
 import android.content.Context;
@@ -29,6 +30,7 @@ import hesso.mas.stdhb.Client.Gui.Radar.Fragments.RadarDialogFragment;
  * View is the base class for widgets, which are used to create interactive UI components (buttons, text fields, etc.).
  * The ViewGroup subclass is the base class for layouts,
  * which are invisible containers that hold other Views (or other ViewGroups) and define their layout properties.
+ *
  */
 public class RadarView extends android.view.View {
 
@@ -46,6 +48,13 @@ public class RadarView extends android.view.View {
 
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
+
+        private android.graphics.Paint mGridPaint;
+
+        /**
+         * Utility rect for calculating the ring labels
+         */
+        private Rect mTextBounds = new Rect();
 
     //region Constructors
 
@@ -80,6 +89,15 @@ public class RadarView extends android.view.View {
         lRadarPaint.setStyle(Paint.Style.STROKE);
         lRadarPaint.setStrokeWidth(5.0F);
         lRadarPaint.setAlpha(0);
+
+        // Paint used for the rings and ring text
+        mGridPaint = new Paint();
+        mGridPaint.setColor(0xFFFFFFFF);
+        mGridPaint.setAntiAlias(true);
+        mGridPaint.setStyle(Paint.Style.STROKE);
+        mGridPaint.setStrokeWidth(1.0f);
+        mGridPaint.setTextSize(30.0f);
+        mGridPaint.setTextAlign(Paint.Align.LEFT);
 
         int lAlpha_step = 255 / POINT_ARRAY_SIZE;
 
@@ -196,13 +214,22 @@ public class RadarView extends android.view.View {
             Paint aRadarPaint,
             int aXStartpoint,
             int aYStartpoint,
-            int aRadiusOfCircle) {
+            Integer aRadiusOfCircle) {
+
+            Double lPoint1 = 1.25;//aRadiusOfCircle/4;
+            Double lPoint2 = 2.5; //aRadiusOfCircle/2;
+            Double lPoint3 = 3.75;//(aRadiusOfCircle/4)*3;
+            Double lPoint4 = 5.0; //aRadiusOfCircle;
 
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle, aRadarPaint);
+            addText(aCanvas, lPoint1.toString(), (aXStartpoint/4)*3, aYStartpoint);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle-25, aRadarPaint);
+            addText(aCanvas, lPoint2.toString(), aXStartpoint/2, aYStartpoint);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle * 3 / 4, aRadarPaint);
+            addText(aCanvas, lPoint3.toString(), (aXStartpoint/4), aYStartpoint);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle >> 1, aRadarPaint);
             aCanvas.drawCircle(aXStartpoint, aYStartpoint, aRadiusOfCircle >> 2, aRadarPaint);
+            addText(aCanvas, lPoint4.toString(), 0, aYStartpoint);
 
         }
 
@@ -219,6 +246,7 @@ public class RadarView extends android.view.View {
             Paint lMarkerPaint = new Paint();
 
             lMarkerPaint.setColor(Color.WHITE);
+            lMarkerPaint.setStrokeWidth(10);
             lMarkerPaint.setStyle(Paint.Style.FILL);
 
             List<RadarMarker> lMarkers = getMarkers();
@@ -260,6 +288,24 @@ public class RadarView extends android.view.View {
                     lMarkerPaint);
         }
 
+        /**
+         * This method allows to add a label in the view. Used for example in
+         * our view for indicating the radius of the circle
+         *
+         * @param aCanvas Canvas hosts the draw calls
+         * @param aText The text of the label
+         * @param x The position in x of the label's rectangle
+         * @param y The position in y of the label's rectangle
+         */
+        private void addText(Canvas aCanvas, String aText, int x, int y) {
+
+            String lText = aText + "km";
+
+            mGridPaint.getTextBounds(lText, 0, aText.length(), mTextBounds);
+            mTextBounds.offset(x - (mTextBounds.width() >> 1), y);
+            mTextBounds.inset(-2, -2);
+            aCanvas.drawText(aText, x, y, mGridPaint);
+        }
     //endregion
 
     //region Help-methods
