@@ -54,6 +54,7 @@ public final class CitizenRequests {
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                 "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
                 "prefix tm: <http://purl.org/dc/terms/>\n" +
+                "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                 "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
                 "?culturalInterest tm:subject ?subject .\n" +
                 "?culturalInterest dc:title ?title .\n" +
@@ -61,10 +62,10 @@ public final class CitizenRequests {
                 "?culturalInterest geo:location ?x .\n" +
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
-                "FILTER ( ?long > '" + aMinLongitude + "' && ?long < '" + aMaxLongitude + "' && \n" +
-                "?lat > '" + aMinLatitude + "' && ?lat < '" + aMaxLatitude + "') .\n" +
+                "FILTER (xsd:double(?long) > " + aMinLongitude + " && xsd:double(?long) < " + aMaxLongitude + " && \n" +
+                "xsd:double(?lat) > " + aMinLatitude + " && xsd:double(?lat) < " + aMaxLatitude + ") .\n" +
                 "}\n" +
-                "LIMIT 100";
+                "LIMIT 200";
 
         return lQuery;
     }
@@ -110,7 +111,7 @@ public final class CitizenRequests {
                 "}\n" +
                 "LIMIT 1\n";
 
-                        /*"?x owl:hasEnd ?End .\n" +
+                /*"?x owl:hasEnd ?End .\n" +
                 "?x owl:hasBeginning ?Begin .\n" +
                 "?x dbo:City ?City .\n" +
                 "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
@@ -149,9 +150,9 @@ public final class CitizenRequests {
                         "?culturalInterest dc:description ?description .\n" +
                         "?culturalInterest geo:location ?x .\n" +
                         "?cAggregator edm:aggregatedCHO ?culturalInterest .\n" +
-                        "?cAggregator edm:hasView ?drepr .\n" +
-                        "?drepr tm:hasPart ?ditem .\n" +
-                        "?ditem dbo:image_url ?image_url.\n" +
+                        "?cAggregator edm:hasView ?digitalrepresentation .\n" +
+                        "?digitalrepresentation tm:hasPart ?digitalitem .\n" +
+                        "?digitalitem dbo:image_url ?image_url.\n" +
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
                         "filter (?culturalInterest = <" + aCulturalInterest + ">) . }\n" +

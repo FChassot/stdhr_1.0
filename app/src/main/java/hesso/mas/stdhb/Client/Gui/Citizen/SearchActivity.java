@@ -47,6 +47,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -175,7 +177,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
 
-        ComboBoxHandler.fillComboSujet(
+        ComboBoxHandler.fillComboSubject(
             lCboSujet,
             this,
             android.R.layout.simple_spinner_item,
@@ -277,7 +279,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             Notifications.ShowMessageBox(
                     this,
                     mDescription,
-                    "Title,",
+                    "Title",
                     "Close");
         }
     }
@@ -382,15 +384,18 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
                     CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
-                    String lImagePreview = lCulturalObject.GetValue("image_url");
+                    String lImageUrl = lCulturalObject.GetValue("image_url");
                     mDescription = lCulturalObject.GetValue("description");
+
+                    ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+                    Picasso.with(aContext).load(lImageUrl).into(lImageView);
 
                     if(isNetworkAvailable()){
                         // Creating a new non-ui thread task
                         DownloadTask downloadTask = new DownloadTask();
 
                         // Starting the task created above
-                        downloadTask.execute(lImagePreview);
+                        downloadTask.execute(lImageUrl);
                     }
                     else{
                         Toast.makeText(getBaseContext(), "Network is not available", Toast.LENGTH_SHORT).show();

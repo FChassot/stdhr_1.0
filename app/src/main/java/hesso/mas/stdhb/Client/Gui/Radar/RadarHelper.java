@@ -108,7 +108,9 @@ public final class RadarHelper {
 
         double lLatDelta = (lNbrOfKilometersForOneLatitudeDegree/1000) / lRadiusInKm;
 
-        return 1 / lLatDelta;
+        double lRadius = 1 / lLatDelta;
+
+        return lRadius;
     }
 
     /**

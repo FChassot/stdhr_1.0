@@ -4,6 +4,8 @@ import junit.framework.Assert;
 
 /**
  * Created by chf on 08.09.2016.
+ *
+ * Generic class
  */
 public final class Checks<T> {
 
