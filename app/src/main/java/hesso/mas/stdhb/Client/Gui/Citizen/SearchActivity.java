@@ -21,6 +21,7 @@ import android.net.NetworkInfo;
 import android.os.PowerManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.ArraySet;
 import android.widget.Button;
 import android.view.View;
 
@@ -47,8 +48,10 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by chf on 11.06.2016.

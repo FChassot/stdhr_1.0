@@ -24,6 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -82,6 +83,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         EditText mRayon = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
+        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSubject);
 
         ArrayAdapter lAdapter =
                 new ArrayAdapter(
@@ -220,7 +222,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
 
             Preferences lPrefs = new Preferences(this.getContext());
-            //Set<String> lSet = lPrefs.getSetPrefValue(BaseConstants.Attr_CulturalObject_Type, null);
+
             Set<String> lSet =
                     lPrefs.getMySetPref(
                         this.getContext(),
@@ -228,6 +230,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         null);
 
             CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(aPosition);
+
             lHolder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
             lHolder.name.setText(llCulturalObjectType.getName());
 
@@ -340,6 +343,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 this,
                 BaseConstants.Attr_CulturalObject_Type,
                 lSet);
+
+        String lSubjectSelected = lCboSubject.getSelectedItem().toString();
+
+        lPrefs.setMyStringPref(
+                this,
+                BaseConstants.Attr_Subject_Selected,
+                lSubjectSelected);
+
     }
 
     //region AsyncTask (used to search the cultural object Types)
@@ -439,7 +450,37 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             lSubjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             lSubjectSpinner.setAdapter(lSubjectAdapter);
+
+            Preferences lPrefs = new Preferences(aContext);
+
+            String lSelectedSubject =
+                    lPrefs.getMyStringPref(
+                            aContext,
+                            BaseConstants.Attr_Subject_Selected,
+                            MyString.EMPTY_STRING);
+
+            Integer lItemPosition = getPositionByItem(lSubjectSpinner, lSelectedSubject);
+
+            if (lItemPosition != Basemodel.NULL_KEY)
+            {
+                lSubjectSpinner.setSelection(lItemPosition);
+            }
         }
+    }
+
+    static final int getPositionByItem(
+            Spinner aSpinner,
+            String aItem) throws NoSuchElementException {
+
+        final int lCount = aSpinner.getCount();
+
+        for (int lIndex = 0; lIndex < lCount; lIndex++) {
+            if (aItem.equals(aSpinner.getItemAtPosition(lIndex))) {
+                return lIndex;
+            }
+        }
+
+        return Basemodel.NULL_KEY;
     }
 
     /**

@@ -30,6 +30,9 @@ public final class BaseConstants {
     // constant used to save the mode of communication client-server
     public static final String Attr_Subject_Search_Type = "cultural_object_subject";
 
+    // constant used to save the mode of communication client-server
+    public static final String Attr_Subject_Selected = "Attr_Subject_Selected";
+
     // constant used to save the type of the cultural object to search
     public static final String Attr_CulturalObject_Type = "cultural_object_type";
 
