@@ -113,12 +113,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             mTxtPlace.setText(lCulturalObjectMarker.getTitle());
 
             if (lCulturalObjectMarker.getDescription() != null) {
-                if (lCulturalObjectMarker.getDescription().length() != 0 ) {
-                    if (lCulturalObjectMarker.getDescription().length() < 90) {
-                        mTxtDescription.setText(lCulturalObjectMarker.getDescription());
-                    } else {
+                if (lCulturalObjectMarker.getDescription().length() < 90) {
+                    mTxtDescription.setText(lCulturalObjectMarker.getDescription());
+                } else {
                         mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 50) + "...");
-                    }
                 }
             }
 
