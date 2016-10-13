@@ -34,7 +34,7 @@ import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryBuilder.Request.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.QueryBuilder.Sparql.CitizenRequests;
 
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
@@ -216,7 +216,6 @@ public class RadarActivity extends FragmentActivity
 
         // to stop the listener and save battery
         mSensorManager.unregisterListener(this);
-
     }
 
     /**
@@ -371,7 +370,8 @@ public class RadarActivity extends FragmentActivity
                         (CurrentUserLocation.getLatitude() + lRadius),
                         (CurrentUserLocation.getLongitude() - lRadius),
                         (CurrentUserLocation.getLongitude() + lRadius),
-                        lSubject);
+                        lSubject,
+                        200);
 
         lRetrieveTask.execute(
             lQuery,

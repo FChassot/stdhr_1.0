@@ -15,25 +15,24 @@ public class InternetConnectivity {
 
     private final Context mContext;
 
-    // Declaring a Location Manager
-    protected LocationManager locationManager;
-
     // Constructor
-    public InternetConnectivity(Context context) {
+    public InternetConnectivity(
+        Context context) {
+
         this.mContext = context;
     }
 
     /**
      * Check if the internet connection is available
      *
-     * @return Returns true when the connection is available
+     * @return returns true when the connection is available
      */
     public boolean IsActive() {
 
-        ConnectivityManager lConnManager =
+        ConnectivityManager lConnectivityManager =
             (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo lNetworkInfo = lConnManager.getActiveNetworkInfo();
+        NetworkInfo lNetworkInfo = lConnectivityManager.getActiveNetworkInfo();
 
         if (lNetworkInfo != null && lNetworkInfo.isConnected()) {
             return true;
@@ -43,23 +42,24 @@ public class InternetConnectivity {
     }
 
     /**
-     * Check if the gps is available
+     * Check if the GPS is available
      *
-     * @return Returns true when the connection is available
+     * @return returns true when the connection is available
      */
     public boolean IsGpsEnabled() {
 
         boolean lIsGpsEnabled = false;
 
         try {
-            locationManager = (LocationManager) mContext
-                    .getSystemService(Context.LOCATION_SERVICE);
+            // the locationManager class provides access to the system location services.
+            LocationManager lLocationManager =
+                    (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
-            // getting GPS status
-            lIsGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            // get GPS status
+            lIsGpsEnabled = lLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception aExc) {
+            aExc.printStackTrace();
         }
 
         return lIsGpsEnabled;
@@ -68,22 +68,22 @@ public class InternetConnectivity {
     /**
      * Check if the internet connection is available
      *
-     * @return Returns true when the connection is available
+     * @return returns true when the connection is available
      */
     public boolean IsNetworkAvailable() {
 
         boolean lIsNetworkAvailable = false;
 
         try {
-            locationManager = (LocationManager) mContext
-                    .getSystemService(Context.LOCATION_SERVICE);
+            LocationManager lLocationManager =
+                    (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
-            // getting network status
-            lIsNetworkAvailable = locationManager
+            // get network status
+            lIsNetworkAvailable = lLocationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception aExc) {
+            aExc.printStackTrace();
         }
 
         return lIsNetworkAvailable;

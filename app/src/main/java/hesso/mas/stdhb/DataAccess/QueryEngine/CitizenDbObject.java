@@ -26,6 +26,27 @@ public class CitizenDbObject implements Parcelable {
         mMap.put(aVariable, aValue);
     }
 
+    /**
+     *
+     * @param aVariable
+     *
+     * @return return true if the variable is contained in the cityzenDbObject
+     */
+    public Boolean containsVariable(String aVariable) {
+
+        if (mMap.containsKey(aVariable)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the value of the sparql variable
+     *
+     * @param aVariable
+     * @return
+     */
     public String GetValue(String aVariable) {
         return mMap.get(aVariable);
     }

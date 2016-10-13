@@ -37,11 +37,12 @@ public class RadarUnitTest {
 
         List<RadarMarker> lMarkers =
                 RadarHelper.getRadarMarkersFromResponse(
+                        null,
                         (float)45.0,
                         null,
                         45.0,
-                        null,
-                        null);
+                        900,
+                        900);
 
         assertNotNull(lMarkers);
     }
@@ -56,7 +57,7 @@ public class RadarUnitTest {
     public void calculate_distance_in_the_view_between_two_points() throws Exception {
 
         double lDistance =
-                RadarHelper.calculateDistanceInTheViewBetweenTwoPoint(
+                RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                         0.0,
                         0.0,
                         45.0,

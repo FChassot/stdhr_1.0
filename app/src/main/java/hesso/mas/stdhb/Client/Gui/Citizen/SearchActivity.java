@@ -8,18 +8,15 @@ import hesso.mas.stdhb.Client.Tools.ComboBoxHandler;
 import hesso.mas.stdhb.DataAccess.BusinessServices.CitizenServices;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryBuilder.Request.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.QueryBuilder.Sparql.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +24,7 @@ import android.widget.Button;
 import android.view.View;
 
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
-import hesso.mas.stdhb.Client.Gui.Validation.GuiValidation;
+import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 import hesso.mas.stdhbtests.R;
 /*import okhttp3.Call;
 import okhttp3.Callback;
@@ -49,10 +46,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
@@ -70,8 +63,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private Receiver mReceiver;
 
     ProgressDialog progress;
-
-    private String mTextView;
 
     private String mDescription = MyString.EMPTY_STRING;
 
@@ -260,7 +251,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lPeriod = mTxtPeriod.getText().toString();
 
             ValidationDescCollection lValDescCollection =
-                    GuiValidation.ValidateSearch(lPlace, lPeriod);
+                    Validator.ValidateSearch(lPlace, lPeriod);
 
             if (lValDescCollection.count() > 0) {
                 Notifications.ShowMessageBox(
@@ -375,7 +366,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onReceive(Context aContext, Intent aIntent) {
 
-                // A bundle contains a mapping from String keys to various Parcelable values.
+                // the bundle object contains a mapping from String keys to various Parcelable values.
                 Bundle lBundle = aIntent.getExtras();
 
                 CitizenQueryResult lCitizenQueryResult = null;
@@ -393,19 +384,52 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
                     CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
-                    String lImageUrl = lCulturalObject.GetValue("image_url");
                     mDescription = lCulturalObject.GetValue("description");
 
+                    //todo user the api internetconnectivity
+                    //InternetConnectivity lInterConnectivity =
+                            //new InternetConnectivity(aContext);
+
                     if(isNetworkAvailable()){
-                        // Use of Picasso to load images
+                        // Use of the Picasso library to load images
+                        String lImageUrl = lCulturalObject.GetValue("image_url");
+
                         ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+
                         Picasso.with(aContext).load(lImageUrl).into(lImageView);
                     }
                     else{
-                        Toast.makeText(getBaseContext(), "Network is not available", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(
+                                getBaseContext(),
+                                "Network is not available",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
+        }
+
+        /**
+         * get is the network is available
+         *
+         * @return
+         */
+        private boolean isNetworkAvailable(){
+
+            boolean lIsNetworkAvailable = false;
+
+            // get the system's connectivity service
+            ConnectivityManager lConnectivityManager =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            // get the active network interface to get the network's status
+            NetworkInfo lNetworkInfo = lConnectivityManager.getActiveNetworkInfo();
+
+            if(lNetworkInfo !=null && lNetworkInfo.isAvailable()) {
+                lIsNetworkAvailable = true;
+            }
+
+            // return the status of the network
+            return lIsNetworkAvailable;
         }
 
     //endregion
@@ -448,104 +472,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //endregion
-
-    //region DownloadTask
-
-    private class DownloadImage extends AsyncTask<String, Integer, Bitmap> {
-
-        Bitmap bitmap = null;
-
-        @Override
-        protected Bitmap doInBackground(String... url) {
-            try{
-                bitmap = downloadUrl(url[0]);
-
-            }catch(Exception e){
-                Log.d("Background Task",e.toString());
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap aResult) {
-            // Getting a reference to ImageView to display the downloaded image
-            ImageView lImageView = (ImageView) findViewById(R.id.imageView);
-
-            // Displaying the downloaded image
-            lImageView.setImageBitmap(aResult);
-
-            // Showing a message, on completion of download process
-            //Toast.makeText(getBaseContext(), "Image downloaded successfully", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    //endregion
-
-        /**
-         * get is the network is available
-         *
-         * @return
-         */
-        private boolean isNetworkAvailable(){
-
-            boolean lIsNetworkAvailable = false;
-
-            // get the system's connectivity service
-            ConnectivityManager lConnManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            // get the active network interface to get the network's status
-            NetworkInfo lNetworkInfo = lConnManager.getActiveNetworkInfo();
-
-            if(lNetworkInfo !=null && lNetworkInfo.isAvailable()) {
-                lIsNetworkAvailable = true;
-            }
-
-            // return the status of the network
-            return lIsNetworkAvailable;
-        }
-
-        /**
-         * This method allows to download the resource available on the web
-         *
-         * @param strUrl the url which corresponds to the resource
-         *
-         * @return returns an image
-         *
-         * @throws IOException
-         */
-        private Bitmap downloadUrl(String strUrl) throws IOException{
-
-            Bitmap lBitmap=null;
-
-            InputStream lInputStream = null;
-
-            try{
-                URL lUrl = new URL(strUrl);
-
-                // create an http connection to communicate with url
-                HttpURLConnection lUrlConnection = (HttpURLConnection) lUrl.openConnection();
-
-                // connecting to url
-                lUrlConnection.connect();
-
-                // read date from url
-                lInputStream = lUrlConnection.getInputStream();
-
-                // create a bitmap from teh stream returned from the url
-                lBitmap = BitmapFactory.decodeStream(lInputStream);
-
-            }
-            catch(Exception e){
-                Log.d("Exception while downl", e.toString());
-            }
-            finally{
-                lInputStream.close();
-            }
-            return lBitmap;
-        }
-
-    //endregion
-
 
     /**
      *

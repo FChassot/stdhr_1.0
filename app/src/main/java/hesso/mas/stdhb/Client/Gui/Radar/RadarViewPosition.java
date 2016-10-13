@@ -3,7 +3,7 @@ package hesso.mas.stdhb.Client.Gui.Radar;
 /**
  * Created by chf on 27.09.2016.
  *
- * Rückgabeobjekt der privaten Methode <see cref="..."/>.
+ * Return object of the private method <see cref="..."/>.
  */
 public class RadarViewPosition {
 

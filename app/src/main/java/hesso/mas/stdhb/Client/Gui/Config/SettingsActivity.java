@@ -37,7 +37,7 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
-import hesso.mas.stdhb.DataAccess.QueryBuilder.Request.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.QueryBuilder.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhbtests.R;
 
@@ -110,8 +110,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
 
         if (lRaySearch.equals(Basemodel.NULL_KEY)) {
-            lPrefs.setValue(BaseConstants.Attr_Search_Radius, BaseConstants.Attr_Default_Ray_Search);
-            mRayon.setText(BaseConstants.Attr_Default_Ray_Search);
+            lPrefs.setValue(BaseConstants.Attr_Search_Radius, BaseConstants.Attr_Default_Radius_Search);
+            mRayon.setText(BaseConstants.Attr_Default_Radius_Search);
         } else {
             mRayon.setText(lRaySearch.toString());
         }

@@ -1,7 +1,6 @@
 package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -28,11 +27,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     // GoogleMap instance
     private GoogleMap mMapFragment;
 
+    // constants
     public static final String USER_MARKER = "USER_MARKER";
     public static final String RADAR_MARKER = "RADAR_MARKER";
 
     public RadarMarker mCurrentUserMarker;
 
+    //todo change with List<RadarMarker>
     public RadarMarker mCulturalObjectMarker;
 
     /**
@@ -48,6 +49,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         setContentView(R.layout.activity_maps);
 
+        // the bundle object contains a mapping from String keys to various Parcelable values.
         Bundle lBundle = getIntent().getExtras();
 
         if (lBundle != null) {

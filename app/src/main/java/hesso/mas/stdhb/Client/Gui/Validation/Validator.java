@@ -6,7 +6,7 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 /**
  * Created by chf on 30.09.2016.
  */
-public class GuiValidation {
+public class Validator {
 
     public static ValidationDescCollection ValidateSearch(String aPlace, String aPeriod) {
 

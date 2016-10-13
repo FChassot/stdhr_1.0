@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,11 +14,12 @@ import java.util.Set;
  */
 public class Preferences {
 
-    Context lContext;
+    // interface to global information about the application environment.
+    Context mContext;
 
     // Constructor
     public Preferences(Context aContext) {
-        lContext = aContext;
+        mContext = aContext;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Preferences {
     public void setValue(String aKey, int aValue) {
 
         SharedPreferences sharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(lContext);
+            PreferenceManager.getDefaultSharedPreferences(mContext);
 
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putInt(aKey, aValue);
@@ -50,7 +50,7 @@ public class Preferences {
     public void setValue(String aKey, Set<String> aValue) {
 
         SharedPreferences lSharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(lContext);
+            PreferenceManager.getDefaultSharedPreferences(mContext);
 
         SharedPreferences.Editor lEditor = lSharedPrefs.edit();
         lEditor.putStringSet(aKey, aValue);
@@ -69,7 +69,7 @@ public class Preferences {
     public void setValue(String aKey, String aValue) {
 
         SharedPreferences lSharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(lContext);
+            PreferenceManager.getDefaultSharedPreferences(mContext);
 
         SharedPreferences.Editor lEditor = lSharedPrefs.edit();
         lEditor.putString(aKey, aValue);
@@ -88,7 +88,7 @@ public class Preferences {
     public void setValue(String aKey, Boolean aValue) {
 
         SharedPreferences lSharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(lContext);
+            PreferenceManager.getDefaultSharedPreferences(mContext);
 
         SharedPreferences.Editor lEditor = lSharedPrefs.edit();
         lEditor.putBoolean(aKey, aValue);
@@ -115,7 +115,7 @@ public class Preferences {
         Integer lValue = aDefaultValue;
 
         SharedPreferences lSharedPrefs =
-            PreferenceManager.getDefaultSharedPreferences(lContext);
+            PreferenceManager.getDefaultSharedPreferences(mContext);
 
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {
@@ -149,7 +149,7 @@ public class Preferences {
         String lValue = aDefaultValue;
 
         SharedPreferences lSharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(lContext);
+                PreferenceManager.getDefaultSharedPreferences(mContext);
 
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {
@@ -183,7 +183,7 @@ public class Preferences {
         boolean lValue = aDefValue;
 
         SharedPreferences lSharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(lContext);
+                PreferenceManager.getDefaultSharedPreferences(mContext);
 
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {
@@ -217,7 +217,7 @@ public class Preferences {
         Set<String> lValue = null;
 
         SharedPreferences lSharedPrefs =
-                PreferenceManager.getDefaultSharedPreferences(lContext);
+                PreferenceManager.getDefaultSharedPreferences(mContext);
 
         if (lSharedPrefs != null) {
             if (lSharedPrefs.contains(aKey)) {

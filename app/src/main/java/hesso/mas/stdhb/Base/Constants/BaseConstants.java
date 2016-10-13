@@ -5,7 +5,7 @@ package hesso.mas.stdhb.Base.Constants;
  *
  * Class for general constants
  */
-public class BaseConstants {
+public final class BaseConstants {
 
     // constant which contains the URI of the Citizen (sparql) server
     public static final String Attr_Citizen_Server_URI =
@@ -16,7 +16,7 @@ public class BaseConstants {
             "CityZenDM";
 
     // constant used to define the default radius of search
-    public static final String Attr_Default_Ray_Search = "500";
+    public static final String Attr_Default_Radius_Search = "500";
 
     // constant used to save the radius of search of the radar
     public static final String Attr_Search_Radius = "search_radius";

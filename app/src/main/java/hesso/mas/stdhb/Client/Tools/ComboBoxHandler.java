@@ -19,13 +19,13 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 public class ComboBoxHandler {
 
     /**
-     * The method fill a combobox with the given enum
+     * The method fill a spinner control with the given enum
      *
-     * @param aCbo the combobox to fill
-     * @param aContext
+     * @param aCbo the spinner control to fill
+     * @param aContext interface to global information about the application environment.
      * @param aResource
      */
-    public static void fillComboClientServerTechnology(
+    public static void fillComboByEnum(
         Spinner aCbo,
         Context aContext,
         int aResource) {
@@ -40,10 +40,12 @@ public class ComboBoxHandler {
     };
 
     /**
-     * The method fill a combobox with the possible subject contained in the Citizen DB.
+     * The method fill a spinner control with the possible subject contained in the Citizen DB.
      *
-     * @param aCbo the combobox to fill
-     * @param aContext
+     * @param aCbo the spinner control to fill
+     * @param aContext Interface to global information about the application environment.
+     * It allows access to application-specific resources and classes, as well as up-calls
+     * for application-level operations such as launching activities, broadcasting and receiving intents, etc.
      * @param aResource
      * @param aValues
      */
