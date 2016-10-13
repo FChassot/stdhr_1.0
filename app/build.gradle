@@ -34,7 +34,7 @@ android {
     //targetCompatibility = '1.7'
 }
 dependencies {
-    //You also need to configure the testing dependencies for your project to use the standard APIs provided
+    // You also need to configure the testing dependencies for your project to use the standard APIs provided
     // by the JUnit 4 framework. If your test needs to interact with Android dependencies, include the Mockito
     // library to simplify your local unit tests. To learn more about using mock objects in your local unit tests,
     // see Mocking Android dependencies.
@@ -49,10 +49,13 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.google.android.gms:play-services:9.2.1'
 
-    // Libraries for the communication between the Client and the Server
+    // Libraries used for the communication between the Client and the Server
     compile fileTree(dir: 'libs/Androjena', include: ['*.jar'])
     //compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
+
+    // Libraries used for the rest client
     //compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
 
     // The powerful image downloading and caching library for Android
     compile 'com.squareup.picasso:picasso:2.5.2'

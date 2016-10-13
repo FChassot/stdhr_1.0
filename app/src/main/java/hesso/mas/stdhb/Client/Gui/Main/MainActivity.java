@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     /**
      * When the user resumes your activity from the Paused state, the system calls the onResume() method.
      *
-     *      Be aware that the system calls this method every time your activity comes into the foreground,
-     *      including when it's created for the first time. As such, you should implement onResume() to initialize
-     *      components that you release during onPause() and perform any other initializations that must occur each time
-     *      the activity enters the Resumed state (such as begin animations and initialize components only used while
-     *      the activity has user focus).
+     * Be aware that the system calls this method every time your activity comes into the foreground,
+     * including when it's created for the first time. As such, you should implement onResume() to initialize
+     * components that you release during onPause() and perform any other initializations that must occur each time
+     * the activity enters the Resumed state (such as begin animations and initialize components only used while
+     * the activity has user focus).
      */
     @Override
     public void onResume() {

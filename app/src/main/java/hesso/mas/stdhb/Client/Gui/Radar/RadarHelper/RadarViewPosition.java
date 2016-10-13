@@ -17,14 +17,8 @@ public class RadarViewPosition {
         mPositionY = aY;
     }
 
-    // Setter
-    public void setX(Integer aX) {mPositionX = aX;}
-
     // Getter
     public Integer getX(){ return mPositionX;}
-
-    // Setter
-    public void setY(Integer aY) {mPositionY = aY;}
 
     // Getter
     public Integer getY(){ return mPositionY;}

@@ -34,10 +34,10 @@ public class GeoSpatialServices {
     /**
      * This method calculate the number of meters who corresponds to one degree
      *
-     * @param aCurrentUserLocation The current location of the app's user
+     * @param aCurrentUserLocation the current location of the app's user
      *
      * @return the distance in meters between the current latitude and this one
-     * with one degree more
+     * with a difference of one degree
      */
     public static double getDistanceForOneLatitudeDegree(
             Location aCurrentUserLocation) {
@@ -57,10 +57,10 @@ public class GeoSpatialServices {
     /**
      * This method calculate the number of meters who corresponds to one degree
      *
-     * @param aCurrentUserLocation The current location of the app's user
+     * @param aCurrentUserLocation the current location of the app's user
      *
      * @return the distance in meters between the current longitude and this one
-     * with one degree more
+     * with a difference of one degree
      */
     public static double getDistanceForOneLongitudeDegree(
             Location aCurrentUserLocation) {
@@ -81,12 +81,13 @@ public class GeoSpatialServices {
      * Calculates the distance between two points in latitude and longitude taking
      * into account height difference.
      *
-     * The Haversine formula is used to calculate the great-circle distance between two points –
-     * that is, the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’ distance
-     * between the points (ignoring any hills they fly over, of course!).
+     * The Haversine formula is used to calculate the great-circle distance between
+     * two points – that is, the shortest distance over the earth’s surface – giving
+     * an ‘as-the-crow-flies’ distance between the points (ignoring any hills they
+     * fly over, of course!).
      *
-     * @Param aLatitude1, aLongitude1 Start point aLatitude2, aLongitude2 End point aElevation1 Start altitude
-     * in meters aElevation2 End altitude in meters
+     * @Param aLatitude1, aLongitude1 Start point aLatitude2, aLongitude2 End point
+     * aElevation1 Start altitude in meters aElevation2 End altitude in meters
      *
      * @returns the distance in meters
      */
@@ -117,4 +118,5 @@ public class GeoSpatialServices {
 
         return Math.sqrt(lDistance);
     }
+
 }

@@ -5,9 +5,18 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
 /**
  * Created by chf on 30.09.2016.
+ *
+ * This class validates the parameter before a Citizen search
  */
 public class Validator {
 
+    /**
+     *
+     *
+     * @param aPlace
+     * @param aPeriod
+     * @return
+     */
     public static ValidationDescCollection ValidateSearch(String aPlace, String aPeriod) {
 
         ValidationDescCollection lValDescCollection = new ValidationDescCollection();

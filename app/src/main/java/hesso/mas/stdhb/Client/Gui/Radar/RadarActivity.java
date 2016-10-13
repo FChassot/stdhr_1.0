@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,13 +67,22 @@ public class RadarActivity extends FragmentActivity
 
     private double Radius;
 
-    // device sensor manager
+    // SensorManager let access the device's sensors.
     private SensorManager mSensorManager;
 
-    private Sensor mCompass;
-
+    // sensors for the orientation
+    private Sensor mAccelerometer;
+    private Sensor mMagnetometer;
+    private float[] mLastAccelerometer = new float[3];
+    private float[] mLastMagnetometer = new float[3];
+    private boolean mLastAccelerometerSet = false;
+    private boolean mLastMagnetometerSet = false;
+    private float[] mR = new float[9];
+    private float[] mOrientation = new float[3];
     // record the compass picture angle turned
     private float mCurrentDegree = 0f;
+
+    //private Sensor mCompass;
 
     Button mBtnStopRadar;
 
@@ -108,7 +119,9 @@ public class RadarActivity extends FragmentActivity
 
         // initialize the android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        mCompass = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         IntentFilter lFilter =
                 new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
@@ -173,9 +186,13 @@ public class RadarActivity extends FragmentActivity
         // for the system's orientation sensor registered listeners
         mSensorManager.registerListener(
                 this,
-                mSensorManager.getDefaultSensor(
-                        Sensor.TYPE_ORIENTATION),
-                        SensorManager.SENSOR_DELAY_GAME);
+                mAccelerometer,
+                SensorManager.SENSOR_DELAY_GAME);
+
+        mSensorManager.registerListener(
+                this,
+                mMagnetometer,
+                SensorManager.SENSOR_DELAY_GAME);
     }
 
     /**
@@ -220,6 +237,8 @@ public class RadarActivity extends FragmentActivity
 
         // to stop the listener and save battery
         mSensorManager.unregisterListener(this);
+        mSensorManager.unregisterListener(this, mAccelerometer);
+        mSensorManager.unregisterListener(this, mMagnetometer);
     }
 
     /**
@@ -285,13 +304,44 @@ public class RadarActivity extends FragmentActivity
     }
 
     /**
+     * Called when sensor values have changed. The length and contents of the values array
+     * vary depending on which sensor is being monitored.
      *
      * @param aEvent
      */
     @Override
     public void onSensorChanged(SensorEvent aEvent) {
-        // get the angle around the z-axis rotated
-        mCurrentDegree = Math.round(aEvent.values[0]);
+
+        if (aEvent.sensor == mAccelerometer) {
+            System.arraycopy(aEvent.values, 0, mLastAccelerometer, 0, aEvent.values.length);
+            mLastAccelerometerSet = true;
+        }
+        else if (aEvent.sensor == mMagnetometer) {
+            System.arraycopy(aEvent.values, 0, mLastMagnetometer, 0, aEvent.values.length);
+            mLastMagnetometerSet = true;
+        }
+        if (mLastAccelerometerSet && mLastMagnetometerSet) {
+            SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
+            SensorManager.getOrientation(mR, mOrientation);
+
+            float azimuthInRadians = mOrientation[0];
+            float azimuthInDegress = (float)(Math.toDegrees(azimuthInRadians)+360)%360;
+
+            RotateAnimation lRotation =
+                new RotateAnimation(
+                    mCurrentDegree,
+                    -azimuthInDegress,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f);
+
+            lRotation.setDuration(250);
+
+            lRotation.setFillAfter(true);
+
+            //mPointer.startAnimation(ra);
+            mCurrentDegree = -azimuthInDegress;
+        }
     }
 
     /**

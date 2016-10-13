@@ -17,6 +17,10 @@ public class Preferences {
     // interface to global information about the application environment.
     Context mContext;
 
+    private static SharedPreferences getPrefs(Context aContext) {
+        return aContext.getSharedPreferences("myprefs", 0);
+    }
+
     // Constructor
     public Preferences(Context aContext) {
         mContext = aContext;
@@ -30,15 +34,15 @@ public class Preferences {
      */
     public void setValue(String aKey, int aValue) {
 
-        SharedPreferences sharedPrefs =
+        SharedPreferences lSharedPrefs =
             PreferenceManager.getDefaultSharedPreferences(mContext);
 
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putInt(aKey, aValue);
+        SharedPreferences.Editor lEditor = lSharedPrefs.edit();
+        lEditor.putInt(aKey, aValue);
 
         // commit writes its data to persistent storage immediately, whereas 'apply' will
         // handle it in the background
-        editor.apply();
+        lEditor.apply();
     }
 
     /**
@@ -233,5 +237,38 @@ public class Preferences {
 
         return lValue;
     }
+
+    public static void setMyIntPref(Context aContext, String aKey, int aValue) {
+        getPrefs(aContext).edit().putInt(aKey, aValue).commit();
+    }
+
+    public static Integer getMyIntPref(Context aContext, String aKey, Integer aDefaultValue) {
+        return getPrefs(aContext).getInt(aKey, aDefaultValue);
+    }
+
+    public static void setMyStringPref(Context aContext, String aKey, String aValue) {
+        getPrefs(aContext).edit().putString(aKey, aValue).commit();
+    }
+
+    public static String getMyStringPref(Context aContext, String aKey, String aDefaultValue) {
+        return getPrefs(aContext).getString(aKey, aDefaultValue);
+    }
+
+    public static void setMyBooleanPref(Context aContext, String aKey, Boolean aValue) {
+        getPrefs(aContext).edit().putBoolean(aKey, aValue).commit();
+    }
+
+    public Boolean getMyBooleanPref(Context aContext, String aKey, Boolean aDefaultValue) {
+        return getPrefs(aContext).getBoolean(aKey, aDefaultValue);
+    }
+
+    public static void setMySetPref(Context aContext, String aKey, Set<String> aValue) {
+        getPrefs(aContext).edit().putStringSet(aKey, aValue).commit();
+    }
+
+    public static Set<String> getMySetPref(Context aContext, String aKey, Set<String> aDefaultValue) {
+        return getPrefs(aContext).getStringSet(aKey, aDefaultValue);
+    }
+
 
 }

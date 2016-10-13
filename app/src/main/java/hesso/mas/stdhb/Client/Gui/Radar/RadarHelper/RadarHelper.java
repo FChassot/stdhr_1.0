@@ -210,8 +210,6 @@ public final class RadarHelper {
         return lDeltaY / Math.cos(lAngle);
     }
 
-
-
     /**
      *
      * @param aSensorManager
@@ -224,7 +222,8 @@ public final class RadarHelper {
 
     /**
      * Calculate angle to lat2/lon2 in relation to north.
-     * This is also described in the link above but I had a little bit of trouble getting this to work, here is C code for this:
+     * This is also described in the link above but I had a little bit of trouble getting this to work,
+     * here is C code for this:
      *
      *
      * @return Angle
