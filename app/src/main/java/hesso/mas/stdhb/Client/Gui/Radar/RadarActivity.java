@@ -132,8 +132,14 @@ public class RadarActivity extends FragmentActivity
 
         Preferences lPrefs = new Preferences(this);
 
-        double lRadiusOfSearch =
+        /*double lRadiusOfSearch =
                 lPrefs.getPrefValue(
+                        BaseConstants.Attr_Search_Radius,
+                        Basemodel.NULL_KEY);*/
+
+        double lRadiusOfSearch =
+                lPrefs.getMyIntPref(
+                        this,
                         BaseConstants.Attr_Search_Radius,
                         Basemodel.NULL_KEY);
 
@@ -377,7 +383,8 @@ public class RadarActivity extends FragmentActivity
         Preferences lPrefs = new Preferences(this);
 
         String lClientServerCommunicationMode =
-                lPrefs.getPrefValue(
+                lPrefs.getMyStringPref(
+                        this,
                         BaseConstants.Attr_ClientServer_Communication,
                         MyString.EMPTY_STRING);
 
@@ -396,12 +403,14 @@ public class RadarActivity extends FragmentActivity
         }
 
         Integer lRadiusOfSearch =
-            lPrefs.getPrefValue(
-                BaseConstants.Attr_Search_Radius,
+            lPrefs.getMyIntPref(
+                    this,
+                    BaseConstants.Attr_Search_Radius,
                     0);
 
         String lCulturalObjectType =
-                lPrefs.getPrefValue(
+                lPrefs.getMyStringPref(
+                        this,
                         BaseConstants.Attr_TypeOfSearch,
                         MyString.EMPTY_STRING);
 
@@ -413,7 +422,8 @@ public class RadarActivity extends FragmentActivity
                     lRadiusOfSearch);
 
         String lSubject =
-                lPrefs.getPrefValue(
+                lPrefs.getMyStringPref(
+                        this,
                         BaseConstants.Attr_Subject_Search_Type,
                         MyString.EMPTY_STRING);
 

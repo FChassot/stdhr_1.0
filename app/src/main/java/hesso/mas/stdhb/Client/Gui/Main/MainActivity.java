@@ -70,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
         Preferences lPrefs = new Preferences(this);
-        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
+
+        Boolean lRadarMode =
+                lPrefs.getMyBooleanPref(
+                    this,
+                    BaseConstants.Attr_Radar_Switch,
+                    false);
 
         if (lRadarMode == false) {mRadarButton.setEnabled(false); }
     }
@@ -89,8 +94,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onResume();  // Always call the superclass method first
 
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
+
         Preferences lPrefs = new Preferences(this);
-        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
+
+        Boolean lRadarMode =
+                lPrefs.getMyBooleanPref(
+                        this,
+                        BaseConstants.Attr_Radar_Switch,
+                        false);
 
         mRadarButton.setEnabled(lRadarMode);
     }
@@ -104,20 +115,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      * The onClick() method is called when a button is actually clicked (or tapped).
      * This method is called by the listener.
      */
-    public void onClick(View view){
-        if (view.getId()==R.id.mImgSettings){
+    public void onClick(View aView){
+        if (aView.getId()==R.id.mImgSettings){
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.mBtnradar){
+        if (aView.getId()==R.id.mBtnradar){
             Intent intent = new Intent(MainActivity.this, RadarActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.mBtnSearch){
+        if (aView.getId()==R.id.mBtnSearch){
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
         }
-        if (view.getId()==R.id.mBtnMap){
+        if (aView.getId()==R.id.mBtnMap){
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }

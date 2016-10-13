@@ -1,5 +1,6 @@
 package hesso.mas.stdhb.Client.Gui.Citizen;
 
+import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
@@ -126,10 +127,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             Preferences lPrefs = new Preferences(this);
 
-            String lClientServerCommunicationMode =
+            /*String lClientServerCommunicationMode =
                 lPrefs.getPrefValue(
                     BaseConstants.Attr_ClientServer_Communication,
-                    MyString.EMPTY_STRING);
+                    MyString.EMPTY_STRING);*/
+            String lClientServerCommunicationMode =
+                    lPrefs.getMyStringPref(
+                            this,
+                            BaseConstants.Attr_ClientServer_Communication,
+                            MyString.EMPTY_STRING);
 
             String lRequest =
                 CitizenRequests.getUniqueCulturalObjectInfoQuery(
@@ -241,7 +247,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             Preferences lPrefs = new Preferences(this);
 
             String lClientServerCommunicationMode =
-                    lPrefs.getPrefValue(
+                    lPrefs.getMyStringPref(
+                            this,
                             BaseConstants.Attr_ClientServer_Communication,
                             MyString.EMPTY_STRING);
 
@@ -388,10 +395,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     mDescription = lCulturalObject.GetValue("description");
 
                     //todo user the api internetconnectivity
-                    //InternetConnectivity lInterConnectivity =
-                            //new InternetConnectivity(aContext);
+                    InternetConnectivity lInternetConnectivity =
+                            new InternetConnectivity(aContext);
 
-                    if(isNetworkAvailable()){
+                    if(lInternetConnectivity.IsNetworkAvailable()){
                         // Use of the Picasso library to load images
                         String lImageUrl = lCulturalObject.GetValue("image_url");
 
@@ -407,30 +414,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             }
-        }
-
-        /**
-         * get is the network is available
-         *
-         * @return
-         */
-        private boolean isNetworkAvailable(){
-
-            boolean lIsNetworkAvailable = false;
-
-            // get the system's connectivity service
-            ConnectivityManager lConnectivityManager =
-                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            // get the active network interface to get the network's status
-            NetworkInfo lNetworkInfo = lConnectivityManager.getActiveNetworkInfo();
-
-            if(lNetworkInfo !=null && lNetworkInfo.isAvailable()) {
-                lIsNetworkAvailable = true;
-            }
-
-            // return the status of the network
-            return lIsNetworkAvailable;
         }
 
     //endregion

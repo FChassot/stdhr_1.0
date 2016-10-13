@@ -99,7 +99,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Preferences lPrefs = new Preferences(this);
 
         String lClientServerCommunication =
-                lPrefs.getPrefValue(
+                lPrefs.getMyStringPref(
+                        this,
                         BaseConstants.Attr_ClientServer_Communication,
                         MyString.EMPTY_STRING);
 
@@ -108,16 +109,20 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
-        Integer lRaySearch = lPrefs.getPrefValue(BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
+        Integer lRadiusOfSearch = lPrefs.getMyIntPref(this, BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
 
-        if (lRaySearch.equals(Basemodel.NULL_KEY)) {
-            lPrefs.setValue(BaseConstants.Attr_Search_Radius, BaseConstants.Attr_Default_Radius_Search);
+        if (lRadiusOfSearch.equals(Basemodel.NULL_KEY)) {
+            lPrefs.setMyStringPref(
+                    this,
+                    BaseConstants.Attr_Search_Radius,
+                    BaseConstants.Attr_Default_Radius_Search);
+
             mRayon.setText(BaseConstants.Attr_Default_Radius_Search);
         } else {
-            mRayon.setText(lRaySearch.toString());
+            mRayon.setText(lRadiusOfSearch.toString());
         }
 
-        Boolean lRadarMode = lPrefs.getBooleanPrefValue(BaseConstants.Attr_Radar_Switch, false);
+        Boolean lRadarMode = lPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, false);
 
         lRadarSwitch.setChecked(lRadarMode);
 
@@ -215,7 +220,12 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
 
             Preferences lPrefs = new Preferences(this.getContext());
-            Set<String> lSet = lPrefs.getSetPrefValue(BaseConstants.Attr_CulturalObject_Type, null);
+            //Set<String> lSet = lPrefs.getSetPrefValue(BaseConstants.Attr_CulturalObject_Type, null);
+            Set<String> lSet =
+                    lPrefs.getMySetPref(
+                        this.getContext(),
+                        BaseConstants.Attr_CulturalObject_Type,
+                        null);
 
             CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(aPosition);
             lHolder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
@@ -283,14 +293,12 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Preferences lPrefs = new Preferences(this);
 
         String lRadiusSearchStr = lRadiusSearch.getText().toString();
-        int lRadius;
 
         if (IntegerExtensions.tryParseInt(lRadiusSearchStr)) {
-            lRadius = Integer.parseInt(lRadiusSearchStr);
-
-            lPrefs.setValue(
+            lPrefs.setMyIntPref(
+                    this,
                     BaseConstants.Attr_Search_Radius,
-                    lRadius);
+                    Integer.parseInt(lRadiusSearchStr));
         }
         else {
             Notifications.ShowMessageBox(
@@ -304,16 +312,19 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
         if (lCboSubject.getSelectedItem() != null){
-            lPrefs.setValue(
+            lPrefs.setMyStringPref(
+                    this,
                     BaseConstants.Attr_Subject_Search_Type,
                     lCboSubject.getSelectedItem().toString());
         }
 
-        lPrefs.setValue(
+        lPrefs.setMyBooleanPref(
+                this,
                 BaseConstants.Attr_Radar_Switch,
                 lMode);
 
-        lPrefs.setValue(
+        lPrefs.setMyStringPref(
+                this,
                 BaseConstants.Attr_ClientServer_Communication,
                 lClientServerCommunication);
 
@@ -325,7 +336,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
         }
 
-        lPrefs.setValue(
+        lPrefs.setMySetPref(
+                this,
                 BaseConstants.Attr_CulturalObject_Type,
                 lSet);
     }
@@ -346,7 +358,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Preferences lPrefs = new Preferences(this);
 
         String lClientServerCommunicationMode =
-            lPrefs.getPrefValue(
+            lPrefs.getMyStringPref(
+                this,
                 BaseConstants.Attr_ClientServer_Communication,
                 MyString.EMPTY_STRING);
 
