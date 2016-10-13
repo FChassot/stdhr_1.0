@@ -73,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION2);
+        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION3);
         this.registerReceiver(mReceiver, lFilter);
 
         // Similar to another answer, but you can use an ArrayAdapter to populate based on an Enum class.
@@ -341,7 +341,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         RetrieveCitizenDataAsyncTask lRetrieveTask =
             new RetrieveCitizenDataAsyncTask(
                 this,
-                RetrieveCitizenDataAsyncTask.ACTION2);
+                RetrieveCitizenDataAsyncTask.ACTION3);
 
         Preferences lPrefs = new Preferences(this);
 
@@ -393,6 +393,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         @Override
         public void onReceive(Context aContext, Intent aIntent)
         {
+            if (aIntent.getAction() != RetrieveCitizenDataAsyncTask.ACTION3) {
+                return;
+            }
+
             Bundle lBundle = aIntent.getExtras();
 
             CitizenQueryResult lCitizenQueryResult = null;

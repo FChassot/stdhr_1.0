@@ -32,8 +32,8 @@ public final class RadarHelper {
      * @param aCompassHeading
      * @param aCurrentUserLocation The current location of the app's user
      * @param aRadius The radius of the radar's search
-     * @param aHeightView
-     * @param aWidthView
+     * @param aHeightView the actual height size of the view
+     * @param aWidthView the actual widht size of the view
      *
      * @return A list of RadarMarker
      */
@@ -48,8 +48,18 @@ public final class RadarHelper {
         Checks.AssertNotNull(aQueryResult);
 
         List<RadarMarker> lMarkers = new ArrayList<>();
+        List<RadarMarker> lLisOfMarkersFiltered = new ArrayList<>();
 
         for (CitizenDbObject lCulturalObject : aQueryResult.Results()) {
+            //todo chf: removes when clarified
+            for (RadarMarker lMarker : lLisOfMarkersFiltered) {
+                if ((lMarker.getTitle() == lCulturalObject.GetValue("title")) &&
+                    (lMarker.getLongitude() == Double.parseDouble(lCulturalObject.GetValue("long"))) &&
+                    (lMarker.getLatitude() == Double.parseDouble(lCulturalObject.GetValue("lat")))) {
+                    continue;
+                }
+            }
+
             String lCulturalObjectId = lCulturalObject.GetValue("culturalInterest");
             String lTitle = lCulturalObject.GetValue("title");
             String lDescription = lCulturalObject.GetValue("description");

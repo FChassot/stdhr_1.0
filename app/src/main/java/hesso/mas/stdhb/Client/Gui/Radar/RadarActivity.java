@@ -451,6 +451,10 @@ public class RadarActivity extends FragmentActivity
         @Override
         public void onReceive(Context aContext, Intent aIntent)
         {
+            if (aIntent.getAction() != RetrieveCitizenDataAsyncTask.ACTION2) {
+                return;
+            }
+
             Bundle lBundle = aIntent.getExtras();
 
             CitizenQueryResult lCitizenQueryResult = null;
