@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Base.Spatial;
+package hesso.mas.stdhb.Business.Spatial;
 
 /**
  * Created by chf on 13.10.2016.
