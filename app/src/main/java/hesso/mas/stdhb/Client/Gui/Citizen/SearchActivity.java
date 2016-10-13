@@ -5,7 +5,7 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Tools.ComboBoxHandler;
+import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
@@ -16,12 +16,9 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.PowerManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.ArraySet;
 import android.widget.Button;
 import android.view.View;
 
@@ -48,10 +45,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by chf on 11.06.2016.
@@ -187,7 +182,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
 
-        ComboBoxHandler.fillComboSubject(
+        SpinnerHandler.fillComboSubject(
             lCboSujet,
             this,
             android.R.layout.simple_spinner_item,
@@ -213,6 +208,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION1);
         this.registerReceiver(mReceiver, lFilter);
+    }
+
+    /**
+     * When the user resumes your activity from the Paused state, the system calls the onResume() method.
+     *
+     * Be aware that the system calls this method every time your activity comes into the foreground,
+     * including when it's created for the first time. As such, you should implement onResume() to initialize
+     * components that you release during onPause() and perform any other initializations that must occur each time
+     * the activity enters the Resumed state (such as begin animations and initialize components only used while
+     * the activity has user focus).
+     */
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
     }
 
     /**

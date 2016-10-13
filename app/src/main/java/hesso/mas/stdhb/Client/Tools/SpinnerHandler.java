@@ -5,7 +5,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 
 /**
@@ -16,7 +18,7 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
  * durch das entsprechende Interface definiert werden
  *
  */
-public class ComboBoxHandler {
+public class SpinnerHandler {
 
     /**
      * The method fill a spinner control with the given enum
@@ -63,4 +65,19 @@ public class ComboBoxHandler {
 
         aCbo.setAdapter(lAdapter);
     };
+
+    public static int getPositionByItem(
+        Spinner aSpinner,
+        String aItem) throws NoSuchElementException {
+
+        final int lCount = aSpinner.getCount();
+
+        for (int lIndex = 0; lIndex < lCount; lIndex++) {
+            if (aItem.equals(aSpinner.getItemAtPosition(lIndex))) {
+                return lIndex;
+            }
+        }
+
+        return Basemodel.NULL_KEY;
+    }
 }

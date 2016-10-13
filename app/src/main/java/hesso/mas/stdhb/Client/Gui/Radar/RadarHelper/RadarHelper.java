@@ -259,6 +259,19 @@ public final class RadarHelper {
         return lAndleDeg;
     }
 
+    /**
+     *
+     * @param aX
+     * @param aY
+     * @return
+     */
+    public static Location determineGpsPositionOnTheView(
+        double aX,
+        double aY) {
+
+        return null;
+    }
+
     // http://stackoverflow.com/questions/5314724/get-screen-coordinates-by-specific-location-and-longitude-android
 
     /**

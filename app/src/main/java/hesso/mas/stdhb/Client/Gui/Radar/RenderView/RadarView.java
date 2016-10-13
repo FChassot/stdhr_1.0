@@ -334,19 +334,19 @@ public class RadarView extends android.view.View {
         /**
          * Called when a touch screen motion event occurs.
          *
-         * @param event
+         * @param aMotionEvent
          *
          * @return True when a cultural object has been detected
          */
         @Override
-        public boolean onTouchEvent(MotionEvent event) {
+        public boolean onTouchEvent(MotionEvent aMotionEvent) {
 
             float lOnTouchXCoordinate;
             float lOnTouchYCoordinate;
 
-            if(event.getAction() == MotionEvent.ACTION_DOWN){
-                lOnTouchXCoordinate = event.getX();
-                lOnTouchYCoordinate = event.getY();
+            if(aMotionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                lOnTouchXCoordinate = aMotionEvent.getX();
+                lOnTouchYCoordinate = aMotionEvent.getY();
             }
             else {
                 return false;
@@ -416,15 +416,6 @@ public class RadarView extends android.view.View {
 
             return false;
         }
-
-        /**
-        *
-        */
-        /*public void selectAction() {
-            DialogFragment lFragment = new RadarDialogFragment();
-            Activity lActivity = (Activity) this.mContext;
-            lFragment.show(lActivity.getFragmentManager(), "Menu");
-        }*/
 
         /**
          * This method searches the nearest Cultural object

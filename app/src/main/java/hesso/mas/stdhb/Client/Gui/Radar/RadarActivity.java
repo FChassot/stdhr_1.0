@@ -124,7 +124,7 @@ public class RadarActivity extends FragmentActivity
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         IntentFilter lFilter =
-                new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
+            new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
 
         this.registerReceiver(mReceiver, lFilter);
 
@@ -536,16 +536,32 @@ public class RadarActivity extends FragmentActivity
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onDown(MotionEvent e) {
+        public boolean onDown(MotionEvent aMotionEvent) {
             return true;
         }
-        // event when double tap occurs
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            float x = e.getX();
-            float y = e.getY();
 
-            Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
+        /**
+         * Event when double tap occurs
+         *
+         * @param aMotionEvent
+         * @return
+         */
+        @Override
+        public boolean onDoubleTap(MotionEvent aMotionEvent) {
+            float lX = aMotionEvent.getX();
+            float lY = aMotionEvent.getY();
+
+            Location lVirtualCurrentLocation =
+                    RadarHelper.determineGpsPositionOnTheView(lX, lY);
+
+            CurrentUserLocation = CurrentUserLocation;
+
+            Radius = (Radius/2);
+
+            mRadarView.stopRadar();
+            mRadarView.startRadar();
+
+            //Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
 
             return true;
         }

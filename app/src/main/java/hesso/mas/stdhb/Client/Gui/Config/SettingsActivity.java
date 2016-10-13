@@ -37,6 +37,7 @@ import hesso.mas.stdhb.Base.Tools.IntegerExtensions;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
+import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
@@ -93,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         lCboClientServerCommunication.setAdapter(lAdapter);
 
-        /*ComboBoxHandler.fillComboClientServerTechnology(
+        /*SpinnerHandler.fillComboClientServerTechnology(
                 lCboClientServerCommunication,
                 this,
                 android.R.layout.simple_spinner_item);*/
@@ -275,14 +276,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      * When the system calls onPause() for your activity, it technically means your activity is still
      * partially visible, but most often is an indication that the user is leaving the activity and it
      * will soon enter the Stopped state. You should usually use the onPause() callback to:
-
-             - Check if the activity is visible; if it is not, stop animations or other ongoing actions that could consume CPU.
-               Remember, beginning with Android 7.0, a paused app might be running in multi-window mode. In this case, you would
-               not want to stop animations or video playback.
-             - Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave
-               (such as a draft email).
-             - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources
-               that may affect battery life while your activity is paused and the user does not need them.
+     *
+     *        - Check if the activity is visible; if it is not, stop animations or other ongoing actions that could consume CPU.
+     *          Remember, beginning with Android 7.0, a paused app might be running in multi-window mode. In this case, you would
+     *          not want to stop animations or video playback.
+     *        - Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave
+     *          (such as a draft email).
+     *        - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources
+     *          that may affect battery life while your activity is paused and the user does not need them.
      */
     @Override
     public void onPause() {
@@ -331,18 +332,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 BaseConstants.Attr_ClientServer_Communication,
                 lClientServerCommunication);
 
-        Set<String> lSet = new HashSet<>();
+        Set<String> lSetOfCulturalObjectType = new HashSet<>();
 
-        for (CulturalObjectType aCIType : mCulturalObjectTypes) {
-            if (aCIType.isSelected()) {
-                lSet.add(aCIType.getName());
+        for (CulturalObjectType aCulturalObjectType : mCulturalObjectTypes) {
+            if (aCulturalObjectType.isSelected()) {
+                lSetOfCulturalObjectType.add(aCulturalObjectType.getName());
             }
         }
 
         lPrefs.setMySetPref(
                 this,
                 BaseConstants.Attr_CulturalObject_Type,
-                lSet);
+                lSetOfCulturalObjectType);
 
         String lSubjectSelected = lCboSubject.getSelectedItem().toString();
 
@@ -421,6 +422,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 return;
             }
 
+            // the bundle object contains a mapping from String keys to various Parcelable values.
             Bundle lBundle = aIntent.getExtras();
 
             CitizenQueryResult lCitizenQueryResult = null;
@@ -431,16 +433,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
             }
             catch (Exception aExc) {
-                Log.i("Settings AsyncTask", aExc.getMessage());
+                Log.i("Config AsyncTask", aExc.getMessage());
             }
 
             List<String> lCulturalObjectSubjects =
                     RadarHelper.getCulturalObjectSubjectFromResponse(
                             lCitizenQueryResult);
 
-            Spinner lSubjectSpinner;
-
-            lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
+            Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
 
             ArrayAdapter<String> lSubjectAdapter =
                     new ArrayAdapter<>(
@@ -453,34 +453,19 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             Preferences lPrefs = new Preferences(aContext);
 
-            String lSelectedSubject =
+            String lSubjectSelected =
                     lPrefs.getMyStringPref(
                             aContext,
                             BaseConstants.Attr_Subject_Selected,
                             MyString.EMPTY_STRING);
 
-            Integer lItemPosition = getPositionByItem(lSubjectSpinner, lSelectedSubject);
+            Integer lItemPosition = SpinnerHandler.getPositionByItem(lSubjectSpinner, lSubjectSelected);
 
             if (lItemPosition != Basemodel.NULL_KEY)
             {
                 lSubjectSpinner.setSelection(lItemPosition);
             }
         }
-    }
-
-    static final int getPositionByItem(
-            Spinner aSpinner,
-            String aItem) throws NoSuchElementException {
-
-        final int lCount = aSpinner.getCount();
-
-        for (int lIndex = 0; lIndex < lCount; lIndex++) {
-            if (aItem.equals(aSpinner.getItemAtPosition(lIndex))) {
-                return lIndex;
-            }
-        }
-
-        return Basemodel.NULL_KEY;
     }
 
     /**
