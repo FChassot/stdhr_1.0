@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Radar;
+package hesso.mas.stdhb.Client.Gui.Radar.RenderView;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -20,7 +20,8 @@ import java.util.List;
 
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
-import hesso.mas.stdhb.Client.Gui.Radar.Fragments.RadarDialogFragment;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 
 /**
  * Created by chf on 15.07.2016.
@@ -419,11 +420,11 @@ public class RadarView extends android.view.View {
         /**
         *
         */
-        public void selectAction() {
+        /*public void selectAction() {
             DialogFragment lFragment = new RadarDialogFragment();
             Activity lActivity = (Activity) this.mContext;
             lFragment.show(lActivity.getFragmentManager(), "Menu");
-        }
+        }*/
 
         /**
          * This method searches the nearest Cultural object

@@ -32,9 +32,10 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Models.Basemodel;
+import hesso.mas.stdhb.Base.Tools.IntegerExtensions;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
-import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
@@ -54,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     ArrayList<CulturalObjectType> mCulturalObjectTypes = null;
 
-    List<String> mCulturalObjectSubjects = new ArrayList<>();
+    //List<String> mCulturalObjectSubjects = new ArrayList<>();
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -284,7 +285,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         String lRadiusSearchStr = lRadiusSearch.getText().toString();
         int lRadius;
 
-        if (tryParseInt(lRadiusSearchStr)) {
+        if (IntegerExtensions.tryParseInt(lRadiusSearchStr)) {
             lRadius = Integer.parseInt(lRadiusSearchStr);
 
             lPrefs.setValue(
@@ -327,21 +328,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lPrefs.setValue(
                 BaseConstants.Attr_CulturalObject_Type,
                 lSet);
-    }
-
-    /**
-     *
-     *
-     * @param value
-     * @return
-     */
-    boolean tryParseInt(String value) {
-        try {
-            Integer.parseInt(value);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     //region AsyncTask (used to search the cultural object Types)
@@ -420,9 +406,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 Log.i("Settings AsyncTask", aExc.getMessage());
             }
 
-            /*mCulturalObjectTypes =
-                RadarHelper.getRadarMarkersFromResponse(
-                    lCitizenQueryResult);*/
             List<String> lCulturalObjectSubjects =
                     RadarHelper.getCulturalObjectSubjectFromResponse(
                             lCitizenQueryResult);

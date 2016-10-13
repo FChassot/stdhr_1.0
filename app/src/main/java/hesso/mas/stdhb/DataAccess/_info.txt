@@ -1,3 +1,4 @@
-Data access layer:
+// Date: 13.10.2016
+// Author: chf
+// The Data Access Layer contains logic to handle the communication with the Citizen Server API
 
-handle the communication with Citizen Server API

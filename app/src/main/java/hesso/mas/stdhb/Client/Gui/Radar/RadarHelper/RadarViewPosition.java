@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Radar;
+package hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 
 /**
  * Created by chf on 27.09.2016.

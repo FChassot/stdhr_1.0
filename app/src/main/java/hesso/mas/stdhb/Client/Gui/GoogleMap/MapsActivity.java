@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
 
-import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
 /**

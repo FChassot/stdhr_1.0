@@ -30,9 +30,13 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 
+import hesso.mas.stdhb.Business.Spatial.GeoSpatialServices;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
+import hesso.mas.stdhb.Client.Gui.Radar.RenderView.RadarView;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 
@@ -354,7 +358,7 @@ public class RadarActivity extends FragmentActivity
         lRetrieveTask.onPreExecuteMessageDisplay = false;
 
         double lRadius =
-                RadarHelper.getRadiusInRadian(
+                GeoSpatialServices.getRadiusInRadian(
                     CurrentUserLocation,
                     lRadiusOfSearch);
 

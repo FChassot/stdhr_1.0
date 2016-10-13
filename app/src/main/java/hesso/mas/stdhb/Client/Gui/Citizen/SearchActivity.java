@@ -3,7 +3,7 @@ package hesso.mas.stdhb.Client.Gui.Citizen;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
-import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.Client.Tools.ComboBoxHandler;
 import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;

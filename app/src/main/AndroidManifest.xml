@@ -94,7 +94,6 @@
         <activity
             android:name="hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name="hesso.mas.stdhb.Client.Gui.Radar.SurfaceView.RadarSActivity"></activity>
     </application>
 
 </manifest>

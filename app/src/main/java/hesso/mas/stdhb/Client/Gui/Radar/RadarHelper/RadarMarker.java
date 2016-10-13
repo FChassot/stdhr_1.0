@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Radar;
+package hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 
 import android.graphics.Color;
 import android.graphics.Paint;
