@@ -272,7 +272,7 @@ public class RadarActivity extends FragmentActivity
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 5000);
+            mHandler.postDelayed(this, 10000);
         }
     };
 
@@ -324,13 +324,13 @@ public class RadarActivity extends FragmentActivity
             SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
             SensorManager.getOrientation(mR, mOrientation);
 
-            float azimuthInRadians = mOrientation[0];
-            float azimuthInDegress = (float)(Math.toDegrees(azimuthInRadians)+360)%360;
+            float lAzimuthInRadians = mOrientation[0];
+            float lAzimuthInDegrees = (float)(Math.toDegrees(lAzimuthInRadians)+360)%360;
 
             RotateAnimation lRotation =
                 new RotateAnimation(
                     mCurrentDegree,
-                    -azimuthInDegress,
+                    -lAzimuthInDegrees,
                     Animation.RELATIVE_TO_SELF, 0.5f,
                     Animation.RELATIVE_TO_SELF,
                     0.5f);
@@ -339,8 +339,8 @@ public class RadarActivity extends FragmentActivity
 
             lRotation.setFillAfter(true);
 
-            //mPointer.startAnimation(ra);
-            mCurrentDegree = -azimuthInDegress;
+            mRadarView.startAnimation(lRotation);
+            mCurrentDegree = -lAzimuthInDegrees;
         }
     }
 
