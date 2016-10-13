@@ -65,6 +65,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     ProgressDialog progress;
 
     private String mDescription = MyString.EMPTY_STRING;
+    private String mTitle = MyString.EMPTY_STRING;
 
     private static final String TAG = "SearchActivity";
 
@@ -112,15 +113,17 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             mTxtPlace.setText(lCulturalObjectMarker.getTitle());
 
             if (lCulturalObjectMarker.getDescription() != null) {
-                if (lCulturalObjectMarker.getDescription().length() < 10) {
-                    mTxtDescription.setText(lCulturalObjectMarker.getDescription() + "...");
-                }
-                else {
-                    mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 10) + "...");
+                if (lCulturalObjectMarker.getDescription().length() != 0 ) {
+                    if (lCulturalObjectMarker.getDescription().length() < 90) {
+                        mTxtDescription.setText(lCulturalObjectMarker.getDescription());
+                    } else {
+                        mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 50) + "...");
+                    }
                 }
             }
 
             mDescription = lCulturalObjectMarker.getDescription();
+            mTitle = lCulturalObjectMarker.getTitle();
             mTxtPeriod.setText("1000-2016");
 
             Preferences lPrefs = new Preferences(this);
@@ -279,7 +282,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             Notifications.ShowMessageBox(
                     this,
                     mDescription,
-                    "Title",
+                    mTitle,
                     "Close");
         }
     }
