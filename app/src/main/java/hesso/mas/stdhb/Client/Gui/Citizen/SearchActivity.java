@@ -5,14 +5,14 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarMarker;
 import hesso.mas.stdhb.Client.Tools.ComboBoxHandler;
-import hesso.mas.stdhb.DataAccess.BusinessServices.CitizenServices;
+import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryBuilder.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
-import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -23,7 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.view.View;
 
-import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 import hesso.mas.stdhbtests.R;
 /*import okhttp3.Call;

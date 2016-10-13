@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.WsClient.Rest.OkHttp;
+package hesso.mas.stdhb.DataAccess.Communication.WsClient.Rest.OkHttp;
 
 import java.io.IOException;
 

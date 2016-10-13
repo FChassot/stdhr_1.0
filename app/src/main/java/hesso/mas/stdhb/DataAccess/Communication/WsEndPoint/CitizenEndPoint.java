@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.WsEndPoint;
+package hesso.mas.stdhb.DataAccess.Communication.WsEndPoint;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 

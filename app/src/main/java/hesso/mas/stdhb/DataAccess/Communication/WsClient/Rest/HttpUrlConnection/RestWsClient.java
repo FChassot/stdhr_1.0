@@ -1,11 +1,11 @@
-package hesso.mas.stdhb.Communication.WsClient.Rest.HttpUrlConnection;
+package hesso.mas.stdhb.DataAccess.Communication.WsClient.Rest.HttpUrlConnection;
 
 import java.io.*;
 import java.net.*;
 import java.net.URL;
 import java.io.InputStream;
 
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
 
 /**
  * Created by chf on 11.05.2016.

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.WsClient;
+package hesso.mas.stdhb.DataAccess.Communication.WsClient;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 

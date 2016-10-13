@@ -34,9 +34,9 @@ import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryBuilder.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 
-import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
 //Todo I change AppCompatActivity to FragmentActivity

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.WsClient.Androjena;
+package hesso.mas.stdhb.DataAccess.Communication.WsClient.Androjena;
 
 import android.util.Log;
 
@@ -21,8 +21,8 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
-import hesso.mas.stdhb.Communication.WsClient.IWsClient;
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
 
 /**
  * Created by chf on 27.08.2016.

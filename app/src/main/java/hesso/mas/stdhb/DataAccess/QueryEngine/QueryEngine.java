@@ -1,17 +1,12 @@
 package hesso.mas.stdhb.DataAccess.QueryEngine;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 
-import hesso.mas.stdhb.Communication.WsClient.IWsClient;
-import hesso.mas.stdhb.Communication.WsClientFactory.IWsClientFactory;
-import hesso.mas.stdhb.Communication.WsClientFactory.WsClientFactory;
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.IWsClientFactory;
+import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.WsClientFactory;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
 
 import java.util.List;
 

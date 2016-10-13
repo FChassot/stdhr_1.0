@@ -1,0 +1,3 @@
+Data access layer:
+
+handle the communication with Citizen Server API

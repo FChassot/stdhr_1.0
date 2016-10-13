@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.Services;
+package hesso.mas.stdhb.DataAccess.Communication.Services;
 
 /**
  * Created by chf on 28.08.2016.

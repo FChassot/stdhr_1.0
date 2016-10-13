@@ -1,8 +1,8 @@
-package hesso.mas.stdhb.Communication.WsClientFactory;
+package hesso.mas.stdhb.DataAccess.Communication.WsClientFactory;
 
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 
 /**
  * Created by chf on 23.08.2016.

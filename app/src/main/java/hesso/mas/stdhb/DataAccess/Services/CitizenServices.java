@@ -1,9 +1,9 @@
-package hesso.mas.stdhb.DataAccess.BusinessServices;
+package hesso.mas.stdhb.DataAccess.Services;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import hesso.mas.stdhb.DataAccess.QueryBuilder.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.QueryEngine;
 

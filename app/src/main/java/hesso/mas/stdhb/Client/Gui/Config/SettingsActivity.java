@@ -35,9 +35,9 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
-import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.Communication.Services.RetrieveCitizenDataAsyncTask2;
-import hesso.mas.stdhb.DataAccess.QueryBuilder.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
+import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhbtests.R;
 

@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Communication.WsClient.Rdf4j;
+package hesso.mas.stdhb.DataAccess.Communication.WsClient.Rdf4j;
 
 /*import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.QueryLanguage;
@@ -11,8 +11,8 @@ import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
-import hesso.mas.stdhb.Communication.WsEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.Communication.WsClient.IWsClient;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 
 /**
  * Created by chf on 15.07.2016.
