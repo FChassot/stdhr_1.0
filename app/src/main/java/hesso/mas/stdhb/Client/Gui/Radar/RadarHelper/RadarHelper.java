@@ -147,7 +147,6 @@ public final class RadarHelper {
             for (CitizenDbObject lCitizenObject : aQueryResult.Results()) {
                 lListOfCIType.add(new CulturalObjectType("","cultural object conversion to do", false));
             }
-
         }
 
         return lListOfCIType;
@@ -178,18 +177,21 @@ public final class RadarHelper {
         double aMinLongitude,
         double aMaxLongitude) {
 
-        double lDeltaLatitude = aMaxLatitude - aMinLatitude;
-        double lUnView = lDeltaLatitude / aWidthView;
+        // first, calculate the position in X
+        double lDeltaLongitude = (aMaxLongitude - aMinLongitude);
+        double lDeltaLongitudeForOneUnitView = (lDeltaLongitude / aWidthView);
 
-        double lCIDeltaLatitude = aCulturalObjectLatitude - aMinLatitude;
-        double lPosX = lCIDeltaLatitude / lUnView;
+        double lObjectCulturalDeltaLongitude = (aCulturalObjectLongitude - aMinLongitude);
+        double lPosX = (lObjectCulturalDeltaLongitude / lDeltaLongitudeForOneUnitView);
 
-        double lDeltaLongitude = aMaxLongitude - aMinLongitude;
-        double lLongView = lDeltaLongitude / aHeightView;
-        double lCIDeltaLongitude = aCulturalObjectLongitude - aMinLongitude;
+        // second, calculate the position in Y
+        double lDeltaLatitude = (aMaxLatitude - aMinLatitude);
+        double lDeltaLatitudeForOneUnitView = (lDeltaLatitude / aHeightView);
 
-        double lPosY = lCIDeltaLongitude / lLongView;
+        double lObjectCulturalDeltaLatitude = (aMaxLatitude - aCulturalObjectLatitude);
+        double lPosY = (lObjectCulturalDeltaLatitude / lDeltaLatitudeForOneUnitView);
 
+        // instanciate a return object
         return new RadarViewPosition( (int)lPosX, (int)lPosY);
     }
 
@@ -210,7 +212,8 @@ public final class RadarHelper {
             double aYPosition1OnScreen,
             double aXPosition2OnScreen,
             double aYPosition2OnScreen
-    ) {
+    )
+    {
 
         double lDeltaX = aXPosition1OnScreen - aXPosition2OnScreen;
         double lDeltaY = aYPosition1OnScreen - aYPosition2OnScreen;
@@ -218,16 +221,6 @@ public final class RadarHelper {
         double lAngle = Math.atan(lTan);
 
         return lDeltaY / Math.cos(lAngle);
-    }
-
-    /**
-     *
-     * @param aSensorManager
-     * @return
-     */
-    public Float getCurrentCompassHeading(SensorManager aSensorManager) {
-
-        return 0.0F;
     }
 
     /**
