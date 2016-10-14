@@ -84,7 +84,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         EditText mRayon = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
-        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSubject);
 
         ArrayAdapter lAdapter =
                 new ArrayAdapter(
@@ -131,7 +130,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         startAsyncSearch();
 
-        tryToDisplayListview();
+        displayListView();
 
     }
 
@@ -140,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     /**
      *
      */
-    private void tryToDisplayListview() {
+    private void displayListView() {
 
         mCulturalObjectTypes = getCulturalInterestTypes();
 
@@ -351,7 +350,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 this,
                 BaseConstants.Attr_Subject_Selected,
                 lSubjectSelected);
-
     }
 
     //region AsyncTask (used to search the cultural object Types)

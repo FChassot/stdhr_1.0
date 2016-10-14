@@ -53,7 +53,7 @@ public class InternetConnectivity {
         try {
             // the locationManager class provides access to the system location services.
             LocationManager lLocationManager =
-                    (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+                (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
             // get GPS status
             lIsGpsEnabled = lLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -76,11 +76,11 @@ public class InternetConnectivity {
 
         try {
             LocationManager lLocationManager =
-                    (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+                (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
             // get network status
             lIsNetworkAvailable = lLocationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         } catch (Exception aExc) {
             aExc.printStackTrace();
