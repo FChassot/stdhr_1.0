@@ -11,12 +11,12 @@ import android.net.NetworkInfo;
  *
  * This class is used to check internet access connection.
  */
-public class InternetConnectivity {
+public class NetworkConnectivity {
 
     private final Context mContext;
 
     // Constructor
-    public InternetConnectivity(
+    public NetworkConnectivity(
         Context context) {
 
         this.mContext = context;

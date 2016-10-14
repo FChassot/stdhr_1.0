@@ -1,7 +1,6 @@
 package hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 
 import android.graphics.Color;
-import android.hardware.SensorManager;
 import android.location.Location;
 
 import java.util.ArrayList;
@@ -10,7 +9,8 @@ import java.util.List;
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Models.Class.CulturalObjectType;
 
-import hesso.mas.stdhb.Business.Spatial.GeoSpatialServices;
+import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 
@@ -66,7 +66,7 @@ public final class RadarHelper {
             double lCulturalObjectLatitude = Double.parseDouble(lCulturalObject.GetValue("lat"));
             double lCulturalObjectLongitude = Double.parseDouble(lCulturalObject.GetValue("long"));
 
-            double lRadius = GeoSpatialServices.getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
+            double lRadius = SpatialGeometryServices.getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
 
             //double lLatitudeMin = lCulturalObjectLatitude - lRadius;
             //double lLatitudeMax = lCulturalObjectLatitude + lRadius;
@@ -215,54 +215,49 @@ public final class RadarHelper {
     )
     {
 
-        double lDeltaX = aXPosition1OnScreen - aXPosition2OnScreen;
-        double lDeltaY = aYPosition1OnScreen - aYPosition2OnScreen;
-        double lTan = lDeltaY / lDeltaX;
-        double lAngle = Math.atan(lTan);
+        double lDeltaX = Math.abs((aXPosition1OnScreen - aXPosition2OnScreen));
+        double lDeltaY = Math.abs((aYPosition1OnScreen - aYPosition2OnScreen));
+        double lTangente = (lDeltaY / lDeltaX);                   // opposé / adjacent
+        double lAngle = Math.atan(lTangente);
 
-        return lDeltaY / Math.cos(lAngle);
+        double lDistance = (lDeltaY / Math.cos(lAngle));
+
+        return lDistance;
     }
 
-    /**
-     * Calculate angle to lat2/lon2 in relation to north.
-     * This is also described in the link above but I had a little bit of trouble getting this to work,
-     * here is C code for this:
-     *
-     *
-     * @return Angle
-     */
-    public double getAngleFromTwoPoints(
-        double lat1,
-        double lat2,
-        double long1,
-        double long2,
-        double aCurrentHeading) {
 
-        double lLatDelta = (lat2 - lat1);
-        double lonDelta = (long2 - long1);
-        double y = Math.sin(lonDelta)  * Math.cos(lat2);
-        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2)* Math.cos(lonDelta);
-        double angle = Math.atan2(y, x); //not finished here yet
-        double headingDeg = aCurrentHeading;
-        double lAndleDeg = angle * 180/Math.PI;
-        double heading = headingDeg*Math.PI/180;
-        //angle = fmod(angleDeg + 360, 360) * Math.PI/180; //normalize to 0 to 360 (instead of -180 to 180), then convert back to radians
-        lAndleDeg = angle * 180/Math.PI;
-
-        return lAndleDeg;
-    }
 
     /**
+     * Get the GPS Location corresponding to a point touched on the view
      *
-     * @param aX
-     * @param aY
+     * @param aXOnScreen
+     * @param aYOnScreen
+     *
      * @return
      */
     public static Location determineGpsPositionOnTheView(
-        double aX,
-        double aY) {
+        double aXOnScreen,
+        double aYOnScreen,
+        double aMinLatitude,
+        double aMaxLatitude,
+        double aMinLongitude,
+        double aMaxLongitude,
+        double aHeight,
+        double aWidth) {
 
-        return null;
+        double lDeltaLatitude = (aMaxLatitude - aMinLatitude);
+        double lRapportY = (aHeight / aYOnScreen);
+        double lY = aMinLatitude + (lDeltaLatitude / lRapportY);
+
+        double lDeltaLongitude = (aMaxLongitude - aMinLongitude);
+        double lRapportX = (aWidth / aXOnScreen);
+        double lX = aMinLatitude + (lDeltaLongitude / lRapportX);
+
+        Location lLocation = new Location(MyString.EMPTY_STRING);
+        lLocation.setLongitude(lX);
+        lLocation.setLatitude(lY);
+
+        return lLocation;
     }
 
     // http://stackoverflow.com/questions/5314724/get-screen-coordinates-by-specific-location-and-longitude-android

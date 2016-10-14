@@ -1,6 +1,7 @@
 package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,7 +13,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
+import java.util.List;
+
+import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
@@ -29,12 +32,16 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     // constants
     public static final String USER_MARKER = "USER_MARKER";
+
     public static final String RADAR_MARKER = "RADAR_MARKER";
+
+    public static final String RADAR_MARKER_ARRAY = "NO_SELECTED_RADAR_MARKER_ARRAY";
 
     public RadarMarker mCurrentUserMarker;
 
-    //todo change with List<RadarMarker>
-    public RadarMarker mCulturalObjectMarker;
+    public RadarMarker mCulturalObjectMarkerSelected;
+
+    public List<RadarMarker> mCulturalObjectMarkers;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -49,14 +56,18 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         setContentView(R.layout.activity_maps);
 
+        Intent lIntent = getIntent();
+
         // the bundle object contains a mapping from String keys to various Parcelable values.
-        Bundle lBundle = getIntent().getExtras();
+        Bundle lBundle = lIntent.getExtras();
 
         if (lBundle != null) {
             // to retrieve the current user marker
             mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
             // to retrieve the cultural object selected in the radar view
-            mCulturalObjectMarker = lBundle.getParcelable(RADAR_MARKER);
+            mCulturalObjectMarkerSelected = lBundle.getParcelable(RADAR_MARKER);
+            // to retrieve the non selected cultural object present in the view
+            //mCulturalObjectMarkers = lBundle.getParcelableArrayList(RADAR_MARKER_ARRAY);
         }
         else {
             mCurrentUserMarker = new RadarMarker();
@@ -65,8 +76,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             mCurrentUserMarker.setTitle("Citizen radar's user");
         }
 
-        InternetConnectivity lInterConnectivity = new InternetConnectivity(this);
-        boolean lIsActive = lInterConnectivity.IsActive();
+        NetworkConnectivity lConnectivity = new NetworkConnectivity(this);
+        boolean lIsActive = lConnectivity.IsActive();
 
         // obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
@@ -111,11 +122,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 mCurrentUserMarker.getLatitude(),
                 mCurrentUserMarker.getLongitude());
 
-        if (mCulturalObjectMarker != null) {
+        if (mCulturalObjectMarkerSelected != null) {
             LatLng lLatLngCulturalObjectLocation =
                 new LatLng(
-                    mCulturalObjectMarker.getLatitude(),
-                    mCulturalObjectMarker.getLongitude());
+                    mCulturalObjectMarkerSelected.getLatitude(),
+                    mCulturalObjectMarkerSelected.getLongitude());
 
             lBuilder.include(lLatLngCulturalObjectLocation).include(lLatLngCurrentUserLocation);
 
@@ -123,7 +134,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             mMapFragment.addMarker(
                 new MarkerOptions()
                     .position(lLatLngCulturalObjectLocation)
-                    .title(mCulturalObjectMarker.getTitle()));
+                    .title(mCulturalObjectMarkerSelected.getTitle()));
         } else { lBuilder.include(lLatLngCurrentUserLocation);}
 
         // Add a marker in the marker location
@@ -148,5 +159,4 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     private void setUpMap() {
         mMapFragment.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
-
 }

@@ -1,8 +1,9 @@
 package hesso.mas.stdhb.Client.Gui.Radar.RenderView;
 
-import android.app.Activity;
-import android.app.DialogFragment;
 import android.graphics.Rect;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.*;
 
 import android.content.Context;
@@ -18,6 +19,8 @@ import android.view.View;
 
 import java.util.List;
 
+import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
+import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
@@ -219,37 +222,48 @@ public class RadarView extends android.view.View {
             int aY,
             Integer aRadiusOfCircle) {
 
-            Double lRadius;
-            Boolean lMeter = true;
-
-            if (mRadius < 1000) {lRadius = mRadius;}
-            else {
-                lRadius = mRadius/1000;
-                lMeter = false;}
-
-            Double lText1 = lRadius/4;
-            String lStrText1 = lText1.toString();
-            if (lMeter) {lStrText1 += "m"; } else {lStrText1 += "km";}
-            Double lText2 = lRadius/2;
-            String lStrText2 = lText2.toString();
-            if (lMeter) {lStrText2 += "m"; } else {lStrText2 += "km";}
-            Double lText3 = (lRadius/4)*3;
-            String lStrText3 = lText3.toString();
-            if (lMeter) {lStrText3 += "m"; } else {lStrText3 += "km";}
-            Double lText4 = lRadius;
-            String lStrText4 = lText4.toString();
-            if (lMeter) {lStrText4 += "m"; } else {lStrText4 += "km";}
+            String lText1 = getText(mRadius, 4);
+            String lText2 = getText(mRadius, 2);
+            String lText3 = getText(mRadius, (3/4));
+            String lText4 = getText(mRadius, 1);
 
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
-            addText(aCanvas, lStrText1, aX, ((aY/4)*3)-2);
+            addText(aCanvas, lText1, aX, ((aY/4)*3)-2);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
-            addText(aCanvas, lStrText2, aX, (aY/2)-2);
+            addText(aCanvas, lText2, aX, (aY/2)-2);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle * 3 / 4, aRadarPaint);
-            addText(aCanvas, lStrText3, aX, (aY/4)-2);
+            addText(aCanvas, lText3, aX, (aY/4)-2);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 1, aRadarPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 2, aRadarPaint);
-            addText(aCanvas, lStrText4, aX, 22);
+            addText(aCanvas, lText4, aX, 22);
 
+        }
+
+    /**
+     * Give the text
+     *
+     * @param aRadius
+     * @param aQuotient
+     *
+     * @return
+     */
+        private String getText(
+            double aRadius,
+            float aQuotient) {
+
+            Double lRadius = 0.0;
+
+            if (aRadius >= 1000) {
+                lRadius = (aRadius / 1000);
+            }
+
+            lRadius = (lRadius/aQuotient);
+
+            if (aRadius < 1000) {
+                return lRadius.toString() + "m";
+            } else {
+                return lRadius.toString() + "km";
+            }
         }
 
         /**
@@ -374,19 +388,34 @@ public class RadarView extends android.view.View {
 
                     if ((-8.0 < lDistance) && (lDistance > 8.0)) { return false;}
 
-                    if (false) {
+                    if (true) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
 
                         Bundle lBundle = new Bundle();
 
                         RadarMarker lCurrentUserMarker = new RadarMarker();
 
-                        lCurrentUserMarker.setLatitude(46.2333);
-                        lCurrentUserMarker.setLongitude(7.35);
-                        lCurrentUserMarker.setTitle("Citizen radar's user");
+                        Location lCurrentLocation = getUserCurrentLocation();
+
+                        if (lCurrentLocation != null) {
+                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                            lCurrentUserMarker.setLatitude(lCurrentLocation.getLatitude());
+                            lCurrentUserMarker.setLongitude(lCurrentLocation.getLongitude());
+                        }
+                        else{
+                            lCurrentUserMarker.setLatitude(46.2333);
+                            lCurrentUserMarker.setLongitude(7.35);
+                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                        }
 
                         lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
                         lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+
+                        if (mMarkers != null && mMarkers.size() > 0) {
+                            /*lBundle.putParcelableArray(
+                                    MapsActivity.RADAR_MARKER_ARRAY,
+                                    (RadarMarker[]) mMarkers.toArray());*/
+                        }
 
                         lIntent.putExtras(lBundle);
 
@@ -483,4 +512,79 @@ public class RadarView extends android.view.View {
 
     //endregion
 
+    /**
+     * Function to get the user's current location
+     *
+     * @return the user's current location
+     */
+    public Location getUserCurrentLocation() {
+
+        // Declaring a Location Manager
+        LocationManager lLocationManager;
+
+        // Instanciate a GpsLocationListener
+        LocationListener lLocationListener =
+            new GpsLocationListener(this.getContext());
+
+        // The minimum distance to change Updates in meters
+        final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
+
+        // The minimum time between updates in milliseconds
+        final long MIN_TIME_BW_UPDATES = 1; // 1 minute
+
+        Location lCurrentLocation = null;
+
+        try {
+            lLocationManager = (LocationManager) mContext
+                .getSystemService(Context.LOCATION_SERVICE);
+
+            // get GPS services status
+            NetworkConnectivity lConnectivity =
+                 new NetworkConnectivity(this.getContext());
+
+            Boolean lGpsEnabled = lConnectivity.IsGpsEnabled();
+
+            // get network status
+            Boolean lIsNetworkEnabled = lConnectivity.IsNetworkAvailable();
+
+            if (!lGpsEnabled && !lIsNetworkEnabled) {
+                // no network provider is enabled
+            }
+            else {
+                if (lIsNetworkEnabled) {
+                    lLocationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                        lLocationListener);
+
+                    if (lLocationManager != null) {
+                        lCurrentLocation =
+                            lLocationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    }
+                }
+
+                // if GPS Enabled get Location using GPS Services
+                if (lGpsEnabled) {
+                    lLocationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        MIN_TIME_BW_UPDATES,
+                        MIN_DISTANCE_CHANGE_FOR_UPDATES,
+                        lLocationListener);
+
+                        if (lLocationManager != null) {
+                            lCurrentLocation =
+                                    lLocationManager.getLastKnownLocation(
+                                            LocationManager.GPS_PROVIDER);
+                        }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lCurrentLocation;
+    }
 }

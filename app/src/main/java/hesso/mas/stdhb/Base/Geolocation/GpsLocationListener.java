@@ -59,9 +59,9 @@ public final class GpsLocationListener implements LocationListener {
     protected LocationManager locationManager;
 
     // Constructor
-    public GpsLocationListener(Context context) {
+    public GpsLocationListener(Context aContext) {
 
-        this.mContext = context;
+        this.mContext = aContext;
         getUserCurrentLocation();
     }
 

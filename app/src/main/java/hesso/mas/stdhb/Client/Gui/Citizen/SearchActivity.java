@@ -1,6 +1,6 @@
 package hesso.mas.stdhb.Client.Gui.Citizen;
 
-import hesso.mas.stdhb.Base.Connectivity.InternetConnectivity;
+import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
@@ -407,10 +407,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     mDescription = lCulturalObject.GetValue("description");
 
                     //todo user the api internetconnectivity
-                    InternetConnectivity lInternetConnectivity =
-                            new InternetConnectivity(aContext);
+                    NetworkConnectivity lNetworkConnectivity =
+                            new NetworkConnectivity(aContext);
 
-                    if(lInternetConnectivity.IsNetworkAvailable()){
+                    if(lNetworkConnectivity.IsNetworkAvailable()){
                         // Use of the Picasso library to load images
                         String lImageUrl = lCulturalObject.GetValue("image_url");
 

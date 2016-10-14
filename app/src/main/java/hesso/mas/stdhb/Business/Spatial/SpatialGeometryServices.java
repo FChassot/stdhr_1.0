@@ -7,7 +7,7 @@ import android.location.Location;
  *
  * This class contains services for the spatial search.
  */
-public class GeoSpatialServices {
+public class SpatialGeometryServices {
 
     /**
      * This method allows to search the radius of search in radians

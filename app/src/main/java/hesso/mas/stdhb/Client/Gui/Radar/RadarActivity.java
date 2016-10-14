@@ -32,7 +32,7 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 
-import hesso.mas.stdhb.Business.Spatial.GeoSpatialServices;
+import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 
@@ -145,11 +145,17 @@ public class RadarActivity extends FragmentActivity
 
         Radius = lRadiusOfSearch;
 
+        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, "");
+
         if (lRadiusOfSearch < 1000) {
-            mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + lRadiusOfSearch + " [m]");
+            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + lRadiusOfSearch + " [m]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
+            mRadiusInfo.setText(lInfoTxt);
 
         } else {
-            mRadiusInfo.setText(getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]");
+            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
+            mRadiusInfo.setText(lInfoTxt);
         }
 
         mRadarView.mRadius = Radius;
@@ -417,7 +423,7 @@ public class RadarActivity extends FragmentActivity
         lRetrieveTask.onPreExecuteMessageDisplay = false;
 
         double lRadius =
-                GeoSpatialServices.getRadiusInRadian(
+                SpatialGeometryServices.getRadiusInRadian(
                     CurrentUserLocation,
                     lRadiusOfSearch);
 
@@ -552,7 +558,15 @@ public class RadarActivity extends FragmentActivity
             float lY = aMotionEvent.getY();
 
             Location lVirtualCurrentLocation =
-                    RadarHelper.determineGpsPositionOnTheView(lX, lY);
+                    RadarHelper.determineGpsPositionOnTheView(
+                            lX,
+                            lY,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0);
 
             CurrentUserLocation = CurrentUserLocation;
 
