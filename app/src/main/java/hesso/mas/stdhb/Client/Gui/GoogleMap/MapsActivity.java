@@ -67,7 +67,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             // to retrieve the cultural object selected in the radar view
             mCulturalObjectMarkerSelected = lBundle.getParcelable(RADAR_MARKER);
             // to retrieve the non selected cultural object present in the view
-            //mCulturalObjectMarkers = lBundle.getParcelableArrayList(RADAR_MARKER_ARRAY);
+            //mCulturalObjectMarkers = lBundle.getParcelable(RADAR_MARKER_ARRAY);
         }
         else {
             mCurrentUserMarker = new RadarMarker();

@@ -16,6 +16,9 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
+import android.media.session.MediaController;
+import android.net.Uri;
 import android.os.PowerManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,9 +45,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
@@ -187,15 +192,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             this,
             android.R.layout.simple_spinner_item,
             lCOSubjects);
-
-        /*ImageView lImageView = (ImageView) findViewById(R.id.imageView);
-
-        lImageView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                lView.startAnimation(lAnimation);
-            }
-        });*/
 
         assert mTxtDescription != null;
         mTxtDescription.setOnClickListener(this);
@@ -406,17 +402,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                     mDescription = lCulturalObject.GetValue("description");
 
-                    //todo user the api internetconnectivity
-                    NetworkConnectivity lNetworkConnectivity =
-                            new NetworkConnectivity(aContext);
+                    NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
+                    String lResourceUri = lCulturalObject.GetValue("image_url");
 
-                    if(lNetworkConnectivity.IsNetworkAvailable()){
-                        // Use of the Picasso library to load images
-                        String lImageUrl = lCulturalObject.GetValue("image_url");
+                    if(lNetworkConnectivity.IsNetworkAvailable()) {
+                        if (true) {
+                            // Use of the Picasso library to load images
+                            ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+                            Picasso.with(aContext).load(lResourceUri).into(lImageView);
+                        }
+                        else {
+                            /*VideoView lVideoView = (VideoView) findViewById(R.id.video_view);
 
-                        ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+                            Uri lVideoUri = null;
 
-                        Picasso.with(aContext).load(lImageUrl).into(lImageView);
+                            lVideoView.setVideoURI(lVideoUri);*/
+                        }
                     }
                     else{
                         Toast.makeText(

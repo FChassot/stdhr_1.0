@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -132,31 +133,13 @@ public class RadarActivity extends FragmentActivity
 
         Preferences lPrefs = new Preferences(this);
 
-        /*double lRadiusOfSearch =
-                lPrefs.getPrefValue(
-                        BaseConstants.Attr_Search_Radius,
-                        Basemodel.NULL_KEY);*/
-
-        double lRadiusOfSearch =
+        Radius =
                 lPrefs.getMyIntPref(
-                        this,
-                        BaseConstants.Attr_Search_Radius,
-                        Basemodel.NULL_KEY);
+                    this,
+                    BaseConstants.Attr_Search_Radius,
+                    Basemodel.NULL_KEY);
 
-        Radius = lRadiusOfSearch;
-
-        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, "");
-
-        if (lRadiusOfSearch < 1000) {
-            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + lRadiusOfSearch + " [m]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
-            mRadiusInfo.setText(lInfoTxt);
-
-        } else {
-            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + (lRadiusOfSearch/1000) + " [km]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
-            mRadiusInfo.setText(lInfoTxt);
-        }
+        UpdateInfoTxtView();
 
         mRadarView.mRadius = Radius;
 
@@ -186,12 +169,21 @@ public class RadarActivity extends FragmentActivity
     }
 
     /**
+     * When the user resumes your activity from the Paused state, the system calls the onResume() method.
      *
+     *      Be aware that the system calls this method every time your activity comes into the foreground,
+     *      including when it's created for the first time. As such, you should implement onResume() to initialize
+     *      components that you release during onPause() and perform any other initializations that must occur each time
+     *      the activity enters the Resumed state (such as begin animations and initialize components only used while
+     *      the activity has user focus).
      */
     @Override
     protected void onResume() {
 
         super.onResume();
+
+        // update the radar informations
+        UpdateInfoTxtView();
 
         mRadarView.startRadar();
 
@@ -207,6 +199,26 @@ public class RadarActivity extends FragmentActivity
                 SensorManager.SENSOR_DELAY_GAME);
     }
 
+    /**
+     * This method updates the different fields in the UI
+     */
+    private void UpdateInfoTxtView() {
+
+        Preferences lPrefs = new Preferences(this);
+        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, "");
+
+        if (Radius < 1000) {
+            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + Radius + " [m]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
+            mRadiusInfo.setText(lInfoTxt);
+
+        } else {
+            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + (Radius/1000) + " [km]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
+            mRadiusInfo.setText(lInfoTxt);
+        }
+    }
     /**
      * The final call you receive before your activity is destroyed.
      * This can happen either because the activity is finishing (someone called finish() on it,

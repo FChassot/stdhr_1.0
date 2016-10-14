@@ -17,6 +17,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
@@ -371,8 +372,6 @@ public class RadarView extends android.view.View {
                 //return false;
             //}
 
-            //selectAction();
-
             RadarMarker lCulturalObject =
                 findTheNearestCulturalObject(
                     lOnTouchXCoordinate,
@@ -386,9 +385,9 @@ public class RadarView extends android.view.View {
                         lCulturalObject.getPositionX(),
                         lCulturalObject.getPositionY());
 
-                    if ((-8.0 < lDistance) && (lDistance > 8.0)) { return false;}
+                    if ((-10.0 < lDistance) && (lDistance > 10.0)) { return false;}
 
-                    if (true) {
+                    if (false) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
 
                         Bundle lBundle = new Bundle();
@@ -412,9 +411,9 @@ public class RadarView extends android.view.View {
                         lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
 
                         if (mMarkers != null && mMarkers.size() > 0) {
-                            /*lBundle.putParcelableArray(
+                            /*lBundle.putParcelable(
                                     MapsActivity.RADAR_MARKER_ARRAY,
-                                    (RadarMarker[]) mMarkers.toArray());*/
+                                    (Parcelable) mMarkers);*/
                         }
 
                         lIntent.putExtras(lBundle);
