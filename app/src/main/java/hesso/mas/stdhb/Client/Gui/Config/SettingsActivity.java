@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,6 +86,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         EditText mRayon = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
 
+        lRadarSwitch.requestFocus();
+
         ArrayAdapter lAdapter =
                 new ArrayAdapter(
                         this,
@@ -104,28 +107,22 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 lPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_ClientServer_Communication,
-                        MyString.EMPTY_STRING);
+                        EnumClientServerCommunication.ANDROJENA.toString());
 
         EnumClientServerCommunication lEnumValue =
                 EnumClientServerCommunication.valueOf(lClientServerCommunication);
 
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
-        Integer lRadiusOfSearch = lPrefs.getMyIntPref(this, BaseConstants.Attr_Search_Radius, Basemodel.NULL_KEY);
+        Integer lRadiusOfSearch =
+                lPrefs.getMyIntPref(
+                        this,
+                        BaseConstants.Attr_Search_Radius,
+                        BaseConstants.Attr_Default_Radius_Search);
 
-        if (lRadiusOfSearch.equals(Basemodel.NULL_KEY)) {
-            lPrefs.setMyStringPref(
-                    this,
-                    BaseConstants.Attr_Search_Radius,
-                    BaseConstants.Attr_Default_Radius_Search);
-
-            mRayon.setText(BaseConstants.Attr_Default_Radius_Search);
-        } else {
-            mRayon.setText(lRadiusOfSearch.toString());
-        }
+        mRayon.setText(lRadiusOfSearch.toString());
 
         Boolean lRadarMode = lPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, false);
-
         lRadarSwitch.setChecked(lRadarMode);
 
         startAsyncSearch();

@@ -12,6 +12,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -47,7 +48,7 @@ import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyn
 import hesso.mas.stdhbtests.R;
 
 //Todo I change AppCompatActivity to FragmentActivity
-public class RadarActivity extends FragmentActivity
+public class RadarActivity extends AppCompatActivity
         implements SensorEventListener, View.OnClickListener {
 
     RadarView mRadarView;
@@ -129,7 +130,7 @@ public class RadarActivity extends FragmentActivity
 
         this.registerReceiver(mReceiver, lFilter);
 
-        startUpdateMarkersFromCitizen();
+        //startUpdateMarkersFromCitizen();
 
         Preferences lPrefs = new Preferences(this);
 
@@ -137,7 +138,7 @@ public class RadarActivity extends FragmentActivity
                 lPrefs.getMyIntPref(
                     this,
                     BaseConstants.Attr_Search_Radius,
-                    Basemodel.NULL_KEY);
+                    BaseConstants.Attr_Default_Radius_Search);
 
         UpdateInfoTxtView();
 
@@ -355,7 +356,8 @@ public class RadarActivity extends FragmentActivity
                 new RotateAnimation(
                     mCurrentDegree,
                     -lAzimuthInDegrees,
-                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF,
+                    0.5f,
                     Animation.RELATIVE_TO_SELF,
                     0.5f);
 
@@ -363,7 +365,7 @@ public class RadarActivity extends FragmentActivity
 
             lRotation.setFillAfter(true);
 
-            mRadarView.startAnimation(lRotation);
+            //mRadarView.startAnimation(lRotation);
             mCurrentDegree = -lAzimuthInDegrees;
         }
     }

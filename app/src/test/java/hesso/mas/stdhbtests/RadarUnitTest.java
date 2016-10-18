@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 
@@ -21,7 +22,7 @@ public class RadarUnitTest {
     public void calculate_distance_between_two_points_isCorrect() throws Exception {
 
         double lDistance =
-                RadarHelper.getGreatCircleDistanceBetweenTwoPoints(
+                SpatialGeometryServices.getGreatCircleDistanceBetweenTwoPoints(
                     45,
                     45,
                     45,

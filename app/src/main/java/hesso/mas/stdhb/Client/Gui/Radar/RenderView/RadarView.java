@@ -22,6 +22,7 @@ import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
+import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
@@ -45,7 +46,7 @@ public class RadarView extends android.view.View {
 
         private List<RadarMarker> mMarkers;
 
-        public Double mRadius;
+        public Double mRadius = 500.0;
 
         private final int POINT_ARRAY_SIZE = 35;
 

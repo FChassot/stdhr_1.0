@@ -3,6 +3,7 @@ package hesso.mas.stdhb.Base.Storage.Local;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import java.util.Set;
@@ -31,7 +32,8 @@ public class Preferences {
         getPrefs(aContext).edit().putInt(aKey, aValue).commit();
     }
 
-    public static Integer getMyIntPref(Context aContext, String aKey, Integer aDefaultValue) {
+    @NonNull
+    public static Integer getMyIntPref(Context aContext, String aKey, int aDefaultValue) {
         return getPrefs(aContext).getInt(aKey, aDefaultValue);
     }
 
