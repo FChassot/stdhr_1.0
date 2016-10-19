@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import hesso.mas.stdhb.Base.Notifications.Notifications;
+
 /**
  * Created by chf on 13.05.2016.
  *
@@ -31,155 +33,32 @@ public final class GpsLocationListener implements LocationListener {
 
     private final Context mContext;
 
-    // flag for GPS status
-    public boolean isGpsEnabled = false;
-
-    // flag for network status
-    boolean isNetworkEnabled = false;
-
-    // flag for GPS status
-    boolean canGetLocation = false;
+    // Declare a Location Manager
+    protected LocationManager mLocationManager;
 
     // location
-    Location mLocation;
+    private Location mLocation;
 
-    // latitude
-    double latitude;
+    // flag for GPS status
+    private boolean mIsGpsEnabled = false;
 
-    // longitude
-    double longitude;
+    // flag for network status
+    private boolean mIsNetworkEnabled = false;
+
+    // flag for GPS status
+    private boolean mGetLocationPossible = false;
 
     // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;  // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1; // 1 minute
-
-    // Declaring a Location Manager
-    protected LocationManager locationManager;
+    private static final long MIN_TIME_BW_UPDATES = 1;              // 1 minute
 
     // Constructor
     public GpsLocationListener(Context aContext) {
 
         this.mContext = aContext;
-        getUserCurrentLocation();
-    }
-
-    /**
-     * Function to get the user's current location
-     *
-     * @return the user's current location
-     */
-    public Location getUserCurrentLocation() {
-        try {
-            locationManager = (LocationManager) mContext
-                .getSystemService(Context.LOCATION_SERVICE);
-
-            // getting GPS status
-            isGpsEnabled = locationManager
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            Log.v("isGPSEnabled", "=" + isGpsEnabled);
-
-            // getting network status
-            isNetworkEnabled = locationManager
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            Log.v("isNetworkEnabled", "=" + isNetworkEnabled);
-
-            if (!isGpsEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
-            }
-            else {
-                this.canGetLocation = true;
-
-                if (isNetworkEnabled) {
-
-                    mLocation=null;
-
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-                    Log.d("Network", "Network");
-
-                    if (locationManager != null) {
-                        mLocation = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                        if (mLocation != null) {
-                            latitude = mLocation.getLatitude();
-                            longitude = mLocation.getLongitude();
-                        }
-                    }
-                }
-
-                // if GPS Enabled get lat/long using GPS Services
-                if (isGpsEnabled) {
-
-                    mLocation = null;
-
-                    if (mLocation == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-                        Log.d("GPS Enabled", "GPS Enabled");
-
-                        if (locationManager != null) {
-                            mLocation = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (mLocation != null) {
-                                latitude = mLocation.getLatitude();
-                                longitude = mLocation.getLongitude();
-                            }
-                        }
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return mLocation;
-    }
-
-    /**
-     * Stop using GPS listener Calling this function will stop using GPS in your
-     * app
-     * */
-    public void stopUsingGPS() {
-        if (locationManager != null) {
-            locationManager.removeUpdates(GpsLocationListener.this);
-        }
-    }
-
-    /**
-     * Function to get latitude
-     * */
-    public double getLatitude() {
-        if (mLocation != null) {
-            latitude = mLocation.getLatitude();
-        }
-
-        // return latitude
-        return latitude;
-    }
-
-    /**
-     * Function to get longitude
-     * */
-    public double getLongitude() {
-
-        if (mLocation != null) {
-            return mLocation.getLongitude();
-        }
-
-        // return longitude
-        return longitude;
+        this.mLocation = getCurrentLocation();
     }
 
     /**
@@ -187,8 +66,105 @@ public final class GpsLocationListener implements LocationListener {
      *
      * @return boolean
      * */
-    public boolean canGetLocation() {
-        return this.canGetLocation;
+    public boolean isLocationRetrievePossible() {
+        return this.mGetLocationPossible;
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    private boolean isGpsEnabled() { return this.mIsGpsEnabled; }
+
+    /**
+     *
+     *
+     * @return
+     */
+    private boolean isNetworkEnabled() { return this.mIsGpsEnabled; }
+
+    /**
+     * Function to get the user's current location
+     *
+     * @return the user's current location
+     */
+    private Location getCurrentLocation() {
+
+        Location lLocation = null;
+
+        try {
+            mLocationManager = (LocationManager) mContext
+                .getSystemService(Context.LOCATION_SERVICE);
+
+            // get GPS status
+            mIsGpsEnabled = mLocationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+           // Log.v("isGPSEnabled", "=" + mIsGpsEnabled);
+
+            // get network status
+            mIsNetworkEnabled = mLocationManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            //Log.v("isNetworkEnabled", "=" + mIsNetworkEnabled);
+
+            if (mIsGpsEnabled || mIsNetworkEnabled) {
+                this.mGetLocationPossible = true;
+
+                if (mIsNetworkEnabled) {
+                    mLocationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+                    //Log.d("Network", "Network");
+
+                    if (mLocationManager != null) {
+                        lLocation = mLocationManager
+                            .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    }
+                }
+
+                // if GPS Enabled get lat/long using GPS Services
+                if (mIsGpsEnabled) {
+                    lLocation = null;
+
+                    if (lLocation == null) {
+                        mLocationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+                        //Log.d("GPS Enabled", "GPS Enabled");
+
+                        if (mLocationManager != null) {
+                            lLocation = mLocationManager
+                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception aExc) {
+            aExc.printStackTrace();
+        }
+
+        /*if (lLocation != null) {
+            Notifications.ShowMessageBox(this.mContext, "Location " + lLocation.getLatitude() + "" + lLocation.getLongitude(), "info", "ok");
+        }*/
+
+        return lLocation;
+    }
+
+    /**
+     * Stop using GPS listener Calling this function will stop using GPS in your
+     * app
+     * */
+    public void stopUsingGPS() {
+        if (mLocationManager != null) {
+            mLocationManager.removeUpdates(GpsLocationListener.this);
+        }
     }
 
     /**
@@ -196,7 +172,9 @@ public final class GpsLocationListener implements LocationListener {
      * launch Settings Options
      * */
     public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+
+        AlertDialog.Builder alertDialog =
+                new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
         alertDialog.setTitle("GPS is settings");
@@ -224,27 +202,33 @@ public final class GpsLocationListener implements LocationListener {
 
         // Showing Alert Message
         alertDialog.show();
+
+        /*Notifications.ShowMessageBox(
+                this.mContext,
+                "GPS is not enabled. Do you want to go to settings menu?",
+                "GPS is setting",
+                "");*/
     }
 
     /**
      *
-     * @param loc
+     * @param aLocation
      */
     @Override
-    public void onLocationChanged(Location loc) {
+    public void onLocationChanged(Location aLocation) {
         //editLocation.setText("");
         //pb.setVisibility(View.INVISIBLE);
-        Toast.makeText(
+        /*Toast.makeText(
                 null,
                 "Location changed: Lat: " + loc.getLatitude() + " Lng: "
                         + loc.getLongitude(), Toast.LENGTH_SHORT).show();
         String longitude = "Longitude: " + loc.getLongitude();
         Log.v("TAG", longitude);
         String latitude = "Latitude: " + loc.getLatitude();
-        Log.v("TAG", latitude);
+        Log.v("TAG", latitude);*/
 
         /*------- To get city name from coordinates -------- */
-        String cityName = null;
+        /*String cityName = null;
         Geocoder gcd = new Geocoder(null, Locale.getDefault());
 
         List<Address> addresses;
@@ -262,7 +246,7 @@ public final class GpsLocationListener implements LocationListener {
         }
 
         String s = longitude + "\n" + latitude + "\n\nMy Current City is: " + cityName;
-        //editLocation.setText(s);
+        //editLocation.setText(s);*/
     }
 
     @Override

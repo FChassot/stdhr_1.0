@@ -1,10 +1,17 @@
 package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
+import java.util.Date;
+import java.text.DateFormat;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
+import android.location.LocationManager;
+import android.content.Context;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.MapFragment;
@@ -17,6 +24,8 @@ import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 
+import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
+import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
@@ -25,7 +34,7 @@ import hesso.mas.stdhbtests.R;
  *
  * Activity for the google Map functionality
  */
-public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, LocationListener {
 
     // GoogleMap instance
     private GoogleMap mMapFragment;
@@ -43,6 +52,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     public List<RadarMarker> mCulturalObjectMarkers;
 
+    //private GpsLocationListener mGeolocationServices;
+
+    private LocationManager mLocationManager;
+
+    private Location mCurrentUserLocation;
+
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
      * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
@@ -55,6 +70,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_maps);
+
+        //mGeolocationServices = new GpsLocationListener(this);
+        //mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, this);
 
         Intent lIntent = getIntent();
 
@@ -70,10 +90,25 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             //mCulturalObjectMarkers = lBundle.getParcelable(RADAR_MARKER_ARRAY);
         }
         else {
-            mCurrentUserMarker = new RadarMarker();
-            mCurrentUserMarker.setLatitude(46.2333);
-            mCurrentUserMarker.setLongitude(7.35);
-            mCurrentUserMarker.setTitle("Citizen radar's user");
+            /*Location lCurrentUserLocation =
+                mGeolocationServices.getUserCurrentLocation();
+
+            if (lCurrentUserLocation == null){
+                Notifications.ShowMessageBox(this,"null", "CurrentLocation", "Ok");
+            }
+
+            if (lCurrentUserLocation != null){
+                mCurrentUserMarker = new RadarMarker();
+                mCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
+                mCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
+                mCurrentUserMarker.setTitle("Citizen radar's user");
+            }
+            else {*/
+                mCurrentUserMarker = new RadarMarker();
+                mCurrentUserMarker.setLatitude(46.2333);
+                mCurrentUserMarker.setLongitude(7.35);
+                mCurrentUserMarker.setTitle("Citizen radar's user");
+            //}
         }
 
         NetworkConnectivity lConnectivity = new NetworkConnectivity(this);
@@ -158,5 +193,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
      */
     private void setUpMap() {
         mMapFragment.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mCurrentUserLocation = location;
+        //mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        //updateUI();
     }
 }

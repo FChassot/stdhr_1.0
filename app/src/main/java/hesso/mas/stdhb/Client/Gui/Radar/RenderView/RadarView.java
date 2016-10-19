@@ -57,6 +57,8 @@ public class RadarView extends android.view.View {
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
+        private final double mTouchDelta = 15;
+
         private android.graphics.Paint mGridPaint;
 
         /**
@@ -172,15 +174,23 @@ public class RadarView extends android.view.View {
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
 
-            // Calculates the maximum diameter of the radar possible according to the dimensions of the view
+            // calculate the maximum diameter of the radar possible according to the dimensions of the view
             int lMaxDiameterOfTheRadarView = Math.min(lCanvasWidth, lCanvasHeight);
 
             int lPosX = lMaxDiameterOfTheRadarView / 2;
             int lPosY = lMaxDiameterOfTheRadarView / 2;
             int lRadiusOfCircle = lPosX - 1;
 
-            drawRadar(aCanvas, lRadarPaint, lPosX, lPosY, lRadiusOfCircle);
-            drawMarkers(aCanvas, lMaxDiameterOfTheRadarView);
+            drawRadar(
+                    aCanvas,
+                    lRadarPaint,
+                    lPosX,
+                    lPosY,
+                    lRadiusOfCircle);
+
+            drawMarkers(
+                    aCanvas,
+                    lMaxDiameterOfTheRadarView);
 
             lAlpha -= 3;
 
@@ -292,7 +302,7 @@ public class RadarView extends android.view.View {
                         aCanvas.drawCircle(
                             lMarker.getPositionX(),
                             lMarker.getPositionY(),
-                            (((aMaxRadiusOfRadar / 2) - 1) >> 5),
+                            (((aMaxRadiusOfRadar / 2) - 1) >> 4),
                             lMarkerPaint);
                     }
                 }
@@ -378,7 +388,7 @@ public class RadarView extends android.view.View {
                     lOnTouchXCoordinate,
                     lOnTouchYCoordinate);
 
-              if (lCulturalObject != null) {
+            if (lCulturalObject != null) {
                     double lDistance =
                         RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                         lOnTouchXCoordinate,
@@ -386,7 +396,7 @@ public class RadarView extends android.view.View {
                         lCulturalObject.getPositionX(),
                         lCulturalObject.getPositionY());
 
-                    if ((-10.0 < lDistance) && (lDistance > 10.0)) { return false;}
+                    if ((-mTouchDelta < lDistance) && (lDistance > mTouchDelta)) { return false;}
 
                     if (false) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
@@ -433,7 +443,10 @@ public class RadarView extends android.view.View {
                         lCurrentUserMarker.setTitle("Citizen radar's user");
 
                         lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
-                        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+
+                        if (lCulturalObject != null) {
+                            lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+                        }
 
                         lIntent.putExtras(lBundle);
 
@@ -519,7 +532,7 @@ public class RadarView extends android.view.View {
      */
     public Location getUserCurrentLocation() {
 
-        // Declaring a Location Manager
+        // Declaration of a Location Manager
         LocationManager lLocationManager;
 
         // Instanciate a GpsLocationListener

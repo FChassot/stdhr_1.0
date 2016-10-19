@@ -65,7 +65,7 @@ public class RadarActivity extends AppCompatActivity
 
     private Receiver mReceiver;
 
-    private Location CurrentUserLocation;
+    private Location mCurrentUserLocation;
 
     private double Radius;
 
@@ -75,16 +75,15 @@ public class RadarActivity extends AppCompatActivity
     // sensors for the orientation
     private Sensor mAccelerometer;
     private Sensor mMagnetometer;
-    private float[] mLastAccelerometer = new float[3];
-    private float[] mLastMagnetometer = new float[3];
+    private float[] mLastAccelerometerValue = new float[3];
+    private float[] mLastMagnetometerValue = new float[3];
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
     private float[] mR = new float[9];
     private float[] mOrientation = new float[3];
+
     // record the compass picture angle turned
     private float mCurrentDegree = 0f;
-
-    //private Sensor mCompass;
 
     Button mBtnStopRadar;
 
@@ -107,7 +106,9 @@ public class RadarActivity extends AppCompatActivity
 
         mGeolocationServices = new GpsLocationListener(this);
 
-        if (mGeolocationServices.canGetLocation() == false) {mGeolocationServices.showSettingsAlert();}
+        if (!mGeolocationServices.isLocationRetrievePossible()) {
+            mGeolocationServices.showSettingsAlert();
+        }
 
         mRadarView = (RadarView) findViewById(R.id.radarView);
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
@@ -130,15 +131,15 @@ public class RadarActivity extends AppCompatActivity
 
         this.registerReceiver(mReceiver, lFilter);
 
-        //startUpdateMarkersFromCitizen();
+        startUpdateMarkersFromCitizen();
 
         Preferences lPrefs = new Preferences(this);
 
         Radius =
-                lPrefs.getMyIntPref(
-                    this,
-                    BaseConstants.Attr_Search_Radius,
-                    BaseConstants.Attr_Default_Radius_Search);
+            lPrefs.getMyIntPref(
+                this,
+                BaseConstants.Attr_Search_Radius,
+                BaseConstants.Attr_Default_Radius_Search);
 
         UpdateInfoTxtView();
 
@@ -146,7 +147,9 @@ public class RadarActivity extends AppCompatActivity
 
         this.startRadar(mRadarView);
 
-        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_doing_first_search));
+        mNbrOfCulturalObjectsDetected.setText(
+                getResources().getString(
+                        R.string.txt_radar_doing_first_search));
 
         assert mBtnStopRadar != null;
         mBtnStopRadar.setOnClickListener(this);
@@ -207,7 +210,7 @@ public class RadarActivity extends AppCompatActivity
 
         Preferences lPrefs = new Preferences(this);
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, "");
+        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, MyString.EMPTY_STRING);
 
         if (Radius < 1000) {
             String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + Radius + " [m]";
@@ -233,6 +236,7 @@ public class RadarActivity extends AppCompatActivity
 
         try {
             this.unregisterReceiver(mReceiver);
+            mSensorManager.unregisterListener(this);
             //mWakeLock.release();                      //keep screen on
 
         } catch (Exception e) {
@@ -338,15 +342,36 @@ public class RadarActivity extends AppCompatActivity
     public void onSensorChanged(SensorEvent aEvent) {
 
         if (aEvent.sensor == mAccelerometer) {
-            System.arraycopy(aEvent.values, 0, mLastAccelerometer, 0, aEvent.values.length);
+            System.arraycopy(
+                    aEvent.values,
+                    0,
+                    mLastAccelerometerValue,
+                    0,
+                    aEvent.values.length);
+
             mLastAccelerometerSet = true;
         }
         else if (aEvent.sensor == mMagnetometer) {
-            System.arraycopy(aEvent.values, 0, mLastMagnetometer, 0, aEvent.values.length);
+            System.arraycopy(
+                    aEvent.values,
+                    0,
+                    mLastMagnetometerValue,
+                    0,
+                    aEvent.values.length);
+
             mLastMagnetometerSet = true;
         }
         if (mLastAccelerometerSet && mLastMagnetometerSet) {
-            SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
+            // Computes the inclination matrix I as well as the rotation matrix R transforming
+            // a vector from the device coordinate system to the world's coordinate system which
+            // is defined as a direct orthonormal basis, where:
+            SensorManager.getRotationMatrix(
+                    mR,
+                    null,
+                    mLastAccelerometerValue,
+                    mLastMagnetometerValue);
+
+            // Computes the device's orientation based on the rotation matrix.
             SensorManager.getOrientation(mR, mOrientation);
 
             float lAzimuthInRadians = mOrientation[0];
@@ -362,10 +387,9 @@ public class RadarActivity extends AppCompatActivity
                     0.5f);
 
             lRotation.setDuration(250);
-
             lRotation.setFillAfter(true);
 
-            //mRadarView.startAnimation(lRotation);
+            mRadarView.startAnimation(lRotation);
             mCurrentDegree = -lAzimuthInDegrees;
         }
     }
@@ -385,14 +409,15 @@ public class RadarActivity extends AppCompatActivity
      */
     private void startAsyncSearch() {
 
-        Location lCurrentUserLocation =
-            mGeolocationServices.getUserCurrentLocation();
+        //todo chf removes for the production
+        Location lCurrentUserLocation = null;
+            //mGeolocationServices.getCurrentLocation();
 
-        // TODO removes when the application works
+        // TODO chf removes when the application works
         if (lCurrentUserLocation == null) {
-            CurrentUserLocation = new Location(MyString.EMPTY_STRING);
-            CurrentUserLocation.setLatitude(46.2333d);
-            CurrentUserLocation.setLongitude(7.35d);
+            mCurrentUserLocation = new Location(MyString.EMPTY_STRING);
+            mCurrentUserLocation.setLatitude(46.2333d);
+            mCurrentUserLocation.setLongitude(7.35d);
         }
 
         RetrieveCitizenDataAsyncTask lRetrieveTask =
@@ -426,7 +451,7 @@ public class RadarActivity extends AppCompatActivity
             lPrefs.getMyIntPref(
                     this,
                     BaseConstants.Attr_Search_Radius,
-                    0);
+                    BaseConstants.Attr_Default_Radius_Search);
 
         String lCulturalObjectType =
                 lPrefs.getMyStringPref(
@@ -438,7 +463,7 @@ public class RadarActivity extends AppCompatActivity
 
         double lRadius =
                 SpatialGeometryServices.getRadiusInRadian(
-                    CurrentUserLocation,
+                    mCurrentUserLocation,
                     lRadiusOfSearch);
 
         String lSubject =
@@ -450,10 +475,10 @@ public class RadarActivity extends AppCompatActivity
         String lQuery =
                 CitizenRequests.getCulturalObjectsInProximityQuery(
                         lCulturalObjectType,
-                        (CurrentUserLocation.getLatitude() - lRadius),
-                        (CurrentUserLocation.getLatitude() + lRadius),
-                        (CurrentUserLocation.getLongitude() - lRadius),
-                        (CurrentUserLocation.getLongitude() + lRadius),
+                        (mCurrentUserLocation.getLatitude() - lRadius),
+                        (mCurrentUserLocation.getLatitude() + lRadius),
+                        (mCurrentUserLocation.getLongitude() - lRadius),
+                        (mCurrentUserLocation.getLongitude() + lRadius),
                         lSubject,
                         200);
 
@@ -502,7 +527,7 @@ public class RadarActivity extends AppCompatActivity
                     RadarHelper.getRadarMarkersFromResponse(
                             lCitizenQueryResult,
                             mCurrentDegree,
-                            CurrentUserLocation,
+                            mCurrentUserLocation,
                             Radius,
                             mRadarView.getHeight(),
                             mRadarView.getWidth());
@@ -582,7 +607,7 @@ public class RadarActivity extends AppCompatActivity
                             0.0,
                             0.0);
 
-            CurrentUserLocation = CurrentUserLocation;
+            mCurrentUserLocation = mCurrentUserLocation;
 
             Radius = (Radius/2);
 
