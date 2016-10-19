@@ -173,6 +173,7 @@ public final class GpsLocationListener implements LocationListener {
      * */
     public void showSettingsAlert() {
 
+
         AlertDialog.Builder alertDialog =
                 new AlertDialog.Builder(mContext);
 
@@ -195,8 +196,8 @@ public final class GpsLocationListener implements LocationListener {
         // on pressing cancel button
         alertDialog.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                    public void onClick(DialogInterface aDialog, int which) {
+                        aDialog.cancel();
                     }
                 });
 

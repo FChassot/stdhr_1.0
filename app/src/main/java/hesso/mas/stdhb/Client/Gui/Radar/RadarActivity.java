@@ -47,27 +47,29 @@ import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
-//Todo I change AppCompatActivity to FragmentActivity
-public class RadarActivity extends AppCompatActivity
-        implements SensorEventListener, View.OnClickListener {
-
-    RadarView mRadarView;
-
-    private GestureDetector mGestureDetector;
+public class RadarActivity extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
 
     private static final String TAG = "RadarActivity";
+
+    private RadarView mRadarView;
+
+    Button mBtnStopRadar;
+
+    TextView mNbrOfCulturalObjectsDetected = null;
 
     // an handler allows you to send and process message
     // and Runnable objects associated with a thread's MessageQueue.
     Handler mHandler = new android.os.Handler();
 
-    private GpsLocationListener mGeolocationServices;
-
     private Receiver mReceiver;
+
+    private GestureDetector mGestureDetector;
+
+    private GpsLocationListener mGeolocationServices;
 
     private Location mCurrentUserLocation;
 
-    private double Radius;
+    private double mRadius;
 
     // SensorManager let access the device's sensors.
     private SensorManager mSensorManager;
@@ -75,6 +77,7 @@ public class RadarActivity extends AppCompatActivity
     // sensors for the orientation
     private Sensor mAccelerometer;
     private Sensor mMagnetometer;
+
     private float[] mLastAccelerometerValue = new float[3];
     private float[] mLastMagnetometerValue = new float[3];
     private boolean mLastAccelerometerSet = false;
@@ -85,14 +88,31 @@ public class RadarActivity extends AppCompatActivity
     // record the compass picture angle turned
     private float mCurrentDegree = 0f;
 
-    Button mBtnStopRadar;
-
-    TextView mNbrOfCulturalObjectsDetected = null;
+    private int mOrientationChanged = 0;
 
     /**
-     * Called when the activity is first created. This is where you should do all of your normal static set up:
-     * create views, bind data to lists, etc. This method also provides you with a Bundle containing the activity's
-     * previously frozen state, if there was one. Always followed by onStart().
+     * Getter
+     *
+     * @return
+     */
+    private double Radius() {
+        return mRadius;
+    }
+
+    /**
+     * Setter
+     *
+     * @param aValue
+     */
+    private void Radius(double aValue) {
+        mRadius = aValue;
+    }
+
+    /**
+     * Called when the activity is first created. This is where you should do all of your normal
+     * static set up:create views, bind data to lists, etc. This method also provides you with a
+     * Bundle containing the activity's previously frozen state, if there was one. Always followed
+     * by onStart().
      *
      * The app uses the device's magnetometer (compass).
      *
@@ -118,13 +138,14 @@ public class RadarActivity extends AppCompatActivity
         ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
 
-        mReceiver = new Receiver();
-
         // initialize the android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
+        // get the default sensor for the given type.
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        mReceiver = new Receiver();
 
         IntentFilter lFilter =
             new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
@@ -135,7 +156,7 @@ public class RadarActivity extends AppCompatActivity
 
         Preferences lPrefs = new Preferences(this);
 
-        Radius =
+        mRadius =
             lPrefs.getMyIntPref(
                 this,
                 BaseConstants.Attr_Search_Radius,
@@ -143,7 +164,7 @@ public class RadarActivity extends AppCompatActivity
 
         UpdateInfoTxtView();
 
-        mRadarView.mRadius = Radius;
+        mRadarView.mRadius = mRadius;
 
         this.startRadar(mRadarView);
 
@@ -166,12 +187,6 @@ public class RadarActivity extends AppCompatActivity
         mGestureDetector = new GestureDetector(this, new GestureListener());
     }
 
-    // delegate the event to the gesture detector
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        return mGestureDetector.onTouchEvent(e);
-    }
-
     /**
      * When the user resumes your activity from the Paused state, the system calls the onResume() method.
      *
@@ -186,9 +201,10 @@ public class RadarActivity extends AppCompatActivity
 
         super.onResume();
 
-        // update the radar informations
+        // update the radar's information
         UpdateInfoTxtView();
 
+        /// start the radar
         mRadarView.startRadar();
 
         // for the system's orientation sensor registered listeners
@@ -203,26 +219,6 @@ public class RadarActivity extends AppCompatActivity
                 SensorManager.SENSOR_DELAY_GAME);
     }
 
-    /**
-     * This method updates the different fields in the UI
-     */
-    private void UpdateInfoTxtView() {
-
-        Preferences lPrefs = new Preferences(this);
-        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, MyString.EMPTY_STRING);
-
-        if (Radius < 1000) {
-            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + Radius + " [m]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
-            mRadiusInfo.setText(lInfoTxt);
-
-        } else {
-            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + (Radius/1000) + " [km]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
-            mRadiusInfo.setText(lInfoTxt);
-        }
-    }
     /**
      * The final call you receive before your activity is destroyed.
      * This can happen either because the activity is finishing (someone called finish() on it,
@@ -261,7 +257,10 @@ public class RadarActivity extends AppCompatActivity
     public void onPause() {
         super.onPause();
 
+        // stop the radar
         this.stopRadar(mRadarView);
+
+        // stop the update of the markers in the view
         this.stopUpdateMarkersFromCitizen();
 
         // to stop the listener and save battery
@@ -269,6 +268,84 @@ public class RadarActivity extends AppCompatActivity
         mSensorManager.unregisterListener(this, mAccelerometer);
         mSensorManager.unregisterListener(this, mMagnetometer);
     }
+
+    /**
+     * Delegate the event to the gesture detector
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        return mGestureDetector.onTouchEvent(e);
+    }
+
+    /**
+     * Update the text displayed on the mBtnStopRadar Button
+     */
+    private void updateButtonText() {
+        if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
+        {
+            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
+        }
+        else {
+            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
+        }
+    }
+
+    /**
+     * This method updates the different fields in the UI
+     */
+    private void UpdateInfoTxtView() {
+
+        Preferences lPrefs = new Preferences(this);
+        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, MyString.EMPTY_STRING);
+
+        if (mRadius < 1000) {
+            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
+            mRadiusInfo.setText(lInfoTxt);
+
+        } else {
+            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
+            mRadiusInfo.setText(lInfoTxt);
+        }
+    }
+
+    /**
+     * The onClick() method is called when a button is actually clicked (or tapped).
+     * This method is called by the listener.
+     */
+    public void onClick(View aView){
+        if (aView.getId()==R.id.mBtnStopRadar){
+            if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
+                this.stopRadar(this.mRadarView);
+            } else {
+                this.startRadar(this.mRadarView);
+            }
+
+            this.updateButtonText();
+        }
+        if (aView.getId()==R.id.mImgBack){
+            this.stopRadar(this.mRadarView);
+
+            Intent lIntent = new Intent(RadarActivity.this, MainActivity.class);
+            startActivity(lIntent);
+        }
+        if (aView.getId()==R.id.mDtxtRadiusInfo){
+            Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
+            startActivity(lIntent);
+        }
+    }
+
+    //region Radar
+
+    Runnable updateDataRunnable = new Runnable() {
+        @Override
+        public void run() {
+            startAsyncSearch();
+            mHandler.postDelayed(this, 10000);
+        }
+    };
 
     /**
      * Start the radar's animation
@@ -297,13 +374,20 @@ public class RadarActivity extends AppCompatActivity
         if (mRadarView != null) mRadarView.stopRadar();
     }
 
-    Runnable updateData = new Runnable() {
-        @Override
-        public void run() {
-            startAsyncSearch();
-            mHandler.postDelayed(this, 10000);
-        }
-    };
+    /**
+     * This method allows to start the update of the Markers in the view
+     */
+    public void startUpdateMarkersFromCitizen() {
+        mHandler.removeCallbacks(updateDataRunnable);
+        mHandler.post(updateDataRunnable);
+    }
+
+    /**
+     * This method allows to stop the update of the Markers in the view
+     */
+    public void stopUpdateMarkersFromCitizen() {
+        mHandler.removeCallbacks(updateDataRunnable);
+    }
 
     /**
      * Update the TextView which informs about the number of objects in proximity
@@ -317,20 +401,9 @@ public class RadarActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * This method allows to start the update of the Markers in the view
-     */
-    public void startUpdateMarkersFromCitizen() {
-        mHandler.removeCallbacks(updateData);
-        mHandler.post(updateData);
-    }
+    //endregion
 
-    /**
-     * This method allows to stop the update of the Markers in the view
-     */
-    public void stopUpdateMarkersFromCitizen() {
-        mHandler.removeCallbacks(updateData);
-    }
+    //region Orientation
 
     /**
      * Called when sensor values have changed. The length and contents of the values array
@@ -361,6 +434,7 @@ public class RadarActivity extends AppCompatActivity
 
             mLastMagnetometerSet = true;
         }
+
         if (mLastAccelerometerSet && mLastMagnetometerSet) {
             // Computes the inclination matrix I as well as the rotation matrix R transforming
             // a vector from the device coordinate system to the world's coordinate system which
@@ -377,19 +451,27 @@ public class RadarActivity extends AppCompatActivity
             float lAzimuthInRadians = mOrientation[0];
             float lAzimuthInDegrees = (float)(Math.toDegrees(lAzimuthInRadians)+360)%360;
 
-            RotateAnimation lRotation =
-                new RotateAnimation(
-                    mCurrentDegree,
-                    -lAzimuthInDegrees,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f,
-                    Animation.RELATIVE_TO_SELF,
-                    0.5f);
+            if (mOrientationChanged == 10) {
+                RotateAnimation lRotation =
+                        new RotateAnimation(
+                                mCurrentDegree,
+                                -lAzimuthInDegrees,
+                                Animation.RELATIVE_TO_SELF,
+                                0.5f,
+                                Animation.RELATIVE_TO_SELF,
+                                0.5f);
 
-            lRotation.setDuration(250);
-            lRotation.setFillAfter(true);
+                lRotation.setDuration(250);
+                lRotation.setFillAfter(true);
 
-            mRadarView.startAnimation(lRotation);
+                mRadarView.startAnimation(lRotation);
+
+                mOrientationChanged = 0;
+            }
+            else {
+                mOrientationChanged += 1;
+            }
+
             mCurrentDegree = -lAzimuthInDegrees;
         }
     }
@@ -403,6 +485,56 @@ public class RadarActivity extends AppCompatActivity
     public void onAccuracyChanged(Sensor aSensor, int aAccuracy) {
     }
 
+    //endregion
+
+    //region GestureListener
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent aMotionEvent) {
+            return true;
+        }
+
+        /**
+         * Event when double tap occurs
+         *
+         * @param aMotionEvent
+         * @return
+         */
+        @Override
+        public boolean onDoubleTap(MotionEvent aMotionEvent) {
+            float lX = aMotionEvent.getX();
+            float lY = aMotionEvent.getY();
+
+            /*Location lVirtualCurrentLocation =
+                    RadarHelper.determineGpsPositionOnTheView(
+                            lX,
+                            lY,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0);
+
+            mCurrentUserLocation = mCurrentUserLocation;
+
+            mRadius = (mRadius/2);
+
+            mRadarView.stopRadar();
+            mRadarView.startRadar();
+
+            //Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
+*/
+            return true;
+        }
+    }
+
+    //endregion
+
+    //region AsyncTask
+
     /**
      * Start an Async search on the endPoint Sparql Server
      *
@@ -411,7 +543,7 @@ public class RadarActivity extends AppCompatActivity
 
         //todo chf removes for the production
         Location lCurrentUserLocation = null;
-            //mGeolocationServices.getCurrentLocation();
+        //mGeolocationServices.getCurrentLocation();
 
         // TODO chf removes when the application works
         if (lCurrentUserLocation == null) {
@@ -448,10 +580,10 @@ public class RadarActivity extends AppCompatActivity
         }
 
         Integer lRadiusOfSearch =
-            lPrefs.getMyIntPref(
-                    this,
-                    BaseConstants.Attr_Search_Radius,
-                    BaseConstants.Attr_Default_Radius_Search);
+                lPrefs.getMyIntPref(
+                        this,
+                        BaseConstants.Attr_Search_Radius,
+                        BaseConstants.Attr_Default_Radius_Search);
 
         String lCulturalObjectType =
                 lPrefs.getMyStringPref(
@@ -463,8 +595,8 @@ public class RadarActivity extends AppCompatActivity
 
         double lRadius =
                 SpatialGeometryServices.getRadiusInRadian(
-                    mCurrentUserLocation,
-                    lRadiusOfSearch);
+                        mCurrentUserLocation,
+                        lRadiusOfSearch);
 
         String lSubject =
                 lPrefs.getMyStringPref(
@@ -483,8 +615,8 @@ public class RadarActivity extends AppCompatActivity
                         200);
 
         lRetrieveTask.execute(
-            lQuery,
-            lClientServerCommunicationMode);
+                lQuery,
+                lClientServerCommunicationMode);
     }
 
     /**
@@ -528,7 +660,7 @@ public class RadarActivity extends AppCompatActivity
                             lCitizenQueryResult,
                             mCurrentDegree,
                             mCurrentUserLocation,
-                            Radius,
+                            mRadius,
                             mRadarView.getHeight(),
                             mRadarView.getWidth());
 
@@ -537,88 +669,6 @@ public class RadarActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Update the text displayed on the mBtnStopRadar Button
-     */
-    private void updateButtonText() {
-        if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
-        {
-            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
-        }
-        else {
-            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
-        }
-    }
-
-    /**
-     * The onClick() method is called when a button is actually clicked (or tapped).
-     * This method is called by the listener.
-     */
-    public void onClick(View aView){
-        if (aView.getId()==R.id.mBtnStopRadar){
-            if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
-                this.stopRadar(this.mRadarView);
-            } else {
-                this.startRadar(this.mRadarView);
-            }
-
-            this.updateButtonText();
-        }
-        if (aView.getId()==R.id.mImgBack){
-            this.stopRadar(this.mRadarView);
-
-            Intent lIntent = new Intent(RadarActivity.this, MainActivity.class);
-            startActivity(lIntent);
-        }
-        if (aView.getId()==R.id.mDtxtRadiusInfo){
-            Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
-            startActivity(lIntent);
-        }
-    }
-
-    //region GestureListener
-
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onDown(MotionEvent aMotionEvent) {
-            return true;
-        }
-
-        /**
-         * Event when double tap occurs
-         *
-         * @param aMotionEvent
-         * @return
-         */
-        @Override
-        public boolean onDoubleTap(MotionEvent aMotionEvent) {
-            float lX = aMotionEvent.getX();
-            float lY = aMotionEvent.getY();
-
-            Location lVirtualCurrentLocation =
-                    RadarHelper.determineGpsPositionOnTheView(
-                            lX,
-                            lY,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0);
-
-            mCurrentUserLocation = mCurrentUserLocation;
-
-            Radius = (Radius/2);
-
-            mRadarView.stopRadar();
-            mRadarView.startRadar();
-
-            //Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
-
-            return true;
-        }
-    }
-
     //endregion
+
 }

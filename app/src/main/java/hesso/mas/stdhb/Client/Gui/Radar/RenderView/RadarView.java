@@ -40,13 +40,15 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
  */
 public class RadarView extends android.view.View {
 
-        Handler mHandler = new android.os.Handler();
+        private Handler mHandler = new android.os.Handler();
 
         private Context mContext;
 
         private List<RadarMarker> mMarkers;
 
-        public Double mRadius = 500.0;
+        public double mRadius = 500.0;
+
+        private final double mTouchDelta = 25;
 
         private final int POINT_ARRAY_SIZE = 35;
 
@@ -57,14 +59,12 @@ public class RadarView extends android.view.View {
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
-        private final double mTouchDelta = 15;
-
         private android.graphics.Paint mGridPaint;
 
         /**
          * Utility rect for calculating the ring labels
          */
-        private Rect mTextBounds = new Rect();
+        //private Rect mTextBounds = new Rect();
 
     //region Constructors
 
@@ -197,21 +197,25 @@ public class RadarView extends android.view.View {
             if (lAlpha < -360) lAlpha = 0;
 
             double lAngle = Math.toRadians(lAlpha);
-
             int lOffsetX =  (int) (lPosX + (float)(lPosX * Math.cos(lAngle)));
             int lOffsetY = (int) (lPosY - (float)(lPosY * Math.sin(lAngle)));
 
             latestPoint[0]= new Point(lOffsetX, lOffsetY);
 
-            for (int x = POINT_ARRAY_SIZE-1; x > 0; x--) {
-                latestPoint[x] = latestPoint[x-1];
+            for (int lIndex = POINT_ARRAY_SIZE-1; lIndex > 0; lIndex--) {
+                latestPoint[lIndex] = latestPoint[lIndex-1];
             }
 
-            for (int x = 0; x < POINT_ARRAY_SIZE; x++) {
-                Point point = latestPoint[x];
+            for (int lIndex = 0; lIndex < POINT_ARRAY_SIZE; lIndex++) {
+                Point lPoint = latestPoint[lIndex];
 
-                if (point != null) {
-                    aCanvas.drawLine(lPosX, lPosY, point.x, point.y, latestPaint[x]);
+                if (lPoint != null) {
+                    aCanvas.drawLine(
+                            lPosX,
+                            lPosY,
+                            lPoint.x,
+                            lPoint.y,
+                            latestPaint[lIndex]);
                 }
             }
         }
@@ -248,11 +252,10 @@ public class RadarView extends android.view.View {
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 1, aRadarPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 2, aRadarPaint);
             addText(aCanvas, lText4, aX, 22);
-
         }
 
     /**
-     * Give the text
+     * Define the text which indicate the distance in the radar view
      *
      * @param aRadius
      * @param aQuotient
@@ -288,6 +291,7 @@ public class RadarView extends android.view.View {
             Canvas aCanvas,
             int aMaxRadiusOfRadar) {
 
+            // object allowing to describe the colors and styles for marker
             Paint lMarkerPaint = new Paint();
 
             lMarkerPaint.setColor(Color.WHITE);
@@ -297,15 +301,13 @@ public class RadarView extends android.view.View {
             List<RadarMarker> lMarkers = getMarkers();
 
             if (lMarkers != null){
-                if (lMarkers.size() > 0) {
-                    for (RadarMarker lMarker : lMarkers) {
-                        aCanvas.drawCircle(
-                            lMarker.getPositionX(),
-                            lMarker.getPositionY(),
-                            (((aMaxRadiusOfRadar / 2) - 1) >> 4),
-                            lMarkerPaint);
+                for (RadarMarker lMarker : lMarkers) {
+                    aCanvas.drawCircle(
+                        lMarker.getPositionX(),
+                        lMarker.getPositionY(),
+                        (((aMaxRadiusOfRadar / 2) - 1) >> 5),
+                        lMarkerPaint);
                     }
-                }
             }
         }
 
@@ -321,6 +323,7 @@ public class RadarView extends android.view.View {
             RadarMarker aRadarMarker,
             int aMaxRadiusOfRadar) {
 
+            // object allowing to describe the colors and styles for marker
             Paint lMarkerPaint = new Paint();
 
             lMarkerPaint.setColor(Color.WHITE);
@@ -348,9 +351,10 @@ public class RadarView extends android.view.View {
             int x,
             int y) {
 
-            mGridPaint.getTextBounds(aDisplayText, 0, aDisplayText.length(), mTextBounds);
-            mTextBounds.offset(x - (mTextBounds.width() >> 1), y);
-            mTextBounds.inset(-2, -2);
+            Rect lTextBounds = new Rect();
+            mGridPaint.getTextBounds(aDisplayText, 0, aDisplayText.length(), lTextBounds);
+            lTextBounds.offset(x - (lTextBounds.width() >> 1), y);
+            lTextBounds.inset(-2, -2);
             aCanvas.drawText(aDisplayText, x, y, mGridPaint);
         }
     //endregion
@@ -405,12 +409,12 @@ public class RadarView extends android.view.View {
 
                         RadarMarker lCurrentUserMarker = new RadarMarker();
 
-                        Location lCurrentLocation = getUserCurrentLocation();
+                        Location lCurrentUserLocation = getCurrentLocation();
 
-                        if (lCurrentLocation != null) {
+                        if (lCurrentUserLocation != null) {
                             lCurrentUserMarker.setTitle("Citizen radar's user");
-                            lCurrentUserMarker.setLatitude(lCurrentLocation.getLatitude());
-                            lCurrentUserMarker.setLongitude(lCurrentLocation.getLongitude());
+                            lCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
+                            lCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
                         }
                         else{
                             lCurrentUserMarker.setLatitude(46.2333);
@@ -530,7 +534,7 @@ public class RadarView extends android.view.View {
      *
      * @return the user's current location
      */
-    public Location getUserCurrentLocation() {
+    public Location getCurrentLocation() {
 
         // Declaration of a Location Manager
         LocationManager lLocationManager;
@@ -555,15 +559,12 @@ public class RadarView extends android.view.View {
             NetworkConnectivity lConnectivity =
                  new NetworkConnectivity(this.getContext());
 
-            Boolean lGpsEnabled = lConnectivity.IsGpsEnabled();
+            boolean lGpsEnabled = lConnectivity.IsGpsEnabled();
 
             // get network status
-            Boolean lIsNetworkEnabled = lConnectivity.IsNetworkAvailable();
+            boolean lIsNetworkEnabled = lConnectivity.IsNetworkAvailable();
 
-            if (!lGpsEnabled && !lIsNetworkEnabled) {
-                // no network provider is enabled
-            }
-            else {
+            if (lGpsEnabled || lIsNetworkEnabled) {
                 if (lIsNetworkEnabled) {
                     lLocationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
