@@ -12,31 +12,30 @@ public final class BaseConstants {
             "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
 
     // constant which contains the name of the repository
-    public static final String Attr_Citizen_Repository_NAME =
-            "CityZenDM";
+    public static final String Attr_Citizen_Repository_NAME = "CityZenDM";
 
     // constant used to define the default radius of search
     public static final int Attr_Default_Radius_Search = 5000;
 
     // constant used to save the radius of search of the radar
-    public static final String Attr_Search_Radius = "search_radius";
+    public static final String Attr_Radius_Search = "Attr_Radius_Search";
 
     // constant used to save the mode on/off of the radar
-    public static final String Attr_Radar_Switch = "radar_on_off";
+    public static final String Attr_Radar_Switch = "Attr_Radar_Switch";
 
     // constant used to save the mode of communication client-server
-    public static final String Attr_ClientServer_Communication = "client_server_communication";
+    public static final String Attr_ClientServer_Communication = "Attr_Client_Server_Communication";
 
     // constant used to save the mode of communication client-server
-    public static final String Attr_Subject_Search_Type = "cultural_object_subject";
+    public static final String Attr_Subject_Search_Type = "Attr_Subject_Search_Type";
 
     // constant used to save the mode of communication client-server
     public static final String Attr_Subject_Selected = "Attr_Subject_Selected";
 
     // constant used to save the type of the cultural object to search
-    public static final String Attr_CulturalObject_Type = "cultural_object_type";
+    public static final String Attr_CulturalObject_Type = "Attr_Cultural_Object_Type";
 
     // constant used to save the type of search
-    public static final String Attr_TypeOfSearch = "radar_type_of_search";
+    public static final String Attr_TypeOfSearch = "Attr_Type_of_Search";
 
 }

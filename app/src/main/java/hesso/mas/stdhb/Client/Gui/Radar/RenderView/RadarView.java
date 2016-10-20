@@ -427,7 +427,7 @@ public class RadarView extends android.view.View {
                     // When the point touched by the user near enough from the cultural object then this one will be selected
                     if (((-mTouchScreenSensibility) < lDistance) && (lDistance > mTouchScreenSensibility)) { return false;}
 
-                    if (true) {
+                    if (false) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
 
                         Bundle lBundle = new Bundle();

@@ -117,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Integer lRadiusOfSearch =
                 lPrefs.getMyIntPref(
                         this,
-                        BaseConstants.Attr_Search_Radius,
+                        BaseConstants.Attr_Radius_Search,
                         BaseConstants.Attr_Default_Radius_Search);
 
         mDTxtRadius.setText(lRadiusOfSearch.toString());
@@ -297,7 +297,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         if (IntegerExtensions.tryParseInt(lRadiusSearchStr)) {
             lPrefs.setMyIntPref(
                     this,
-                    BaseConstants.Attr_Search_Radius,
+                    BaseConstants.Attr_Radius_Search,
                     Integer.parseInt(lRadiusSearchStr));
         }
         else {

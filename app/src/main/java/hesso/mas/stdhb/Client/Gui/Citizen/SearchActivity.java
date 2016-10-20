@@ -182,12 +182,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        Spinner lCboSujet = (Spinner) findViewById(R.id.mDcboSujet);
+        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
 
         List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
 
         SpinnerHandler.fillComboSubject(
-            lCboSujet,
+            lCboSubject,
             this,
             android.R.layout.simple_spinner_item,
             lCOSubjects);

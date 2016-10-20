@@ -156,7 +156,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         mRadius =
             lPrefs.getMyIntPref(
                 this,
-                BaseConstants.Attr_Search_Radius,
+                BaseConstants.Attr_Radius_Search,
                 BaseConstants.Attr_Default_Radius_Search);
 
         updateInfoTxtView();
@@ -651,7 +651,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         int lRadiusOfSearch =
                 lPrefs.getMyIntPref(
                         this,
-                        BaseConstants.Attr_Search_Radius,
+                        BaseConstants.Attr_Radius_Search,
                         BaseConstants.Attr_Default_Radius_Search);
 
         double lRadius =
