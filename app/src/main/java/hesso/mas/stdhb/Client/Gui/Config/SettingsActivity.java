@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +24,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -40,7 +38,6 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhbtests.R;
@@ -83,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // I would recommend overriding toString in the Enum class to make the values populated in the spinner more
         // user friendly.
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
-        EditText mRayon = (EditText) findViewById(R.id.mDTxtRadius);
+        EditText mDTxtRadius = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
 
         lRadarSwitch.requestFocus();
@@ -120,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         BaseConstants.Attr_Search_Radius,
                         BaseConstants.Attr_Default_Radius_Search);
 
-        mRayon.setText(lRadiusOfSearch.toString());
+        mDTxtRadius.setText(lRadiusOfSearch.toString());
 
         Boolean lRadarMode = lPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, false);
         lRadarSwitch.setChecked(lRadarMode);
@@ -368,7 +365,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             lPrefs.getMyStringPref(
                 this,
                 BaseConstants.Attr_ClientServer_Communication,
-                MyString.EMPTY_STRING);
+                EnumClientServerCommunication.ANDROJENA.toString());
 
         EnumClientServerCommunication lEnumValue =
             EnumClientServerCommunication.valueOf(
