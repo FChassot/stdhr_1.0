@@ -132,11 +132,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lPrefs.getPrefValue(
                     BaseConstants.Attr_ClientServer_Communication,
                     MyString.EMPTY_STRING);*/
+
             String lClientServerCommunicationMode =
                     lPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_ClientServer_Communication,
-                            MyString.EMPTY_STRING);
+                            EnumClientServerCommunication.ANDROJENA.toString());
 
             String lRequest =
                 CitizenRequests.getUniqueCulturalObjectInfoQuery(
@@ -256,7 +257,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     lPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_ClientServer_Communication,
-                            MyString.EMPTY_STRING);
+                            EnumClientServerCommunication.ANDROJENA.toString());
 
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
@@ -307,7 +308,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * @param aClientServerArchitecture provides the type of architecture choosen
      *                                  for the communication with the server
      * @param aDisplaySearchmsg when true a wait-message will be displayed on the
-     *                              screnn until the response has been received from the
+     *                              screen until the response has been received from the
      *                              server
      */
         private void startAsyncSearch(

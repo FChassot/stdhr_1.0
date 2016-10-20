@@ -285,14 +285,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     public void onPause() {
         super.onPause();
 
-        EditText lRadiusSearch = (EditText)findViewById(R.id.mDTxtRadius);
-        Switch lRadarMode = (Switch)findViewById(R.id.RadarSwitch);
+        EditText lTxtRadius = (EditText)findViewById(R.id.mDTxtRadius);
+        Switch lSwitchRadar = (Switch)findViewById(R.id.RadarSwitch);
         Spinner lCboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSubject);
 
         Preferences lPrefs = new Preferences(this);
 
-        String lRadiusSearchStr = lRadiusSearch.getText().toString();
+        String lRadiusSearchStr = lTxtRadius.getText().toString();
 
         if (IntegerExtensions.tryParseInt(lRadiusSearchStr)) {
             lPrefs.setMyIntPref(
@@ -308,7 +308,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                     "Ok");
         }
 
-        Boolean lMode = lRadarMode.isChecked();
+        Boolean lRadarMode = lSwitchRadar.isChecked();
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
         if (lCboSubject.getSelectedItem() != null){
@@ -321,7 +321,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lPrefs.setMyBooleanPref(
                 this,
                 BaseConstants.Attr_Radar_Switch,
-                lMode);
+                lRadarMode);
 
         lPrefs.setMyStringPref(
                 this,

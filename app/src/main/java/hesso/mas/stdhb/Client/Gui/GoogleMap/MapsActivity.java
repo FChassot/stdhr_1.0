@@ -34,7 +34,7 @@ import hesso.mas.stdhbtests.R;
  *
  * Activity for the google Map functionality
  */
-public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, LocationListener {
+public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     // GoogleMap instance
     private GoogleMap mMapFragment;
@@ -52,9 +52,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     public List<RadarMarker> mCulturalObjectMarkers;
 
-    //private GpsLocationListener mGeolocationServices;
-
-    private LocationManager mLocationManager;
+    private GpsLocationListener mGeolocationServices;
 
     private Location mCurrentUserLocation;
 
@@ -71,10 +69,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         setContentView(R.layout.activity_maps);
 
-        //mGeolocationServices = new GpsLocationListener(this);
-        //mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mGeolocationServices = new GpsLocationListener(this);
 
-        //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, this);
+        mCurrentUserLocation = mGeolocationServices.getCurrentLocation();
 
         Intent lIntent = getIntent();
 
@@ -90,25 +87,18 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             //mCulturalObjectMarkers = lBundle.getParcelable(RADAR_MARKER_ARRAY);
         }
         else {
-            /*Location lCurrentUserLocation =
-                mGeolocationServices.getUserCurrentLocation();
-
-            if (lCurrentUserLocation == null){
-                Notifications.ShowMessageBox(this,"null", "CurrentLocation", "Ok");
-            }
-
-            if (lCurrentUserLocation != null){
+            if (mCurrentUserLocation != null){
                 mCurrentUserMarker = new RadarMarker();
-                mCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
-                mCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
+                mCurrentUserMarker.setLatitude(mCurrentUserLocation.getLatitude());
+                mCurrentUserMarker.setLongitude(mCurrentUserLocation.getLongitude());
                 mCurrentUserMarker.setTitle("Citizen radar's user");
             }
-            else {*/
+            else {
                 mCurrentUserMarker = new RadarMarker();
                 mCurrentUserMarker.setLatitude(46.2333);
                 mCurrentUserMarker.setLongitude(7.35);
                 mCurrentUserMarker.setTitle("Citizen radar's user");
-            //}
+            }
         }
 
         NetworkConnectivity lConnectivity = new NetworkConnectivity(this);
@@ -170,7 +160,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 new MarkerOptions()
                     .position(lLatLngCulturalObjectLocation)
                     .title(mCulturalObjectMarkerSelected.getTitle()));
-        } else { lBuilder.include(lLatLngCurrentUserLocation);}
+
+        } else {
+            lBuilder.include(lLatLngCurrentUserLocation);
+        }
 
         // Add a marker in the marker location
         mMapFragment.addMarker(
@@ -195,8 +188,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         mMapFragment.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        mCurrentUserLocation = location;
-    }
+    /*@Override
+    public void onLocationChanged(Location aLocation) {
+        mCurrentUserLocation = aLocation;
+    }*/
 }

@@ -59,7 +59,6 @@ public class RadarView extends android.view.View {
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
         private android.graphics.Paint mGridPaint;
-        private android.graphics.Paint mNordPaint;
 
     //region Constructors
 
@@ -103,14 +102,6 @@ public class RadarView extends android.view.View {
             mGridPaint.setStrokeWidth(1.0f);
             mGridPaint.setTextSize(30.0f);
             mGridPaint.setTextAlign(Paint.Align.CENTER);
-
-            mNordPaint = new Paint();
-            mNordPaint.setColor(0x0000FFFF);
-            mNordPaint.setAntiAlias(true);
-            mNordPaint.setStyle(Paint.Style.STROKE);
-            mNordPaint.setStrokeWidth(1.0f);
-            mNordPaint.setTextSize(120.0f);
-            mNordPaint.setTextAlign(Paint.Align.CENTER);
 
             int lAlpha_step = 255 / POINT_ARRAY_SIZE;
 
@@ -247,7 +238,7 @@ public class RadarView extends android.view.View {
             String lText3 = getText(mRadius, (3/4));
             String lText4 = getText(mRadius, 1);
 
-            addNordText(aCanvas, 450, 60);
+            addNordText(aCanvas, 450, 20);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
             addText(aCanvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
@@ -260,6 +251,7 @@ public class RadarView extends android.view.View {
         }
 
         /**
+         * Add the text Nord in the view
          *
          * @param aCanvas Canvas hosts the draw calls
          * @param aX the X position of the text
@@ -423,7 +415,7 @@ public class RadarView extends android.view.View {
                     lOnTouchYCoordinate);
 
             if (lCulturalObject != null) {
-                    // calculate the distance on the view between the point touched and the cultural
+                    // Calculate the distance on the view between the point touched and the cultural
                     // object
                     double lDistance =
                         RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
@@ -432,10 +424,10 @@ public class RadarView extends android.view.View {
                         lCulturalObject.getPositionX(),
                         lCulturalObject.getPositionY());
 
-                    // when the point touched by the user near enough from the cultural object then this one will be selected
+                    // When the point touched by the user near enough from the cultural object then this one will be selected
                     if (((-mTouchScreenSensibility) < lDistance) && (lDistance > mTouchScreenSensibility)) { return false;}
 
-                    if (false) {
+                    if (true) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
 
                         Bundle lBundle = new Bundle();
@@ -591,13 +583,13 @@ public class RadarView extends android.view.View {
             lLocationManager = (LocationManager) mContext
                 .getSystemService(Context.LOCATION_SERVICE);
 
-            // get GPS services status
+            // Get GPS services status
             NetworkConnectivity lConnectivity =
                  new NetworkConnectivity(this.getContext());
 
             boolean lGpsEnabled = lConnectivity.IsGpsEnabled();
 
-            // get network status
+            // Get network status
             boolean lIsNetworkEnabled = lConnectivity.IsNetworkAvailable();
 
             if (lGpsEnabled || lIsNetworkEnabled) {
@@ -615,7 +607,7 @@ public class RadarView extends android.view.View {
                     }
                 }
 
-                // if GPS Enabled get Location using GPS Services
+                // If GPS Enabled get Location using GPS Services
                 if (lGpsEnabled) {
                     lLocationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,

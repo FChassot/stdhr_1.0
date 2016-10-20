@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Created by chf on 07.10.2016.
+ *
+ *
  */
 public class QueryEngine {
 
@@ -27,7 +29,7 @@ public class QueryEngine {
                         BaseConstants.Attr_Citizen_Server_URI,
                         BaseConstants.Attr_Citizen_Repository_NAME);
 
-        hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult lResponse;
+        CitizenQueryResult lResponse;
 
         IWsClientFactory lFactory = new WsClientFactory();
 

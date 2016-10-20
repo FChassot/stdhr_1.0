@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -23,7 +22,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -34,15 +32,15 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 
 import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
+
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
-
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.Client.Gui.Radar.RenderView.RadarView;
+
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
-
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
@@ -255,7 +253,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     public void onPause() {
         super.onPause();
 
-        // stop the radar. When the radar is stopped, other services are stopped as well (updateRadarmarkers and updateOrientation)
+        // stop the radar. When the radar is stopped, other services are stopped as well
+        // (updateRadarmarkers and updateOrientation)
         this.stopRadar(mRadarView);
 
         // stop the listener and save battery
