@@ -37,6 +37,7 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
+
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
@@ -49,7 +50,7 @@ import hesso.mas.stdhbtests.R;
  */
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
-    private Receiver mReceiver;
+    //private Receiver mReceiver;
 
     MyCustomAdapter mDataAdapter = null;
 
@@ -71,20 +72,22 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // create a View
         setContentView(R.layout.activity_setting);
 
-        mReceiver = new Receiver();
+        // Declares a broadcast receiver as one of the application's components.
+        // Broadcast receivers enable applications to receive intents that are
+        // broadcast by the system or by other applications, even when other
+        // components of the application are not running.
+        Receiver mReceiver = new Receiver();
 
         IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION3);
         this.registerReceiver(mReceiver, lFilter);
 
-        // Similar to another answer, but you can use an ArrayAdapter to populate based on an Enum class.
-        // I would recommend overriding toString in the Enum class to make the values populated in the spinner more
-        // user friendly.
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         EditText mDTxtRadius = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
 
-        lRadarSwitch.requestFocus();
+        lRadarSwitch.setFocusable(true);
 
+        // Similar to another answer, but you can use an ArrayAdapter to populate based on an Enum class.
         ArrayAdapter lAdapter =
                 new ArrayAdapter(
                         this,
@@ -128,16 +131,16 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     }
 
-    //region Listbox-Checkbox
+    //region Listview (with Checkboxes)
 
     /**
-     *
+     * This method allows to display a listview
      */
     private void displayListView() {
 
         mCulturalObjectTypes = getCulturalInterestTypes();
 
-        // create an ArrayAdapter from the String Array
+        // Create an ArrayAdapter from the String Array
         mDataAdapter =
             new MyCustomAdapter(
                 this,
@@ -146,7 +149,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         ListView listView = (ListView) findViewById(R.id.mLstViewCITyp);
 
-        // assign adapter to ListView
+        // Assign the adapter to the ListView
         listView.setAdapter(mDataAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

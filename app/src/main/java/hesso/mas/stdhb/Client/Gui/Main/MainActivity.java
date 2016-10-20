@@ -25,6 +25,8 @@ import hesso.mas.stdhbtests.R;
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
+    Preferences mPrefs;
+
     /*@Inject
     CustomApplication customApplication;*/
 
@@ -40,9 +42,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); // Always call the superclass method first
 
+        // Set the activity content to an explicit view
         setContentView(R.layout.activity_main);
 
-        // assign singleton instances to fields
+        mPrefs = new Preferences(this);
+
+        // Assign singleton instances to fields
         //Injector.INSTANCE.getApplicationComponent().inject(this);
 
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
@@ -69,15 +74,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onStart();  // Always call the superclass method first
 
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
+
         Preferences lPrefs = new Preferences(this);
 
-        Boolean lRadarMode =
+        boolean lRadarMode =
                 lPrefs.getMyBooleanPref(
                     this,
                     BaseConstants.Attr_Radar_Switch,
                     false);
 
-        //if (lRadarMode == false) {mRadarButton.setEnabled(false); }
+        if (lRadarMode == false) {mRadarButton.setEnabled(false); }
     }
 
     /**
@@ -97,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         Preferences lPrefs = new Preferences(this);
 
-        /*Boolean lRadarMode =
+        boolean lRadarMode =
                 lPrefs.getMyBooleanPref(
                         this,
                         BaseConstants.Attr_Radar_Switch,
                         false);
 
-        mRadarButton.setEnabled(lRadarMode);*/
+        mRadarButton.setEnabled(lRadarMode);
     }
 
     @Override
@@ -112,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     /**
-     * The onClick() method is called when a button is actually clicked (or tapped).
-     * This method is called by the listener.
+     * The onClick() method is called when a button is actually clicked.
+     * This method is called by the OnClickListener.
      */
     public void onClick(View aView){
         if (aView.getId()==R.id.mImgSettings){

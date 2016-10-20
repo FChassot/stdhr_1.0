@@ -231,8 +231,8 @@ public class RadarView extends android.view.View {
          *
          * @param aCanvas hosts the draw calls
          * @param aRadarPaint allows to describe the colors and styles for the radar
-         * @param aX the X coordinate of the center of the circle
-         * @param aY the Y coordinate of the center of the circle
+         * @param aX the X position of the radar's draw
+         * @param aY the Y position of the radar's draw
          * @param aRadiusOfCircle the radius of the circle
          */
         public void drawRadar(
@@ -247,7 +247,7 @@ public class RadarView extends android.view.View {
             String lText3 = getText(mRadius, (3/4));
             String lText4 = getText(mRadius, 1);
 
-            addText(aCanvas, "NORD", 450, 60, mNordPaint);
+            addNordText(aCanvas, 450, 60);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
             addText(aCanvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
@@ -259,32 +259,56 @@ public class RadarView extends android.view.View {
             addText(aCanvas, lText4, aX, 22, mGridPaint);
         }
 
-    /**
-     * Define the text which indicate the distance in the radar view
-     *
-     * @param aRadius
-     * @param aQuotient
-     *
-     * @return
-     */
-        private String getText(
-            double aRadius,
-            float aQuotient) {
+        /**
+         *
+         * @param aCanvas Canvas hosts the draw calls
+         * @param aX the X position of the text
+         * @param aY the Y position of the text
+         */
+        private void addNordText(
+            Canvas aCanvas,
+            int aX,
+            int aY) {
 
-            Double lRadius = 0.0;
+            String lText = "NORD";
+            Paint lPaint = new Paint();
 
-            if (aRadius >= 1000) {
-                lRadius = (aRadius / 1000);
-            }
+            lPaint.setColor(0x0000FFFF);
+            lPaint.setAntiAlias(true);
+            lPaint.setStyle(Paint.Style.STROKE);
+            lPaint.setStrokeWidth(1.0f);
+            lPaint.setTextSize(120.0f);
+            lPaint.setTextAlign(Paint.Align.CENTER);
 
-            lRadius = (lRadius/aQuotient);
-
-            if (aRadius < 1000) {
-                return lRadius.toString() + "m";
-            } else {
-                return lRadius.toString() + "km";
-            }
+            addText(aCanvas, lText, aX, aY, lPaint);
         }
+
+        /**
+         * Defines the text which indicate the distance in the radar view
+         *
+         * @param aRadius the radius of search in meter
+         * @param aQuotient
+         *
+         * @return
+         */
+            private String getText(
+                double aRadius,
+                float aQuotient) {
+
+                Double lRadius = 0.0;
+
+                if (aRadius >= 1000) {
+                    lRadius = (aRadius / 1000);
+                }
+
+                lRadius = (lRadius/aQuotient);
+
+                if (aRadius < 1000) {
+                    return lRadius.toString() + "m";
+                } else {
+                    return lRadius.toString() + "km";
+                }
+            }
 
         /**
          * Draws the markers on the view.
@@ -347,8 +371,8 @@ public class RadarView extends android.view.View {
          *
          * @param aCanvas Canvas hosts the draw calls
          * @param aDisplayText The text of the label to draw in the view
-         * @param x The position in x of the label's rectangle
-         * @param y The position in y of the label's rectangle
+         * @param x The position X of the label's rectangle
+         * @param y The position Y of the label's rectangle
          */
         private void addText(
             Canvas aCanvas,
@@ -361,7 +385,7 @@ public class RadarView extends android.view.View {
             mGridPaint.getTextBounds(aDisplayText, 0, aDisplayText.length(), lTextBounds);
             lTextBounds.offset(x - (lTextBounds.width() >> 1), y);
             lTextBounds.inset(-2, -2);
-            aCanvas.drawText(aDisplayText, x, y, mGridPaint);
+            aCanvas.drawText(aDisplayText, x, y, aTextPaint);
         }
     //endregion
 
@@ -475,7 +499,8 @@ public class RadarView extends android.view.View {
         }
 
         /**
-         * This method searches the nearest Cultural object
+         * This method searches the nearest Cultural object according
+         * the point touched on the screen by the user
          *
          * @param aOnTouchXCoordinate
          * @param aOnTouchYCoordinate
@@ -515,7 +540,7 @@ public class RadarView extends android.view.View {
         }
 
         /**
-         * This method check if the parameters X and Y are in the view or not
+         * This method checks if the positions X and Y are located on the view
          *
          * @param aX
          * @param aY

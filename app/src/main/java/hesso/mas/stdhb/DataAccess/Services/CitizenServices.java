@@ -18,7 +18,7 @@ public class CitizenServices {
     public void CitizenServices() {}
 
     /**
-     * This method allow to retrieve the possible subjects in the Citizen DB
+     * This method allows to retrieve the possible subjects in the Citizen DB
      *
      * @return a list of the subjects
      */

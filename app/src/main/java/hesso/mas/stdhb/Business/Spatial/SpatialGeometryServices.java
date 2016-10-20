@@ -20,7 +20,7 @@ public class SpatialGeometryServices {
             Location aCurrentUserLocation,
             int aRadiusSearch) {
 
-        double lRadiusInKm = aRadiusSearch / 1000; // convert to kilometers
+        double lRadiusInKm = aRadiusSearch / 1000;      // convert to kilometers
 
         double lDistanceInMetersForOneLatitudeDegree =
                 getDistanceForOneLatitudeDegree(
@@ -99,7 +99,7 @@ public class SpatialGeometryServices {
             double aElevation1,
             double aElevation2) {
 
-        final int lRadiusOfEarth = 6371; // Radius of the earth
+        final int lRadiusOfEarth = 6371;                // Radius of the earth
 
         double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
         double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
@@ -110,7 +110,7 @@ public class SpatialGeometryServices {
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        double lDistance = lRadiusOfEarth * c * 1000; // convert to meters
+        double lDistance = lRadiusOfEarth * c * 1000;   // convert to meters
 
         double lHeight = aElevation1 - aElevation2;
 

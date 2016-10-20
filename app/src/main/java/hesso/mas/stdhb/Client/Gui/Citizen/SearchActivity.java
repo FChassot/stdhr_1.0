@@ -1,40 +1,7 @@
 package hesso.mas.stdhb.Client.Gui.Citizen;
 
-import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
-import hesso.mas.stdhb.Base.Constants.BaseConstants;
-import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.Base.Notifications.Notifications;
-import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
-import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
-import hesso.mas.stdhb.Base.Storage.Local.Preferences;
-import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
-
-import android.content.IntentFilter;
-import android.media.MediaPlayer;
-import android.media.session.MediaController;
-import android.net.Uri;
-import android.os.PowerManager;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
-import android.view.View;
-
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
-import hesso.mas.stdhb.Client.Gui.Validation.Validator;
-import hesso.mas.stdhbtests.R;
-/*import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;*/
+import java.util.Date;
+import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -45,13 +12,44 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.IntentFilter;
+import android.os.PowerManager;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
+import android.view.View;
+
+import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
+import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
+import hesso.mas.stdhb.Base.Notifications.Notifications;
+import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
+
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
+import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
+import hesso.mas.stdhb.Client.Gui.Validation.Validator;
+
+import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
+
+import hesso.mas.stdhbtests.R;
+/*import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;*/
+
 import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
-
-import java.net.URI;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by chf on 11.06.2016.
@@ -94,7 +92,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // create a view
+        // Create a view
         setContentView(R.layout.activity_search);
 
         mCitizenServices = new CitizenServices();
@@ -241,7 +239,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * Method processed by the listener when one button is clicked
+     * Method processed by the OnClickListener when one button is clicked
      *
      * @param aView
      */
@@ -308,14 +306,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * @param aRequest represents the sparql request
      * @param aClientServerArchitecture provides the type of architecture choosen
      *                                  for the communication with the server
-     * @param aDisplaySearchmessage when true a wait-message will be displayed on the
+     * @param aDisplaySearchmsg when true a wait-message will be displayed on the
      *                              screnn until the response has been received from the
      *                              server
      */
         private void startAsyncSearch(
             String aRequest,
             String aClientServerArchitecture,
-            Boolean aDisplaySearchmessage) {
+            Boolean aDisplaySearchmsg) {
 
             if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
@@ -323,7 +321,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         this,
                         RetrieveCitizenDataAsyncTask.ACTION1);
 
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
+                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
                 lTask.execute(
                     aRequest,
@@ -338,7 +336,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         this,
                         RetrieveCitizenDataAsyncTask2.ACTION1);
 
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
+                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
                 lTask.execute(
                     aRequest,
@@ -353,7 +351,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         this,
                         RetrieveCitizenDataAsyncTask2.ACTION1);
 
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmessage;
+                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
                 lTask.execute(
                     aRequest,

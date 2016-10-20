@@ -198,7 +198,5 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     @Override
     public void onLocationChanged(Location location) {
         mCurrentUserLocation = location;
-        //mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        //updateUI();
     }
 }

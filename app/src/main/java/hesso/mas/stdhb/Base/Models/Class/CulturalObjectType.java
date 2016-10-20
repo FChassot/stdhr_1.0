@@ -4,7 +4,7 @@ package hesso.mas.stdhb.Base.Models.Class;
  * Created by chf on 01.10.2016.
  *
  * This class represents a cultural object type which will be displayed in
- * a listview
+ * a special listview (in the settings activity)
  */
 public class CulturalObjectType {
 
@@ -14,16 +14,15 @@ public class CulturalObjectType {
     boolean selected = false;
 
     // public constructor
-    public CulturalObjectType(String code, String name, boolean selected) {
+    public CulturalObjectType(
+            String code,
+            String name,
+            boolean selected) {
+
         super();
         this.code = code;
         this.name = name;
         this.selected = selected;
-    }
-
-    // Getter
-    public String getCode() {
-        return code;
     }
 
     // Setter
@@ -32,8 +31,8 @@ public class CulturalObjectType {
     }
 
     // Getter
-    public String getName() {
-        return name;
+    public String getCode() {
+        return code;
     }
 
     // Setter
@@ -41,11 +40,19 @@ public class CulturalObjectType {
         this.name = name;
     }
 
-    public boolean isSelected() {
-        return selected;
+    // Getter
+    public String getName() {
+        return name;
     }
+
+    // Setter
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    // Getter
+    public boolean isSelected() {
+        return selected;
     }
 
 }
