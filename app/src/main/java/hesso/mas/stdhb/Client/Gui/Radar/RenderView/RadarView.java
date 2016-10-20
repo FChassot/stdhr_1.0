@@ -1,10 +1,11 @@
 package hesso.mas.stdhb.Client.Gui.Radar.RenderView;
 
+import android.os.*;
+
 import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.*;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,15 +15,13 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import android.util.AttributeSet;
+import java.util.List;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
-import hesso.mas.stdhb.Base.Tools.MyString;
+
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
@@ -48,74 +47,78 @@ public class RadarView extends android.view.View {
 
         public double mRadius = 500.0;
 
-        private final double mTouchDelta = 25;
+        private final double mTouchScreenSensibility = 30;
 
         private final int POINT_ARRAY_SIZE = 35;
 
         private int fps = 100;
 
-        float lAlpha = 0;
+        float mAlpha = 0;
 
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
         private android.graphics.Paint mGridPaint;
-
-        /**
-         * Utility rect for calculating the ring labels
-         */
-        //private Rect mTextBounds = new Rect();
+        private android.graphics.Paint mNordPaint;
 
     //region Constructors
 
-    // Default constructor
-    public RadarView(Context aContext) {
+        // Default constructor
+        public RadarView(Context aContext) {
 
-        this(aContext, null);
-    }
-
-    // Constructor
-    public RadarView(
-        Context aContext,
-        AttributeSet aAttributeSet) {
-
-        this(aContext, aAttributeSet, 0);
-    }
-
-    // Constructor
-    public RadarView(
-        Context aContext,
-        AttributeSet aAttributes,
-        int aDefStyleAttr) {
-
-        super(aContext, aAttributes, aDefStyleAttr);
-
-        mContext = aContext;
-
-        Paint lRadarPaint = new Paint();
-
-        lRadarPaint.setColor(Color.RED);
-        lRadarPaint.setAntiAlias(true);
-        lRadarPaint.setStyle(Paint.Style.STROKE);
-        lRadarPaint.setStrokeWidth(5.0F);
-        lRadarPaint.setAlpha(0);
-
-        // Paint used for the rings and ring text
-        mGridPaint = new Paint();
-        mGridPaint.setColor(0xFFFFFFFF);
-        mGridPaint.setAntiAlias(true);
-        mGridPaint.setStyle(Paint.Style.STROKE);
-        mGridPaint.setStrokeWidth(1.0f);
-        mGridPaint.setTextSize(30.0f);
-        mGridPaint.setTextAlign(Paint.Align.CENTER);
-
-        int lAlpha_step = 255 / POINT_ARRAY_SIZE;
-
-        for (int i=0; i < latestPaint.length; i++) {
-            latestPaint[i] = new Paint(lRadarPaint);
-            latestPaint[i].setAlpha(255 - (i* lAlpha_step));
+            this(aContext, null);
         }
-    }
+
+        // Constructor
+        public RadarView(
+            Context aContext,
+            AttributeSet aAttributeSet) {
+
+            this(aContext, aAttributeSet, 0);
+        }
+
+        // Constructor
+        public RadarView(
+            Context aContext,
+            AttributeSet aAttributes,
+            int aDefStyleAttr) {
+
+            super(aContext, aAttributes, aDefStyleAttr);
+
+            mContext = aContext;
+
+            Paint lRadarPaint = new Paint();
+
+            lRadarPaint.setColor(Color.RED);
+            lRadarPaint.setAntiAlias(true);
+            lRadarPaint.setStyle(Paint.Style.STROKE);
+            lRadarPaint.setStrokeWidth(5.0F);
+            lRadarPaint.setAlpha(0);
+
+            // Paint used for the rings and ring text
+            mGridPaint = new Paint();
+            mGridPaint.setColor(0xFFFFFFFF);
+            mGridPaint.setAntiAlias(true);
+            mGridPaint.setStyle(Paint.Style.STROKE);
+            mGridPaint.setStrokeWidth(1.0f);
+            mGridPaint.setTextSize(30.0f);
+            mGridPaint.setTextAlign(Paint.Align.CENTER);
+
+            mNordPaint = new Paint();
+            mNordPaint.setColor(0x0000FFFF);
+            mNordPaint.setAntiAlias(true);
+            mNordPaint.setStyle(Paint.Style.STROKE);
+            mNordPaint.setStrokeWidth(1.0f);
+            mNordPaint.setTextSize(120.0f);
+            mNordPaint.setTextAlign(Paint.Align.CENTER);
+
+            int lAlpha_step = 255 / POINT_ARRAY_SIZE;
+
+            for (int i=0; i < latestPaint.length; i++) {
+                latestPaint[i] = new Paint(lRadarPaint);
+                latestPaint[i].setAlpha(255 - (i* lAlpha_step));
+            }
+        }
 
     //endregion
 
@@ -169,18 +172,18 @@ public class RadarView extends android.view.View {
         protected void onDraw(Canvas aCanvas) {
             super.onDraw(aCanvas);
 
-            Paint lRadarPaint = latestPaint[0];
-
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
 
             // calculate the maximum diameter of the radar possible according to the dimensions of the view
             int lMaxDiameterOfTheRadarView = Math.min(lCanvasWidth, lCanvasHeight);
 
-            int lPosX = lMaxDiameterOfTheRadarView / 2;
-            int lPosY = lMaxDiameterOfTheRadarView / 2;
-            int lRadiusOfCircle = lPosX - 1;
+            Paint lRadarPaint = latestPaint[0];
+            int lPosX = (lMaxDiameterOfTheRadarView / 2);
+            int lPosY = (lMaxDiameterOfTheRadarView / 2);
+            int lRadiusOfCircle = (lPosX - 1);
 
+            // draw the radar on the view
             drawRadar(
                     aCanvas,
                     lRadarPaint,
@@ -188,15 +191,16 @@ public class RadarView extends android.view.View {
                     lPosY,
                     lRadiusOfCircle);
 
+            // draw the marker on the view
             drawMarkers(
                     aCanvas,
                     lMaxDiameterOfTheRadarView);
 
-            lAlpha -= 3;
+            mAlpha -= 3;
 
-            if (lAlpha < -360) lAlpha = 0;
+            if (mAlpha < -360) mAlpha = 0;
 
-            double lAngle = Math.toRadians(lAlpha);
+            double lAngle = Math.toRadians(mAlpha);
             int lOffsetX =  (int) (lPosX + (float)(lPosX * Math.cos(lAngle)));
             int lOffsetY = (int) (lPosY - (float)(lPosY * Math.sin(lAngle)));
 
@@ -243,15 +247,16 @@ public class RadarView extends android.view.View {
             String lText3 = getText(mRadius, (3/4));
             String lText4 = getText(mRadius, 1);
 
+            addText(aCanvas, "NORD", 450, 60, mNordPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
-            addText(aCanvas, lText1, aX, ((aY/4)*3)-2);
+            addText(aCanvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
-            addText(aCanvas, lText2, aX, (aY/2)-2);
+            addText(aCanvas, lText2, aX, (aY/2)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle * 3 / 4, aRadarPaint);
-            addText(aCanvas, lText3, aX, (aY/4)-2);
+            addText(aCanvas, lText3, aX, (aY/4)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 1, aRadarPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 2, aRadarPaint);
-            addText(aCanvas, lText4, aX, 22);
+            addText(aCanvas, lText4, aX, 22, mGridPaint);
         }
 
     /**
@@ -349,7 +354,8 @@ public class RadarView extends android.view.View {
             Canvas aCanvas,
             String aDisplayText,
             int x,
-            int y) {
+            int y,
+            Paint aTextPaint) {
 
             Rect lTextBounds = new Rect();
             mGridPaint.getTextBounds(aDisplayText, 0, aDisplayText.length(), lTextBounds);
@@ -393,6 +399,8 @@ public class RadarView extends android.view.View {
                     lOnTouchYCoordinate);
 
             if (lCulturalObject != null) {
+                    // calculate the distance on the view between the point touched and the cultural
+                    // object
                     double lDistance =
                         RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                         lOnTouchXCoordinate,
@@ -400,7 +408,8 @@ public class RadarView extends android.view.View {
                         lCulturalObject.getPositionX(),
                         lCulturalObject.getPositionY());
 
-                    if ((-mTouchDelta < lDistance) && (lDistance > mTouchDelta)) { return false;}
+                    // when the point touched by the user near enough from the cultural object then this one will be selected
+                    if (((-mTouchScreenSensibility) < lDistance) && (lDistance > mTouchScreenSensibility)) { return false;}
 
                     if (false) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
@@ -436,6 +445,8 @@ public class RadarView extends android.view.View {
                         mContext.startActivity(lIntent);
                     }
                       else {
+                        this.stopRadar();
+
                         Intent lIntent = new Intent(mContext, SearchActivity.class);
 
                         Bundle lBundle = new Bundle();
@@ -475,7 +486,7 @@ public class RadarView extends android.view.View {
             float aOnTouchXCoordinate,
             float aOnTouchYCoordinate) {
 
-            double lDistance = 0;
+            double lDistance = 0.0;
 
             RadarMarker lNearestMarker = null;
 
@@ -595,8 +606,8 @@ public class RadarView extends android.view.View {
                 }
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception aExc) {
+            aExc.printStackTrace();
         }
 
         return lCurrentLocation;

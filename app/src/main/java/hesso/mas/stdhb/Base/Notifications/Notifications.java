@@ -47,10 +47,10 @@ public final class Notifications {
      * @param aPositiveButtonText
      */
     public static void ShowMessageBox(
-            Context aContext,
-            ValidationDescCollection aValDescCollection,
-            String aTitle,
-            String aPositiveButtonText) {
+        Context aContext,
+        ValidationDescCollection aValDescCollection,
+        String aTitle,
+        String aPositiveButtonText) {
 
         AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(aContext);
 

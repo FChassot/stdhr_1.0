@@ -217,7 +217,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      */
     @Override
     public void onResume() {
-        super.onResume();  // Always call the superclass method first
+        super.onResume();
     }
 
     /**

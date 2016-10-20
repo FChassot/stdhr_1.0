@@ -114,8 +114,14 @@ public class RadarMarker extends Paint implements Parcelable {
 
     //endregion
 
+    // Setter
+    public void setPositionX(int aX) { mXViewPosition = aX; }
+
     // Getter
     public int getPositionX() { return mXViewPosition; }
+
+    // Setter
+    public void setPositionY(int aY) { mYViewPosition = aY; }
 
     // Getter
     public int getPositionY() { return mYViewPosition; }

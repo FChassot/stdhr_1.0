@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -11,7 +12,6 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -30,7 +30,6 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
-import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 
@@ -52,6 +51,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     private static final String TAG = "RadarActivity";
 
     private RadarView mRadarView;
+
+    private boolean mUpdateRadarViewOrientation;
 
     Button mBtnStopRadar;
 
@@ -152,8 +153,6 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         this.registerReceiver(mReceiver, lFilter);
 
-        startUpdateMarkersFromCitizen();
-
         Preferences lPrefs = new Preferences(this);
 
         mRadius =
@@ -162,14 +161,15 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                 BaseConstants.Attr_Search_Radius,
                 BaseConstants.Attr_Default_Radius_Search);
 
-        UpdateInfoTxtView();
+        updateInfoTxtView();
 
         mRadarView.mRadius = mRadius;
 
         this.startRadar(mRadarView);
+        //this.startUpdateMarkersFromCitizen();
+        //this.startUpdateOrientation();
 
-        mNbrOfCulturalObjectsDetected.setText(
-                getResources().getString(
+        mNbrOfCulturalObjectsDetected.setText(getResources().getString(
                         R.string.txt_radar_doing_first_search));
 
         assert mBtnStopRadar != null;
@@ -202,10 +202,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         super.onResume();
 
         // update the radar's information
-        UpdateInfoTxtView();
+        updateInfoTxtView();
 
-        /// start the radar
+        // start the radar
         mRadarView.startRadar();
+        //startUpdateMarkersFromCitizen();
+        //startUpdateOrientation();
 
         // for the system's orientation sensor registered listeners
         mSensorManager.registerListener(
@@ -257,13 +259,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     public void onPause() {
         super.onPause();
 
-        // stop the radar
+        // stop the radar. When the radar is stopped, other services are stopped as well (updateRadarmarkers and updateOrientation)
         this.stopRadar(mRadarView);
 
-        // stop the update of the markers in the view
-        this.stopUpdateMarkersFromCitizen();
-
-        // to stop the listener and save battery
+        // stop the listener and save battery
         mSensorManager.unregisterListener(this);
         mSensorManager.unregisterListener(this, mAccelerometer);
         mSensorManager.unregisterListener(this, mMagnetometer);
@@ -293,21 +292,24 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     /**
      * This method updates the different fields in the UI
      */
-    private void UpdateInfoTxtView() {
-
-        Preferences lPrefs = new Preferences(this);
+    private void updateInfoTxtView() {
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        String lSubject = lPrefs.getMyStringPref(this, BaseConstants.Attr_Subject_Selected, MyString.EMPTY_STRING);
+        Preferences lPrefs = new Preferences(this);
+
+        String lSubject =
+                lPrefs.getMyStringPref(
+                        this,
+                        BaseConstants.Attr_Subject_Selected,
+                        MyString.EMPTY_STRING);
 
         if (mRadius < 1000) {
-            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
-            mRadiusInfo.setText(lInfoTxt);
-
+            String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+            mRadiusInfo.setText(lText);
         } else {
-            String lInfoTxt = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lInfoTxt += "      " + lSubject;}
-            mRadiusInfo.setText(lInfoTxt);
+            String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
+            if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+            mRadiusInfo.setText(lText);
         }
     }
 
@@ -353,7 +355,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      * @param aView
      */
     public void startRadar(View aView) {
-        if (mRadarView != null) mRadarView.startRadar();
+
+        if (mRadarView != null) {
+            mRadarView.startRadar();
+            startUpdateMarkersFromCitizen();
+            startUpdateOrientation();
+        }
     }
 
     /**
@@ -371,7 +378,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      * @param aView
      */
     public void stopRadar(View aView) {
-        if (mRadarView != null) mRadarView.stopRadar();
+
+        if (mRadarView != null) {
+            mRadarView.stopRadar();
+            stopUpdateRadarMarkers();
+            stopUpdateOrientation();
+        }
     }
 
     /**
@@ -385,7 +397,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     /**
      * This method allows to stop the update of the Markers in the view
      */
-    public void stopUpdateMarkersFromCitizen() {
+    public void stopUpdateRadarMarkers() {
         mHandler.removeCallbacks(updateDataRunnable);
     }
 
@@ -404,6 +416,20 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     //endregion
 
     //region Orientation
+
+    /**
+     * stop the rotation of the view in fonction of the orientation
+     */
+    private void stopUpdateOrientation() {
+        mUpdateRadarViewOrientation = false;
+    }
+
+    /**
+     * start the rotation of the view in fonction of the orientation
+     */
+    private void startUpdateOrientation() {
+        mUpdateRadarViewOrientation = true;
+    }
 
     /**
      * Called when sensor values have changed. The length and contents of the values array
@@ -452,6 +478,16 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             float lAzimuthInDegrees = (float)(Math.toDegrees(lAzimuthInRadians)+360)%360;
 
             if (mOrientationChanged == 10) {
+
+                //Parameters
+                //mCurrentDegree: Rotation offset to apply at the start of the animation.
+                //-lAzimuthInDegrees: Rotation offset to apply at the end of the animation.
+                //Specifies how pivotXValue should be interpreted. One of Animation.ABSOLUTE, Animation.RELATIVE_TO_SELF, or Animation.RELATIVE_TO_PARENT.
+                //The X coordinate of the point about which the object is being rotated, specified as an absolute number where 0 is the left edge. This value
+                // can either be an absolute number if pivotXType is ABSOLUTE, or a percentage (where 1.0 is 100%) otherwise.
+                //Specifies how pivotYValue should be interpreted. One of Animation.ABSOLUTE, Animation.RELATIVE_TO_SELF, or Animation.RELATIVE_TO_PARENT.
+                //The Y coordinate of the point about which the object is being rotated, specified as an absolute number where 0 is the top edge.
+                // This value can either be an absolute number if pivotYType is ABSOLUTE, or a percentage (where 1.0 is 100%) otherwise.
                 RotateAnimation lRotation =
                         new RotateAnimation(
                                 mCurrentDegree,
@@ -464,7 +500,20 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                 lRotation.setDuration(250);
                 lRotation.setFillAfter(true);
 
-                mRadarView.startAnimation(lRotation);
+                if (mUpdateRadarViewOrientation) {
+                    mRadarView.setRotation(mCurrentDegree);
+
+                    //for (RadarMarker lMarker : this.mRadarView.getMarkers()) {
+                      //  transformCoordinatesForMarker(lMarker, -lAzimuthInDegrees);
+                    //}
+                    /*ArrayList<android.view.View> lTouchableViews = new ArrayList<>();
+                    Marker lTouchableMarker = new Marker(this);
+                    lTouchableMarker.set(50, 50);
+                    lTouchableMarker.set(Color.YELLOW);
+                    lTouchableViews.add(lTouchableMarker);
+
+                    mRadarView.addTouchables(lTouchableViews);*/
+                }
 
                 mOrientationChanged = 0;
             }
@@ -474,6 +523,24 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
             mCurrentDegree = -lAzimuthInDegrees;
         }
+    }
+
+    /**
+     *
+     * @param aMarker
+     */
+    private void transformCoordinatesForMarker(
+            RadarMarker aMarker,
+            double aAngle) {
+
+        int lX = aMarker.getPositionX();
+        int lY = aMarker.getPositionY();
+
+        double lNewX = lX * Math.cos(aAngle) - lY * Math.sin(aAngle);
+        double lNewY = lX * Math.sin(aAngle) + lY * Math.cos(aAngle);
+
+        aMarker.setPositionX((int)lNewX);
+        aMarker.setPositionY((int)lNewY);
     }
 
     /**
@@ -500,6 +567,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
          * Event when double tap occurs
          *
          * @param aMotionEvent
+         *
          * @return
          */
         @Override
@@ -579,19 +647,17 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             return;
         }
 
-        Integer lRadiusOfSearch =
-                lPrefs.getMyIntPref(
-                        this,
-                        BaseConstants.Attr_Search_Radius,
-                        BaseConstants.Attr_Default_Radius_Search);
-
         String lCulturalObjectType =
                 lPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_TypeOfSearch,
                         MyString.EMPTY_STRING);
 
-        lRetrieveTask.onPreExecuteMessageDisplay = false;
+        int lRadiusOfSearch =
+                lPrefs.getMyIntPref(
+                        this,
+                        BaseConstants.Attr_Search_Radius,
+                        BaseConstants.Attr_Default_Radius_Search);
 
         double lRadius =
                 SpatialGeometryServices.getRadiusInRadian(
@@ -613,6 +679,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         (mCurrentUserLocation.getLongitude() + lRadius),
                         lSubject,
                         200);
+
+        lRetrieveTask.onPreExecuteMessageDisplay = false;
 
         lRetrieveTask.execute(
                 lQuery,
@@ -651,8 +719,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         lBundle.getParcelable(
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-            } catch (Exception e) {
-                Log.i(TAG, e.getMessage());
+            } catch (Exception aExc) {
+                Log.i(TAG, aExc.getMessage());
             }
 
             List<RadarMarker> lMarkers =
