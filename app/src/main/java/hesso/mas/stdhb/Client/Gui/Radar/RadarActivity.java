@@ -89,7 +89,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     // record the compass picture angle turned
     private float mCurrentDegree = 0f;
 
-    private int mOrientationChanged = 0;
+    private int mOrientationChanged = 1;
 
     /**
      * Getter
@@ -166,8 +166,6 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         mRadarView.mRadius = mRadius;
 
         this.startRadar(mRadarView);
-        //this.startUpdateMarkersFromCitizen();
-        //this.startUpdateOrientation();
 
         mNbrOfCulturalObjectsDetected.setText(getResources().getString(
                         R.string.txt_radar_doing_first_search));
@@ -206,8 +204,6 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         // start the radar
         mRadarView.startRadar();
-        //startUpdateMarkersFromCitizen();
-        //startUpdateOrientation();
 
         // for the system's orientation sensor registered listeners
         mSensorManager.registerListener(
@@ -477,7 +473,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             float lAzimuthInRadians = mOrientation[0];
             float lAzimuthInDegrees = (float)(Math.toDegrees(lAzimuthInRadians)+360)%360;
 
-            if (mOrientationChanged == 10) {
+            if (mOrientationChanged == 1) {
 
                 //Parameters
                 //mCurrentDegree: Rotation offset to apply at the start of the animation.
@@ -515,7 +511,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                     mRadarView.addTouchables(lTouchableViews);*/
                 }
 
-                mOrientationChanged = 0;
+                mOrientationChanged = 1;
             }
             else {
                 mOrientationChanged += 1;
