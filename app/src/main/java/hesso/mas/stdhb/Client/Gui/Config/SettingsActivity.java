@@ -169,8 +169,15 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      */
     private class MyCustomAdapter extends ArrayAdapter<CulturalObjectType> {
 
+        // Member variable
         private ArrayList<CulturalObjectType> mListOfCulturalObjectType;
 
+        /**
+         *
+         * @param context
+         * @param textViewResourceId
+         * @param aListOfCulturalObjectType
+         */
         public MyCustomAdapter(
                 Context context,
                 int textViewResourceId,
@@ -182,11 +189,21 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             this.mListOfCulturalObjectType.addAll(aListOfCulturalObjectType);
         }
 
+        /**
+         *
+         */
         private class ViewHolder {
             TextView code;
             CheckBox name;
         }
 
+        /**
+         *
+         * @param aPosition
+         * @param aConvertView
+         * @param parent
+         * @return
+         */
         @Override
         public View getView(
                 int aPosition,
@@ -214,13 +231,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         lCulturalObjectType.setSelected(lCheckbox.isChecked());
                     }
                 });
-            } else {
+            }
+            else {
                 lHolder = (ViewHolder) aConvertView.getTag();
             }
 
             Preferences lPrefs = new Preferences(this.getContext());
 
-            Set<String> lSet =
+            Set<String> lListOfCulturalObjectType =
                     lPrefs.getMySetPref(
                         this.getContext(),
                         BaseConstants.Attr_CulturalObject_Type,
@@ -231,9 +249,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             lHolder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
             lHolder.name.setText(llCulturalObjectType.getName());
 
-            if (lSet != null) {
-                for (String aCIType : lSet) {
-                    if (llCulturalObjectType.getName().equals(aCIType)) {
+            if (lListOfCulturalObjectType != null) {
+                for (String aCulturalObjectType : lListOfCulturalObjectType) {
+                    if (llCulturalObjectType.getName().equals(aCulturalObjectType)) {
                         lHolder.name.setChecked(true);
                     }
                 }
@@ -328,18 +346,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 BaseConstants.Attr_ClientServer_Communication,
                 lClientServerCommunication);
 
-        Set<String> lSetOfCulturalObjectType = new HashSet<>();
+        Set<String> lListOfCulturalObjectType = new HashSet<>();
 
         for (CulturalObjectType aCulturalObjectType : mCulturalObjectTypes) {
             if (aCulturalObjectType.isSelected()) {
-                lSetOfCulturalObjectType.add(aCulturalObjectType.getName());
+                lListOfCulturalObjectType.add(aCulturalObjectType.getName());
             }
         }
 
         lPrefs.setMySetPref(
                 this,
                 BaseConstants.Attr_CulturalObject_Type,
-                lSetOfCulturalObjectType);
+                lListOfCulturalObjectType);
 
         String lSubjectSelected = lCboSubject.getSelectedItem().toString();
 

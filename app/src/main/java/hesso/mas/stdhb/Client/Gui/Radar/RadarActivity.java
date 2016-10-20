@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -136,6 +137,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
         ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+        ImageButton mImgBtnZoom = (ImageButton)findViewById(R.id.imgBtnZoom);
+        ImageButton mImgBtnZoomReset = (ImageButton)findViewById(R.id.imgBtnReset);
+
+        mImgBtnZoomReset.setEnabled(false);
 
         // initialize the android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -174,11 +179,20 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         assert mImgBack != null;
         mImgBack.setOnClickListener(this);
 
-        assert mImgBack != null;
+        assert mImgRadarInfo != null;
         mImgRadarInfo.setOnClickListener(this);
 
         assert mRadiusInfo != null;
         mRadiusInfo.setOnClickListener(this);
+
+        assert mRadiusInfo != null;
+        mRadiusInfo.setOnClickListener(this);
+
+        assert mImgBtnZoom != null;
+        mImgBtnZoom.setOnClickListener(this);
+
+        assert mImgBtnZoomReset != null;
+        mImgBtnZoomReset.setOnClickListener(this);
 
         mGestureDetector = new GestureDetector(this, new GestureListener());
     }
@@ -316,7 +330,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         if (aView.getId()==R.id.mBtnStopRadar){
             if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
                 this.stopRadar(this.mRadarView);
-            } else {
+            }
+            else {
                 this.startRadar(this.mRadarView);
             }
 
@@ -331,6 +346,32 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         if (aView.getId()==R.id.mDtxtRadiusInfo){
             Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
             startActivity(lIntent);
+        }
+        if (aView.getId()==R.id.imgBtnZoom){
+            ImageButton mImgBtnReset = (ImageButton)findViewById(R.id.imgBtnReset);
+            mImgBtnReset.setEnabled(true);
+            mRadius = (mRadius / 2);
+            mRadarView.stopRadar();
+            mRadarView.startRadar();
+            startAsyncSearch();
+            updateInfoTxtView();
+        }
+        if (aView.getId()==R.id.imgBtnReset){
+            ImageButton mImgBtnReset = (ImageButton)findViewById(R.id.imgBtnReset);
+            mImgBtnReset.setEnabled(false);
+
+            Preferences lPrefs = new Preferences(this);
+
+            mRadius =
+                    lPrefs.getMyIntPref(
+                            this,
+                            BaseConstants.Attr_Radius_Search,
+                            BaseConstants.Attr_Default_Radius_Search);
+
+            mRadarView.stopRadar();
+            mRadarView.startRadar();
+            startAsyncSearch();
+            updateInfoTxtView();
         }
     }
 

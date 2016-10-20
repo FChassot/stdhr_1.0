@@ -41,14 +41,6 @@
         android:layout_alignParentStart="true"
         android:visibility="visible" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_btn_stop_radar"
-        android:id="@+id/mBtnStopRadar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,7 +66,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/mBtnStopRadar"
         android:layout_toRightOf="@+id/mBtnStopRadar"
-        android:layout_toEndOf="@+id/mBtnStopRadar" />
+        android:layout_toEndOf="@+id/mBtnStopRadar"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,5 +82,38 @@
         android:layout_toStartOf="@+id/mBtnStopRadar"
         android:textColor="#ffffff"
         android:textStyle="bold" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_btn_stop_radar"
+        android:id="@+id/mBtnStopRadar"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/mImgBack"
+        android:layout_toEndOf="@+id/mImgBack"
+        android:layout_marginLeft="51dp"
+        android:layout_marginStart="51dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_zoom"
+        android:id="@+id/imgBtnZoom"
+        android:layout_alignTop="@+id/mImgRadarInfo"
+        android:layout_toRightOf="@+id/mBtnStopRadar"
+        android:layout_toEndOf="@+id/mBtnStopRadar"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:id="@+id/imgBtnReset"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/imgBtnZoom"
+        android:layout_toEndOf="@+id/imgBtnZoom"
+        android:layout_alignTop="@+id/mImgRadarInfo" />
 
 </RelativeLayout>

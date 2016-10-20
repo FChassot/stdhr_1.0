@@ -58,7 +58,7 @@ public class RadarView extends android.view.View {
         Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
-        private android.graphics.Paint mGridPaint;
+        private Paint mGridPaint;
 
     //region Constructors
 
@@ -363,21 +363,21 @@ public class RadarView extends android.view.View {
          *
          * @param aCanvas Canvas hosts the draw calls
          * @param aDisplayText The text of the label to draw in the view
-         * @param x The position X of the label's rectangle
-         * @param y The position Y of the label's rectangle
+         * @param aX The position X of the label's rectangle
+         * @param aY The position Y of the label's rectangle
          */
         private void addText(
             Canvas aCanvas,
             String aDisplayText,
-            int x,
-            int y,
-            Paint aTextPaint) {
+            int aX,
+            int aY,
+            Paint aPaint) {
 
             Rect lTextBounds = new Rect();
             mGridPaint.getTextBounds(aDisplayText, 0, aDisplayText.length(), lTextBounds);
-            lTextBounds.offset(x - (lTextBounds.width() >> 1), y);
+            lTextBounds.offset(aX - (lTextBounds.width() >> 1), aY);
             lTextBounds.inset(-2, -2);
-            aCanvas.drawText(aDisplayText, x, y, aTextPaint);
+            aCanvas.drawText(aDisplayText, aX, aY, aPaint);
         }
     //endregion
 
