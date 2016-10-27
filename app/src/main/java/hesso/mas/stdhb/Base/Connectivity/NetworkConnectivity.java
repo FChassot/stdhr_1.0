@@ -27,7 +27,7 @@ public class NetworkConnectivity {
      *
      * @return returns true when the connection is available
      */
-    public boolean IsActive() {
+    public boolean isActive() {
 
         ConnectivityManager lConnectivityManager =
             (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -46,7 +46,7 @@ public class NetworkConnectivity {
      *
      * @return returns true when the connection is available
      */
-    public boolean IsGpsEnabled() {
+    public boolean isGpsEnabled() {
 
         boolean lIsGpsEnabled = false;
 
@@ -70,7 +70,7 @@ public class NetworkConnectivity {
      *
      * @return returns true when the connection is available
      */
-    public boolean IsNetworkAvailable() {
+    public boolean isNetworkAvailable() {
 
         boolean lIsNetworkAvailable = false;
 

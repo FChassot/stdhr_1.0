@@ -102,7 +102,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         }
 
         NetworkConnectivity lConnectivity = new NetworkConnectivity(this);
-        boolean lIsActive = lConnectivity.IsActive();
+        boolean lIsActive = lConnectivity.isActive();
 
         // obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));

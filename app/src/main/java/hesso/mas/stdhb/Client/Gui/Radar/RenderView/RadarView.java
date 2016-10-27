@@ -14,10 +14,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-import android.util.AttributeSet;
-import java.util.List;
 import android.view.MotionEvent;
 import android.view.View;
+import android.util.AttributeSet;
+import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
@@ -47,11 +47,11 @@ public class RadarView extends android.view.View {
 
         public double mRadius = 500.0;
 
-        private final double mTouchScreenSensibility = 30;
+        private final double mTouchScreenSensibility = 35;
 
         private final int POINT_ARRAY_SIZE = 35;
 
-        private int fps = 100;
+        private int fps = 1000;
 
         float mAlpha = 0;
 
@@ -362,22 +362,25 @@ public class RadarView extends android.view.View {
          * our view for indicating the radius of the circle
          *
          * @param aCanvas Canvas hosts the draw calls
-         * @param aDisplayText The text of the label to draw in the view
+         * @param aText The text of the label to draw in the view
          * @param aX The position X of the label's rectangle
          * @param aY The position Y of the label's rectangle
          */
         private void addText(
             Canvas aCanvas,
-            String aDisplayText,
-            int aX,
-            int aY,
+            String aText,
+            double aX,
+            double aY,
             Paint aPaint) {
 
+            int lX = (int)aX;
+            int lY = (int)aY;
+
             Rect lTextBounds = new Rect();
-            mGridPaint.getTextBounds(aDisplayText, 0, aDisplayText.length(), lTextBounds);
-            lTextBounds.offset(aX - (lTextBounds.width() >> 1), aY);
+            mGridPaint.getTextBounds(aText, 0, aText.length(), lTextBounds);
+            lTextBounds.offset(lX - (lTextBounds.width() >> 1), lY);
             lTextBounds.inset(-2, -2);
-            aCanvas.drawText(aDisplayText, aX, aY, aPaint);
+            aCanvas.drawText(aText, lX, lY, aPaint);
         }
     //endregion
 
@@ -587,10 +590,10 @@ public class RadarView extends android.view.View {
             NetworkConnectivity lConnectivity =
                  new NetworkConnectivity(this.getContext());
 
-            boolean lGpsEnabled = lConnectivity.IsGpsEnabled();
+            boolean lGpsEnabled = lConnectivity.isGpsEnabled();
 
             // Get network status
-            boolean lIsNetworkEnabled = lConnectivity.IsNetworkAvailable();
+            boolean lIsNetworkEnabled = lConnectivity.isNetworkAvailable();
 
             if (lGpsEnabled || lIsNetworkEnabled) {
                 if (lIsNetworkEnabled) {

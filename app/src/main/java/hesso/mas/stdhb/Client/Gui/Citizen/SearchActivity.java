@@ -404,7 +404,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
                     String lResourceUri = lCulturalObject.GetValue("image_url");
 
-                    if(lNetworkConnectivity.IsNetworkAvailable()) {
+                    if(lNetworkConnectivity.isNetworkAvailable()) {
                         if (true) {
                             // Use of the Picasso library to load images
                             ImageView lImageView = (ImageView) findViewById(R.id.imageView);

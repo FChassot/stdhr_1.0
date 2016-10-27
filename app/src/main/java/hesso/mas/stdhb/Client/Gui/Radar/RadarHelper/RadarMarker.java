@@ -22,6 +22,10 @@ public class RadarMarker extends Paint implements Parcelable {
 
     int mYViewPosition = 0;
 
+    int mXViewCurrentPosition = 0;
+
+    int mYViewCurrentPosition = 0;
+
     /**
      * The color of the marker
      */
@@ -125,6 +129,18 @@ public class RadarMarker extends Paint implements Parcelable {
 
     // Getter
     public int getPositionY() { return mYViewPosition; }
+
+    // Setter
+    public void setCurrentPositionX(int aX) { mXViewCurrentPosition = aX; }
+
+    // Getter
+    public int getCurrentPositionX() { return mXViewCurrentPosition; }
+
+    // Setter
+    public void setCurrentPositionY(int aY) { mYViewCurrentPosition = aY; }
+
+    // Getter
+    public int getCurrentPositionY() { return mYViewCurrentPosition; }
 
     // Getter
     public int getColor() { return mColor; }

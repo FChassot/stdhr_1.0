@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Class.CulturalObjectType;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
@@ -125,7 +126,34 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Boolean lRadarMode = lPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, false);
         lRadarSwitch.setChecked(lRadarMode);
 
-        startAsyncSearch();
+        NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(this);
+
+        if (lNetworkConnectivity.isActive()) {
+            startAsyncSearch();
+        }
+        else {
+            Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
+                List<String> lCulturalObjectSubjects = new ArrayList<>();
+
+            String lSubjectSelected =
+                    lPrefs.getMyStringPref(
+                            this,
+                            BaseConstants.Attr_Subject_Selected,
+                            MyString.EMPTY_STRING);
+
+            lCulturalObjectSubjects.add(lSubjectSelected);
+
+
+            ArrayAdapter<String> lSubjectAdapter =
+                    new ArrayAdapter<>(
+                            this,
+                            android.R.layout.simple_spinner_item,
+                            lCulturalObjectSubjects);
+
+            lSubjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            lSubjectSpinner.setAdapter(lSubjectAdapter);
+            lSubjectSpinner.setSelection(0);
+        }
 
         displayListView();
 

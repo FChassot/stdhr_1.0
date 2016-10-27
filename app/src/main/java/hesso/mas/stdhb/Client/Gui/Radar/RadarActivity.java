@@ -90,6 +90,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
     private int mOrientationChanged = 1;
 
+    private boolean mCompassMode = false;
+
     /**
      * Getter
      *
@@ -181,9 +183,6 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         assert mImgRadarInfo != null;
         mImgRadarInfo.setOnClickListener(this);
-
-        assert mRadiusInfo != null;
-        mRadiusInfo.setOnClickListener(this);
 
         assert mRadiusInfo != null;
         mRadiusInfo.setOnClickListener(this);
@@ -311,7 +310,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         BaseConstants.Attr_Subject_Selected,
                         MyString.EMPTY_STRING);
 
-        if (mRadius < 1000) {
+   /*     if (mRadius < 1000) {
             String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
             if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
             mRadiusInfo.setText(lText);
@@ -319,7 +318,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
             if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
             mRadiusInfo.setText(lText);
-        }
+        }*/
     }
 
     /**
@@ -348,25 +347,29 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             startActivity(lIntent);
         }
         if (aView.getId()==R.id.imgBtnZoom){
-            ImageButton mImgBtnReset = (ImageButton)findViewById(R.id.imgBtnReset);
-            mImgBtnReset.setEnabled(true);
-            mRadius = (mRadius / 2);
+            if ((mRadius / 2) <= 1) {
+                mRadius = 1;
+            } else {
+                mRadius = (mRadius / 2);
+            }
+
             mRadarView.stopRadar();
             mRadarView.startRadar();
             startAsyncSearch();
             updateInfoTxtView();
         }
         if (aView.getId()==R.id.imgBtnReset){
-            ImageButton mImgBtnReset = (ImageButton)findViewById(R.id.imgBtnReset);
-            mImgBtnReset.setEnabled(false);
+            if ((mRadius * 2) > 100000) {
+                Preferences lPrefs = new Preferences(this);
 
-            Preferences lPrefs = new Preferences(this);
-
-            mRadius =
-                    lPrefs.getMyIntPref(
-                            this,
-                            BaseConstants.Attr_Radius_Search,
-                            BaseConstants.Attr_Default_Radius_Search);
+                mRadius =
+                        lPrefs.getMyIntPref(
+                                this,
+                                BaseConstants.Attr_Radius_Search,
+                                BaseConstants.Attr_Default_Radius_Search);
+            } else {
+                mRadius = (mRadius * 2);
+            }
 
             mRadarView.stopRadar();
             mRadarView.startRadar();
@@ -524,20 +527,37 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                 //Specifies how pivotYValue should be interpreted. One of Animation.ABSOLUTE, Animation.RELATIVE_TO_SELF, or Animation.RELATIVE_TO_PARENT.
                 //The Y coordinate of the point about which the object is being rotated, specified as an absolute number where 0 is the top edge.
                 // This value can either be an absolute number if pivotYType is ABSOLUTE, or a percentage (where 1.0 is 100%) otherwise.
-                RotateAnimation lRotation =
+                /*RotateAnimation lRotation =
                         new RotateAnimation(
                                 mCurrentDegree,
                                 -lAzimuthInDegrees,
                                 Animation.RELATIVE_TO_SELF,
                                 0.5f,
                                 Animation.RELATIVE_TO_SELF,
-                                0.5f);
+                                0.5f);*/
+                RotateAnimation lRotation =
+                        new RotateAnimation(
+                                mCurrentDegree,
+                                -lAzimuthInDegrees);
 
+                float lDeltaAzimuth = (360 - lAzimuthInDegrees);
+
+                if (this.mRadarView.getMarkers()!= null){
+                    for (RadarMarker lMarker : this.mRadarView.getMarkers()) {
+                        transformCoordinatesForMarker(lMarker, -lDeltaAzimuth);
+                    }
+                }
+
+                TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+                //mRadiusInfo.setText("D:" + mCurrentDegree + "   " + "A: " + -lAzimuthInDegrees);
+                //mRadiusInfo.setText("D: " + (int)lDeltaAzimuth  + "  " + "Azim: " + lAzimuthInDegrees);
                 lRotation.setDuration(250);
                 lRotation.setFillAfter(true);
 
                 if (mUpdateRadarViewOrientation) {
-                    mRadarView.setRotation(mCurrentDegree);
+                    if (mCompassMode) {
+                        mRadarView.setRotation(mCurrentDegree);
+                    }
 
                     //for (RadarMarker lMarker : this.mRadarView.getMarkers()) {
                       //  transformCoordinatesForMarker(lMarker, -lAzimuthInDegrees);
@@ -566,17 +586,21 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      * @param aMarker
      */
     private void transformCoordinatesForMarker(
-            RadarMarker aMarker,
-            double aAngle) {
+        RadarMarker aMarker,
+        double aAzimuth) {
+
+        double lAngle = (mCurrentDegree - aAzimuth);
+        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+        mRadiusInfo.setText("Ecart: " + (int)lAngle);
 
         int lX = aMarker.getPositionX();
         int lY = aMarker.getPositionY();
 
-        double lNewX = lX * Math.cos(aAngle) - lY * Math.sin(aAngle);
-        double lNewY = lX * Math.sin(aAngle) + lY * Math.cos(aAngle);
+        double lCurrentXPosition = lX * Math.cos(lAngle) - lY * Math.sin(lAngle);
+        double lCurrentYPosition = lX * Math.sin(lAngle) + lY * Math.cos(lAngle);
 
-        aMarker.setPositionX((int)lNewX);
-        aMarker.setPositionY((int)lNewY);
+        aMarker.setCurrentPositionX((int)lCurrentXPosition);
+        aMarker.setCurrentPositionY((int)lCurrentYPosition);
     }
 
     /**
