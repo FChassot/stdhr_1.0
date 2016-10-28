@@ -5,7 +5,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
     // To continue using the Apache HTTP APIs,
-    // you must first declare the following compile-time dependency in your build.gradle file:
+    // we have first declare the following compile-time dependency in the build.gradle file:
     // useLibrary 'org.apache.http.legacy'
 
     packagingOptions {
@@ -43,8 +43,8 @@ android {
     //targetCompatibility = '1.7'
 }
 dependencies {
-    // You also need to configure the testing dependencies for your project to use the standard APIs provided
-    // by the JUnit 4 framework. If your test needs to interact with Android dependencies, include the Mockito
+    // We also need to configure the testing dependencies for our project to use the standard APIs provided
+    // by the JUnit 4 framework. If the test needs to interact with Android dependencies, include the Mockito
     // library to simplify your local unit tests. To learn more about using mock objects in your local unit tests,
     // see Mocking Android dependencies.
 
@@ -62,11 +62,11 @@ dependencies {
     compile fileTree(dir: 'libs/Androjena', include: ['*.jar'])
     //compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
 
-    // Libraries used for the rest client
+    // Set up the libraries used for the rest client
     //compile 'com.squareup.okhttp3:okhttp:3.2.0'
     //compile 'com.squareup.retrofit2:retrofit:2.1.0'
 
-    // The powerful image downloading and caching library for Android
+    // Set up the powerful image downloading and caching library for Android
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     // Ioc Framework for Android
@@ -76,6 +76,6 @@ dependencies {
     provided 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
-    // chf: en construisant l'apk
+    // Set up the apk environment
     compile 'com.android.support:multidex:1.0.1'
 }

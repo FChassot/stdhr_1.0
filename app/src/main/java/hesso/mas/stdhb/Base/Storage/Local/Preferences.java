@@ -19,7 +19,6 @@ public class Preferences {
     Context mContext;
 
     private static SharedPreferences getPrefs(Context aContext) {
-        //return aContext.getSharedPreferences("myprefs", 0);
         return PreferenceManager.getDefaultSharedPreferences(aContext);
     }
 

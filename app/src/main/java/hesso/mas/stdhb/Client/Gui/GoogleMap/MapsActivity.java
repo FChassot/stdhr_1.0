@@ -1,17 +1,11 @@
 package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
-import java.util.Date;
-import java.text.DateFormat;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
-import android.location.LocationManager;
-import android.content.Context;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.MapFragment;
@@ -25,7 +19,6 @@ import java.util.List;
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
-import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
@@ -36,25 +29,26 @@ import hesso.mas.stdhbtests.R;
  */
 public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
-    // GoogleMap instance
-    private GoogleMap mMapFragment;
-
-    // constants
+    // Constants
     public static final String USER_MARKER = "USER_MARKER";
 
     public static final String RADAR_MARKER = "RADAR_MARKER";
 
     public static final String RADAR_MARKER_ARRAY = "NO_SELECTED_RADAR_MARKER_ARRAY";
 
-    public RadarMarker mCurrentUserMarker;
+    // Member variables
+    private RadarMarker mCurrentUserMarker;
 
-    public RadarMarker mCulturalObjectMarkerSelected;
+    private RadarMarker mCulturalObjectMarkerSelected;
 
-    public List<RadarMarker> mCulturalObjectMarkers;
+    private List<RadarMarker> mCulturalObjectMarkers;
 
     private GpsLocationListener mGeolocationServices;
 
     private Location mCurrentUserLocation;
+
+    // GoogleMap instance
+    private GoogleMap mMapFragment;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -75,15 +69,15 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         Intent lIntent = getIntent();
 
-        // the bundle object contains a mapping from String keys to various Parcelable values.
+        // The bundle object contains a mapping from String keys to various Parcelable values.
         Bundle lBundle = lIntent.getExtras();
 
         if (lBundle != null) {
-            // to retrieve the current user marker
+            // To retrieve the current user marker
             mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
-            // to retrieve the cultural object selected in the radar view
+            // To retrieve the cultural object selected in the radar view
             mCulturalObjectMarkerSelected = lBundle.getParcelable(RADAR_MARKER);
-            // to retrieve the non selected cultural object present in the view
+            // To retrieve the non selected cultural object present in the view
             //mCulturalObjectMarkers = lBundle.getParcelable(RADAR_MARKER_ARRAY);
         }
         else {
@@ -101,17 +95,16 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             }
         }
 
-        NetworkConnectivity lConnectivity = new NetworkConnectivity(this);
-        boolean lIsActive = lConnectivity.isActive();
-
-        // obtain the MapFragment and get notified when the map is ready to be used.
+        // Obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 
         mMapFragment.getMapAsync(this);
 
-        // check if map is created successfully or not
+        // Check if map is created successfully or not
         if (mMapFragment == null) {
-            if (!lIsActive) {
+            NetworkConnectivity lConnectivity = new NetworkConnectivity(this);
+
+            if (!lConnectivity.isActive()) {
                 Toast.makeText(getApplicationContext(),
                         "Sorry! unable to create maps [internet network not active]", Toast.LENGTH_SHORT)
                         .show();

@@ -11,7 +11,8 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 public class Validator {
 
     /**
-     *
+     * This method validates the entries given before a search of the
+     * Citizen DB
      *
      * @param aPlace
      * @param aPeriod

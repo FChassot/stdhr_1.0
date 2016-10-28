@@ -39,7 +39,7 @@ public class SpinnerHandler {
                 EnumClientServerCommunication.values());
 
         aCbo.setAdapter(lAdapter);
-    };
+    }
 
     /**
      * The method fill a spinner control with the possible subject contained in the Citizen DB.
@@ -64,8 +64,16 @@ public class SpinnerHandler {
                         aValues.toArray());
 
         aCbo.setAdapter(lAdapter);
-    };
+    }
 
+    /**
+     *
+     *
+     * @param aSpinner
+     * @param aItem
+     * @return
+     * @throws NoSuchElementException
+     */
     public static int getPositionByItem(
         Spinner aSpinner,
         String aItem) throws NoSuchElementException {

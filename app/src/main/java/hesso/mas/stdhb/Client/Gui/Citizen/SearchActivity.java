@@ -62,6 +62,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     // Variable of type OkHttpClient
     //OkHttpClient mOkHttpClient;
 
+    // Member variables
+
+    Preferences mPrefs;
+
     private Receiver mReceiver;
 
     ProgressDialog progress;
@@ -97,6 +101,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mCitizenServices = new CitizenServices();
 
+        mPrefs = new Preferences(this);
+
         // to retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
@@ -126,15 +132,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             mTitle = lCulturalObjectMarker.getTitle();
             mTxtPeriod.setText("1000-2016");
 
-            Preferences lPrefs = new Preferences(this);
-
             /*String lClientServerCommunicationMode =
                 lPrefs.getPrefValue(
                     BaseConstants.Attr_ClientServer_Communication,
                     MyString.EMPTY_STRING);*/
 
             String lClientServerCommunicationMode =
-                    lPrefs.getMyStringPref(
+                    mPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_ClientServer_Communication,
                             EnumClientServerCommunication.ANDROJENA.toString());
@@ -251,10 +255,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             // get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
-            Preferences lPrefs = new Preferences(this);
-
             String lClientServerCommunicationMode =
-                    lPrefs.getMyStringPref(
+                    mPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_ClientServer_Communication,
                             EnumClientServerCommunication.ANDROJENA.toString());

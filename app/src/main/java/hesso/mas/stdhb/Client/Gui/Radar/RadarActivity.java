@@ -47,9 +47,12 @@ import hesso.mas.stdhbtests.R;
 
 public class RadarActivity extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
 
+    // Constant
     private static final String TAG = "RadarActivity";
 
+    // Member variables
     private RadarView mRadarView;
+    private Preferences mPrefs;
 
     private boolean mUpdateRadarViewOrientation;
 
@@ -126,6 +129,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         setContentView(R.layout.activity_display);
 
+        mPrefs = new Preferences(this);
+
         mGeolocationServices = new GpsLocationListener(this);
 
         if (!mGeolocationServices.isLocationRetrievePossible()) {
@@ -158,10 +163,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         this.registerReceiver(mReceiver, lFilter);
 
-        Preferences lPrefs = new Preferences(this);
-
         mRadius =
-            lPrefs.getMyIntPref(
+            mPrefs.getMyIntPref(
                 this,
                 BaseConstants.Attr_Radius_Search,
                 BaseConstants.Attr_Default_Radius_Search);
@@ -210,13 +213,13 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         super.onResume();
 
-        // update the radar's information
+        // Update the radar's information
         updateInfoTxtView();
 
-        // start the radar
+        // Start the radar
         mRadarView.startRadar();
 
-        // for the system's orientation sensor registered listeners
+        // For the system's orientation sensor registered listeners
         mSensorManager.registerListener(
                 this,
                 mAccelerometer,
@@ -266,11 +269,11 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     public void onPause() {
         super.onPause();
 
-        // stop the radar. When the radar is stopped, other services are stopped as well
+        // Stop the radar. When the radar is stopped, other services are stopped as well
         // (updateRadarmarkers and updateOrientation)
         this.stopRadar(mRadarView);
 
-        // stop the listener and save battery
+        // Stop the listener and save battery
         mSensorManager.unregisterListener(this);
         mSensorManager.unregisterListener(this, mAccelerometer);
         mSensorManager.unregisterListener(this, mMagnetometer);
@@ -302,10 +305,9 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      */
     private void updateInfoTxtView() {
         TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        Preferences lPrefs = new Preferences(this);
 
         String lSubject =
-                lPrefs.getMyStringPref(
+                mPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_Subject_Selected,
                         MyString.EMPTY_STRING);

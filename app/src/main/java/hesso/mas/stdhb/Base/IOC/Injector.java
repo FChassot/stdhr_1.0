@@ -11,8 +11,8 @@ public enum Injector {
     private Injector(){
     }
 
-    void initializeApplicationComponent(CustomApplication customApplication) {
-        /*ApplicationComponent applicationComponent = DaggerApplicationComponent.builder()
+    void initializeApplicationComponent(CustomApplication aCustomApplication) {
+        /*ApplicationComponent aCustomApplication = DaggerApplicationComponent.builder()
                 .appContextModule(new AppContextModule(customApplication))
                 .build();
         this.applicationComponent = applicationComponent;*/

@@ -463,7 +463,7 @@ public class RadarView extends android.view.View {
 
                         mContext.startActivity(lIntent);
                     }
-                      else {
+                    else {
                         this.stopRadar();
 
                         Intent lIntent = new Intent(mContext, SearchActivity.class);
@@ -590,12 +590,12 @@ public class RadarView extends android.view.View {
             NetworkConnectivity lConnectivity =
                  new NetworkConnectivity(this.getContext());
 
-            boolean lGpsEnabled = lConnectivity.isGpsEnabled();
+            boolean lIsGpsEnabled = lConnectivity.isGpsEnabled();
 
             // Get network status
             boolean lIsNetworkEnabled = lConnectivity.isNetworkAvailable();
 
-            if (lGpsEnabled || lIsNetworkEnabled) {
+            if (lIsGpsEnabled || lIsNetworkEnabled) {
                 if (lIsNetworkEnabled) {
                     lLocationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
@@ -611,7 +611,7 @@ public class RadarView extends android.view.View {
                 }
 
                 // If GPS Enabled get Location using GPS Services
-                if (lGpsEnabled) {
+                if (lIsGpsEnabled) {
                     lLocationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         MIN_TIME_BW_UPDATES,

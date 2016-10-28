@@ -51,13 +51,19 @@ import hesso.mas.stdhbtests.R;
  */
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
+    // Member variables
+
+    Preferences mPrefs;
+
     //private Receiver mReceiver;
 
     MyCustomAdapter mDataAdapter = null;
 
+    NetworkConnectivity mConnectivity;
+
     ArrayList<CulturalObjectType> mCulturalObjectTypes = null;
 
-    //List<String> mCulturalObjectSubjects = new ArrayList<>();
+    List<String> mCulturalObjectSubjects = new ArrayList<>();
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -82,6 +88,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION3);
         this.registerReceiver(mReceiver, lFilter);
 
+        mPrefs = new Preferences(this);
+
+        mConnectivity = new NetworkConnectivity(this);
+
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         EditText mDTxtRadius = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
@@ -102,10 +112,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 this,
                 android.R.layout.simple_spinner_item);*/
 
-        Preferences lPrefs = new Preferences(this);
-
         String lClientServerCommunication =
-                lPrefs.getMyStringPref(
+                mPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_ClientServer_Communication,
                         EnumClientServerCommunication.ANDROJENA.toString());
@@ -116,33 +124,31 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
         Integer lRadiusOfSearch =
-                lPrefs.getMyIntPref(
+                mPrefs.getMyIntPref(
                         this,
                         BaseConstants.Attr_Radius_Search,
                         BaseConstants.Attr_Default_Radius_Search);
 
         mDTxtRadius.setText(lRadiusOfSearch.toString());
 
-        Boolean lRadarMode = lPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, false);
+        Boolean lRadarMode = mPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, false);
         lRadarSwitch.setChecked(lRadarMode);
 
-        NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(this);
-
-        if (lNetworkConnectivity.isActive()) {
+        if (mConnectivity.isActive()) {
             startAsyncSearch();
         }
         else {
             Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
-                List<String> lCulturalObjectSubjects = new ArrayList<>();
+
+            List<String> lCulturalObjectSubjects = new ArrayList<>();
 
             String lSubjectSelected =
-                    lPrefs.getMyStringPref(
+                    mPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_Subject_Selected,
                             MyString.EMPTY_STRING);
 
             lCulturalObjectSubjects.add(lSubjectSelected);
-
 
             ArrayAdapter<String> lSubjectAdapter =
                     new ArrayAdapter<>(
@@ -230,6 +236,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
          * @param aPosition
          * @param aConvertView
          * @param parent
+         *
          * @return
          */
         @Override
@@ -264,10 +271,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 lHolder = (ViewHolder) aConvertView.getTag();
             }
 
-            Preferences lPrefs = new Preferences(this.getContext());
+            //Preferences lPrefs = new Preferences(this.getContext());
 
             Set<String> lListOfCulturalObjectType =
-                    lPrefs.getMySetPref(
+                    mPrefs.getMySetPref(
                         this.getContext(),
                         BaseConstants.Attr_CulturalObject_Type,
                         null);
@@ -336,12 +343,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Spinner lCboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSubject);
 
-        Preferences lPrefs = new Preferences(this);
-
         String lRadiusSearchStr = lTxtRadius.getText().toString();
 
         if (IntegerExtensions.tryParseInt(lRadiusSearchStr)) {
-            lPrefs.setMyIntPref(
+            mPrefs.setMyIntPref(
                     this,
                     BaseConstants.Attr_Radius_Search,
                     Integer.parseInt(lRadiusSearchStr));
@@ -358,18 +363,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
         if (lCboSubject.getSelectedItem() != null){
-            lPrefs.setMyStringPref(
+            mPrefs.setMyStringPref(
                     this,
                     BaseConstants.Attr_Subject_Search_Type,
                     lCboSubject.getSelectedItem().toString());
         }
 
-        lPrefs.setMyBooleanPref(
+        mPrefs.setMyBooleanPref(
                 this,
                 BaseConstants.Attr_Radar_Switch,
                 lRadarMode);
 
-        lPrefs.setMyStringPref(
+        mPrefs.setMyStringPref(
                 this,
                 BaseConstants.Attr_ClientServer_Communication,
                 lClientServerCommunication);
@@ -382,14 +387,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
         }
 
-        lPrefs.setMySetPref(
+        mPrefs.setMySetPref(
                 this,
                 BaseConstants.Attr_CulturalObject_Type,
                 lListOfCulturalObjectType);
 
         String lSubjectSelected = lCboSubject.getSelectedItem().toString();
 
-        lPrefs.setMyStringPref(
+        mPrefs.setMyStringPref(
                 this,
                 BaseConstants.Attr_Subject_Selected,
                 lSubjectSelected);
@@ -408,10 +413,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 this,
                 RetrieveCitizenDataAsyncTask.ACTION3);
 
-        Preferences lPrefs = new Preferences(this);
-
         String lClientServerCommunicationMode =
-            lPrefs.getMyStringPref(
+            mPrefs.getMyStringPref(
                 this,
                 BaseConstants.Attr_ClientServer_Communication,
                 EnumClientServerCommunication.ANDROJENA.toString());
@@ -463,7 +466,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 return;
             }
 
-            // the bundle object contains a mapping from String keys to various Parcelable values.
+            // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle lBundle = aIntent.getExtras();
 
             CitizenQueryResult lCitizenQueryResult = null;
@@ -492,10 +495,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             lSubjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             lSubjectSpinner.setAdapter(lSubjectAdapter);
 
-            Preferences lPrefs = new Preferences(aContext);
-
             String lSubjectSelected =
-                    lPrefs.getMyStringPref(
+                    mPrefs.getMyStringPref(
                             aContext,
                             BaseConstants.Attr_Subject_Selected,
                             MyString.EMPTY_STRING);

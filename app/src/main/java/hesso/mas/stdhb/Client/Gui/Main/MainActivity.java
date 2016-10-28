@@ -25,6 +25,7 @@ import hesso.mas.stdhbtests.R;
  */
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
+    // Member variable
     Preferences mPrefs;
 
     /*@Inject
@@ -73,17 +74,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onStart() {
         super.onStart();  // Always call the superclass method first
 
-        Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
-
-        Preferences lPrefs = new Preferences(this);
+        Button lRadarButton = (Button)findViewById(R.id.mBtnradar);
 
         boolean lRadarMode =
-                lPrefs.getMyBooleanPref(
+                mPrefs.getMyBooleanPref(
                     this,
                     BaseConstants.Attr_Radar_Switch,
                     false);
 
-        if (lRadarMode == false) {mRadarButton.setEnabled(false); }
+        if (lRadarMode == false) {lRadarButton.setEnabled(false); }
     }
 
     /**
@@ -99,17 +98,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
-
-        Preferences lPrefs = new Preferences(this);
+        Button lRadarButton = (Button)findViewById(R.id.mBtnradar);
 
         boolean lRadarMode =
-                lPrefs.getMyBooleanPref(
+                mPrefs.getMyBooleanPref(
                         this,
                         BaseConstants.Attr_Radar_Switch,
                         false);
 
-        mRadarButton.setEnabled(lRadarMode);
+        lRadarButton.setEnabled(lRadarMode);
     }
 
     @Override
