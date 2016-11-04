@@ -211,21 +211,17 @@ public final class RadarHelper {
             double aXPosition1OnScreen,
             double aYPosition1OnScreen,
             double aXPosition2OnScreen,
-            double aYPosition2OnScreen
-    )
-    {
+            double aYPosition2OnScreen) {
 
         double lDeltaX = Math.abs((aXPosition1OnScreen - aXPosition2OnScreen));
         double lDeltaY = Math.abs((aYPosition1OnScreen - aYPosition2OnScreen));
-        double lTangente = (lDeltaY / lDeltaX);                   // opposé / adjacent
+        double lTangente = (lDeltaY / lDeltaX); // opposé / adjacent
         double lAngle = Math.atan(lTangente);
 
         double lDistance = (lDeltaY / Math.cos(lAngle));
 
         return lDistance;
     }
-
-
 
     /**
      * Get the GPS Location corresponding to a point touched on the view

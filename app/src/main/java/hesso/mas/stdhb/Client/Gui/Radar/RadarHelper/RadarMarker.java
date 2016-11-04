@@ -110,6 +110,8 @@ public class RadarMarker extends Paint implements Parcelable {
         mLocation = in.readParcelable(Location.class.getClassLoader());
         mXViewPosition = in.readInt();
         mYViewPosition = in.readInt();
+        mXViewCurrentPosition = in.readInt();
+        mYViewCurrentPosition = in.readInt();
         mColor = in.readInt();
         mTitle = in.readString();
         mData = in.readString();
@@ -201,6 +203,8 @@ public class RadarMarker extends Paint implements Parcelable {
         aDest.writeParcelable(mLocation, flags);
         aDest.writeInt(mXViewPosition);
         aDest.writeInt(mYViewPosition);
+        aDest.writeInt(mXViewCurrentPosition);
+        aDest.writeInt(mYViewCurrentPosition);
         aDest.writeInt(mColor);
         aDest.writeString(mTitle);
         aDest.writeString(mData);

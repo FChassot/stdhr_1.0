@@ -19,6 +19,7 @@ import java.util.List;
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
+import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
@@ -45,6 +46,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     private GpsLocationListener mGeolocationServices;
 
+    // The current location of the app's user
     private Location mCurrentUserLocation;
 
     // GoogleMap instance
@@ -61,7 +63,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps); // Create the view
 
         mGeolocationServices = new GpsLocationListener(this);
 
@@ -69,16 +71,18 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         Intent lIntent = getIntent();
 
-        // The bundle object contains a mapping from String keys to various Parcelable values.
+        // The bundle object contains a mapping from String keys
+        // to various Parcelable values.
         Bundle lBundle = lIntent.getExtras();
+        //Bundle lBundleExtra = lIntent.getBundleExtra(RADAR_MARKER_ARRAY);
 
         if (lBundle != null) {
             // To retrieve the current user marker
             mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
             // To retrieve the cultural object selected in the radar view
             mCulturalObjectMarkerSelected = lBundle.getParcelable(RADAR_MARKER);
-            // To retrieve the non selected cultural object present in the view
-            //mCulturalObjectMarkers = lBundle.getParcelable(RADAR_MARKER_ARRAY);
+            // To retrieve all cultural objects found in the radar but not selected
+            mCulturalObjectMarkers = lBundle.getParcelableArrayList(RADAR_MARKER_ARRAY);
         }
         else {
             if (mCurrentUserLocation != null){
@@ -156,6 +160,24 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         } else {
             lBuilder.include(lLatLngCurrentUserLocation);
+        }
+
+        // Add all markers non selected as well
+        if (mCulturalObjectMarkers != null) {
+            for (RadarMarker lMarker : mCulturalObjectMarkers) {
+                LatLng lLatLngCulturalObjectLocation =
+                        new LatLng(
+                                lMarker.getLatitude(),
+                                lMarker.getLongitude());
+
+                lBuilder.include(lLatLngCulturalObjectLocation);
+
+                // Add a marker in the current location and move the camera
+                mMapFragment.addMarker(
+                        new MarkerOptions()
+                                .position(lLatLngCulturalObjectLocation)
+                                .title(lMarker.getTitle()));
+            }
         }
 
         // Add a marker in the marker location

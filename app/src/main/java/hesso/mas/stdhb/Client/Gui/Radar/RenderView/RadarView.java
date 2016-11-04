@@ -17,11 +17,14 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.View;
 import android.util.AttributeSet;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
+import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
@@ -43,7 +46,7 @@ public class RadarView extends android.view.View {
 
         private Context mContext;
 
-        private List<RadarMarker> mMarkers;
+        private List<RadarMarker> mMarkers = new ArrayList<>();
 
         public double mRadius = 500.0;
 
@@ -287,7 +290,7 @@ public class RadarView extends android.view.View {
                 double aRadius,
                 float aQuotient) {
 
-                Double lRadius = 0.0;
+                double lRadius = 0.0;
 
                 if (aRadius >= 1000) {
                     lRadius = (aRadius / 1000);
@@ -296,9 +299,9 @@ public class RadarView extends android.view.View {
                 lRadius = (lRadius/aQuotient);
 
                 if (aRadius < 1000) {
-                    return lRadius.toString() + "m";
+                    return lRadius + "m";
                 } else {
-                    return lRadius.toString() + "km";
+                    return lRadius + "km";
                 }
             }
 
@@ -312,7 +315,7 @@ public class RadarView extends android.view.View {
             Canvas aCanvas,
             int aMaxRadiusOfRadar) {
 
-            // object allowing to describe the colors and styles for marker
+            // Paint object allows to describe the colors and styles for marker
             Paint lMarkerPaint = new Paint();
 
             lMarkerPaint.setColor(Color.WHITE);
@@ -430,7 +433,7 @@ public class RadarView extends android.view.View {
                     // When the point touched by the user near enough from the cultural object then this one will be selected
                     if (((-mTouchScreenSensibility) < lDistance) && (lDistance > mTouchScreenSensibility)) { return false;}
 
-                    if (false) {
+                    if (true) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
 
                         Bundle lBundle = new Bundle();
@@ -444,7 +447,7 @@ public class RadarView extends android.view.View {
                             lCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
                             lCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
                         }
-                        else{
+                        else {
                             lCurrentUserMarker.setLatitude(46.2333);
                             lCurrentUserMarker.setLongitude(7.35);
                             lCurrentUserMarker.setTitle("Citizen radar's user");
@@ -454,9 +457,7 @@ public class RadarView extends android.view.View {
                         lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
 
                         if (mMarkers != null && mMarkers.size() > 0) {
-                            /*lBundle.putParcelable(
-                                    MapsActivity.RADAR_MARKER_ARRAY,
-                                    (Parcelable) mMarkers);*/
+                            lIntent.putParcelableArrayListExtra(MapsActivity.RADAR_MARKER_ARRAY, (ArrayList<? extends Parcelable>) mMarkers);
                         }
 
                         lIntent.putExtras(lBundle);
@@ -472,9 +473,18 @@ public class RadarView extends android.view.View {
 
                         RadarMarker lCurrentUserMarker = new RadarMarker();
 
-                        lCurrentUserMarker.setLatitude(46.2333);
-                        lCurrentUserMarker.setLongitude(7.35);
-                        lCurrentUserMarker.setTitle("Citizen radar's user");
+                        Location lCurrentUserLocation = getCurrentLocation();
+
+                        if (lCurrentUserLocation != null) {
+                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                            lCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
+                            lCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
+                        }
+                        else {
+                            lCurrentUserMarker.setLatitude(46.2333);
+                            lCurrentUserMarker.setLongitude(7.35);
+                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                        }
 
                         lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
 
