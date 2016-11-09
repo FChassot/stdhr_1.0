@@ -10,8 +10,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -19,7 +21,8 @@ import java.util.List;
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
-import hesso.mas.stdhb.Base.Notifications.Notifications;
+import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
@@ -28,7 +31,7 @@ import hesso.mas.stdhbtests.R;
  *
  * Activity for the google Map functionality
  */
-public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class MapsActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     // Constants
     public static final String USER_MARKER = "USER_MARKER";
@@ -74,7 +77,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         // The bundle object contains a mapping from String keys
         // to various Parcelable values.
         Bundle lBundle = lIntent.getExtras();
-        //Bundle lBundleExtra = lIntent.getBundleExtra(RADAR_MARKER_ARRAY);
 
         if (lBundle != null) {
             // To retrieve the current user marker
@@ -176,7 +178,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 mMapFragment.addMarker(
                         new MarkerOptions()
                                 .position(lLatLngCulturalObjectLocation)
-                                .title(lMarker.getTitle()));
+                                .title(lMarker.getTitle())
+                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_museum)));
             }
         }
 
@@ -189,8 +192,34 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 2));
     }
 
-    public void onMapClick (LatLng point) {
-        // Do Something
+    /**
+     * Called when a marker has been clicked or tapped.
+     *
+     * @param aMarker The marker that was clicked.
+     *
+     * @return true if the listener has consumed the event (i.e., the default behavior should not occur);
+     * false otherwise (i.e., the default behavior should occur).
+     */
+    public boolean onMarkerClick (Marker aMarker) {
+
+        Intent lIntent = new Intent(this, SearchActivity.class);
+        Bundle lBundle = new Bundle();
+
+        RadarMarker lSelectedMarker = new RadarMarker();
+
+        Location lSelectedMarkerLocation = new Location(MyString.EMPTY_STRING);
+
+        lSelectedMarkerLocation.setLatitude(aMarker.getPosition().latitude);
+        lSelectedMarkerLocation.setLongitude(aMarker.getPosition().longitude);
+        lSelectedMarker.setLocation(lSelectedMarkerLocation);
+
+        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+
+        lIntent.putExtras(lBundle);
+
+        this.startActivity(lIntent);
+
+        return true;
     }
 
     /**

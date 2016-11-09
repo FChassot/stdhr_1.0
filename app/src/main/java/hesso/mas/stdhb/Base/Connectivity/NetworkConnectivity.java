@@ -16,8 +16,7 @@ public class NetworkConnectivity {
     private final Context mContext;
 
     // Constructor
-    public NetworkConnectivity(
-        Context context) {
+    public NetworkConnectivity(Context context) {
 
         this.mContext = context;
     }
@@ -88,28 +87,4 @@ public class NetworkConnectivity {
 
         return lIsNetworkAvailable;
     }
-
-    /**
-     * get is the network is available
-     *
-     * @return
-     */
-    /*private boolean isNetworkAvailable2(){
-
-        boolean lIsNetworkAvailable = false;
-
-        // get the system's connectivity service
-        ConnectivityManager lConnectivityManager =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        // get the active network interface to get the network's status
-        NetworkInfo lNetworkInfo = lConnectivityManager.getActiveNetworkInfo();
-
-        if(lNetworkInfo !=null && lNetworkInfo.isAvailable()) {
-            lIsNetworkAvailable = true;
-        }
-
-        // return the status of the network
-        return lIsNetworkAvailable;
-    }*/
 }

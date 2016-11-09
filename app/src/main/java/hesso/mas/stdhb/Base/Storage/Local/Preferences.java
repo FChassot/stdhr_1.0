@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
+import android.support.annotation.Nullable;
 
 import java.util.Set;
 
@@ -27,36 +27,36 @@ public class Preferences {
         mContext = aContext;
     }
 
-    public static void setMyIntPref(Context aContext, String aKey, int aValue) {
+    public static void setMyIntPref(@NonNull Context aContext, @NonNull String aKey, @Nullable int aValue) {
         getPrefs(aContext).edit().putInt(aKey, aValue).commit();
     }
 
     @NonNull
-    public static Integer getMyIntPref(Context aContext, String aKey, int aDefaultValue) {
+    public static Integer getMyIntPref(@NonNull Context aContext, @NonNull String aKey, @Nullable int aDefaultValue) {
         return getPrefs(aContext).getInt(aKey, aDefaultValue);
     }
 
-    public static void setMyStringPref(Context aContext, String aKey, String aValue) {
+    public static void setMyStringPref(@NonNull Context aContext, @NonNull String aKey, @Nullable String aValue) {
         getPrefs(aContext).edit().putString(aKey, aValue).commit();
     }
 
-    public static String getMyStringPref(Context aContext, String aKey, String aDefaultValue) {
+    public static String getMyStringPref(@NonNull Context aContext, @NonNull String aKey, @Nullable String aDefaultValue) {
         return getPrefs(aContext).getString(aKey, aDefaultValue);
     }
 
-    public static void setMyBooleanPref(Context aContext, String aKey, Boolean aValue) {
+    public static void setMyBooleanPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Boolean aValue) {
         getPrefs(aContext).edit().putBoolean(aKey, aValue).commit();
     }
 
-    public Boolean getMyBooleanPref(Context aContext, String aKey, Boolean aDefaultValue) {
+    public Boolean getMyBooleanPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Boolean aDefaultValue) {
         return getPrefs(aContext).getBoolean(aKey, aDefaultValue);
     }
 
-    public static void setMySetPref(Context aContext, String aKey, Set<String> aValue) {
+    public static void setMySetPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Set<String> aValue) {
         getPrefs(aContext).edit().putStringSet(aKey, aValue).commit();
     }
 
-    public static Set<String> getMySetPref(Context aContext, String aKey, Set<String> aDefaultValue) {
+    public static Set<String> getMySetPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Set<String> aDefaultValue) {
         return getPrefs(aContext).getStringSet(aKey, aDefaultValue);
     }
 

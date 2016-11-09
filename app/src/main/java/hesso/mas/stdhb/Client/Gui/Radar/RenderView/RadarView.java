@@ -457,7 +457,9 @@ public class RadarView extends android.view.View {
                         lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
 
                         if (mMarkers != null && mMarkers.size() > 0) {
-                            lIntent.putParcelableArrayListExtra(MapsActivity.RADAR_MARKER_ARRAY, (ArrayList<? extends Parcelable>) mMarkers);
+                            lBundle.putParcelableArrayList(
+                                    MapsActivity.RADAR_MARKER_ARRAY,
+                                    (ArrayList<? extends Parcelable>) mMarkers);
                         }
 
                         lIntent.putExtras(lBundle);

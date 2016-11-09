@@ -18,6 +18,8 @@ import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 
 import hesso.mas.stdhbtests.R;
 
+import javax.inject.Inject;
+
 /**
  * Created by chf on 11.06.2016.
  *
@@ -26,7 +28,7 @@ import hesso.mas.stdhbtests.R;
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // Member variable
-    Preferences mPrefs;
+    @Inject Preferences mPrefs;
 
     /*@Inject
     CustomApplication customApplication;*/
