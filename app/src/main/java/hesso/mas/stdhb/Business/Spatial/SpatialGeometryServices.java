@@ -17,14 +17,13 @@ public class SpatialGeometryServices {
      * @return the radius of search in radians
      */
     public static double getRadiusInRadian(
-            Location aCurrentUserLocation,
-            int aRadiusSearch) {
+        Location aCurrentUserLocation,
+        int aRadiusSearch) {
 
         double lRadiusInKm = aRadiusSearch / 1000;      // convert to kilometers
 
         double lDistanceInMetersForOneLatitudeDegree =
-                getDistanceForOneLatitudeDegree(
-                        aCurrentUserLocation);
+            getDistanceForOneLatitudeDegree(aCurrentUserLocation);
 
         double lLatDelta = (lDistanceInMetersForOneLatitudeDegree/1000) / lRadiusInKm;
 
@@ -40,16 +39,16 @@ public class SpatialGeometryServices {
      * with a difference of one degree
      */
     public static double getDistanceForOneLatitudeDegree(
-            Location aCurrentUserLocation) {
+        Location aCurrentUserLocation) {
 
         double lDistance =
-                getGreatCircleDistanceBetweenTwoPoints(
-                        aCurrentUserLocation.getLatitude(),
-                        aCurrentUserLocation.getLatitude() + 1,
-                        aCurrentUserLocation.getLongitude(),
-                        aCurrentUserLocation.getLongitude(),
-                        0,
-                        0);
+            getGreatCircleDistanceBetweenTwoPoints(
+                aCurrentUserLocation.getLatitude(),
+                aCurrentUserLocation.getLatitude() + 1,
+                aCurrentUserLocation.getLongitude(),
+                aCurrentUserLocation.getLongitude(),
+                0,
+                0);
 
         return lDistance;
     }
@@ -63,16 +62,16 @@ public class SpatialGeometryServices {
      * with a difference of one degree
      */
     public static double getDistanceForOneLongitudeDegree(
-            Location aCurrentUserLocation) {
+        Location aCurrentUserLocation) {
 
         double lDistance =
-                getGreatCircleDistanceBetweenTwoPoints(
-                        aCurrentUserLocation.getLatitude(),
-                        aCurrentUserLocation.getLatitude(),
-                        aCurrentUserLocation.getLongitude(),
-                        aCurrentUserLocation.getLongitude() + 1,
-                        0,
-                        0);
+            getGreatCircleDistanceBetweenTwoPoints(
+                aCurrentUserLocation.getLatitude(),
+                aCurrentUserLocation.getLatitude(),
+                aCurrentUserLocation.getLongitude(),
+                aCurrentUserLocation.getLongitude() + 1,
+                0,
+                0);
 
         return lDistance;
     }
@@ -92,25 +91,25 @@ public class SpatialGeometryServices {
      * @returns the distance in meters
      */
     public static double getGreatCircleDistanceBetweenTwoPoints(
-            double aLatitude1,
-            double aLatitude2,
-            double aLongitude1,
-            double aLongitude2,
-            double aElevation1,
-            double aElevation2) {
+        double aLatitude1,
+        double aLatitude2,
+        double aLongitude1,
+        double aLongitude2,
+        double aElevation1,
+        double aElevation2) {
 
-        final int lRadiusOfEarth = 6371;                // Radius of the earth
+        final int lRadiusOfEarth = 6371; // Radius of the earth
 
         double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
         double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
 
-        double a = Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
+        double lA = Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
                 + Math.cos(Math.toRadians(aLatitude1)) * Math.cos(Math.toRadians(aLatitude2))
                 * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
 
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double lC = 2 * Math.atan2(Math.sqrt(lA), Math.sqrt(1 - lA));
 
-        double lDistance = lRadiusOfEarth * c * 1000;   // convert to meters
+        double lDistance = lRadiusOfEarth * lC * 1000;   // convert to meters
 
         double lHeight = aElevation1 - aElevation2;
 

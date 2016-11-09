@@ -63,7 +63,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     //OkHttpClient mOkHttpClient;
 
     // Member variables
-
     Preferences mPrefs;
 
     private Receiver mReceiver;
@@ -256,10 +255,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             // get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
             String lClientServerCommunicationMode =
-                    mPrefs.getMyStringPref(
-                            this,
-                            BaseConstants.Attr_ClientServer_Communication,
-                            EnumClientServerCommunication.ANDROJENA.toString());
+                mPrefs.getMyStringPref(
+                    this,
+                    BaseConstants.Attr_ClientServer_Communication,
+                    EnumClientServerCommunication.ANDROJENA.toString());
 
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);

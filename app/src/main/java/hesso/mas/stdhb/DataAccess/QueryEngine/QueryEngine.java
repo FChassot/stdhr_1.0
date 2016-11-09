@@ -13,7 +13,8 @@ import java.util.List;
 /**
  * Created by chf on 07.10.2016.
  *
- *
+ * This class allows to initialize a type of client-server communication and to
+ * send a request towards an endoint
  */
 public class QueryEngine {
 

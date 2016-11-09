@@ -12,51 +12,72 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author rwondratschek
+ * Created by chf on 01.11.2016
+ *
+ *
  */
 public final class ParcelableUtil {
 
+    // Constructor
     private ParcelableUtil() {
-        // no op
     }
 
-    public static void putSerializableList(Bundle bundle, ArrayList<? extends Serializable> list, String key) {
-        if (list == null) {
+    /**
+     *
+     * @param aBundle
+     * @param aList
+     * @param aKey
+     */
+    public static void putSerializableList(
+        Bundle aBundle,
+        ArrayList<? extends Serializable> aList, String aKey) {
+
+        if (aList == null) {
             return;
         }
-        bundle.putInt(key + "size", list.size());
-        for (int i = 0; i < list.size(); i++) {
-            bundle.putSerializable(key + i, list.get(i));
+
+        aBundle.putInt(aKey + "size", aList.size());
+
+        for (int i = 0; i < aList.size(); i++) {
+            aBundle.putSerializable(aKey + i, aList.get(i));
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> ArrayList<T> getSerializableArrayList(Bundle bundle, String key) {
-        int size = bundle.getInt(key + "size", -1);
-        if (size < 0) {
+    public static <T> ArrayList<T> getSerializableArrayList(
+        Bundle aBundle, String key) {
+
+        int lSize = aBundle.getInt(key + "size", -1);
+
+        if (lSize < 0) {
             return null;
         }
 
         ArrayList<T> result = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            result.add((T) bundle.getSerializable(key + i));
+
+        for (int i = 0; i < lSize; i++) {
+            result.add((T) aBundle.getSerializable(key + i));
         }
 
         return result;
     }
 
     @SuppressWarnings("unchecked")
-    public static void putParcelableList(Bundle bundle, List<? extends Parcelable> list, String key) {
-        if (list == null) {
+    public static void putParcelableList(
+        Bundle aBundle, List<? extends Parcelable> aList, String aKey) {
+
+        if (aList == null) {
             return;
         }
+
         ArrayList<? extends Parcelable> arrayList;
-        if (list instanceof ArrayList) {
-            arrayList = (ArrayList<? extends Parcelable>) list;
+
+        if (aList instanceof ArrayList) {
+            arrayList = (ArrayList<? extends Parcelable>) aList;
         } else {
-            arrayList = new ArrayList<>(list);
+            arrayList = new ArrayList<>(aList);
         }
 
-        bundle.putParcelableArrayList(key, arrayList);
+        aBundle.putParcelableArrayList(aKey, arrayList);
     }
 }

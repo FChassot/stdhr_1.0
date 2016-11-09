@@ -8,18 +8,17 @@ public final class IntegerExtensions {
     /**
      * The method try to cast the string aValue to an int.
      *
-     * @param aValue
+     * @param aValue The String Value to cast
      *
-     * @return true when the value hast been correctly casted.
+     * @return true when the value has been correctly casted.
      */
     public static boolean tryParseInt(String aValue) {
         try {
             Integer.parseInt(aValue);
             return true;
         }
-        catch (NumberFormatException e) {
+        catch (NumberFormatException aExc) {
             return false;
         }
     }
-
 }

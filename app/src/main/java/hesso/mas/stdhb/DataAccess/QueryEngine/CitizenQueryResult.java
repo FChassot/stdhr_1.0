@@ -58,7 +58,13 @@ public class CitizenQueryResult implements Parcelable {
      */
     public List<CitizenDbObject> Results() { return mList; }
 
-    public void writeToParcel(Parcel aDest, int flags) {
+    /**
+     * Flatten this object in to a Parcel.
+     *
+     * @param aDest The Parcel in which the object should be written.
+     * @param aFlags Additional flags about how the object should be written. May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
+     */
+    public void writeToParcel(Parcel aDest, int aFlags) {
         aDest.writeList(mList);
     }
 
@@ -77,6 +83,11 @@ public class CitizenQueryResult implements Parcelable {
         }
     };
 
+    /**
+     * Indicates that the Parcelable object's flattened representation includes a file descriptor.
+     *
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;

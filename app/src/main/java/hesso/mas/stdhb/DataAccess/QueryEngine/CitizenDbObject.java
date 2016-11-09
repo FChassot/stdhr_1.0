@@ -8,9 +8,12 @@ import java.util.Map;
 
 /**
  * Created by chf on 21.09.2016.
+ *
+ * Represents an object retrieved from the Citizen Endpoint
  */
 public class CitizenDbObject implements Parcelable {
 
+    // Member variable
     private Map<String, String> mMap = new HashMap<String, String>();
 
     // Constructor
@@ -27,10 +30,11 @@ public class CitizenDbObject implements Parcelable {
     }
 
     /**
+     * This method checks if the variable is contained in the response
      *
      * @param aVariable
      *
-     * @return return true if the variable is contained in the cityzenDbObject
+     * @return return true if the variable is contained in the citizen Db Object
      */
     public Boolean containsVariable(String aVariable) {
 
@@ -45,13 +49,20 @@ public class CitizenDbObject implements Parcelable {
      * Get the value of the sparql variable
      *
      * @param aVariable
+     *
      * @return
      */
     public String GetValue(String aVariable) {
         return mMap.get(aVariable);
     }
 
-    public void writeToParcel(Parcel aDest, int flags) {
+    /**
+     * Flatten this object in to a Parcel.
+     *
+     * @param aDest The Parcel in which the object should be written.
+     * @param aFlags Additional flags about how the object should be written. May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
+     */
+    public void writeToParcel(Parcel aDest, int aFlags) {
         aDest.writeMap(mMap);
     }
 
@@ -70,6 +81,11 @@ public class CitizenDbObject implements Parcelable {
         }
     };
 
+    /**
+     * Indicates that the Parcelable object's flattened representation includes a file descriptor.
+     *
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
