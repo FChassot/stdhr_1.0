@@ -40,8 +40,8 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -237,7 +237,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
          * @param aConvertView
          * @param parent
          *
-         * @return
+         * @return Returns the view
          */
         @Override
         public View getView(
@@ -456,7 +456,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         @Override
         public void onReceive(Context aContext, Intent aIntent)
         {
-            if (aIntent.getAction() != RetrieveCitizenDataAsyncTask.ACTION3) {
+            if (!aIntent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION3)) {
                 return;
             }
 
@@ -497,7 +497,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             Integer lItemPosition = SpinnerHandler.getPositionByItem(lSubjectSpinner, lSubjectSelected);
 
-            if (lItemPosition != Basemodel.NULL_KEY)
+            if (!lItemPosition.equals(Basemodel.NULL_KEY))
             {
                 lSubjectSpinner.setSelection(lItemPosition);
             }
@@ -506,7 +506,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     /**
      *
-     * @return
      */
     private ArrayList<CulturalObjectType> getCulturalInterestTypes() {
 

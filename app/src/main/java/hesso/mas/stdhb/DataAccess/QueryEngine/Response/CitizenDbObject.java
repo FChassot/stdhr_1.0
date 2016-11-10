@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.DataAccess.QueryEngine;
+package hesso.mas.stdhb.DataAccess.QueryEngine.Response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class CitizenDbObject implements Parcelable {
 
     // Member variable
-    private Map<String, String> mMap = new HashMap<String, String>();
+    private Map<String, String> mMap = new HashMap<>();
 
     // Constructor
     public CitizenDbObject() {
@@ -32,25 +32,19 @@ public class CitizenDbObject implements Parcelable {
     /**
      * This method checks if the variable is contained in the response
      *
-     * @param aVariable
+     * @param aVariable The variable
      *
      * @return return true if the variable is contained in the citizen Db Object
      */
     public Boolean containsVariable(String aVariable) {
 
-        if (mMap.containsKey(aVariable)) {
-            return true;
-        }
-
-        return false;
+        return mMap.containsKey(aVariable);
     }
 
     /**
      * Get the value of the sparql variable
      *
      * @param aVariable
-     *
-     * @return
      */
     public String GetValue(String aVariable) {
         return mMap.get(aVariable);
@@ -84,7 +78,6 @@ public class CitizenDbObject implements Parcelable {
     /**
      * Indicates that the Parcelable object's flattened representation includes a file descriptor.
      *
-     * @return
      */
     @Override
     public int describeContents() {

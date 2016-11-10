@@ -3,8 +3,8 @@ package hesso.mas.stdhb.DataAccess.Services;
 import java.util.ArrayList;
 import java.util.List;
 
-import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.QueryEngine;
 
 /**
@@ -15,7 +15,8 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.QueryEngine;
  */
 public class CitizenServices {
 
-    public void CitizenServices() {}
+    // Constructor
+    public CitizenServices() {}
 
     /**
      * This method allows to retrieve the possible subjects in the Citizen DB

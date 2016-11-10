@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.DataAccess.QueryEngine;
+package hesso.mas.stdhb.DataAccess.QueryEngine.Response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,7 +14,8 @@ import java.util.List;
  */
 public class CitizenQueryResult implements Parcelable {
 
-    public List<CitizenDbObject> mList = new ArrayList<>();
+    // Member variable
+    private List<CitizenDbObject> mList = new ArrayList<>();
 
     // Constructor
     public CitizenQueryResult() {}
@@ -27,16 +28,16 @@ public class CitizenQueryResult implements Parcelable {
     /**
      * Add an CitizenDbObject in the CitizenQueryResult's list
      *
-     * @param aCitizenDbObject
+     * @param aCitizenDbObject The object to add in the list
      */
     public void Add(CitizenDbObject aCitizenDbObject) {
         mList.add(aCitizenDbObject);
     }
 
     /**
-     * Add
+     * Add a list of objects in the list
      *
-     * @param aCitizenDbObjects
+     * @param aCitizenDbObjects The list of objects to add in the list
      */
     public void AddRange(List<CitizenDbObject> aCitizenDbObjects) {
         mList = aCitizenDbObjects;
@@ -45,7 +46,6 @@ public class CitizenQueryResult implements Parcelable {
     /**
      * Returns the size of the CitizenQueryResult's list
      *
-     * @return
      */
     public int Count() {
         return mList.size();
@@ -54,7 +54,7 @@ public class CitizenQueryResult implements Parcelable {
     /**
      * Exposes the list of CitizenDbObject
      *
-     * @return
+     * @return The list of CitizenDbObject
      */
     public List<CitizenDbObject> Results() { return mList; }
 

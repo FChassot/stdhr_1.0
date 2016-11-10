@@ -7,6 +7,8 @@ import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.WsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 
 import java.util.List;
 
@@ -19,8 +21,6 @@ import java.util.List;
 public class QueryEngine {
 
     public static List<CitizenDbObject> request(String aQuery) {
-
-        String lQuery = aQuery;
 
         EnumClientServerCommunication lClientServerCommunicationMode =
                 EnumClientServerCommunication.ANDROJENA;
@@ -40,7 +40,7 @@ public class QueryEngine {
                         lEndPointWs);
 
         try {
-            lResponse = lWsClient.executeRequest(lQuery);
+            lResponse = lWsClient.executeRequest(aQuery);
 
         } catch (Exception e) {
             e.printStackTrace();

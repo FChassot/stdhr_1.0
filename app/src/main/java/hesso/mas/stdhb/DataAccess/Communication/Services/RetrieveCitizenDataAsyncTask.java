@@ -9,7 +9,7 @@ import android.util.Log;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 
 import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;

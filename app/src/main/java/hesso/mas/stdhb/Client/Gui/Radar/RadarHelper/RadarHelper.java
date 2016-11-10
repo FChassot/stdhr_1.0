@@ -11,8 +11,8 @@ import hesso.mas.stdhb.Base.Models.Class.CulturalObjectType;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 
 /**
  * Created by chf on 01.09.2016.
@@ -28,7 +28,7 @@ public final class RadarHelper {
      * This method analyses the response from the sparql request and converts this one into a list
      * of radarMarker
      *
-     * @param aQueryResult
+     * @param aQueryResult The result of the query to be converted in a list of radarmarker
      * @param aCompassHeading
      * @param aCurrentUserLocation The current location of the app's user
      * @param aRadius The radius of the radar's search
@@ -206,8 +206,9 @@ public final class RadarHelper {
      * @param aXPosition2OnScreen
      * @param aYPosition2OnScreen
      *
-     * @return
+     * @return The distance between the two points
      */
+    @SuppressWarnings("UnnecessaryLocalVariable")
     public static double calculateDistanceInTheViewBetweenTwoPoints(
             double aXPosition1OnScreen,
             double aYPosition1OnScreen,

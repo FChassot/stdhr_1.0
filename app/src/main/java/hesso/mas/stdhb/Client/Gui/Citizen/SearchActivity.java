@@ -32,9 +32,9 @@ import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
 import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 
@@ -46,8 +46,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;*/
-
-import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
@@ -118,7 +116,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (lBundle != null) {
             // to retrieve the cultural object selected in the radar view
             RadarMarker lCulturalObjectMarker = lBundle.getParcelable("RADAR_MARKER");
-            mTxtPlace.setText(lCulturalObjectMarker.getTitle());
+
+            if (lCulturalObjectMarker != null) {
+                mTxtPlace.setText(lCulturalObjectMarker.getTitle());
+            }
 
             if (lCulturalObjectMarker.getDescription() != null) {
                 if (lCulturalObjectMarker.getDescription().length() < 90) {
