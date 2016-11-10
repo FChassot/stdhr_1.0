@@ -2,13 +2,12 @@ package hesso.mas.stdhb.Base.Tools;
 
 /**
  * Created by chf on 09.11.2016.
+ *
  */
-
 public final class StringUtil {
 
-    // Constructor
-    private StringUtil() {
-    }
+    // private constructor
+    private StringUtil() {}
 
     /**
      * Indicates whether the specified string is null or an Empty string.

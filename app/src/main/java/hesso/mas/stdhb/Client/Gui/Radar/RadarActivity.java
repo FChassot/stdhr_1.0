@@ -52,6 +52,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
     // Member variables
     private RadarView mRadarView;
+
     private Preferences mPrefs;
 
     private boolean mUpdateRadarViewOrientation;
@@ -129,10 +130,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set the activity content to an explicit view
         setContentView(R.layout.activity_display);
 
         mPrefs = new Preferences(this);
-
         mGeolocationServices = new GpsLocationListener(this);
         mSpatialGeometryServices = new SpatialGeometryServices();
 
@@ -140,6 +141,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             mGeolocationServices.showSettingsAlert();
         }
 
+        // Finds the views that was identified by an id attribute
         mRadarView = (RadarView) findViewById(R.id.radarView);
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
         mNbrOfCulturalObjectsDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
@@ -178,8 +180,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
         this.startRadar(mRadarView);
 
-        mNbrOfCulturalObjectsDetected.setText(getResources().getString(
-                        R.string.txt_radar_doing_first_search));
+        mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_doing_first_search));
 
         assert mBtnStopRadar != null;
         mBtnStopRadar.setOnClickListener(this);

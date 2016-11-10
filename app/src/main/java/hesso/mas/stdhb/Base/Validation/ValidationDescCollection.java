@@ -14,8 +14,9 @@ public class ValidationDescCollection {
     private List<String> mList = new ArrayList<>();
 
     /**
+     * Method to access the list
      *
-     * @return
+     * @return the list of strings
      */
     public List<String> values() {
         return mList;

@@ -28,7 +28,7 @@ import javax.inject.Inject;
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // Member variable
-    @Inject Preferences mPrefs;
+     @Inject Preferences mPrefs;
 
     /*@Inject
     CustomApplication customApplication;*/
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); // Always call the superclass method first
+        super.onCreate(savedInstanceState);  // Always call the superclass method first
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_main);
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         // Assign singleton instances to fields
         //Injector.INSTANCE.getApplicationComponent().inject(this);
 
+        // Finds the views that was identified by an id attribute
         Button mRadarButton = (Button)findViewById(R.id.mBtnradar);
         Button mSearchButton = (Button)findViewById(R.id.mBtnSearch);
         Button mMapButton = (Button)findViewById(R.id.mBtnMap);
@@ -69,9 +70,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         assert mImgSettings != null;
         mImgSettings.setOnClickListener(this);
-
     }
 
+    /**
+     * Called when the activity is becoming visible to the user.
+     * Followed by onResume() if the activity comes to the foreground,
+     * or onStop() if it becomes hidden.
+     */
     @Override
     public void onStart() {
         super.onStart();  // Always call the superclass method first
@@ -84,17 +89,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     BaseConstants.Attr_Radar_Switch,
                     false);
 
-        if (lRadarMode == false) {lRadarButton.setEnabled(false); }
+        lRadarButton.setEnabled(lRadarMode);
     }
 
     /**
-     * When the user resumes your activity from the Paused state, the system calls the onResume() method.
+     * When the user resumes your activity from the Paused state, the system calls the onResume()
+     * method.
      *
      * Be aware that the system calls this method every time your activity comes into the foreground,
-     * including when it's created for the first time. As such, you should implement onResume() to initialize
-     * components that you release during onPause() and perform any other initializations that must occur each time
-     * the activity enters the Resumed state (such as begin animations and initialize components only used while
-     * the activity has user focus).
+     * including when it's created for the first time. As such, you should implement onResume() to
+     * initialize components that you release during onPause() and perform any other initializations
+     * that must occur each time the activity enters the Resumed state (such as begin animations and
+     * initialize components only used while the activity has user focus).
      */
     @Override
     public void onResume() {
@@ -111,6 +117,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         lRadarButton.setEnabled(lRadarMode);
     }
 
+    /**
+     * Called when the system is about to start resuming a previous activity. This is typically used
+     * to commit unsaved changes to persistent data, stop animations and other things that may be
+     * consuming CPU, etc. Implementations of this method must be very quick because the next activity
+     * will not be resumed until this method returns.
+     * Followed by either onResume() if the activity returns back to the front, or onStop() if it
+     * becomes invisible to the user.
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -121,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      * This method is called by the OnClickListener.
      */
     public void onClick(View aView){
+
         if (aView.getId()==R.id.mImgSettings){
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);

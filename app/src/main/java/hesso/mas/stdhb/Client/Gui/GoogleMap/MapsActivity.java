@@ -66,13 +66,16 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_maps); // Create the view
+        // Set the activity content to an explicit view
+        setContentView(R.layout.activity_maps);
 
         mGeolocationServices = new GpsLocationListener(this);
 
         mCurrentUserLocation = mGeolocationServices.getCurrentLocation();
 
-        Intent lIntent = getIntent();
+        // An intent is an abstract description of an operation to be performed.
+        // getIntent returns the intent that started this activity.
+        Intent lIntent = this.getIntent();
 
         // The bundle object contains a mapping from String keys
         // to various Parcelable values.
@@ -112,13 +115,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
             if (!lConnectivity.isActive()) {
                 Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps [internet network not active]", Toast.LENGTH_SHORT)
-                        .show();
+                    "Sorry! unable to create maps [internet network not active]", Toast.LENGTH_SHORT)
+                    .show();
 
             } else {
                 Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
+                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                    .show();
             }
         }
     }
@@ -133,9 +136,9 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap aGoogleMap) {
 
-        mMapFragment = googleMap;
+        mMapFragment = aGoogleMap;
 
         mMapFragment.setMyLocationEnabled(true);
 
@@ -222,18 +225,4 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         return true;
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMapFragment} is not null.
-     */
-    private void setUpMap() {
-        mMapFragment.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-    }
-
-    /*@Override
-    public void onLocationChanged(Location aLocation) {
-        mCurrentUserLocation = aLocation;
-    }*/
 }

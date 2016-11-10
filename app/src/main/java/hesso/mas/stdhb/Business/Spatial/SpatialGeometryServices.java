@@ -106,9 +106,10 @@ public class SpatialGeometryServices {
         double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
         double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
 
-        double lA = Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
-                + Math.cos(Math.toRadians(aLatitude1)) * Math.cos(Math.toRadians(aLatitude2))
-                * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
+        double lA =
+            Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
+            + Math.cos(Math.toRadians(aLatitude1)) * Math.cos(Math.toRadians(aLatitude2))
+            * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
 
         double lC = 2 * Math.atan2(Math.sqrt(lA), Math.sqrt(1 - lA));
 

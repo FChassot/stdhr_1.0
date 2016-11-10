@@ -16,29 +16,30 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  */
 public class RadarMarker extends Paint implements Parcelable {
 
-    Location mLocation = new Location(MyString.EMPTY_STRING);
+    // member variables
+    private Location mLocation = new Location(MyString.EMPTY_STRING);
 
-    int mXViewPosition = 0;
+    private int mXViewPosition = 0;
 
-    int mYViewPosition = 0;
+    private int mYViewPosition = 0;
 
-    int mXViewCurrentPosition = 0;
+    private int mXViewCurrentPosition = 0;
 
-    int mYViewCurrentPosition = 0;
+    private int mYViewCurrentPosition = 0;
 
     /**
      * The color of the marker
      */
-    int mColor;
+    private int mColor;
 
     /**
      * The text which will be displayed by selecting the cultural object
      */
-    String mTitle = MyString.EMPTY_STRING;
+    private String mTitle = MyString.EMPTY_STRING;
 
-    String mData = MyString.EMPTY_STRING;
+    private String mData = MyString.EMPTY_STRING;
 
-    String mDescription = MyString.EMPTY_STRING;
+    private String mDescription = MyString.EMPTY_STRING;
 
     //region Constructors
 
@@ -49,21 +50,6 @@ public class RadarMarker extends Paint implements Parcelable {
         super.setStyle(Paint.Style.FILL);
         super.setStrokeWidth(5.0F);
         super.setAlpha(0);
-    }
-
-    // Constructor
-    public RadarMarker(
-        int aPositionX,
-        int aPositionY,
-        double aLatitude,
-        double aLongitude,
-        int aColor) {
-
-        mXViewPosition = aPositionX;
-        mYViewPosition = aPositionY;
-        mLocation.setLatitude(aLatitude);
-        mLocation.setLongitude(aLongitude);
-        mColor = aColor;
     }
 
     // Constructor
@@ -226,6 +212,11 @@ public class RadarMarker extends Paint implements Parcelable {
         }
     };
 
+    /**
+     * Indicates that the Parcelable object's flattened representation includes a file descriptor.
+     *
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;

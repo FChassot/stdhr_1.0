@@ -95,7 +95,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Create a view
+        // Set the activity content to an explicit view
         setContentView(R.layout.activity_search);
 
         mCitizenServices = new CitizenServices();
@@ -105,6 +105,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // to retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
+        //Finds the views that was identified by an id attribute
         final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
         final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
         TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);

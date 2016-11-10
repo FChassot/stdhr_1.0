@@ -52,18 +52,17 @@ import hesso.mas.stdhbtests.R;
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
     // Member variables
-
-    Preferences mPrefs;
+    private Preferences mPrefs;
 
     //private Receiver mReceiver;
 
-    MyCustomAdapter mDataAdapter = null;
+    private MyCustomAdapter mDataAdapter = null;
 
-    NetworkConnectivity mConnectivity;
+    private NetworkConnectivity mConnectivity;
 
-    ArrayList<CulturalObjectType> mCulturalObjectTypes = null;
+    private ArrayList<CulturalObjectType> mCulturalObjectTypes = null;
 
-    List<String> mCulturalObjectSubjects = new ArrayList<>();
+    private List<String> mCulturalObjectSubjects = new ArrayList<>();
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -76,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // create a View
+        // Set the activity content to an explicit view
         setContentView(R.layout.activity_setting);
 
         // Declares a broadcast receiver as one of the application's components.
@@ -92,6 +91,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         mConnectivity = new NetworkConnectivity(this);
 
+        // Finds the views that was identified by an id attribute
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         EditText mDTxtRadius = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
@@ -303,18 +303,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     /**
      * The onClick() method is called when a button is actually clicked (or tapped).
      * This method is called by the listener.
-     *
      */
     public void onClick(View view){}
 
     /**
-     * When the user resumes your activity from the Paused state, the system calls the onResume() method.
+     * When the user resumes your activity from the Paused state, the system calls the onResume()
+     * method.
      *
-     *      Be aware that the system calls this method every time your activity comes into the foreground,
-     *      including when it's created for the first time. As such, you should implement onResume() to initialize
-     *      components that you release during onPause() and perform any other initializations that must occur each time
-     *      the activity enters the Resumed state (such as begin animations and initialize components only used while
-     *      the activity has user focus).
+     * Be aware that the system calls this method every time your activity comes into the foreground,
+     * including when it's created for the first time. As such, you should implement onResume() to
+     * initialize components that you release during onPause() and perform any other initializations
+     * that must occur each time the activity enters the Resumed state (such as begin animations and
+     * initialize components only used while the activity has user focus).
      */
     @Override
     public void onResume() {
@@ -322,17 +322,12 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     }
 
     /**
-     * When the system calls onPause() for your activity, it technically means your activity is still
-     * partially visible, but most often is an indication that the user is leaving the activity and it
-     * will soon enter the Stopped state. You should usually use the onPause() callback to:
-     *
-     *        - Check if the activity is visible; if it is not, stop animations or other ongoing actions that could consume CPU.
-     *          Remember, beginning with Android 7.0, a paused app might be running in multi-window mode. In this case, you would
-     *          not want to stop animations or video playback.
-     *        - Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave
-     *          (such as a draft email).
-     *        - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources
-     *          that may affect battery life while your activity is paused and the user does not need them.
+     * Called when the system is about to start resuming a previous activity.
+     * This is typically used to commit unsaved changes to persistent data, stop animations and
+     * other things that may be consuming CPU, etc. Implementations of this method must be very
+     * quick because the next activity will not be resumed until this method returns.
+     * Followed by either onResume() if the activity returns back to the front, or onStop() if it
+     * becomes invisible to the user.
      */
     @Override
     public void onPause() {
@@ -404,7 +399,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     /**
      * Start an Async search on the endPoint Sparql Server
-     *
      */
     private void startAsyncSearch() {
 
