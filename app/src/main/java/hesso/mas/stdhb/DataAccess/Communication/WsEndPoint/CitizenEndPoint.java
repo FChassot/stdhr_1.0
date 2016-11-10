@@ -1,7 +1,5 @@
 package hesso.mas.stdhb.DataAccess.Communication.WsEndPoint;
 
-import hesso.mas.stdhb.Base.Tools.MyString;
-
 /**
  * Created by chf on 20.06.2016.
  *
@@ -9,43 +7,27 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  */
 public class CitizenEndPoint extends WsEndPoint {
 
-    // Citizen Server Uri
-    private String mCitizenServerUri = MyString.EMPTY_STRING;
-
-    // Citizen Repository Name
-    private String mCitizenRepositoryName = MyString.EMPTY_STRING;
-
     // Constructor
     public CitizenEndPoint(
-            String aServerUri,
-            String aRepositoryName) {
+        String aServerUri,
+        String aRepositoryName) {
 
-        mCitizenServerUri = aServerUri;
-        mCitizenRepositoryName = aRepositoryName;
+        this.ServerUri(aServerUri);
+        this.Repository(aRepositoryName);
     }
 
-    // Setter
-    public void CitizenServerUri(String aCitizenServerUri) {
-        mCitizenServerUri = aCitizenServerUri;
-    }
-
-    // Getter
-    public String CitizenServerUri(){
-        return mCitizenServerUri;
-    }
-
-    // Setter
-    public void CitizenRepositoryName(String aCitizenRepository) {
-        mCitizenRepositoryName = aCitizenRepository;
-    }
-
-    // Getter
-    public String CitizenRepositoryName(){
-        return mCitizenRepositoryName;
-    }
-
-    // Getter
+    /**
+     * Returns the service of the citizen Endpoint
+     * Queries on a specific sesame repository with ID <ID> can be evaluated by sending requests to:
+     * <SESAME_URL>/repositories/<ID>.
+     * This resource represents a SPARQL query endpoint.
+     *
+     * http://graphdb.ontotext.com/sesame/system/ch08.html
+     *
+     * @return the resource which represents the SPARQL query endpoint
+     */
     public String Service(){
-        return mCitizenServerUri + "repositories/" + mCitizenRepositoryName;
+        return this.ServerUri() + "repositories/" + this.Repository();
     }
+
 }

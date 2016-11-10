@@ -9,20 +9,33 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  */
 public abstract class WsEndPoint {
 
-    // Citizen Server Uri
+    // Server Uri
     private String mServerUri = MyString.EMPTY_STRING;
+
+    // Repository Name
+    private String mRepositoryName = MyString.EMPTY_STRING;
 
     // Constructor
     public WsEndPoint() {}
 
     // Setter
-    public void CitizenServerUri(String aCitizenServerUri) {
+    public void ServerUri(String aCitizenServerUri) {
         mServerUri = aCitizenServerUri;
     }
 
     // Getter
-    public String CitizenServerUri(){
+    public String ServerUri(){
         return mServerUri;
+    }
+
+    // Setter
+    public void Repository(String aRepositoryName) {
+        mRepositoryName = aRepositoryName;
+    }
+
+    // Getter
+    public String Repository(){
+        return mRepositoryName;
     }
 
 }
