@@ -9,6 +9,9 @@ import android.location.Location;
  */
 public class SpatialGeometryServices {
 
+    // Constructor
+    public SpatialGeometryServices() {}
+
     /**
      * This method allows to search the radius of search in radians
      *
@@ -16,7 +19,7 @@ public class SpatialGeometryServices {
      *
      * @return the radius of search in radians
      */
-    public static double getRadiusInRadian(
+    public double getRadiusInRadian(
         Location aCurrentUserLocation,
         int aRadiusSearch) {
 
@@ -38,7 +41,7 @@ public class SpatialGeometryServices {
      * @return the distance in meters between the current latitude and this one
      * with a difference of one degree
      */
-    public static double getDistanceForOneLatitudeDegree(
+    public double getDistanceForOneLatitudeDegree(
         Location aCurrentUserLocation) {
 
         double lDistance =
@@ -61,7 +64,7 @@ public class SpatialGeometryServices {
      * @return the distance in meters between the current longitude and this one
      * with a difference of one degree
      */
-    public static double getDistanceForOneLongitudeDegree(
+    public double getDistanceForOneLongitudeDegree(
         Location aCurrentUserLocation) {
 
         double lDistance =

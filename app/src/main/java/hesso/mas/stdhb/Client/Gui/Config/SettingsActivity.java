@@ -33,7 +33,7 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Models.Basemodel;
-import hesso.mas.stdhb.Base.Tools.IntegerExtensions;
+import hesso.mas.stdhb.Base.Tools.IntegerUtil;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
@@ -345,7 +345,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         String lRadiusSearchStr = lTxtRadius.getText().toString();
 
-        if (IntegerExtensions.tryParseInt(lRadiusSearchStr)) {
+        if (IntegerUtil.tryParseInt(lRadiusSearchStr)) {
             mPrefs.setMyIntPref(
                     this,
                     BaseConstants.Attr_Radius_Search,

@@ -70,6 +70,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
     private GpsLocationListener mGeolocationServices;
 
+    private SpatialGeometryServices mSpatialGeometryServices;
+
     private Location mCurrentUserLocation;
 
     private double mRadius;
@@ -132,6 +134,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         mPrefs = new Preferences(this);
 
         mGeolocationServices = new GpsLocationListener(this);
+        mSpatialGeometryServices = new SpatialGeometryServices();
 
         if (!mGeolocationServices.isLocationRetrievePossible()) {
             mGeolocationServices.showSettingsAlert();
@@ -722,7 +725,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         BaseConstants.Attr_Default_Radius_Search);
 
         double lRadius =
-                SpatialGeometryServices.getRadiusInRadian(
+                mSpatialGeometryServices.getRadiusInRadian(
                         mCurrentUserLocation,
                         lRadiusOfSearch);
 

@@ -10,24 +10,27 @@ public class CulturalObjectType {
 
     // member variables
     String code = null;
+
     String name = null;
+
     boolean selected = false;
 
     // public constructor
     public CulturalObjectType(
-            String code,
-            String name,
-            boolean selected) {
+        String aCode,
+        String aName,
+        boolean selected) {
 
         super();
-        this.code = code;
-        this.name = name;
+
+        this.code = aCode;
+        this.name = aName;
         this.selected = selected;
     }
 
     // Setter
-    public void setCode(String code) {
-        this.code = code;
+    public void setCode(String aCode) {
+        this.code = aCode;
     }
 
     // Getter
@@ -36,8 +39,8 @@ public class CulturalObjectType {
     }
 
     // Setter
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String aName) {
+        this.name = aName;
     }
 
     // Getter
@@ -46,8 +49,8 @@ public class CulturalObjectType {
     }
 
     // Setter
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setSelected(boolean aSelected) {
+        this.selected = aSelected;
     }
 
     // Getter

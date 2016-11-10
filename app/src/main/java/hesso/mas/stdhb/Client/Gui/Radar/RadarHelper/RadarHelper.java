@@ -45,7 +45,7 @@ public final class RadarHelper {
         int aHeightView,
         int aWidthView) {
 
-        Checks.AssertNotNull(aQueryResult);
+        Checks.AssertNotNull(aQueryResult, "aQueryResult");
 
         List<RadarMarker> lMarkers = new ArrayList<>();
         List<RadarMarker> lLisOfMarkersFiltered = new ArrayList<>();
@@ -66,7 +66,8 @@ public final class RadarHelper {
             double lCulturalObjectLatitude = Double.parseDouble(lCulturalObject.GetValue("lat"));
             double lCulturalObjectLongitude = Double.parseDouble(lCulturalObject.GetValue("long"));
 
-            double lRadius = SpatialGeometryServices.getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
+            SpatialGeometryServices lSpatialGeometryServices = new SpatialGeometryServices();
+            double lRadius = lSpatialGeometryServices.getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
 
             //double lLatitudeMin = lCulturalObjectLatitude - lRadius;
             //double lLatitudeMax = lCulturalObjectLatitude + lRadius;
@@ -110,7 +111,7 @@ public final class RadarHelper {
     public static List<String> getCulturalObjectSubjectFromResponse(
         CitizenQueryResult aQueryResult) {
 
-        Checks.AssertNotNull(aQueryResult);
+        Checks.AssertNotNull(aQueryResult, "aQueryResult");
 
         List<String> lSubjects = new ArrayList<>();
 

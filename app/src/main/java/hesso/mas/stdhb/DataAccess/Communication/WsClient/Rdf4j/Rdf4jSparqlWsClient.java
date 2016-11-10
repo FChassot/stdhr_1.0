@@ -29,7 +29,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
     // Constructor
     public Rdf4jSparqlWsClient(CitizenEndPoint aWsEndpoint) {
 
-        Checks.AssertNotNull(aWsEndpoint);
+        Checks.AssertNotNull(aWsEndpoint, "aWsEndpoint");
 
         mWsEndpoint = aWsEndpoint;
     }

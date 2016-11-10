@@ -13,11 +13,11 @@ import android.net.NetworkInfo;
  */
 public class NetworkConnectivity {
 
+    // Member variable
     private final Context mContext;
 
     // Constructor
     public NetworkConnectivity(Context context) {
-
         this.mContext = context;
     }
 
@@ -38,30 +38,6 @@ public class NetworkConnectivity {
         }
 
         return false;
-    }
-
-    /**
-     * Check if the GPS is available
-     *
-     * @return returns true when the connection is available
-     */
-    public boolean isGpsEnabled() {
-
-        boolean lIsGpsEnabled = false;
-
-        try {
-            // the locationManager class provides access to the system location services.
-            LocationManager lLocationManager =
-                (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-
-            // get GPS status
-            lIsGpsEnabled = lLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        } catch (Exception aExc) {
-            aExc.printStackTrace();
-        }
-
-        return lIsGpsEnabled;
     }
 
     /**
@@ -86,5 +62,29 @@ public class NetworkConnectivity {
         }
 
         return lIsNetworkAvailable;
+    }
+
+    /**
+     * Check if the GPS is available
+     *
+     * @return returns true when the gps system is available
+     */
+    public boolean isGpsEnabled() {
+
+        boolean lIsGpsEnabled = false;
+
+        try {
+            // the locationManager class provides access to the system location services.
+            LocationManager lLocationManager =
+                (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+
+            // get GPS status
+            lIsGpsEnabled = lLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        } catch (Exception aExc) {
+            aExc.printStackTrace();
+        }
+
+        return lIsGpsEnabled;
     }
 }
