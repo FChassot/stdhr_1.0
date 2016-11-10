@@ -107,6 +107,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         // Obtain the MapFragment and get notified when the map is ready to be used.
         MapFragment mMapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
 
+        // The google Map is acquired using getMapAsync(OnMapReadyCallback)
         mMapFragment.getMapAsync(this);
 
         // Check if map is created successfully or not
@@ -149,13 +150,21 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 mCurrentUserMarker.getLatitude(),
                 mCurrentUserMarker.getLongitude());
 
+        lBuilder.include(lLatLngCurrentUserLocation);
+
+        // Add a marker in the marker location
+        mMapFragment.addMarker(
+                new MarkerOptions()
+                        .position(lLatLngCurrentUserLocation)
+                        .title(mCurrentUserMarker.getTitle()));
+
         if (mCulturalObjectMarkerSelected != null) {
             LatLng lLatLngCulturalObjectLocation =
                 new LatLng(
                     mCulturalObjectMarkerSelected.getLatitude(),
                     mCulturalObjectMarkerSelected.getLongitude());
 
-            lBuilder.include(lLatLngCulturalObjectLocation).include(lLatLngCurrentUserLocation);
+            lBuilder.include(lLatLngCulturalObjectLocation);
 
             // Add a marker in the current location and move the camera
             mMapFragment.addMarker(
@@ -163,49 +172,46 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                     .position(lLatLngCulturalObjectLocation)
                     .title(mCulturalObjectMarkerSelected.getTitle()));
 
-        } else {
-            lBuilder.include(lLatLngCurrentUserLocation);
         }
 
         // Add all markers non selected as well
         if (mCulturalObjectMarkers != null) {
             for (RadarMarker lMarker : mCulturalObjectMarkers) {
                 LatLng lLatLngCulturalObjectLocation =
-                        new LatLng(
-                                lMarker.getLatitude(),
-                                lMarker.getLongitude());
+                    new LatLng(
+                        lMarker.getLatitude(),
+                        lMarker.getLongitude());
 
                 lBuilder.include(lLatLngCulturalObjectLocation);
 
                 // Add a marker in the current location and move the camera
                 mMapFragment.addMarker(
-                        new MarkerOptions()
-                                .position(lLatLngCulturalObjectLocation)
-                                .title(lMarker.getTitle())
-                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_museum)));
+                    new MarkerOptions()
+                        .position(lLatLngCulturalObjectLocation)
+                        .title(lMarker.getTitle())
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_museum)));
             }
         }
 
-        // Add a marker in the marker location
-        mMapFragment.addMarker(
-            new MarkerOptions()
-                .position(lLatLngCurrentUserLocation)
-                .title(mCurrentUserMarker.getTitle()));
-
-        mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 2));
+        // Returns a CameraUpdate that transforms the camera such that the specified latitude/longitude
+        // bounds are centered on screen at the greatest possible zoom level.
+        mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 900, 900, 2));
     }
 
     /**
      * Called when a marker has been clicked or tapped.
      *
-     * @param aMarker The marker that was clicked.
+     * @param aMarker The marker that is selected.
      *
-     * @return true if the listener has consumed the event (i.e., the default behavior should not occur);
-     * false otherwise (i.e., the default behavior should occur).
+     * @return true if the listener has consumed the event (i.e., the default behavior should
+     * not occur); false otherwise (i.e., the default behavior should occur).
      */
     public boolean onMarkerClick (Marker aMarker) {
 
         Intent lIntent = new Intent(this, SearchActivity.class);
+
+        // The bundle object contains a mapping from String keys
+        // to various Parcelable values.
         Bundle lBundle = new Bundle();
 
         RadarMarker lSelectedMarker = new RadarMarker();
