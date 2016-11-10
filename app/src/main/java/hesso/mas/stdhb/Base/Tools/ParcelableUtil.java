@@ -1,9 +1,5 @@
 package hesso.mas.stdhb.Base.Tools;
 
-/**
- * Created by chf on 04.10.2016.
- */
-
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -14,13 +10,11 @@ import java.util.List;
 /**
  * Created by chf on 01.11.2016
  *
- *
  */
 public final class ParcelableUtil {
 
-    // Constructor
-    private ParcelableUtil() {
-    }
+    // private constructor
+    private ParcelableUtil() {}
 
     /**
      *
@@ -30,7 +24,8 @@ public final class ParcelableUtil {
      */
     public static void putSerializableList(
         Bundle aBundle,
-        ArrayList<? extends Serializable> aList, String aKey) {
+        ArrayList<? extends Serializable> aList,
+        String aKey) {
 
         if (aList == null) {
             return;
@@ -43,9 +38,17 @@ public final class ParcelableUtil {
         }
     }
 
+    /**
+     *
+     * @param aBundle
+     * @param key
+     * @param <T>
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static <T> ArrayList<T> getSerializableArrayList(
-        Bundle aBundle, String key) {
+        Bundle aBundle,
+        String key) {
 
         int lSize = aBundle.getInt(key + "size", -1);
 
@@ -62,9 +65,17 @@ public final class ParcelableUtil {
         return result;
     }
 
+    /**
+     *
+     * @param aBundle
+     * @param aList
+     * @param aKey
+     */
     @SuppressWarnings("unchecked")
     public static void putParcelableList(
-        Bundle aBundle, List<? extends Parcelable> aList, String aKey) {
+        Bundle aBundle,
+        List<? extends Parcelable> aList,
+        String aKey) {
 
         if (aList == null) {
             return;

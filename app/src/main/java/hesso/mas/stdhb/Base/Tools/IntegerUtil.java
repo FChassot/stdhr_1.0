@@ -2,8 +2,12 @@ package hesso.mas.stdhb.Base.Tools;
 
 /**
  * Created by chf on 13.10.2016.
+ *
  */
 public final class IntegerUtil {
+
+    // private constructor
+    private IntegerUtil() {}
 
     /**
      * The method try to cast the string aValue to an int.
