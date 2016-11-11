@@ -44,7 +44,15 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
-public class RadarActivity extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
+/**
+ * Created by chf on 11.07.2016.
+ *
+ * Activity for the radar functionality
+ */
+public class RadarActivity
+        extends AppCompatActivity
+        implements SensorEventListener,
+        View.OnClickListener {
 
     // Constant
     private static final String TAG = "RadarActivity";
@@ -56,11 +64,11 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
     private boolean mUpdateRadarViewOrientation;
 
-    Button mBtnStopRadar;
+    private Button mBtnStopRadar;
 
-    TextView mNbrOfCulturalObjectsDetected = null;
+    private TextView mNbrOfCulturalObjectsDetected = null;
 
-    // an handler allows you to send and process message
+    // An handler allows you to send and process message
     // and Runnable objects associated with a thread's MessageQueue.
     Handler mHandler = new android.os.Handler();
 
@@ -123,11 +131,11 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      *
      * The app uses the device's magnetometer (compass).
      *
-     * @param savedInstanceState
+     * @param aSavedInstanceState
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle aSavedInstanceState) {
+        super.onCreate(aSavedInstanceState);
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_display);
@@ -145,26 +153,28 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
         mNbrOfCulturalObjectsDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
 
-        ImageView mImgBack = (ImageView)findViewById(R.id.mImgBack);
-        ImageView mImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
-        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        ImageButton mImgBtnZoom = (ImageButton)findViewById(R.id.imgBtnZoom);
-        ImageButton mImgBtnZoomReset = (ImageButton)findViewById(R.id.imgBtnReset);
+        ImageView lImgBack = (ImageView)findViewById(R.id.mImgBack);
+        ImageView lImgRadarInfo = (ImageView)findViewById(R.id.mImgRadarInfo);
+        TextView lRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+        ImageButton lImgBtnZoom = (ImageButton)findViewById(R.id.imgBtnZoom);
+        ImageButton lImgBtnZoomReset = (ImageButton)findViewById(R.id.imgBtnReset);
 
-        mImgBtnZoomReset.setEnabled(false);
+        lImgBtnZoom.setEnabled(true);
+        lImgBtnZoomReset.setEnabled(false);
 
-        // initialize the android device sensor capabilities
+        // Initialize the android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        // get the default sensor for the given type.
+        // Get the default sensor for the given type.
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
+        // Broadcast receivers enable applications to receive intents that are broadcast
+        // by the system or by other applications, even when other components of the application
+        // are not running.
         mReceiver = new Receiver();
 
-        IntentFilter lFilter =
-            new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
-
+        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
         this.registerReceiver(mReceiver, lFilter);
 
         mRadius =
@@ -184,32 +194,33 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         assert mBtnStopRadar != null;
         mBtnStopRadar.setOnClickListener(this);
 
-        assert mImgBack != null;
-        mImgBack.setOnClickListener(this);
+        assert lImgBack != null;
+        lImgBack.setOnClickListener(this);
 
-        assert mImgRadarInfo != null;
-        mImgRadarInfo.setOnClickListener(this);
+        assert lImgRadarInfo != null;
+        lImgRadarInfo.setOnClickListener(this);
 
-        assert mRadiusInfo != null;
-        mRadiusInfo.setOnClickListener(this);
+        assert lRadiusInfo != null;
+        lRadiusInfo.setOnClickListener(this);
 
-        assert mImgBtnZoom != null;
-        mImgBtnZoom.setOnClickListener(this);
+        assert lImgBtnZoom != null;
+        lImgBtnZoom.setOnClickListener(this);
 
-        assert mImgBtnZoomReset != null;
-        mImgBtnZoomReset.setOnClickListener(this);
+        assert lImgBtnZoomReset != null;
+        lImgBtnZoomReset.setOnClickListener(this);
 
         mGestureDetector = new GestureDetector(this, new GestureListener());
     }
 
     /**
-     * When the user resumes your activity from the Paused state, the system calls the onResume() method.
+     * When the user resumes your activity from the Paused state, the system calls the onResume()
+     * method.
      *
-     *      Be aware that the system calls this method every time your activity comes into the foreground,
-     *      including when it's created for the first time. As such, you should implement onResume() to initialize
-     *      components that you release during onPause() and perform any other initializations that must occur each time
-     *      the activity enters the Resumed state (such as begin animations and initialize components only used while
-     *      the activity has user focus).
+     * Be aware that the system calls this method every time your activity comes into the foreground,
+     * including when it's created for the first time. As such, you should implement onResume() to
+     * initialize components that you release during onPause() and perform any other initializations
+     * that must occur each time the activity enters the Resumed state (such as begin animations and
+     * initialize components only used while the activity has user focus).
      */
     @Override
     protected void onResume() {
@@ -217,21 +228,21 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         super.onResume();
 
         // Update the radar's information
-        updateInfoTxtView();
+        this.updateInfoTxtView();
 
         // Start the radar
         mRadarView.startRadar();
 
         // For the system's orientation sensor registered listeners
         mSensorManager.registerListener(
-                this,
-                mAccelerometer,
-                SensorManager.SENSOR_DELAY_GAME);
+            this,
+            mAccelerometer,
+            SensorManager.SENSOR_DELAY_GAME);
 
         mSensorManager.registerListener(
-                this,
-                mMagnetometer,
-                SensorManager.SENSOR_DELAY_GAME);
+            this,
+            mMagnetometer,
+            SensorManager.SENSOR_DELAY_GAME);
     }
 
     /**
@@ -250,7 +261,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             mSensorManager.unregisterListener(this);
             //mWakeLock.release();                      //keep screen on
 
-        } catch (Exception e) {
+        } catch (Exception aExc) {
             //Log.e(MatabbatManager.TAG, getClass() + " Releasing receivers-" + e.getMessage());
         }
     }
@@ -260,20 +271,22 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
      * partially visible, but most often is an indication that the user is leaving the activity and it
      * will soon enter the Stopped state. You should usually use the onPause() callback to:
      *
-     * - Check if the activity is visible; if it is not, stop animations or other ongoing actions that could consume CPU.
-     * Remember, beginning with Android 7.0, a paused app might be running in multi-window mode. In this case, you would
-     * not want to stop animations or video playback.
-     * - Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave
-     * (such as a draft email).
-     * - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources
+     * - Check if the activity is visible; if it is not, stop animations or other ongoing actions
+     * that could consume CPU.
+     * Remember, beginning with Android 7.0, a paused app might be running in multi-window mode.
+     * In this case, you would not want to stop animations or video playback.
+     * - Commit unsaved changes, but only if users expect such changes to be permanently saved when
+     * they leave (such as a draft email).
+     * - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or
+     * any resources
      * that may affect battery life while your activity is paused and the user does not need them.
      */
     @Override
     public void onPause() {
         super.onPause();
 
-        // Stop the radar. When the radar is stopped, other services are stopped as well
-        // (updateRadarmarkers and updateOrientation)
+        // Stop the radar. When the radar is stopped, other services are stopped as well,
+        // like the update of the markers and the update of the orientation.
         this.stopRadar(mRadarView);
 
         // Stop the listener and save battery
@@ -282,108 +295,124 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         mSensorManager.unregisterListener(this, mMagnetometer);
     }
 
-    /**
-     * Delegate the event to the gesture detector
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        return mGestureDetector.onTouchEvent(e);
-    }
+    //region UpdateTextFields
 
-    /**
-     * Update the text displayed on the mBtnStopRadar Button
-     */
-    private void updateButtonText() {
-        if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
-        {
-            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
-        }
-        else {
-            mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
-        }
-    }
-
-    /**
-     * This method updates the different fields in the UI
-     */
-    private void updateInfoTxtView() {
-        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-
-        String lSubject =
-                mPrefs.getMyStringPref(
-                        this,
-                        BaseConstants.Attr_Subject_Selected,
-                        MyString.EMPTY_STRING);
-
-   /*     if (mRadius < 1000) {
-            String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-            mRadiusInfo.setText(lText);
-        } else {
-            String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
-            if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-            mRadiusInfo.setText(lText);
-        }*/
-    }
-
-    /**
-     * The onClick() method is called when a button is actually clicked (or tapped).
-     * This method is called by the listener.
-     */
-    public void onClick(View aView){
-        if (aView.getId()==R.id.mBtnStopRadar){
-            if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
-                this.stopRadar(this.mRadarView);
+        /**
+         * Update the text displayed on the mBtnStopRadar Button
+         */
+        private void updateButtonText() {
+            if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
+            {
+                mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
             }
             else {
-                this.startRadar(this.mRadarView);
+                mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
             }
+        }
 
-            this.updateButtonText();
-        }
-        if (aView.getId()==R.id.mImgBack){
-            this.stopRadar(this.mRadarView);
+        /**
+         * This method updates the different fields in the UI
+         */
+        private void updateInfoTxtView() {
 
-            Intent lIntent = new Intent(RadarActivity.this, MainActivity.class);
-            startActivity(lIntent);
-        }
-        if (aView.getId()==R.id.mDtxtRadiusInfo){
-            Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
-            startActivity(lIntent);
-        }
-        if (aView.getId()==R.id.imgBtnZoom){
-            if ((mRadius / 2) <= 1) {
-                mRadius = 1;
+            TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+
+            String lSubject =
+                    mPrefs.getMyStringPref(
+                            this,
+                            BaseConstants.Attr_Subject_Selected,
+                            MyString.EMPTY_STRING);
+
+            if (mRadius < 1000) {
+                String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
+                if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+                mRadiusInfo.setText(lText);
             } else {
-                mRadius = (mRadius / 2);
+                String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
+                if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+                mRadiusInfo.setText(lText);
             }
-
-            mRadarView.stopRadar();
-            mRadarView.startRadar();
-            startAsyncSearch();
-            updateInfoTxtView();
         }
-        if (aView.getId()==R.id.imgBtnReset){
-            if ((mRadius * 2) > 100000) {
-                Preferences lPrefs = new Preferences(this);
 
-                mRadius =
-                        lPrefs.getMyIntPref(
-                                this,
-                                BaseConstants.Attr_Radius_Search,
-                                BaseConstants.Attr_Default_Radius_Search);
-            } else {
-                mRadius = (mRadius * 2);
+        /**
+         * Update the TextView which informs about the number of objects in proximity
+         *
+         * @param aTextView
+         */
+        private void updateRadarText(TextView aTextView) {
+            if (mRadarView.getMarkers() != null) {
+                aTextView.setText(
+                        mRadarView.getMarkers().size() +
+                                " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
             }
-
-            mRadarView.stopRadar();
-            mRadarView.startRadar();
-            startAsyncSearch();
-            updateInfoTxtView();
         }
-    }
 
-    //region Radar
+    //endregion
+
+    //region OnClickListener
+
+        /**
+         * The onClick() method is called when a button is actually clicked (or tapped).
+         * This method is called by the listener.
+         */
+        public void onClick(View aView){
+            if (aView.getId()==R.id.mBtnStopRadar){
+                if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
+                    this.stopRadar(this.mRadarView);
+                }
+                else {
+                    this.startRadar(this.mRadarView);
+                }
+
+                this.updateButtonText();
+            }
+            if (aView.getId()==R.id.mImgBack){
+                this.stopRadar(this.mRadarView);
+
+                Intent lIntent = new Intent(RadarActivity.this, MainActivity.class);
+                startActivity(lIntent);
+            }
+            if (aView.getId()==R.id.mDtxtRadiusInfo){
+                Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
+                startActivity(lIntent);
+            }
+            if (aView.getId()==R.id.imgBtnZoom){
+                if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_stop_radar))) {return;}
+
+                if ((mRadius / 2) <= 1) {
+                    mRadius = 1;
+                } else {
+                    mRadius = (mRadius / 2);
+                }
+
+                mRadarView.stopRadar();
+                mRadarView.startRadar();
+                startAsyncSearch();
+                updateInfoTxtView();
+            }
+            if (aView.getId()==R.id.imgBtnReset){
+                if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_stop_radar))) {return;}
+
+                if ((mRadius * 2) > 100000) {
+                    mRadius =
+                            mPrefs.getMyIntPref(
+                                    this,
+                                    BaseConstants.Attr_Radius_Search,
+                                    BaseConstants.Attr_Default_Radius_Search);
+                } else {
+                    mRadius = (mRadius * 2);
+                }
+
+                mRadarView.stopRadar();
+                mRadarView.startRadar();
+                startAsyncSearch();
+                updateInfoTxtView();
+            }
+        }
+
+    //endregion
+
+    //region updateDataRunnable
 
     Runnable updateDataRunnable = new Runnable() {
         @Override
@@ -394,40 +423,12 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     };
 
     /**
-     * Start the radar's animation
-     *
-     * @param aView
-     */
-    public void startRadar(View aView) {
-
-        if (mRadarView != null) {
-            mRadarView.startRadar();
-            startUpdateMarkersFromCitizen();
-            startUpdateOrientation();
-        }
-    }
-
-    /**
      * Update the list of marker (property mMarkers) of the view class
      *
      * @param aMarkers The list of the markers to be updated on the view
      */
     public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
         if (mRadarView != null) mRadarView.updateMarkers(aMarkers);
-    }
-
-    /**
-     * Stop the radar's animation
-     *
-     * @param aView
-     */
-    public void stopRadar(View aView) {
-
-        if (mRadarView != null) {
-            mRadarView.stopRadar();
-            stopUpdateRadarMarkers();
-            stopUpdateOrientation();
-        }
     }
 
     /**
@@ -446,14 +447,30 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
-     * Update the TextView which informs about the number of objects in proximity
+     * Start the radar's animation
      *
-     * @param aTextView
+     * @param aView
      */
-    private void updateRadarText(TextView aTextView) {
-        if (mRadarView.getMarkers() != null) {
-            aTextView.setText(
-                    mRadarView.getMarkers().size() + " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
+    public void startRadar(View aView) {
+
+        if (mRadarView != null) {
+            mRadarView.startRadar();
+            startUpdateMarkersFromCitizen();
+            startUpdateOrientation();
+        }
+    }
+
+    /**
+     * Stop the radar's animation
+     *
+     * @param aView
+     */
+    public void stopRadar(View aView) {
+
+        if (mRadarView != null) {
+            mRadarView.stopRadar();
+            stopUpdateRadarMarkers();
+            stopUpdateOrientation();
         }
     }
 
@@ -609,9 +626,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     }
 
     /**
+     * Called when the accuracy of a sensor has changed.
      *
-     * @param aSensor
-     * @param aAccuracy
+     * @param aSensor The ID of the sensor being monitored
+     * @param aAccuracy The new accuracy (exactitude) of this sensor.
      */
     @Override
     public void onAccuracyChanged(Sensor aSensor, int aAccuracy) {
@@ -620,6 +638,14 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     //endregion
 
     //region GestureListener
+
+    /**
+     * Delegate the event to the gesture detector
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent aEvent) {
+        return mGestureDetector.onTouchEvent(aEvent);
+    }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -690,10 +716,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         this,
                         RetrieveCitizenDataAsyncTask.ACTION2);
 
-        Preferences lPrefs = new Preferences(this);
-
         String lClientServerCommunicationMode =
-                lPrefs.getMyStringPref(
+                mPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_ClientServer_Communication,
                         MyString.EMPTY_STRING);
@@ -713,13 +737,13 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         }
 
         String lCulturalObjectType =
-                lPrefs.getMyStringPref(
+                mPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_TypeOfSearch,
                         MyString.EMPTY_STRING);
 
         int lRadiusOfSearch =
-                lPrefs.getMyIntPref(
+                mPrefs.getMyIntPref(
                         this,
                         BaseConstants.Attr_Radius_Search,
                         BaseConstants.Attr_Default_Radius_Search);
@@ -730,7 +754,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                         lRadiusOfSearch);
 
         String lSubject =
-                lPrefs.getMyStringPref(
+                mPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_Subject_Search_Type,
                         MyString.EMPTY_STRING);
@@ -771,13 +795,13 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         @Override
         public void onReceive(Context aContext, Intent aIntent)
         {
-            if (aIntent.getAction() != RetrieveCitizenDataAsyncTask.ACTION2) {
+            if (!aIntent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION2)) {
                 return;
             }
 
-            Bundle lBundle = aIntent.getExtras();
-
             CitizenQueryResult lCitizenQueryResult = null;
+
+            Bundle lBundle = aIntent.getExtras();
 
             try {
                 lCitizenQueryResult =

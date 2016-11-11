@@ -24,7 +24,6 @@ import java.util.List;
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
-import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
@@ -35,9 +34,11 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
  *
  * This class represents the basic building block for user interface components.
  * A View occupies a rectangular area on the screen and is responsible for drawing and event handling.
- * View is the base class for widgets, which are used to create interactive UI components (buttons, text fields, etc.).
+ * View is the base class for widgets, which are used to create interactive UI components (buttons,
+ * text fields, etc.).
  * The ViewGroup subclass is the base class for layouts,
- * which are invisible containers that hold other Views (or other ViewGroups) and define their layout properties.
+ * which are invisible containers that hold other Views (or other ViewGroups) and define their layout
+ * properties.
  *
  */
 public class RadarView extends android.view.View {
@@ -120,6 +121,8 @@ public class RadarView extends android.view.View {
 
     //endregion
 
+    //region Concurrency
+
         Runnable mTick = new Runnable() {
             @Override
             public void run() {
@@ -127,18 +130,6 @@ public class RadarView extends android.view.View {
                 mHandler.postDelayed(this, 1000 / fps);
             }
         };
-
-        public synchronized List<RadarMarker> getMarkers() {
-            return mMarkers;
-        }
-
-        /**
-        * This method allows to update the markers received
-        * by the radar.
-        */
-        public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
-            mMarkers = aMarkers;
-        }
 
         /**
          * This method allows to start the animation
@@ -148,12 +139,28 @@ public class RadarView extends android.view.View {
             mHandler.post(mTick);
         }
 
+        public synchronized List<RadarMarker> getMarkers() {
+        return mMarkers;
+    }
+
+        /**
+         * This method allows to update the markers received
+         * by the radar.
+         */
+        public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
+            mMarkers = aMarkers;
+        }
+
         /**
          * This method allows to stop the radar's animation
          */
         public void stopRadar() {
-                mHandler.removeCallbacks(mTick);
-            }
+            mHandler.removeCallbacks(mTick);
+        }
+
+    //endregion
+
+    //region Radar-draw
 
         /**
          * The most important step in drawing a custom view is to override the onDraw() method.
@@ -173,7 +180,7 @@ public class RadarView extends android.view.View {
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
 
-            // calculate the maximum diameter of the radar possible according to the dimensions of the view
+            // Calculate the maximum diameter of the radar possible according to the dimensions of the view
             int lMaxDiameterOfTheRadarView = Math.min(lCanvasWidth, lCanvasHeight);
 
             Paint lRadarPaint = latestPaint[0];
@@ -181,7 +188,7 @@ public class RadarView extends android.view.View {
             int lPosY = (lMaxDiameterOfTheRadarView / 2);
             int lRadiusOfCircle = (lPosX - 1);
 
-            // draw the radar on the view
+            // Draw the radar on the view
             drawRadar(
                     aCanvas,
                     lRadarPaint,
@@ -189,7 +196,7 @@ public class RadarView extends android.view.View {
                     lPosY,
                     lRadiusOfCircle);
 
-            // draw the marker on the view
+            // Draw the marker on the view
             drawMarkers(
                     aCanvas,
                     lMaxDiameterOfTheRadarView);
@@ -221,8 +228,6 @@ public class RadarView extends android.view.View {
                 }
             }
         }
-
-    //region Design-radar
 
         /**
          * Draw the radar in the view
@@ -351,7 +356,7 @@ public class RadarView extends android.view.View {
             RadarMarker aRadarMarker,
             int aMaxRadiusOfRadar) {
 
-            // object allowing to describe the colors and styles for marker
+            // Paint object allows to describe the colors and styles for marker
             Paint lMarkerPaint = new Paint();
 
             lMarkerPaint.setColor(Color.WHITE);
@@ -372,23 +377,27 @@ public class RadarView extends android.view.View {
          * @param aText The text of the label to draw in the view
          * @param aX The position X of the label's rectangle
          * @param aY The position Y of the label's rectangle
+         * @param aTextPaint allows to describe the colors and styles for the text
          */
         private void addText(
             Canvas aCanvas,
             String aText,
             double aX,
             double aY,
-            Paint aPaint) {
+            Paint aTextPaint) {
 
             int lX = (int)aX;
             int lY = (int)aY;
 
             Rect lTextBounds = new Rect();
+
             mGridPaint.getTextBounds(aText, 0, aText.length(), lTextBounds);
             lTextBounds.offset(lX - (lTextBounds.width() >> 1), lY);
             lTextBounds.inset(-2, -2);
-            aCanvas.drawText(aText, lX, lY, aPaint);
+
+            aCanvas.drawText(aText, lX, lY, aTextPaint);
         }
+
     //endregion
 
     //region Help-methods
@@ -576,8 +585,6 @@ public class RadarView extends android.view.View {
                     (aY > lYPositionOnScreen && aY < (lYPositionOnScreen + aView.getHeight())));
         }
 
-    //endregion
-
     /**
      * Function to get the user's current location
      *
@@ -650,4 +657,6 @@ public class RadarView extends android.view.View {
 
         return lCurrentLocation;
     }
+
+    //endregion
 }

@@ -21,7 +21,8 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
  */
 public final class RadarHelper {
 
-    // private constructor
+    // Private constructor
+    // The class is not instanciable
     private RadarHelper() {}
 
     /**

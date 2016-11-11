@@ -37,8 +37,14 @@ public class RadarMarker extends Paint implements Parcelable {
      */
     private String mTitle = MyString.EMPTY_STRING;
 
+    /**
+     *
+     */
     private String mObjectId = MyString.EMPTY_STRING;
 
+    /**
+     *
+     */
     private String mDescription = MyString.EMPTY_STRING;
 
     //region Constructors
@@ -57,7 +63,7 @@ public class RadarMarker extends Paint implements Parcelable {
     }
 
     // Constructor
-    RadarMarker(
+    public RadarMarker(
         int aPositionX,
         int aPositionY,
         double aLatitude,
@@ -79,7 +85,7 @@ public class RadarMarker extends Paint implements Parcelable {
     }
 
     // Constructor
-    RadarMarker(
+    public RadarMarker(
         int aColor,
         boolean aAntiAlias,
         Paint.Style aStyle,

@@ -23,12 +23,12 @@ public class SpinnerHandler {
     /**
      * The method fill a spinner control with the given enum
      *
-     * @param aCbo the spinner control to fill
+     * @param aSpinner the spinner control to fill
      * @param aContext interface to global information about the application environment.
      * @param aResource
      */
     public static void fillComboByEnum(
-        Spinner aCbo,
+        Spinner aSpinner,
         Context aContext,
         int aResource) {
 
@@ -38,21 +38,22 @@ public class SpinnerHandler {
                 aResource,
                 EnumClientServerCommunication.values());
 
-        aCbo.setAdapter(lAdapter);
+        aSpinner.setAdapter(lAdapter);
     }
 
     /**
      * The method fill a spinner control with the possible subject contained in the Citizen DB.
      *
-     * @param aCbo the spinner control to fill
+     * @param aSpinner the spinner control to fill
      * @param aContext Interface to global information about the application environment.
      * It allows access to application-specific resources and classes, as well as up-calls
-     * for application-level operations such as launching activities, broadcasting and receiving intents, etc.
+     * for application-level operations such as launching activities, broadcasting and receiving
+     * intents, etc.
      * @param aResource
      * @param aValues
      */
     public static void fillComboSubject(
-        Spinner aCbo,
+        Spinner aSpinner,
         Context aContext,
         int aResource,
         List<String> aValues) {
@@ -63,13 +64,13 @@ public class SpinnerHandler {
                         aResource,
                         aValues.toArray());
 
-        aCbo.setAdapter(lAdapter);
+        aSpinner.setAdapter(lAdapter);
     }
 
     /**
+     * Get the position of an item in the spinner control
      *
-     *
-     * @param aSpinner
+     * @param aSpinner the spinner control to fill
      * @param aItem
      * @return
      * @throws NoSuchElementException

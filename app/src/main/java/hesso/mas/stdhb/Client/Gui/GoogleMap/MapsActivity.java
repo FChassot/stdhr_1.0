@@ -49,6 +49,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     private GpsLocationListener mGeolocationServices;
 
+    private NetworkConnectivity mConnectivity;
+
     // The current location of the app's user
     private Location mCurrentUserLocation;
 
@@ -60,17 +62,18 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
      * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
      * if there was one. Always followed by onStart().
      *
-     * @param savedInstanceState
+     * @param aSavedInstanceState
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle aSavedInstanceState) {
+        super.onCreate(aSavedInstanceState);
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_maps);
 
+        // ToDo chf: this dependencies has to be injected
         mGeolocationServices = new GpsLocationListener(this);
-
+        mConnectivity = new NetworkConnectivity(this);
         mCurrentUserLocation = mGeolocationServices.getCurrentLocation();
 
         // An intent is an abstract description of an operation to be performed.
@@ -112,9 +115,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         // Check if map is created successfully or not
         if (mMapFragment == null) {
-            NetworkConnectivity lConnectivity = new NetworkConnectivity(this);
-
-            if (!lConnectivity.isActive()) {
+            if (!mConnectivity.isActive()) {
                 Toast.makeText(getApplicationContext(),
                     "Sorry! unable to create maps [internet network not active]", Toast.LENGTH_SHORT)
                     .show();
@@ -173,6 +174,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                     .position(lLatLngCulturalObjectLocation)
                     .snippet(mCulturalObjectMarkerSelected.getObjectId())
                     .title(mCulturalObjectMarkerSelected.getTitle()));
+
             lMarker.showInfoWindow();
         }
 
@@ -196,8 +198,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             }
         }
 
-        // Returns a CameraUpdate that transforms the camera such that the specified latitude/longitude
-        // bounds are centered on screen at the greatest possible zoom level.
+        // Returns a CameraUpdate that transforms the camera such that the specified
+        // latitude/longitude bounds are centered on screen at the greatest possible zoom level.
         mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 900, 900, 2));
     }
 
@@ -212,15 +214,17 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     @Override
     public boolean onMarkerClick (Marker aMarker) {
 
-        RadarMarker lSelectedMarker = new RadarMarker();
+        if (aMarker.getTitle().equals("Citizen radar's user")) { return true; }
 
         Location lLocation = new Location(MyString.EMPTY_STRING);
         lLocation.setLatitude(aMarker.getPosition().latitude);
         lLocation.setLongitude(aMarker.getPosition().longitude);
 
-        lSelectedMarker.setLocation(lLocation);
-        lSelectedMarker.setTitle(aMarker.getTitle());
-        lSelectedMarker.setObjectId(aMarker.getSnippet());
+        RadarMarker lSelMarker = new RadarMarker();
+
+        lSelMarker.setLocation(lLocation);
+        lSelMarker.setTitle(aMarker.getTitle());
+        lSelMarker.setObjectId(aMarker.getSnippet());
 
         Intent lIntent = new Intent(this, SearchActivity.class);
 
@@ -228,7 +232,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         // to various Parcelable values.
         Bundle lBundle = new Bundle();
 
-        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelMarker);
 
         lIntent.putExtras(lBundle);
 
