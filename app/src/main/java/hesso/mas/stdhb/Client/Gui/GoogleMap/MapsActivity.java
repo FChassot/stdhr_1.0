@@ -141,6 +141,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         mMapFragment = aGoogleMap;
 
+        mMapFragment.setOnMarkerClickListener(this);
         mMapFragment.setMyLocationEnabled(true);
 
         LatLngBounds.Builder lBuilder = new LatLngBounds.Builder();
@@ -167,11 +168,12 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             lBuilder.include(lLatLngCulturalObjectLocation);
 
             // Add a marker in the current location and move the camera
-            mMapFragment.addMarker(
+            Marker lMarker = mMapFragment.addMarker(
                 new MarkerOptions()
                     .position(lLatLngCulturalObjectLocation)
+                    .snippet(mCulturalObjectMarkerSelected.getObjectId())
                     .title(mCulturalObjectMarkerSelected.getTitle()));
-
+            lMarker.showInfoWindow();
         }
 
         // Add all markers non selected as well
@@ -189,6 +191,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                     new MarkerOptions()
                         .position(lLatLngCulturalObjectLocation)
                         .title(lMarker.getTitle())
+                        .snippet(lMarker.getObjectId())
                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_museum)));
             }
         }
@@ -201,26 +204,29 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     /**
      * Called when a marker has been clicked or tapped.
      *
-     * @param aMarker The marker that is selected.
+     * @param aMarker The marker that was clicked.
      *
      * @return true if the listener has consumed the event (i.e., the default behavior should
      * not occur); false otherwise (i.e., the default behavior should occur).
      */
+    @Override
     public boolean onMarkerClick (Marker aMarker) {
+
+        RadarMarker lSelectedMarker = new RadarMarker();
+
+        Location lLocation = new Location(MyString.EMPTY_STRING);
+        lLocation.setLatitude(aMarker.getPosition().latitude);
+        lLocation.setLongitude(aMarker.getPosition().longitude);
+
+        lSelectedMarker.setLocation(lLocation);
+        lSelectedMarker.setTitle(aMarker.getTitle());
+        lSelectedMarker.setObjectId(aMarker.getSnippet());
 
         Intent lIntent = new Intent(this, SearchActivity.class);
 
         // The bundle object contains a mapping from String keys
         // to various Parcelable values.
         Bundle lBundle = new Bundle();
-
-        RadarMarker lSelectedMarker = new RadarMarker();
-
-        Location lSelectedMarkerLocation = new Location(MyString.EMPTY_STRING);
-
-        lSelectedMarkerLocation.setLatitude(aMarker.getPosition().latitude);
-        lSelectedMarkerLocation.setLongitude(aMarker.getPosition().longitude);
-        lSelectedMarker.setLocation(lSelectedMarkerLocation);
 
         lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
 

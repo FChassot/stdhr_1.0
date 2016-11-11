@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 import android.content.IntentFilter;
 import android.os.PowerManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
 import android.view.View;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
@@ -25,8 +25,10 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
+import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
+import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
@@ -39,13 +41,6 @@ import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyn
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 
 import hesso.mas.stdhbtests.R;
-/*import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;*/
 
 import com.squareup.picasso.Picasso;
 
@@ -60,21 +55,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     // Variable of type OkHttpClient
     //OkHttpClient mOkHttpClient;
 
+    // Constant
+    private static final String TAG = "SearchActivity";
+
     // Member variables
-    Preferences mPrefs;
+    private Preferences mPrefs;
+
+    private CitizenServices mCitizenServices;
 
     private Receiver mReceiver;
 
-    ProgressDialog progress;
+    private ProgressDialog progress;
 
     private String mDescription = MyString.EMPTY_STRING;
     private String mTitle = MyString.EMPTY_STRING;
 
-    private static final String TAG = "SearchActivity";
-
     private PowerManager.WakeLock mWakeLock;
-
-    private CitizenServices mCitizenServices;
 
     //final View lView = findViewById(R.id.imageView);
 
@@ -96,42 +92,42 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_search);
 
-        mCitizenServices = new CitizenServices();
-
         mPrefs = new Preferences(this);
 
-        // to retrieve the button in that UI that you need to interact with programmatically
+        mCitizenServices = new CitizenServices();
+
+        // To retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
-        //Finds the views that was identified by an id attribute
+        // Finds the views that was identified by an id attribute
         final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
         final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
         TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
 
-        // set a listener of this button
+        // Set a listener of this button
         mBtnSearch.setOnClickListener(this);
 
         Bundle lBundle = getIntent().getExtras();
 
         if (lBundle != null) {
-            // to retrieve the cultural object selected in the radar view
-            RadarMarker lCulturalObjectMarker = lBundle.getParcelable("RADAR_MARKER");
+            // To retrieve the cultural object selected in the radar view
+            RadarMarker lCulturalObjectMarker = lBundle.getParcelable(MapsActivity.RADAR_MARKER);
 
             if (lCulturalObjectMarker != null) {
                 mTxtPlace.setText(lCulturalObjectMarker.getTitle());
-            }
 
-            if (lCulturalObjectMarker.getDescription() != null) {
-                if (lCulturalObjectMarker.getDescription().length() < 90) {
-                    mTxtDescription.setText(lCulturalObjectMarker.getDescription());
-                } else {
+                if (!StringUtil.isNullOrBlank(lCulturalObjectMarker.getDescription())) {
+                    if (lCulturalObjectMarker.getDescription().length() < 90) {
+                        mTxtDescription.setText(lCulturalObjectMarker.getDescription());
+                    } else {
                         mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 50) + "...");
+                    }
                 }
-            }
 
-            mDescription = lCulturalObjectMarker.getDescription();
-            mTitle = lCulturalObjectMarker.getTitle();
-            mTxtPeriod.setText("1000-2016");
+                mDescription = lCulturalObjectMarker.getDescription();
+                mTitle = lCulturalObjectMarker.getTitle();
+                mTxtPeriod.setText("1000-2016");
+            }
 
             /*String lClientServerCommunicationMode =
                 lPrefs.getPrefValue(
@@ -139,15 +135,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     MyString.EMPTY_STRING);*/
 
             String lClientServerCommunicationMode =
-                    mPrefs.getMyStringPref(
-                            this,
-                            BaseConstants.Attr_ClientServer_Communication,
-                            EnumClientServerCommunication.ANDROJENA.toString());
+                mPrefs.getMyStringPref(
+                    this,
+                    BaseConstants.Attr_ClientServer_Communication,
+                    EnumClientServerCommunication.ANDROJENA.toString());
 
             String lRequest =
                 CitizenRequests.getUniqueCulturalObjectInfoQuery(
                     lCulturalObjectMarker.getTitle(),
-                    lCulturalObjectMarker.getData(),
+                    lCulturalObjectMarker.getObjectId(),
                     new Date(19000101),
                     new Date(99990101));
 
@@ -202,12 +198,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mReceiver = new Receiver();
 
+        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION1);
+        this.registerReceiver(mReceiver, lFilter);
+
         PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
         mWakeLock.acquire();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION1);
-        this.registerReceiver(mReceiver, lFilter);
     }
 
     /**
@@ -250,11 +247,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * @param aView
      */
     public void onClick(View aView){
-        if (aView.getId()==R.id.mBtnSearch) {
 
+        if (aView.getId()==R.id.mBtnSearch) {
             startProgress(aView);
 
-            // get the technology used for the communication between the
+            // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
             String lClientServerCommunicationMode =
                 mPrefs.getMyStringPref(
@@ -265,13 +262,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
 
-            String lPlace = mTxtPlace.getText().toString();
-            String lPeriod = mTxtPeriod.getText().toString();
-
             ValidationDescCollection lValDescCollection =
-                    Validator.ValidateSearch(lPlace, lPeriod);
+                    Validator.ValidateSearch(
+                            mTxtPlace.getText().toString(),
+                            mTxtPeriod.getText().toString());
 
-            if (lValDescCollection.count() > 0) {
+            if (lValDescCollection.any()) {
                 Notifications.ShowMessageBox(
                     this,
                     lValDescCollection,
@@ -284,7 +280,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             String lRequest =
                     CitizenRequests.getCulturalObjectQuery(
-                            lPlace,
+                            mTxtPlace.getText().toString(),
                             new Date(19000101),
                             new Date(99990101));
 
@@ -311,13 +307,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      * @param aClientServerArchitecture provides the type of architecture choosen
      *                                  for the communication with the server
      * @param aDisplaySearchmsg when true a wait-message will be displayed on the
-     *                              screen until the response has been received from the
-     *                              server
+     *                          screen until the response has been received from the
+     *                          server
      */
         private void startAsyncSearch(
             String aRequest,
             String aClientServerArchitecture,
-            Boolean aDisplaySearchmsg) {
+            boolean aDisplaySearchmsg) {
 
             if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
                 RetrieveCitizenDataAsyncTask lTask =
@@ -384,13 +380,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onReceive(Context aContext, Intent aIntent) {
 
-                // the bundle object contains a mapping from String keys to various Parcelable values.
+                // The bundle object contains a mapping from String keys to various Parcelable values.
                 Bundle lBundle = aIntent.getExtras();
 
                 CitizenQueryResult lCitizenQueryResult = null;
 
                 try {
-                    // The bundle should contain our Sparql Result
+                    // The bundle should contain the SPARQL Result
                     lCitizenQueryResult =
                         lBundle.getParcelable(
                             RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
@@ -472,39 +468,4 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     //endregion
 
-    /**
-     *
-     */
-   /* public void HttpClientPost(OkHttpClient aOkHttpClient){
-        MediaType JSON_TYPE = MediaType.parse("application/json; charset=utf-8");
-        String myJson = "{}";
-
-        //.url("https://api.github.com/users/florent37")
-        //post Request
-        Request myGetRequest = new Request.Builder()
-                .url("http://dbpedia.org/page/Berlin")
-                .post(RequestBody.create(JSON_TYPE, myJson))
-                .build();
-
-        aOkHttpClient.newCall(myGetRequest).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call request, IOException e) {
-            }
-
-            @Override
-            public void onResponse(Call request, Response response) throws IOException {
-                //le retour est effectué dans un thread différent
-                final String text = response.body().string();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mTextView = text;
-                        TextView mResult = (TextView)findViewById(R.id.mEditTxtCitizenResult);
-                        mResult.setText(mTextView);
-                    }
-                });
-            }
-        });
-    }*/
 }

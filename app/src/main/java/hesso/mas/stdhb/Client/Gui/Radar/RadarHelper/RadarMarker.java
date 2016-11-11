@@ -37,7 +37,7 @@ public class RadarMarker extends Paint implements Parcelable {
      */
     private String mTitle = MyString.EMPTY_STRING;
 
-    private String mData = MyString.EMPTY_STRING;
+    private String mObjectId = MyString.EMPTY_STRING;
 
     private String mDescription = MyString.EMPTY_STRING;
 
@@ -50,6 +50,10 @@ public class RadarMarker extends Paint implements Parcelable {
         super.setStyle(Paint.Style.FILL);
         super.setStrokeWidth(5.0F);
         super.setAlpha(0);
+
+        mTitle = MyString.EMPTY_STRING;
+        mObjectId = MyString.EMPTY_STRING;
+        mDescription = MyString.EMPTY_STRING;
     }
 
     // Constructor
@@ -60,7 +64,7 @@ public class RadarMarker extends Paint implements Parcelable {
         double aLongitude,
         int aColor,
         String aTitle,
-        String aData,
+        String aObjectId,
         String aDescription) {
 
         mXViewPosition = aPositionX;
@@ -69,7 +73,7 @@ public class RadarMarker extends Paint implements Parcelable {
         mLocation.setLongitude(aLongitude);
         mColor = aColor;
         mTitle = aTitle;
-        mData = aData;
+        mObjectId = aObjectId;
         mDescription = aDescription;
 
     }
@@ -100,7 +104,7 @@ public class RadarMarker extends Paint implements Parcelable {
         mYViewCurrentPosition = in.readInt();
         mColor = in.readInt();
         mTitle = in.readString();
-        mData = in.readString();
+        mObjectId = in.readString();
         mDescription = in.readString();
     }
 
@@ -144,10 +148,10 @@ public class RadarMarker extends Paint implements Parcelable {
     }
 
     // Setter
-    public void setData(String aData) { mData = aData; }
+    public void setObjectId(String aObjectId) { mObjectId = aObjectId; }
 
     // Getter
-    public String getData() { return mData; }
+    public String getObjectId() { return mObjectId; }
 
     // Setter
     public void setDescription(String aDescription) { mDescription = aDescription; }
@@ -193,7 +197,7 @@ public class RadarMarker extends Paint implements Parcelable {
         aDest.writeInt(mYViewCurrentPosition);
         aDest.writeInt(mColor);
         aDest.writeString(mTitle);
-        aDest.writeString(mData);
+        aDest.writeString(mObjectId);
         aDest.writeString(mDescription);
     }
 

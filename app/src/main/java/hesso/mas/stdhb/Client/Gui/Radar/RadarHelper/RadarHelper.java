@@ -53,7 +53,7 @@ public final class RadarHelper {
         for (CitizenDbObject lCulturalObject : aQueryResult.Results()) {
             //todo chf: removes when clarified
             for (RadarMarker lMarker : lLisOfMarkersFiltered) {
-                if ((lMarker.getTitle() == lCulturalObject.GetValue("title")) &&
+                if ((lMarker.getTitle().equals(lCulturalObject.GetValue("title"))) &&
                     (lMarker.getLongitude() == Double.parseDouble(lCulturalObject.GetValue("long"))) &&
                     (lMarker.getLatitude() == Double.parseDouble(lCulturalObject.GetValue("lat")))) {
                     continue;
@@ -159,12 +159,12 @@ public final class RadarHelper {
      *
      * @param aHeightView the height of the view is necessary to calculate the position of the marker in the view
      * @param aWidthView the width of the view is necessary to calculate the position of the marker in the view
-     * @param aCulturalObjectLatitude
-     * @param aCulturalObjectLongitude
-     * @param aMinLatitude
-     * @param aMaxLatitude
-     * @param aMinLongitude
-     * @param aMaxLongitude
+     * @param aCulturalObjectLatitude ...
+     * @param aCulturalObjectLongitude ...
+     * @param aMinLatitude ...
+     * @param aMaxLatitude ...
+     * @param aMinLongitude ...
+     * @param aMaxLongitude ...
      *
      * @return The X, Y Positions in the view
      */
@@ -201,10 +201,10 @@ public final class RadarHelper {
      * This method will be used to determine the nearest cultural objects compared
      * the citizen's user.
      *
-     * @param aXPosition1OnScreen
-     * @param aYPosition1OnScreen
-     * @param aXPosition2OnScreen
-     * @param aYPosition2OnScreen
+     * @param aXPosition1OnScreen ...
+     * @param aYPosition1OnScreen ...
+     * @param aXPosition2OnScreen ...
+     * @param aYPosition2OnScreen ...
      *
      * @return The distance between the two points
      */
@@ -217,7 +217,7 @@ public final class RadarHelper {
 
         double lDeltaX = Math.abs((aXPosition1OnScreen - aXPosition2OnScreen));
         double lDeltaY = Math.abs((aYPosition1OnScreen - aYPosition2OnScreen));
-        double lTangente = (lDeltaY / lDeltaX); // opposé / adjacent
+        double lTangente = (lDeltaY / lDeltaX); // Tangente = côté opposé / côté adjacent
         double lAngle = Math.atan(lTangente);
 
         double lDistance = (lDeltaY / Math.cos(lAngle));

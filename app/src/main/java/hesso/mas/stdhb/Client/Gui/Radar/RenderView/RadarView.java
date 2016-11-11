@@ -42,13 +42,12 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
  */
 public class RadarView extends android.view.View {
 
+        // Member variables
         private Handler mHandler = new android.os.Handler();
 
         private Context mContext;
 
         private List<RadarMarker> mMarkers = new ArrayList<>();
-
-        public double mRadius = 500.0;
 
         private final double mTouchScreenSensibility = 35;
 
@@ -56,16 +55,21 @@ public class RadarView extends android.view.View {
 
         private int fps = 1000;
 
-        float mAlpha = 0;
+        private float mAlpha = 0;
 
-        Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
-        Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
+        private Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
+        private Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
 
         private Paint mGridPaint;
 
+        private RadarMarker mSelectedMarker;
+        private int mSelectedMarkerColor = Color.YELLOW;
+
+        public double mRadius = 500.0;
+
     //region Constructors
 
-        // Default constructor
+        // Constructor
         public RadarView(Context aContext) {
 
             this(aContext, null);
@@ -421,6 +425,8 @@ public class RadarView extends android.view.View {
                     lOnTouchYCoordinate);
 
             if (lCulturalObject != null) {
+                    mSelectedMarker = lCulturalObject;
+
                     // Calculate the distance on the view between the point touched and the cultural
                     // object
                     double lDistance =

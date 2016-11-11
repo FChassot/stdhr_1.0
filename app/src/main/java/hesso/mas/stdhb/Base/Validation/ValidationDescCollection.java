@@ -25,7 +25,7 @@ public class ValidationDescCollection {
     /**
      * Add a new String in the list
      *
-     * @param aValDesc
+     * @param aValDesc String to add
      */
     public void add(String aValDesc) {
         mList.add(aValDesc);
@@ -34,7 +34,7 @@ public class ValidationDescCollection {
     /**
      * Fill a string in the list, if it still not exist.
      *
-     * @param aValDesc
+     * @param aValDesc String to add
      */
     public void addUnique(String aValDesc) {
         if (!mList.contains(aValDesc)) {
@@ -45,7 +45,12 @@ public class ValidationDescCollection {
     /**
      * Give the size of the list
      *
-     * @return
      */
     public int count() { return mList.size(); }
+
+    /**
+     * Return true if the list at least one entry contains
+     *
+     */
+    public boolean any() { return (mList.size() > 0); }
 }
