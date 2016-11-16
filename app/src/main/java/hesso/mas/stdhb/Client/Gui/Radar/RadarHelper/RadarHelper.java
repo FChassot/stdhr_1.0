@@ -30,21 +30,22 @@ public final class RadarHelper {
      * of radarMarker
      *
      * @param aQueryResult The result of the query to be converted in a list of radarmarker
-     * @param aCompassHeading
+     * @param aCurrentDegree
      * @param aCurrentUserLocation The current location of the app's user
      * @param aRadius The radius of the radar's search
      * @param aHeightView the actual height size of the view
-     * @param aWidthView the actual widht size of the view
+     * @param aWidthView the actual width size of the view
      *
      * @return A list of RadarMarker
      */
     public static List<RadarMarker> getRadarMarkersFromResponse(
         CitizenQueryResult aQueryResult,
-        Float aCompassHeading,
+        int aCurrentDegree,
         Location aCurrentUserLocation,
         double aRadius,
         int aHeightView,
-        int aWidthView) {
+        int aWidthView,
+        boolean aMovementMode) {
 
         Checks.AssertNotNull(aQueryResult, "aQueryResult");
 
@@ -97,10 +98,49 @@ public final class RadarHelper {
                     lCulturalObjectId,
                     lDescription);
 
+            if (aMovementMode) {
+                RadarViewPosition lPositionAccordingCurrentDegree =
+                        getRadarViewPositionForMarker(
+                                lMarker,
+                                aCurrentDegree);
+
+                lMarker.setPositionX(lPositionAccordingCurrentDegree.getX());
+                lMarker.setPositionY(lPositionAccordingCurrentDegree.getY());
+            }
+
             lMarkers.add(lMarker);
         }
 
         return lMarkers;
+    }
+
+    /**
+     * This method calculates the new position of the marker according to the new
+     * value of the azimut.
+     *
+     * @param aMarker The marker
+     * @param aCurrentDegree The degree
+     */
+    private static RadarViewPosition getRadarViewPositionForMarker(
+        RadarMarker aMarker,
+        double aCurrentDegree)  {
+
+        int lX = aMarker.getPositionX();
+        int lY = aMarker.getPositionY();
+
+        //double lCurrrentDegree = 180;
+        // The angles must be in radians
+        // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
+        // Y = BY+(AX−BX)sinϕ+(AY−BY)cosϕ
+
+        double lCurrentDegreeInRadians = Math.toRadians(aCurrentDegree);
+        double lCurrentXPosition = (450 + ((lX - 450) * Math.cos(lCurrentDegreeInRadians)) - ((lY - 450) * Math.sin(lCurrentDegreeInRadians)));
+        double lCurrentYPosition = (450 + ((lX - 450) * Math.sin(lCurrentDegreeInRadians)) + ((lY - 450) * Math.cos(lCurrentDegreeInRadians)));
+
+        String lText =
+                "Angle(" + aCurrentDegree + ") Position X = " + lX + " - New Position X = " + (int)lCurrentXPosition + "Position Y = " + lY + " - New Position Y = " + (int)lCurrentYPosition;
+
+        return new RadarViewPosition((int)lCurrentXPosition, (int)lCurrentYPosition);
     }
 
     /**

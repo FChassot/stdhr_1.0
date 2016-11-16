@@ -51,6 +51,9 @@ import hesso.mas.stdhbtests.R;
  */
 public class SettingsActivity extends AppCompatActivity implements OnClickListener {
 
+    // Constant
+    private static final String TAG = "Config AsyncTask";
+
     // Member variables
     private Preferences mPrefs;
 
@@ -162,7 +165,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         }
 
         displayListView();
-
     }
 
     //region Listview (with Checkboxes)
@@ -271,8 +273,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 lHolder = (ViewHolder) aConvertView.getTag();
             }
 
-            //Preferences lPrefs = new Preferences(this.getContext());
-
             Set<String> lListOfCulturalObjectType =
                     mPrefs.getMySetPref(
                         this.getContext(),
@@ -333,6 +333,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     public void onPause() {
         super.onPause();
 
+        // Finds the views that was identified by an id attribute
         EditText lTxtRadius = (EditText)findViewById(R.id.mDTxtRadius);
         Switch lSwitchRadar = (Switch)findViewById(R.id.RadarSwitch);
         Spinner lCboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
@@ -354,9 +355,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                     "Ok");
         }
 
-        Boolean lRadarMode = lSwitchRadar.isChecked();
-        String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
-
         if (lCboSubject.getSelectedItem() != null){
             mPrefs.setMyStringPref(
                     this,
@@ -364,10 +362,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                     lCboSubject.getSelectedItem().toString());
         }
 
+        Boolean lRadarMode = lSwitchRadar.isChecked();
+
         mPrefs.setMyBooleanPref(
                 this,
                 BaseConstants.Attr_Radar_Switch,
                 lRadarMode);
+
+        String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
         mPrefs.setMyStringPref(
                 this,
@@ -387,12 +389,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 BaseConstants.Attr_CulturalObject_Type,
                 lListOfCulturalObjectType);
 
-        String lSubjectSelected = lCboSubject.getSelectedItem().toString();
-
         mPrefs.setMyStringPref(
                 this,
                 BaseConstants.Attr_Subject_Selected,
-                lSubjectSelected);
+                lCboSubject.getSelectedItem().toString());
     }
 
     //region AsyncTask (used to search the cultural object Types)
@@ -471,7 +471,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
             }
             catch (Exception aExc) {
-                Log.i("Config AsyncTask", aExc.getMessage());
+                Log.i(TAG, aExc.getMessage());
             }
 
             List<String> lCulturalObjectSubjects =
@@ -497,8 +497,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             Integer lItemPosition = SpinnerHandler.getPositionByItem(lSubjectSpinner, lSubjectSelected);
 
-            if (!lItemPosition.equals(Basemodel.NULL_KEY))
-            {
+            if (!lItemPosition.equals(Basemodel.NULL_KEY)) {
                 lSubjectSpinner.setSelection(lItemPosition);
             }
         }

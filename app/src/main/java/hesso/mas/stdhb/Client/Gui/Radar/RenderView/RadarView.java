@@ -108,7 +108,7 @@ public class RadarView extends android.view.View {
             mGridPaint.setAntiAlias(true);
             mGridPaint.setStyle(Paint.Style.STROKE);
             mGridPaint.setStrokeWidth(1.0f);
-            mGridPaint.setTextSize(30.0f);
+            mGridPaint.setTextSize(40.0f);
             mGridPaint.setTextAlign(Paint.Align.CENTER);
 
             int lAlpha_step = 255 / POINT_ARRAY_SIZE;
@@ -140,8 +140,8 @@ public class RadarView extends android.view.View {
         }
 
         public synchronized List<RadarMarker> getMarkers() {
-        return mMarkers;
-    }
+            return mMarkers;
+        }
 
         /**
          * This method allows to update the markers received
@@ -184,6 +184,7 @@ public class RadarView extends android.view.View {
             int lMaxDiameterOfTheRadarView = Math.min(lCanvasWidth, lCanvasHeight);
 
             Paint lRadarPaint = latestPaint[0];
+
             int lPosX = (lMaxDiameterOfTheRadarView / 2);
             int lPosY = (lMaxDiameterOfTheRadarView / 2);
             int lRadiusOfCircle = (lPosX - 1);
@@ -206,6 +207,7 @@ public class RadarView extends android.view.View {
             if (mAlpha < -360) mAlpha = 0;
 
             double lAngle = Math.toRadians(mAlpha);
+
             int lOffsetX =  (int) (lPosX + (float)(lPosX * Math.cos(lAngle)));
             int lOffsetY = (int) (lPosY - (float)(lPosY * Math.sin(lAngle)));
 
@@ -220,11 +222,11 @@ public class RadarView extends android.view.View {
 
                 if (lPoint != null) {
                     aCanvas.drawLine(
-                            lPosX,
-                            lPosY,
-                            lPoint.x,
-                            lPoint.y,
-                            latestPaint[lIndex]);
+                        lPosX,
+                        lPosY,
+                        lPoint.x,
+                        lPoint.y,
+                        latestPaint[lIndex]);
                 }
             }
         }
@@ -247,7 +249,7 @@ public class RadarView extends android.view.View {
 
             String lText1 = getText(mRadius, 4);
             String lText2 = getText(mRadius, 2);
-            String lText3 = getText(mRadius, (3/4));
+            String lText3 = getText(mRadius, (4/3));
             String lText4 = getText(mRadius, 1);
 
             addNordText(aCanvas, 450, 20);
@@ -259,7 +261,7 @@ public class RadarView extends android.view.View {
             addText(aCanvas, lText3, aX, (aY/4)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 1, aRadarPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 2, aRadarPaint);
-            addText(aCanvas, lText4, aX, 22, mGridPaint);
+            addText(aCanvas, lText4, aX, 25, mGridPaint);
         }
 
         /**
@@ -297,7 +299,7 @@ public class RadarView extends android.view.View {
          */
             private String getText(
                 double aRadius,
-                float aQuotient) {
+                double aQuotient) {
 
                 double lRadius = 0.0;
 
@@ -305,7 +307,7 @@ public class RadarView extends android.view.View {
                     lRadius = (aRadius / 1000);
                 }
 
-                lRadius = (lRadius/aQuotient);
+                lRadius = (lRadius / aQuotient);
 
                 if (aRadius < 1000) {
                     return lRadius + "m";

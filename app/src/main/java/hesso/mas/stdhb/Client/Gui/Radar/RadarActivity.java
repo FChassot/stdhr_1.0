@@ -95,15 +95,28 @@ public class RadarActivity
     private float[] mLastMagnetometerValue = new float[3];
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
-    private float[] mR = new float[9];
-    private float[] mOrientation = new float[3];
 
-    // record the compass picture angle turned
-    private float mCurrentDegree = 0f;
+    private float[] mInclinationMatrix = new float[16];
+    private float[] mRotationMatrix = new float[9];
+
+    private float[] mOrientation = new float[3];
+    private float[] mOldOrientation = new float[3];
+
+    private String[] mOrientationString =  new String[3];
+    private String[] mOldOrientationString =  new String[3];
 
     private int mOrientationChanged = 1;
 
+    // define if the radar must be work in radar mode
     private boolean mCompassMode = false;
+    private boolean mMovementMode = true;
+
+    // record the compass picture angle turned
+    private int mCurrentDegree = 0;
+
+    private int mRoll = 0;
+    private int mPitch = 0;
+    private int mAzimut = 0;
 
     /**
      * Getter
@@ -311,7 +324,7 @@ public class RadarActivity
         }
 
         /**
-         * This method updates the different fields in the UI
+         * This method updates the radiusinfo field
          */
         private void updateInfoTxtView() {
 
@@ -325,11 +338,18 @@ public class RadarActivity
 
             if (mRadius < 1000) {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
-                if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+               // if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+                lText += "      " + "Az: " + mAzimut;
+                lText += "      " + "Ro: " + mRoll;
+                lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
-            } else {
+            }
+            else {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
-                if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+                //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+                lText += "      " + "Az: " + mAzimut;
+                lText += "      " + "Ro: " + mRoll;
+                lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
             }
         }
@@ -377,7 +397,7 @@ public class RadarActivity
                 startActivity(lIntent);
             }
             if (aView.getId()==R.id.imgBtnZoom){
-                if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_stop_radar))) {return;}
+                if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {return;}
 
                 if ((mRadius / 2) <= 1) {
                     mRadius = 1;
@@ -391,7 +411,7 @@ public class RadarActivity
                 updateInfoTxtView();
             }
             if (aView.getId()==R.id.imgBtnReset){
-                if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_stop_radar))) {return;}
+                if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {return;}
 
                 if ((mRadius * 2) > 100000) {
                     mRadius =
@@ -399,12 +419,14 @@ public class RadarActivity
                                     this,
                                     BaseConstants.Attr_Radius_Search,
                                     BaseConstants.Attr_Default_Radius_Search);
-                } else {
+                }
+                else {
                     mRadius = (mRadius * 2);
                 }
 
                 mRadarView.stopRadar();
                 mRadarView.startRadar();
+
                 startAsyncSearch();
                 updateInfoTxtView();
             }
@@ -479,14 +501,14 @@ public class RadarActivity
     //region Orientation
 
     /**
-     * stop the rotation of the view in fonction of the orientation
+     * stop the rotation of the view in function of the orientation
      */
     private void stopUpdateOrientation() {
         mUpdateRadarViewOrientation = false;
     }
 
     /**
-     * start the rotation of the view in fonction of the orientation
+     * start the rotation of the view in function of the orientation
      */
     private void startUpdateOrientation() {
         mUpdateRadarViewOrientation = true;
@@ -527,16 +549,28 @@ public class RadarActivity
             // a vector from the device coordinate system to the world's coordinate system which
             // is defined as a direct orthonormal basis, where:
             SensorManager.getRotationMatrix(
-                    mR,
-                    null,
+                    mRotationMatrix,
+                    mInclinationMatrix,
                     mLastAccelerometerValue,
                     mLastMagnetometerValue);
 
             // Computes the device's orientation based on the rotation matrix.
-            SensorManager.getOrientation(mR, mOrientation);
+            SensorManager.getOrientation(
+                    mRotationMatrix,
+                    mOrientation);
 
-            float lAzimuthInRadians = mOrientation[0];
-            float lAzimuthInDegrees = (float)(Math.toDegrees(lAzimuthInRadians)+360)%360;
+            for(int lIndex =0; lIndex<2; lIndex++){
+                //mAccelerometer[i] = Float.toString(mGravs[i]);
+                //mMagnetic[i] = Float.toString(mGeoMags[i]);
+                mOrientationString[lIndex] = Float.toString(mOrientation[lIndex]);
+                mOldOrientationString[lIndex] = Float.toString(mOldOrientation[lIndex]);
+            }
+
+            mAzimut = (int) (Math.toDegrees(mOrientation[0])+360)%360;;
+            mPitch = (int) Math.round(Math.toDegrees(mOrientation[1]));;
+            mRoll = (int) Math.round(Math.toDegrees(mOrientation[2]));;
+
+            updateInfoTxtView();
 
             if (mOrientationChanged == 1) {
 
@@ -557,40 +591,21 @@ public class RadarActivity
                                 0.5f,
                                 Animation.RELATIVE_TO_SELF,
                                 0.5f);*/
-                RotateAnimation lRotation =
-                        new RotateAnimation(
-                                mCurrentDegree,
-                                -lAzimuthInDegrees);
 
-                float lDeltaAzimuth = (360 - lAzimuthInDegrees);
+                /*RotateAnimation lRotation =
+                    new RotateAnimation(
+                        mCurrentDegree,
+                        -lAzimut);*/
 
-                if (this.mRadarView.getMarkers()!= null){
-                    for (RadarMarker lMarker : this.mRadarView.getMarkers()) {
-                        transformCoordinatesForMarker(lMarker, -lDeltaAzimuth);
-                    }
-                }
+                //mCurrentDegree = (360 - lAzimut);
 
-                TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-                //mRadiusInfo.setText("D:" + mCurrentDegree + "   " + "A: " + -lAzimuthInDegrees);
-                //mRadiusInfo.setText("D: " + (int)lDeltaAzimuth  + "  " + "Azim: " + lAzimuthInDegrees);
-                lRotation.setDuration(250);
-                lRotation.setFillAfter(true);
+                //lRotation.setDuration(250);
+                //lRotation.setFillAfter(true);
 
                 if (mUpdateRadarViewOrientation) {
                     if (mCompassMode) {
                         mRadarView.setRotation(mCurrentDegree);
                     }
-
-                    //for (RadarMarker lMarker : this.mRadarView.getMarkers()) {
-                      //  transformCoordinatesForMarker(lMarker, -lAzimuthInDegrees);
-                    //}
-                    /*ArrayList<android.view.View> lTouchableViews = new ArrayList<>();
-                    Marker lTouchableMarker = new Marker(this);
-                    lTouchableMarker.set(50, 50);
-                    lTouchableMarker.set(Color.YELLOW);
-                    lTouchableViews.add(lTouchableMarker);
-
-                    mRadarView.addTouchables(lTouchableViews);*/
                 }
 
                 mOrientationChanged = 1;
@@ -598,31 +613,7 @@ public class RadarActivity
             else {
                 mOrientationChanged += 1;
             }
-
-            mCurrentDegree = -lAzimuthInDegrees;
         }
-    }
-
-    /**
-     *
-     * @param aMarker
-     */
-    private void transformCoordinatesForMarker(
-        RadarMarker aMarker,
-        double aAzimuth) {
-
-        double lAngle = (mCurrentDegree - aAzimuth);
-        TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
-        mRadiusInfo.setText("Ecart: " + (int)lAngle);
-
-        int lX = aMarker.getPositionX();
-        int lY = aMarker.getPositionY();
-
-        double lCurrentXPosition = lX * Math.cos(lAngle) - lY * Math.sin(lAngle);
-        double lCurrentYPosition = lX * Math.sin(lAngle) + lY * Math.cos(lAngle);
-
-        aMarker.setCurrentPositionX((int)lCurrentXPosition);
-        aMarker.setCurrentPositionY((int)lCurrentYPosition);
     }
 
     /**
@@ -663,6 +654,7 @@ public class RadarActivity
          */
         @Override
         public boolean onDoubleTap(MotionEvent aMotionEvent) {
+
             float lX = aMotionEvent.getX();
             float lY = aMotionEvent.getY();
 
@@ -815,11 +807,12 @@ public class RadarActivity
             List<RadarMarker> lMarkers =
                     RadarHelper.getRadarMarkersFromResponse(
                             lCitizenQueryResult,
-                            mCurrentDegree,
+                            mAzimut,
                             mCurrentUserLocation,
                             mRadius,
                             mRadarView.getHeight(),
-                            mRadarView.getWidth());
+                            mRadarView.getWidth(),
+                            mMovementMode);
 
             updateMarkers(lMarkers);
             updateRadarText(mNbrOfCulturalObjectsDetected);

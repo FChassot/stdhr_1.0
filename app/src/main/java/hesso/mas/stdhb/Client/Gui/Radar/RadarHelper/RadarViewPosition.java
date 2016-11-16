@@ -8,12 +8,14 @@ package hesso.mas.stdhb.Client.Gui.Radar.RadarHelper;
 public class RadarViewPosition {
 
     // Member variables
-    private Integer mPositionX;
+    private int mPositionX;
 
-    private Integer mPositionY;
+    private int mPositionY;
 
     // Constructor
-    public RadarViewPosition(Integer aPositionX, Integer aPositionY) {
+    public RadarViewPosition(
+            int aPositionX,
+            int aPositionY) {
 
         mPositionX = aPositionX;
         mPositionY = aPositionY;
