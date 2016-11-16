@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -43,6 +44,8 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
+
+import static android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_LOW;
 
 /**
  * Created by chf on 11.07.2016.
@@ -95,6 +98,7 @@ public class RadarActivity
     private float[] mLastMagnetometerValue = new float[3];
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
+    private boolean mHasInterference = false;
 
     private float[] mInclinationMatrix = new float[16];
     private float[] mRotationMatrix = new float[9];
@@ -623,7 +627,40 @@ public class RadarActivity
      * @param aAccuracy The new accuracy (exactitude) of this sensor.
      */
     @Override
-    public void onAccuracyChanged(Sensor aSensor, int aAccuracy) {
+    public void onAccuracyChanged(
+        Sensor aSensor,
+        int aAccuracy) {
+
+        // In The function onAccuracyChanged(Sensor sensor, int accuracy), i can check the accuracy of the device's magnetometer.
+        // There are 4 levels of accuracy (from class SensorManager):
+        // We analyse its accuracy
+        //if (!preferences.showAccuracyToast())
+       //     return;
+
+   //     if (preferences.getAccuracy(sensor.getType()) == accuracy)
+     //       return;
+
+        //preferences.setAccuracy(sensor.getType(), accuracy);
+        if (aSensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            String lText = aSensor.getName();
+
+            mHasInterference = (aAccuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+
+            switch (aAccuracy) {
+                case SensorManager.SENSOR_STATUS_ACCURACY_HIGH:
+                    lText += "SENSOR_STATUS_ACCURACY_HIGH";
+                case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
+                    lText += "SENSOR_STATUS_ACCURACY_MEDIUM";
+                case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
+                    lText += "SENSOR_STATUS_ACCURACY_LOW";
+                case SensorManager.SENSOR_STATUS_UNRELIABLE:
+                    lText += "SENSOR_STATUS_UNRELIABLE" + "Try to calibrate compass on your Android";
+                default:
+                    break;
+            }
+
+            Toast.makeText(this, lText, Toast.LENGTH_LONG).show();
+        }
     }
 
     //endregion

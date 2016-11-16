@@ -119,26 +119,27 @@ public final class RadarHelper {
      * value of the azimut.
      *
      * @param aMarker The marker
-     * @param aCurrentDegree The degree
+     * @param aAngle The degree
      */
     private static RadarViewPosition getRadarViewPositionForMarker(
         RadarMarker aMarker,
-        double aCurrentDegree)  {
+        double aAngle)  {
 
         int lX = aMarker.getPositionX();
         int lY = aMarker.getPositionY();
 
-        //double lCurrrentDegree = 180;
+        //double lCurrentDegree = 180;
         // The angles must be in radians
+
         // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
         // Y = BY+(AX−BX)sinϕ+(AY−BY)cosϕ
 
-        double lCurrentDegreeInRadians = Math.toRadians(aCurrentDegree);
-        double lCurrentXPosition = (450 + ((lX - 450) * Math.cos(lCurrentDegreeInRadians)) - ((lY - 450) * Math.sin(lCurrentDegreeInRadians)));
-        double lCurrentYPosition = (450 + ((lX - 450) * Math.sin(lCurrentDegreeInRadians)) + ((lY - 450) * Math.cos(lCurrentDegreeInRadians)));
+        double lCurrentAngleInRadians = Math.toRadians(aAngle);
+        double lCurrentXPosition = (450 + ((lX - 450) * Math.cos(lCurrentAngleInRadians)) - ((lY - 450) * Math.sin(lCurrentAngleInRadians)));
+        double lCurrentYPosition = (450 + ((lX - 450) * Math.sin(lCurrentAngleInRadians)) + ((lY - 450) * Math.cos(lCurrentAngleInRadians)));
 
         String lText =
-                "Angle(" + aCurrentDegree + ") Position X = " + lX + " - New Position X = " + (int)lCurrentXPosition + "Position Y = " + lY + " - New Position Y = " + (int)lCurrentYPosition;
+                "Angle(" + aAngle + ") Position X = " + lX + " - New Position X = " + (int)lCurrentXPosition + "Position Y = " + lY + " - New Position Y = " + (int)lCurrentYPosition;
 
         return new RadarViewPosition((int)lCurrentXPosition, (int)lCurrentYPosition);
     }
