@@ -122,36 +122,6 @@ public final class RadarHelper {
      * @param aAngle The angle
      */
     public static RadarViewPosition getRadarViewPositionForMarker(
-        RadarMarker aMarker,
-        double aAngle)  {
-
-        int lX = aMarker.getPositionX();
-        int lY = aMarker.getPositionY();
-
-        // The angles must be in radians
-
-        // Formulas
-        // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
-        // Y = BY+(AY−BY)cosϕ+(AX−BX)sinϕ
-
-        double lCurrentAngleInRadians = Math.toRadians(aAngle);
-        double lDeltaX = ((lX-450) * Math.cos(lCurrentAngleInRadians)) - ((lY-450) * Math.sin(lCurrentAngleInRadians));
-        double lDeltaY = ((lY-450) * Math.cos(lCurrentAngleInRadians)) + ((lX-450) * Math.sin(lCurrentAngleInRadians));
-
-        double lCurrentXPosition = (450 + lDeltaX);
-        double lCurrentYPosition = (450 + lDeltaY);
-
-        return new RadarViewPosition((int)lCurrentXPosition, (int)lCurrentYPosition);
-    }
-
-    /**
-     * This method calculates the new position of the marker according to the new
-     * value of the azimuth.
-     *
-     * @param aMarker The marker
-     * @param aAngle The angle
-     */
-    public static RadarViewPosition getRadarViewPositionForMarker1(
             RadarMarker aMarker,
             double aAngle)  {
 

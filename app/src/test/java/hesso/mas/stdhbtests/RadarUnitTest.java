@@ -76,7 +76,8 @@ public class RadarUnitTest {
     }
 
     /**
-     *
+     * This unit test checks if the method to calculate the new coordinates of a marker
+     * after a rotation works
      * @throws Exception
      */
     @Test
@@ -93,37 +94,37 @@ public class RadarUnitTest {
                     "",
                     "");
 
-        RadarViewPosition lRadarviewPosition =
-                RadarHelper.getRadarViewPositionForMarker1(
+        RadarViewPosition lPosition1 =
+                RadarHelper.getRadarViewPositionForMarker(
                         lMarker,
                         360.0);
 
-        assertEquals((int)lRadarviewPosition.getX(), 550);
-        assertEquals((int)lRadarviewPosition.getY(), 550);
+        assertEquals((int)lPosition1.getX(), 550);
+        assertEquals((int)lPosition1.getY(), 550);
 
-        RadarViewPosition lRadarviewPosition2 =
-                RadarHelper.getRadarViewPositionForMarker1(
+        RadarViewPosition lPosition2 =
+                RadarHelper.getRadarViewPositionForMarker(
                         lMarker,
                         90.0);
 
-        assertEquals((int)lRadarviewPosition2.getX(), 550);
-        assertEquals((int)lRadarviewPosition2.getY(), 350);
+        assertEquals((int)lPosition2.getX(), 550);
+        assertEquals((int)lPosition2.getY(), 350);
 
-        RadarViewPosition lRadarviewPosition3 =
-                RadarHelper.getRadarViewPositionForMarker1(
+        RadarViewPosition lPosition3 =
+                RadarHelper.getRadarViewPositionForMarker(
                         lMarker,
                         180.0);
 
-        assertEquals((int)lRadarviewPosition3.getX(), 350);
-        assertEquals((int)lRadarviewPosition3.getY(), 350);
+        assertEquals((int)lPosition3.getX(), 350);
+        assertEquals((int)lPosition3.getY(), 350);
 
-        RadarViewPosition lRadarviewPosition4 =
-                RadarHelper.getRadarViewPositionForMarker1(
+        RadarViewPosition lPosition4 =
+                RadarHelper.getRadarViewPositionForMarker(
                         lMarker,
                         270.0);
 
-        assertEquals((int)lRadarviewPosition4.getX(), 350);
-        assertEquals((int)lRadarviewPosition4.getY(), 550);
+        assertEquals((int)lPosition4.getX(), 350);
+        assertEquals((int)lPosition4.getY(), 550);
 
     }
 }
