@@ -82,19 +82,48 @@ public class RadarUnitTest {
     @Test
     public void get_RadarView_Position_For_Marker() throws Exception {
 
-        /*RadarViewPosition lRadarviewPosition =
-                RadarHelper.getRadarViewPositionForMarker(
-                        new RadarMarker(
-                                150,
-                                150,
-                                0.0,
-                                0.0,
-                                Color.RED,
-                                null,
-                                null,
-                                null),
-                        180.0);*/
+        RadarMarker lMarker =
+                new RadarMarker(
+                    550,
+                    550,
+                    45.0,
+                    45.0,
+                    Color.RED,
+                    "",
+                    "",
+                    "");
 
-        assertEquals(1, 1);
+        RadarViewPosition lRadarviewPosition =
+                RadarHelper.getRadarViewPositionForMarker1(
+                        lMarker,
+                        360.0);
+
+        assertEquals((int)lRadarviewPosition.getX(), 550);
+        assertEquals((int)lRadarviewPosition.getY(), 550);
+
+        RadarViewPosition lRadarviewPosition2 =
+                RadarHelper.getRadarViewPositionForMarker1(
+                        lMarker,
+                        90.0);
+
+        assertEquals((int)lRadarviewPosition2.getX(), 550);
+        assertEquals((int)lRadarviewPosition2.getY(), 350);
+
+        RadarViewPosition lRadarviewPosition3 =
+                RadarHelper.getRadarViewPositionForMarker1(
+                        lMarker,
+                        180.0);
+
+        assertEquals((int)lRadarviewPosition3.getX(), 350);
+        assertEquals((int)lRadarviewPosition3.getY(), 350);
+
+        RadarViewPosition lRadarviewPosition4 =
+                RadarHelper.getRadarViewPositionForMarker1(
+                        lMarker,
+                        270.0);
+
+        assertEquals((int)lRadarviewPosition4.getX(), 350);
+        assertEquals((int)lRadarviewPosition4.getY(), 550);
+
     }
 }

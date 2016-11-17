@@ -116,10 +116,10 @@ public final class RadarHelper {
 
     /**
      * This method calculates the new position of the marker according to the new
-     * value of the azimut.
+     * value of the azimuth.
      *
      * @param aMarker The marker
-     * @param aAngle The degree
+     * @param aAngle The angle
      */
     public static RadarViewPosition getRadarViewPositionForMarker(
         RadarMarker aMarker,
@@ -132,13 +132,43 @@ public final class RadarHelper {
 
         // Formulas
         // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
-        // Y = BY+(AX−BX)sinϕ+(AY−BY)cosϕ
+        // Y = BY+(AY−BY)cosϕ+(AX−BX)sinϕ
 
         double lCurrentAngleInRadians = Math.toRadians(aAngle);
-        double lCurrentXPosition = (450 + (((lX-450) * Math.sin(lCurrentAngleInRadians)) + ((lY-450) * Math.cos(lCurrentAngleInRadians))));
-        double lCurrentYPosition = (450 + (((lX-450) * Math.cos(lCurrentAngleInRadians)) - ((lY-450) * Math.sin(lCurrentAngleInRadians))));
+        double lDeltaX = ((lX-450) * Math.cos(lCurrentAngleInRadians)) - ((lY-450) * Math.sin(lCurrentAngleInRadians));
+        double lDeltaY = ((lY-450) * Math.cos(lCurrentAngleInRadians)) + ((lX-450) * Math.sin(lCurrentAngleInRadians));
+
+        double lCurrentXPosition = (450 + lDeltaX);
+        double lCurrentYPosition = (450 + lDeltaY);
 
         return new RadarViewPosition((int)lCurrentXPosition, (int)lCurrentYPosition);
+    }
+
+    /**
+     * This method calculates the new position of the marker according to the new
+     * value of the azimuth.
+     *
+     * @param aMarker The marker
+     * @param aAngle The angle
+     */
+    public static RadarViewPosition getRadarViewPositionForMarker1(
+            RadarMarker aMarker,
+            double aAngle)  {
+
+        int lX = aMarker.getPositionX();
+        int lY = aMarker.getPositionY();
+
+        // The angles must be in radians
+
+        // Formulas
+        // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
+        // Y = BY+(AY−BY)cosϕ+(AX−BX)sinϕ
+
+        double lAngleInRadians = Math.toRadians(aAngle);
+        double lDeltaY = 450 + ((lX-450) * Math.cos(lAngleInRadians)) - ((lY-450) * Math.sin(lAngleInRadians));
+        double lDeltaX = 450 + ((lY-450) * Math.cos(lAngleInRadians)) + ((lX-450) * Math.sin(lAngleInRadians));
+
+        return new RadarViewPosition((int)lDeltaX, (int)lDeltaY);
     }
 
     /**
@@ -256,7 +286,7 @@ public final class RadarHelper {
 
         double lDeltaX = Math.abs((aXPosition1OnScreen - aXPosition2OnScreen));
         double lDeltaY = Math.abs((aYPosition1OnScreen - aYPosition2OnScreen));
-        double lTangent = (lDeltaY / lDeltaX); // Tangente = côté opposé / côté adjacent
+        double lTangent = (lDeltaY / lDeltaX);                          // Tangente = côté opposé / côté adjacent
 
         double lAngle = Math.atan(lTangent);
 

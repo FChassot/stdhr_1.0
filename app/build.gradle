@@ -39,6 +39,10 @@ android {
                 preDexLibraries = false
             }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     //sourceCompatibility = '1.7'
     //targetCompatibility = '1.7'
 }

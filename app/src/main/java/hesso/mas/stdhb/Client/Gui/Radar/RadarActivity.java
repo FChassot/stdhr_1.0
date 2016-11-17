@@ -125,24 +125,6 @@ public class RadarActivity
     private int mAzimut = 0;
 
     /**
-     * Getter
-     *
-     * @return
-     */
-    private double Radius() {
-        return mRadius;
-    }
-
-    /**
-     * Setter
-     *
-     * @param aValue
-     */
-    private void Radius(double aValue) {
-        mRadius = aValue;
-    }
-
-    /**
      * Called when the activity is first created. This is where you should do all of your normal
      * static set up:create views, bind data to lists, etc. This method also provides you with a
      * Bundle containing the activity's previously frozen state, if there was one. Always followed
@@ -345,7 +327,7 @@ public class RadarActivity
             if (mRadius < 1000) {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
                 //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-                lText += "      " + "Azimut: " + IntegerUtil.roundToDecimal(mAzimut);
+                lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimut);
                 //lText += "      " + "Ro: " + mRoll;
                 //lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
@@ -353,7 +335,7 @@ public class RadarActivity
             else {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
                 //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-                lText += "      " + "Azimut: " + IntegerUtil.roundToDecimal(mAzimut);
+                lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimut);
                 //lText += "      " + "Ro: " + mRoll;
                 //lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
@@ -448,7 +430,7 @@ public class RadarActivity
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 10000);
+            mHandler.postDelayed(this, 100);
         }
     };
 
@@ -605,8 +587,6 @@ public class RadarActivity
                         mCurrentDegree,
                         -lAzimut);*/
 
-                //mCurrentDegree = (360 - lAzimut);
-
                 //lRotation.setDuration(250);
                 //lRotation.setFillAfter(true);
 
@@ -635,7 +615,8 @@ public class RadarActivity
         Sensor aSensor,
         int aAccuracy) {
 
-        // In the function onAccuracyChanged(Sensor sensor, int accuracy), i can check the accuracy of the device's magnetometer.
+        // In the function onAccuracyChanged(Sensor sensor, int accuracy), i can check
+        // the accuracy of the device's magnetometer.
         if (aSensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 
             String lText = aSensor.getName();
@@ -653,26 +634,6 @@ public class RadarActivity
             }
 
             Toast.makeText(this, lText, Toast.LENGTH_LONG).show();
-            /*    lText += " " + "SENSOR_STATUS_ACCURACY_HIGH";
-            case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
-                lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM";
-            case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
-                lText += " " + "SENSOR_STATUS_ACCURACY_LOW";
-            case SensorManager.SENSOR_STATUS_UNRELIABLE:
-            /*switch (aAccuracy) {
-                case SensorManager.SENSOR_STATUS_ACCURACY_HIGH:
-                    lText += " " + "SENSOR_STATUS_ACCURACY_HIGH";
-                case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
-                    lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM";
-                case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
-                    lText += " " + "SENSOR_STATUS_ACCURACY_LOW";
-                case SensorManager.SENSOR_STATUS_UNRELIABLE:
-                    lText += " " + "SENSOR_STATUS_UNRELIABLE" + "            " + "Try to calibrate compass on your Android!";
-                default:
-                    break;
-            }*/
-
-            //Toast.makeText(this, lText, Toast.LENGTH_LONG).show();
         }
     }
 

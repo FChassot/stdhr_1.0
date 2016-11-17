@@ -73,6 +73,8 @@ public class RadarMarker extends Paint implements Parcelable {
         String aObjectId,
         String aDescription) {
 
+        super();
+
         mXViewPosition = aPositionX;
         mYViewPosition = aPositionY;
         mLocation.setLatitude(aLatitude);
