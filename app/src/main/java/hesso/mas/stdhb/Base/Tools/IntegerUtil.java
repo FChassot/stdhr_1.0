@@ -5,6 +5,7 @@ import static java.lang.Math.floor;
 /**
  * Created by chf on 13.10.2016.
  *
+ * Util class for the integer type
  */
 public final class IntegerUtil {
 

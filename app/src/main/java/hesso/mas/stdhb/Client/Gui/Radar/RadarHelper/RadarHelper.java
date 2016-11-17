@@ -22,7 +22,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 public final class RadarHelper {
 
     // Private constructor
-    // The class is not instanciable
+    // The class is not instantiable
     private RadarHelper() {}
 
     /**
@@ -128,19 +128,15 @@ public final class RadarHelper {
         int lX = aMarker.getPositionX();
         int lY = aMarker.getPositionY();
 
-        //double lCurrentDegree = 180;
         // The angles must be in radians
 
+        // Formulas
         // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
         // Y = BY+(AX−BX)sinϕ+(AY−BY)cosϕ
 
         double lCurrentAngleInRadians = Math.toRadians(aAngle);
-        double lCurrentXPosition = (450 + ((lX) * Math.cos(lCurrentAngleInRadians)) - ((lY) * Math.sin(lCurrentAngleInRadians))) + 450;
-        double lCurrentYPosition = (450 + ((lX) * Math.sin(lCurrentAngleInRadians)) + ((lY) * Math.cos(lCurrentAngleInRadians))) + 450;
-
-        /*String lText =
-                "Angle(" + aAngle + ") Position X = " + lX + " - New Position X = " +
-                        (int)lCurrentXPosition + "Position Y = " + lY + " - New Position Y = " + (int)lCurrentYPosition;*/
+        double lCurrentXPosition = (450 + (((lX-450) * Math.sin(lCurrentAngleInRadians)) + ((lY-450) * Math.cos(lCurrentAngleInRadians))));
+        double lCurrentYPosition = (450 + (((lX-450) * Math.cos(lCurrentAngleInRadians)) - ((lY-450) * Math.sin(lCurrentAngleInRadians))));
 
         return new RadarViewPosition((int)lCurrentXPosition, (int)lCurrentYPosition);
     }
@@ -235,7 +231,7 @@ public final class RadarHelper {
         double lObjectCulturalDeltaLatitude = (aMaxLatitude - aCulturalObjectLatitude);
         double lPosY = (lObjectCulturalDeltaLatitude / lDeltaLatitudeForOneUnitView);
 
-        // Instanciate an object to return
+        // Instantiate an object to return
         return new RadarViewPosition( (int)lPosX, (int)lPosY);
     }
 
@@ -260,8 +256,9 @@ public final class RadarHelper {
 
         double lDeltaX = Math.abs((aXPosition1OnScreen - aXPosition2OnScreen));
         double lDeltaY = Math.abs((aYPosition1OnScreen - aYPosition2OnScreen));
-        double lTangente = (lDeltaY / lDeltaX); // Tangente = côté opposé / côté adjacent
-        double lAngle = Math.atan(lTangente);
+        double lTangent = (lDeltaY / lDeltaX); // Tangente = côté opposé / côté adjacent
+
+        double lAngle = Math.atan(lTangent);
 
         double lDistance = (lDeltaY / Math.cos(lAngle));
 

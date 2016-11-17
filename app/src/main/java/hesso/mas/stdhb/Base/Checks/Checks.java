@@ -54,7 +54,7 @@ public final class Checks<T> {
     public static <T> void AssertIsStrictPositive(int aValue, @NonNull String aParameterName)
     {
         if (aValue <= 0) {
-            throw new RuntimeException("The variable " + aParameterName + " must positiv.");
+            throw new RuntimeException("The variable " + aParameterName + " must be positive.");
         }
     }
 
@@ -67,7 +67,7 @@ public final class Checks<T> {
     public static <T> void AssertIsStrictPositive(double aValue, @NonNull String aParameterName)
     {
         if (aValue <= 0) {
-            throw new RuntimeException("The variable " + aParameterName + " must positiv.");
+            throw new RuntimeException("The variable " + aParameterName + " must be positive.");
         }
     }
 }
