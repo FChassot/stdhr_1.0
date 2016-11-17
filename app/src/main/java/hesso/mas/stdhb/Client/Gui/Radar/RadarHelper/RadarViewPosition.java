@@ -14,8 +14,8 @@ public class RadarViewPosition {
 
     // Constructor
     public RadarViewPosition(
-            int aPositionX,
-            int aPositionY) {
+        int aPositionX,
+        int aPositionY) {
 
         mPositionX = aPositionX;
         mPositionY = aPositionY;

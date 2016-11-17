@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,12 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hesso.mas.stdhb.Client.Gui.Main.MainActivity"
     android:background="#084B8A">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_logo"
-        android:id="@+id/mImgLogo" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -35,7 +30,10 @@
         android:textColor="#DF013A"
         android:textStyle="bold"
         android:textSize="28dp"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"
+        android:layout_toEndOf="@+id/mImgLogoHesSo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/mTxtTitle2"
@@ -79,10 +77,32 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@mipmap/ic_logo"
+        android:id="@+id/mImgLogo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_radar"
+        android:id="@+id/mImgRadar"
+        android:layout_below="@+id/mTxtTitle2"
+        android:layout_above="@+id/mBtnSearch"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/mBtnMap"
+        android:layout_alignStart="@+id/mBtnMap"
+        android:soundEffectsEnabled="false" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@mipmap/ic_hesso"
         android:id="@+id/mImgLogoHesSo"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/mBtnMap"
-        android:layout_toStartOf="@+id/mBtnMap" />
+        android:layout_toLeftOf="@+id/mImgRadar"
+        android:layout_toStartOf="@+id/mImgRadar" />
 
 </RelativeLayout>

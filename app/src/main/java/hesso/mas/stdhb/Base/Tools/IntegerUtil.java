@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Base.Tools;
 
+import static java.lang.Math.floor;
+
 /**
  * Created by chf on 13.10.2016.
  *
@@ -24,5 +26,16 @@ public final class IntegerUtil {
         catch (NumberFormatException aExc) {
             return false;
         }
+    }
+
+    /**
+     * The method rounds the integer value to the decimal
+     *
+     * @param aIntValue
+     *
+     * @return
+     */
+    public static double roundToDecimal(int aIntValue) {
+        return floor(aIntValue / 10) * 10;
     }
 }

@@ -21,6 +21,7 @@ import android.util.AttributeSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
@@ -276,6 +277,10 @@ public class RadarView extends android.view.View {
             int aX,
             int aY) {
 
+            Checks.AssertNotNull(aCanvas, "aCanvas");
+            Checks.AssertIsStrictPositive(aX, "aX");
+            Checks.AssertIsStrictPositive(aY, "aY");
+
             String lText = "NORD";
             Paint lPaint = new Paint();
 
@@ -301,6 +306,9 @@ public class RadarView extends android.view.View {
                 double aRadius,
                 double aQuotient) {
 
+                Checks.AssertIsStrictPositive(aRadius, "aRadius");
+                Checks.AssertIsStrictPositive(aQuotient, "aQuotient");
+
                 double lRadius = 0.0;
 
                 if (aRadius >= 1000) {
@@ -325,6 +333,9 @@ public class RadarView extends android.view.View {
         public void drawMarkers(
             Canvas aCanvas,
             int aMaxRadiusOfRadar) {
+
+            Checks.AssertNotNull(aCanvas, "aCanvas");
+            Checks.AssertIsStrictPositive(aMaxRadiusOfRadar, "aMaxRadiusOfRadar");
 
             // Paint object allows to describe the colors and styles for marker
             Paint lMarkerPaint = new Paint();
@@ -357,6 +368,10 @@ public class RadarView extends android.view.View {
             Canvas aCanvas,
             RadarMarker aRadarMarker,
             int aMaxRadiusOfRadar) {
+
+            Checks.AssertNotNull(aCanvas, "aCanvas");
+            Checks.AssertNotNull(aRadarMarker, "aRadarMarker");
+            Checks.AssertIsStrictPositive(aMaxRadiusOfRadar, "aMaxRadiusOfRadar");
 
             // Paint object allows to describe the colors and styles for marker
             Paint lMarkerPaint = new Paint();

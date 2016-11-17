@@ -121,7 +121,7 @@ public final class RadarHelper {
      * @param aMarker The marker
      * @param aAngle The degree
      */
-    private static RadarViewPosition getRadarViewPositionForMarker(
+    public static RadarViewPosition getRadarViewPositionForMarker(
         RadarMarker aMarker,
         double aAngle)  {
 
@@ -135,11 +135,12 @@ public final class RadarHelper {
         // Y = BY+(AX−BX)sinϕ+(AY−BY)cosϕ
 
         double lCurrentAngleInRadians = Math.toRadians(aAngle);
-        double lCurrentXPosition = (450 + ((lX - 450) * Math.cos(lCurrentAngleInRadians)) - ((lY - 450) * Math.sin(lCurrentAngleInRadians)));
-        double lCurrentYPosition = (450 + ((lX - 450) * Math.sin(lCurrentAngleInRadians)) + ((lY - 450) * Math.cos(lCurrentAngleInRadians)));
+        double lCurrentXPosition = (450 + ((lX) * Math.cos(lCurrentAngleInRadians)) - ((lY) * Math.sin(lCurrentAngleInRadians))) + 450;
+        double lCurrentYPosition = (450 + ((lX) * Math.sin(lCurrentAngleInRadians)) + ((lY) * Math.cos(lCurrentAngleInRadians))) + 450;
 
-        String lText =
-                "Angle(" + aAngle + ") Position X = " + lX + " - New Position X = " + (int)lCurrentXPosition + "Position Y = " + lY + " - New Position Y = " + (int)lCurrentYPosition;
+        /*String lText =
+                "Angle(" + aAngle + ") Position X = " + lX + " - New Position X = " +
+                        (int)lCurrentXPosition + "Position Y = " + lY + " - New Position Y = " + (int)lCurrentYPosition;*/
 
         return new RadarViewPosition((int)lCurrentXPosition, (int)lCurrentYPosition);
     }
@@ -220,21 +221,21 @@ public final class RadarHelper {
         double aMinLongitude,
         double aMaxLongitude) {
 
-        // first, calculate the position in X
+        // First, calculate the position in X
         double lDeltaLongitude = (aMaxLongitude - aMinLongitude);
         double lDeltaLongitudeForOneUnitView = (lDeltaLongitude / aWidthView);
 
         double lObjectCulturalDeltaLongitude = (aCulturalObjectLongitude - aMinLongitude);
         double lPosX = (lObjectCulturalDeltaLongitude / lDeltaLongitudeForOneUnitView);
 
-        // second, calculate the position in Y
+        // Second, calculate the position in Y
         double lDeltaLatitude = (aMaxLatitude - aMinLatitude);
         double lDeltaLatitudeForOneUnitView = (lDeltaLatitude / aHeightView);
 
         double lObjectCulturalDeltaLatitude = (aMaxLatitude - aCulturalObjectLatitude);
         double lPosY = (lObjectCulturalDeltaLatitude / lDeltaLatitudeForOneUnitView);
 
-        // instanciate a return object
+        // Instanciate an object to return
         return new RadarViewPosition( (int)lPosX, (int)lPosY);
     }
 

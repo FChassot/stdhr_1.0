@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+import hesso.mas.stdhb.Base.Tools.IntegerUtil;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
@@ -46,6 +47,7 @@ import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyn
 import hesso.mas.stdhbtests.R;
 
 import static android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_LOW;
+import static java.lang.Math.floor;
 
 /**
  * Created by chf on 11.07.2016.
@@ -342,18 +344,18 @@ public class RadarActivity
 
             if (mRadius < 1000) {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
-               // if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-                lText += "      " + "Az: " + mAzimut;
-                lText += "      " + "Ro: " + mRoll;
-                lText += "      " + "Pitch: " + mPitch;
+                //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
+                lText += "      " + "Azimut: " + IntegerUtil.roundToDecimal(mAzimut);
+                //lText += "      " + "Ro: " + mRoll;
+                //lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
             }
             else {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
                 //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-                lText += "      " + "Az: " + mAzimut;
-                lText += "      " + "Ro: " + mRoll;
-                lText += "      " + "Pitch: " + mPitch;
+                lText += "      " + "Azimut: " + IntegerUtil.roundToDecimal(mAzimut);
+                //lText += "      " + "Ro: " + mRoll;
+                //lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
             }
         }
@@ -372,6 +374,8 @@ public class RadarActivity
         }
 
     //endregion
+
+
 
     //region OnClickListener
 
@@ -570,9 +574,9 @@ public class RadarActivity
                 mOldOrientationString[lIndex] = Float.toString(mOldOrientation[lIndex]);
             }
 
-            mAzimut = (int) (Math.toDegrees(mOrientation[0])+360)%360;;
-            mPitch = (int) Math.round(Math.toDegrees(mOrientation[1]));;
-            mRoll = (int) Math.round(Math.toDegrees(mOrientation[2]));;
+            mAzimut = (int) (Math.toDegrees(mOrientation[0])+360)%360;
+            mPitch = (int) Math.round(Math.toDegrees(mOrientation[1]));
+            mRoll = (int) Math.round(Math.toDegrees(mOrientation[2]));
 
             updateInfoTxtView();
 
@@ -631,35 +635,44 @@ public class RadarActivity
         Sensor aSensor,
         int aAccuracy) {
 
-        // In The function onAccuracyChanged(Sensor sensor, int accuracy), i can check the accuracy of the device's magnetometer.
-        // There are 4 levels of accuracy (from class SensorManager):
-        // We analyse its accuracy
-        //if (!preferences.showAccuracyToast())
-       //     return;
-
-   //     if (preferences.getAccuracy(sensor.getType()) == accuracy)
-     //       return;
-
-        //preferences.setAccuracy(sensor.getType(), accuracy);
+        // In the function onAccuracyChanged(Sensor sensor, int accuracy), i can check the accuracy of the device's magnetometer.
         if (aSensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+
             String lText = aSensor.getName();
 
             mHasInterference = (aAccuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
-            switch (aAccuracy) {
-                case SensorManager.SENSOR_STATUS_ACCURACY_HIGH:
-                    lText += "SENSOR_STATUS_ACCURACY_HIGH";
-                case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
-                    lText += "SENSOR_STATUS_ACCURACY_MEDIUM";
-                case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
-                    lText += "SENSOR_STATUS_ACCURACY_LOW";
-                case SensorManager.SENSOR_STATUS_UNRELIABLE:
-                    lText += "SENSOR_STATUS_UNRELIABLE" + "Try to calibrate compass on your Android";
-                default:
-                    break;
+            if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
+                lText += " " + "SENSOR_STATUS_ACCURACY_HIGH";
+            } else if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
+                lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM";
+            } else if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
+                lText += " " + "SENSOR_STATUS_ACCURACY_LOW";
+            } else if (aAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+                lText += " " + "SENSOR_STATUS_UNRELIABLE" + "            " + "Try to calibrate compass on your Android!";
             }
 
             Toast.makeText(this, lText, Toast.LENGTH_LONG).show();
+            /*    lText += " " + "SENSOR_STATUS_ACCURACY_HIGH";
+            case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
+                lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM";
+            case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
+                lText += " " + "SENSOR_STATUS_ACCURACY_LOW";
+            case SensorManager.SENSOR_STATUS_UNRELIABLE:
+            /*switch (aAccuracy) {
+                case SensorManager.SENSOR_STATUS_ACCURACY_HIGH:
+                    lText += " " + "SENSOR_STATUS_ACCURACY_HIGH";
+                case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
+                    lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM";
+                case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
+                    lText += " " + "SENSOR_STATUS_ACCURACY_LOW";
+                case SensorManager.SENSOR_STATUS_UNRELIABLE:
+                    lText += " " + "SENSOR_STATUS_UNRELIABLE" + "            " + "Try to calibrate compass on your Android!";
+                default:
+                    break;
+            }*/
+
+            //Toast.makeText(this, lText, Toast.LENGTH_LONG).show();
         }
     }
 
