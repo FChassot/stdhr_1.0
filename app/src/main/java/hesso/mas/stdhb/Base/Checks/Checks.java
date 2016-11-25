@@ -15,7 +15,7 @@ public final class Checks<T> {
 
     /**
      * Private constructor
-     * The class is not instanciable
+     * The class is not instantiable
      */
     private Checks() {}
 
