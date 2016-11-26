@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by chf on 01.11.2016
- *
+ * Utility class for
  */
 public final class ParcelableUtil {
 
@@ -17,6 +17,8 @@ public final class ParcelableUtil {
     private ParcelableUtil() {}
 
     /**
+     * Inserts a Serializable value into the mapping of this Bundle, replacing any existing value
+     * for the given key. Either key or value may be null.
      *
      * @param aBundle
      * @param aList
@@ -39,6 +41,8 @@ public final class ParcelableUtil {
     }
 
     /**
+     * Returns the value associated with the given key, or null if no mapping of the desired type
+     * exists for the given key or a null value is explicitly associated with the key.
      *
      * @param aBundle
      * @param key
@@ -66,6 +70,8 @@ public final class ParcelableUtil {
     }
 
     /**
+     * Inserts a List of Parcelable values into the mapping of this Bundle,
+     * replacing any existing value for the given key.
      *
      * @param aBundle
      * @param aList

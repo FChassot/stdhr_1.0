@@ -6,7 +6,7 @@ package hesso.mas.stdhb.Base.Tools;
  */
 public final class StringUtil {
 
-    // private constructor
+    // Private constructor
     private StringUtil() {}
 
     /**
