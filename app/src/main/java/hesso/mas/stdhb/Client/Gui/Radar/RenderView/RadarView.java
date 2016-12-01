@@ -23,6 +23,7 @@ import java.util.List;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
@@ -61,7 +62,6 @@ public class RadarView extends android.view.View {
 
         private Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         private Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
-
         private Paint mGridPaint;
 
         public RadarMarker mSelectedMarker;
@@ -181,7 +181,8 @@ public class RadarView extends android.view.View {
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
 
-            // Calculate the maximum diameter of the radar possible according to the dimensions of the view
+            // Calculate the maximum diameter of the radar possible according
+            // to the dimensions of the view
             int lMaxDiameterOfTheRadarView = Math.min(lCanvasWidth, lCanvasHeight);
 
             Paint lRadarPaint = latestPaint[0];
@@ -253,7 +254,7 @@ public class RadarView extends android.view.View {
             String lText3 = getText(mRadius, (4/3));
             String lText4 = getText(mRadius, 1);
 
-            addNordText(aCanvas, 650, 20);
+            addNordText(aCanvas, 650, 50);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
             addText(aCanvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
@@ -483,14 +484,14 @@ public class RadarView extends android.view.View {
                         Location lCurrentUserLocation = getCurrentLocation();
 
                         if (lCurrentUserLocation != null) {
-                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
                             lCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
                             lCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
                         }
                         else {
                             lCurrentUserMarker.setLatitude(46.2333);
                             lCurrentUserMarker.setLongitude(7.35);
-                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
                         }
 
                         lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
@@ -518,14 +519,14 @@ public class RadarView extends android.view.View {
                         Location lCurrentUserLocation = getCurrentLocation();
 
                         if (lCurrentUserLocation != null) {
-                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
                             lCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
                             lCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
                         }
                         else {
                             lCurrentUserMarker.setLatitude(46.2333);
                             lCurrentUserMarker.setLongitude(7.35);
-                            lCurrentUserMarker.setTitle("Citizen radar's user");
+                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
                         }
 
                         lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);

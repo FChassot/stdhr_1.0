@@ -20,6 +20,7 @@ import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 
+import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
@@ -42,9 +43,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     public static final String RADAR_MARKER_ARRAY = "NO_SELECTED_RADAR_MARKER_ARRAY";
 
     // Member variables
+
+    // The current location of the app's user
+    private Location mCurrentUserLocation;
+
     private RadarMarker mCurrentUserMarker;
 
-    private RadarMarker mCulturalObjectMarkerSelected;
+    private RadarMarker mSelectedMarker;
 
     private List<RadarMarker> mCulturalObjectMarkers;
 
@@ -52,11 +57,10 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     private NetworkConnectivity mConnectivity;
 
-    // The current location of the app's user
-    private Location mCurrentUserLocation;
-
     // GoogleMap instance
     private GoogleMap mMapFragment;
+
+    private boolean mWithoutOnStop = false;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
@@ -85,11 +89,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         // to various Parcelable values.
         Bundle lBundle = lIntent.getExtras();
 
+        mWithoutOnStop = false;
+
         if (lBundle != null) {
             // To retrieve the current user marker
             mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
             // To retrieve the cultural object selected in the radar view
-            mCulturalObjectMarkerSelected = lBundle.getParcelable(RADAR_MARKER);
+            mSelectedMarker = lBundle.getParcelable(RADAR_MARKER);
             // To retrieve all cultural objects found in the radar but not selected
             mCulturalObjectMarkers = lBundle.getParcelableArrayList(RADAR_MARKER_ARRAY);
         }
@@ -98,13 +104,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 mCurrentUserMarker = new RadarMarker();
                 mCurrentUserMarker.setLatitude(mCurrentUserLocation.getLatitude());
                 mCurrentUserMarker.setLongitude(mCurrentUserLocation.getLongitude());
-                mCurrentUserMarker.setTitle("Citizen radar's user");
+                mCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
             }
             else {
                 mCurrentUserMarker = new RadarMarker();
                 mCurrentUserMarker.setLatitude(46.2333);
                 mCurrentUserMarker.setLongitude(7.35);
-                mCurrentUserMarker.setTitle("Citizen radar's user");
+                mCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
             }
         }
 
@@ -148,31 +154,38 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     public void onPause() {
         super.onPause();
 
-        Intent lIntent = new Intent(this, RadarActivity.class);
+        if (!mWithoutOnStop) {
+            Intent lIntent = new Intent(this, RadarActivity.class);
 
-        Bundle lBundle = new Bundle();
+            Bundle lBundle = new Bundle();
 
-        lBundle.putParcelable(MapsActivity.USER_MARKER, mCulturalObjectMarkerSelected);
+            lBundle.putParcelable(MapsActivity.USER_MARKER, mSelectedMarker);
 
-        lIntent.putExtras(lBundle);
+            lIntent.putExtras(lBundle);
 
-        this.startActivity(lIntent);
+            this.startActivity(lIntent);
+        }
     }
 
-    /*@Override
+    /**
+     *
+     */
+    @Override
     public void onStop() {
         super.onStop();
 
-        Intent lIntent = new Intent(this, RadarActivity.class);
+        if (!mWithoutOnStop) {
+            Intent lIntent = new Intent(this, RadarActivity.class);
 
-        Bundle lBundle = new Bundle();
+            Bundle lBundle = new Bundle();
 
-        lBundle.putParcelable(MapsActivity.RADAR_MARKER, mCulturalObjectMarkerSelected);
+            lBundle.putParcelable(MapsActivity.RADAR_MARKER, mSelectedMarker);
 
-        lIntent.putExtras(lBundle);
+            lIntent.putExtras(lBundle);
 
-        this.startActivity(lIntent);
-    }*/
+            this.startActivity(lIntent);
+        }
+    }
 
     /**
      * Manipulates the map once available.
@@ -206,11 +219,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                         .position(lLatLngCurrentUserLocation)
                         .title(mCurrentUserMarker.getTitle()));
 
-        if (mCulturalObjectMarkerSelected != null) {
+        if (mSelectedMarker != null) {
             LatLng lLatLngCulturalObjectLocation =
                 new LatLng(
-                    mCulturalObjectMarkerSelected.getLatitude(),
-                    mCulturalObjectMarkerSelected.getLongitude());
+                        mSelectedMarker.getLatitude(),
+                        mSelectedMarker.getLongitude());
 
             lBuilder.include(lLatLngCulturalObjectLocation);
 
@@ -218,8 +231,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
             Marker lMarker = mMapFragment.addMarker(
                 new MarkerOptions()
                     .position(lLatLngCulturalObjectLocation)
-                    .snippet(mCulturalObjectMarkerSelected.getObjectId())
-                    .title(mCulturalObjectMarkerSelected.getTitle()));
+                    .snippet(mSelectedMarker.getObjectId())
+                    .title(mSelectedMarker.getTitle()));
 
             lMarker.showInfoWindow();
         }
@@ -260,7 +273,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     @Override
     public boolean onMarkerClick (Marker aMarker) {
 
-        if (aMarker.getTitle().equals("Citizen radar's user")) { return true; }
+        if (aMarker.getTitle().equals(BaseConstants.Attr_Citizen_User_Text)) { return true; }
 
         Location lLocation = new Location(MyString.EMPTY_STRING);
         lLocation.setLatitude(aMarker.getPosition().latitude);
@@ -283,6 +296,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         lIntent.putExtras(lBundle);
 
         this.startActivity(lIntent);
+
+        mWithoutOnStop = true;
 
         return true;
     }

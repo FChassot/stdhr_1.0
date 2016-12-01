@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -46,9 +45,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
-import static android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_LOW;
 import static hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity.RADAR_MARKER;
-import static java.lang.Math.floor;
 
 /**
  * Created by chf on 11.07.2016.
@@ -123,7 +120,7 @@ public class RadarActivity
 
     private int mRoll = 0;
     private int mPitch = 0;
-    private int mAzimut = 0;
+    private int mAzimuth = 0;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal
@@ -143,7 +140,9 @@ public class RadarActivity
         setContentView(R.layout.activity_display);
 
         mPrefs = new Preferences(this);
+
         mGeolocationServices = new GpsLocationListener(this);
+
         mSpatialGeometryServices = new SpatialGeometryServices();
 
         if (!mGeolocationServices.isLocationRetrievePossible()) {
@@ -321,12 +320,14 @@ public class RadarActivity
          * Update the text displayed on the mBtnStopRadar Button
          */
         private void updateButtonText() {
-            if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
+            Button lBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
+
+            if (lBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
             {
-                mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
+                lBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
             }
             else {
-                mBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
+                lBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
             }
         }
 
@@ -346,7 +347,7 @@ public class RadarActivity
             if (mRadius < 1000) {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
                 //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-                lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimut);
+                lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimuth);
                 //lText += "      " + "Ro: " + mRoll;
                 //lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
@@ -354,7 +355,7 @@ public class RadarActivity
             else {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
                 //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
-                lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimut);
+                lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimuth);
                 //lText += "      " + "Ro: " + mRoll;
                 //lText += "      " + "Pitch: " + mPitch;
                 mRadiusInfo.setText(lText);
@@ -573,7 +574,7 @@ public class RadarActivity
                 mOldOrientationString[lIndex] = Float.toString(mOldOrientation[lIndex]);
             }
 
-            mAzimut = (int) (Math.toDegrees(mOrientation[0])+360)%360;
+            mAzimuth = (int) (Math.toDegrees(mOrientation[0])+360)%360;
             mPitch = (int) Math.round(Math.toDegrees(mOrientation[1]));
             mRoll = (int) Math.round(Math.toDegrees(mOrientation[2]));
 
@@ -835,7 +836,7 @@ public class RadarActivity
             List<RadarMarker> lMarkers =
                     RadarHelper.getRadarMarkersFromResponse(
                             lCitizenQueryResult,
-                            mAzimut,
+                            mAzimuth,
                             mCurrentUserLocation,
                             mRadius,
                             mRadarView.getHeight(),

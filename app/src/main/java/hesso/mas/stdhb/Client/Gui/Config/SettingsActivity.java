@@ -95,7 +95,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         mConnectivity = new NetworkConnectivity(this);
 
-        // Finds the views that was identified by an id attribute
+        // Find the views that was identified by an id attribute
         Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         EditText mDTxtRadius = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
