@@ -114,11 +114,11 @@ public class RadarView extends android.view.View {
             mGridPaint.setTextAlign(Paint.Align.CENTER);
 
             mTextPaint = new Paint();
-            mTextPaint.setColor(0xFFFFFFFF);
+            mTextPaint.setColor(0xFFFF0000);
             mTextPaint.setAntiAlias(true);
-            mTextPaint.setStyle(Paint.Style.STROKE);
-            mTextPaint.setStrokeWidth(1.0f);
-            mTextPaint.setTextSize(40.0f);
+            mTextPaint.setStyle(Paint.Style.FILL);
+            mTextPaint.setStrokeWidth(2.0f);
+            mTextPaint.setTextSize(50.0f);
             mTextPaint.setTextAlign(Paint.Align.LEFT);
 
             int lAlpha_step = 255 / POINT_ARRAY_SIZE;
@@ -371,7 +371,7 @@ public class RadarView extends android.view.View {
                     if (lColorMarker != null) {
                         if (lMarker.equals(lColorMarker)) {
                             lMarkerPaint.setColor(mSelectedMarkerColor);
-                            addText(aCanvas, lColorMarker.getTitle(), lColorMarker.getPositionX(), lColorMarker.getPositionY(), mTextPaint);
+                            addText(aCanvas, lColorMarker.getTitle(), lColorMarker.getPositionX()+10, lColorMarker.getPositionY(), mTextPaint);
                         } else {
                             lMarkerPaint.setColor(Color.WHITE);
                         }
