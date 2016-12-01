@@ -96,6 +96,7 @@ public class RadarUnitTest {
 
         RadarViewPosition lPosition1 =
                 RadarHelper.getRadarViewPositionForMarker(
+                        600,
                         lMarker,
                         360.0);
 
@@ -104,6 +105,7 @@ public class RadarUnitTest {
 
         RadarViewPosition lPosition2 =
                 RadarHelper.getRadarViewPositionForMarker(
+                        600,
                         lMarker,
                         90.0);
 
@@ -112,6 +114,7 @@ public class RadarUnitTest {
 
         RadarViewPosition lPosition3 =
                 RadarHelper.getRadarViewPositionForMarker(
+                        600,
                         lMarker,
                         180.0);
 
@@ -120,6 +123,7 @@ public class RadarUnitTest {
 
         RadarViewPosition lPosition4 =
                 RadarHelper.getRadarViewPositionForMarker(
+                        600,
                         lMarker,
                         270.0);
 

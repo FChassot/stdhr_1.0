@@ -99,8 +99,11 @@ public final class RadarHelper {
                     lDescription);
 
             if (aMovementMode) {
+                int lCenter = (aHeightView / 2);
+
                 RadarViewPosition lPositionAccordingCurrentDegree =
                         getRadarViewPositionForMarker(
+                                lCenter,
                                 lMarker,
                                 aCurrentDegree);
 
@@ -122,6 +125,7 @@ public final class RadarHelper {
      * @param aAngle The angle
      */
     public static RadarViewPosition getRadarViewPositionForMarker(
+            int aCenter,
             RadarMarker aMarker,
             double aAngle)  {
 
@@ -135,8 +139,8 @@ public final class RadarHelper {
         // Y = BY+(AY−BY)cosϕ+(AX−BX)sinϕ
 
         double lAngleInRadians = Math.toRadians(aAngle);
-        double lDeltaY = 450 + ((lX-450) * Math.cos(lAngleInRadians)) - ((lY-450) * Math.sin(lAngleInRadians));
-        double lDeltaX = 450 + ((lY-450) * Math.cos(lAngleInRadians)) + ((lX-450) * Math.sin(lAngleInRadians));
+        double lDeltaY = aCenter + ((lX-aCenter) * Math.cos(lAngleInRadians)) - ((lY-aCenter) * Math.sin(lAngleInRadians));
+        double lDeltaX = aCenter + ((lY-aCenter) * Math.cos(lAngleInRadians)) + ((lX-aCenter) * Math.sin(lAngleInRadians));
 
         return new RadarViewPosition((int)lDeltaX, (int)lDeltaY);
     }

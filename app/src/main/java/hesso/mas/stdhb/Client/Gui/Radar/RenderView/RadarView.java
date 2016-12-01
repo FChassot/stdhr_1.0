@@ -253,7 +253,7 @@ public class RadarView extends android.view.View {
             String lText3 = getText(mRadius, (4/3));
             String lText4 = getText(mRadius, 1);
 
-            addNordText(aCanvas, 450, 20);
+            addNordText(aCanvas, 650, 20);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
             addText(aCanvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
