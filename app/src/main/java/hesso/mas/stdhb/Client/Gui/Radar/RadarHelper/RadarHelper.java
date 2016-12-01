@@ -132,15 +132,17 @@ public final class RadarHelper {
         int lX = aMarker.getPositionX();
         int lY = aMarker.getPositionY();
 
+        double lAngle = 360 - aAngle;
+
         // The angles must be in radians
 
         // Formulas
         // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
         // Y = BY+(AY−BY)cosϕ+(AX−BX)sinϕ
 
-        double lAngleInRadians = Math.toRadians(aAngle);
-        double lDeltaY = aCenter + ((lX-aCenter) * Math.cos(lAngleInRadians)) - ((lY-aCenter) * Math.sin(lAngleInRadians));
-        double lDeltaX = aCenter + ((lY-aCenter) * Math.cos(lAngleInRadians)) + ((lX-aCenter) * Math.sin(lAngleInRadians));
+        double lAngleInRadians = Math.toRadians(lAngle);
+        double lDeltaX = aCenter + ((lX-aCenter) * Math.cos(lAngleInRadians)) - ((lY-aCenter) * Math.sin(lAngleInRadians));
+        double lDeltaY = aCenter + ((lY-aCenter) * Math.cos(lAngleInRadians)) + ((lX-aCenter) * Math.sin(lAngleInRadians));
 
         return new RadarViewPosition((int)lDeltaX, (int)lDeltaY);
     }
