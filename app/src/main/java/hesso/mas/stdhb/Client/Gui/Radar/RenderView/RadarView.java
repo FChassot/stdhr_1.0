@@ -63,6 +63,7 @@ public class RadarView extends android.view.View {
         private Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
         private Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
         private Paint mGridPaint;
+        private Paint mTextPaint;
 
         public RadarMarker mSelectedMarker;
         private int mSelectedMarkerColor = Color.RED;
@@ -111,6 +112,14 @@ public class RadarView extends android.view.View {
             mGridPaint.setStrokeWidth(1.0f);
             mGridPaint.setTextSize(40.0f);
             mGridPaint.setTextAlign(Paint.Align.CENTER);
+
+            mTextPaint = new Paint();
+            mTextPaint.setColor(0xFFFFFFFF);
+            mTextPaint.setAntiAlias(true);
+            mTextPaint.setStyle(Paint.Style.STROKE);
+            mTextPaint.setStrokeWidth(1.0f);
+            mTextPaint.setTextSize(40.0f);
+            mTextPaint.setTextAlign(Paint.Align.LEFT);
 
             int lAlpha_step = 255 / POINT_ARRAY_SIZE;
 
@@ -348,10 +357,21 @@ public class RadarView extends android.view.View {
             List<RadarMarker> lMarkers = getMarkers();
 
             if (lMarkers != null){
+                RadarMarker lColorMarker = null;
+
                 for (RadarMarker lMarker : lMarkers) {
                     if (this.mSelectedMarker != null) {
                         if (lMarker.getObjectId().equals(this.mSelectedMarker.getObjectId())) {
+                            lColorMarker = lMarker;
+                        }
+                    }
+                }
+
+                for (RadarMarker lMarker : lMarkers) {
+                    if (lColorMarker != null) {
+                        if (lMarker.equals(lColorMarker)) {
                             lMarkerPaint.setColor(mSelectedMarkerColor);
+                            addText(aCanvas, lColorMarker.getTitle(), lColorMarker.getPositionX(), lColorMarker.getPositionY(), mTextPaint);
                         } else {
                             lMarkerPaint.setColor(Color.WHITE);
                         }
