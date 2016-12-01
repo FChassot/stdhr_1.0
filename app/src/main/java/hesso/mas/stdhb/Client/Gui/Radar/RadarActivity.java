@@ -47,6 +47,7 @@ import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyn
 import hesso.mas.stdhbtests.R;
 
 import static android.hardware.SensorManager.SENSOR_STATUS_ACCURACY_LOW;
+import static hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity.RADAR_MARKER;
 import static java.lang.Math.floor;
 
 /**
@@ -149,7 +150,7 @@ public class RadarActivity
             mGeolocationServices.showSettingsAlert();
         }
 
-        // Finds the views that was identified by an id attribute
+        // Find the views that was identified by an id attribute
         mRadarView = (RadarView) findViewById(R.id.radarView);
         mBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
         mNbrOfCulturalObjectsDetected = (TextView)findViewById(R.id.mDTxtViewNbrObject);
@@ -161,7 +162,7 @@ public class RadarActivity
         ImageButton lImgBtnZoomReset = (ImageButton)findViewById(R.id.imgBtnReset);
 
         lImgBtnZoom.setEnabled(true);
-        lImgBtnZoomReset.setEnabled(false);
+        lImgBtnZoomReset.setEnabled(true);
 
         // Initialize the android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -230,6 +231,24 @@ public class RadarActivity
 
         // Update the radar's information
         this.updateInfoTxtView();
+
+        // An intent is an abstract description of an operation to be performed.
+        // getIntent returns the intent that started this activity.
+        Intent lIntent = this.getIntent();
+
+        if (lIntent != null) {
+            // The bundle object contains a mapping from String keys to various Parcelable values.
+            Bundle lBundle = lIntent.getExtras();
+
+            if (lBundle != null) {
+                // To retrieve the cultural object selected in the radar view
+                RadarMarker mSelectedMarker = lBundle.getParcelable(RADAR_MARKER);
+
+                if (mSelectedMarker != null) {
+                    mRadarView.mSelectedMarker = mSelectedMarker;
+                }
+            }
+        }
 
         // Start the radar
         mRadarView.startRadar();
@@ -357,8 +376,6 @@ public class RadarActivity
 
     //endregion
 
-
-
     //region OnClickListener
 
         /**
@@ -403,16 +420,16 @@ public class RadarActivity
             if (aView.getId()==R.id.imgBtnReset){
                 if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {return;}
 
-                if ((mRadius * 2) > 100000) {
+                //if ((mRadius * 2) > 100000) {
                     mRadius =
                             mPrefs.getMyIntPref(
                                     this,
                                     BaseConstants.Attr_Radius_Search,
                                     BaseConstants.Attr_Default_Radius_Search);
-                }
-                else {
-                    mRadius = (mRadius * 2);
-                }
+                //}
+                //else {
+                    //mRadius = (mRadius * 2);
+                //}
 
                 mRadarView.stopRadar();
                 mRadarView.startRadar();

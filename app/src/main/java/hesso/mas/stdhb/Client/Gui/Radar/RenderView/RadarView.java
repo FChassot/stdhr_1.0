@@ -64,8 +64,8 @@ public class RadarView extends android.view.View {
 
         private Paint mGridPaint;
 
-        private RadarMarker mSelectedMarker;
-        private int mSelectedMarkerColor = Color.YELLOW;
+        public RadarMarker mSelectedMarker;
+        private int mSelectedMarkerColor = Color.RED;
 
         public double mRadius = 500.0;
 
@@ -348,6 +348,14 @@ public class RadarView extends android.view.View {
 
             if (lMarkers != null){
                 for (RadarMarker lMarker : lMarkers) {
+                    if (this.mSelectedMarker != null) {
+                        if (lMarker.getObjectId().equals(this.mSelectedMarker.getObjectId())) {
+                            lMarkerPaint.setColor(mSelectedMarkerColor);
+                        } else {
+                            lMarkerPaint.setColor(Color.WHITE);
+                        }
+                    }
+
                     aCanvas.drawCircle(
                         lMarker.getPositionX(),
                         lMarker.getPositionY(),

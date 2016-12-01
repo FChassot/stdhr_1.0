@@ -36,6 +36,7 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Tools.IntegerUtil;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
+import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 
@@ -355,11 +356,15 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                     "Ok");
         }
 
-        if (lCboSubject.getSelectedItem() != null){
-            mPrefs.setMyStringPref(
-                    this,
-                    BaseConstants.Attr_Subject_Search_Type,
-                    lCboSubject.getSelectedItem().toString());
+        if(lCboSubject != null && lCboSubject.getSelectedItem() !=null ) {
+            String lValue = lCboSubject.getSelectedItem().toString();
+
+            if (!lValue.equals(MyString.EMPTY_STRING)) {
+                mPrefs.setMyStringPref(
+                        this,
+                        BaseConstants.Attr_Subject_Search_Type,
+                        lCboSubject.getSelectedItem().toString());
+            }
         }
 
         Boolean lRadarMode = lSwitchRadar.isChecked();

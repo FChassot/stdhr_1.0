@@ -23,6 +23,7 @@ import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
 
@@ -129,6 +130,51 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     }
 
     /**
+     * When the system calls onPause() for your activity, it technically means your activity is still
+     * partially visible, but most often is an indication that the user is leaving the activity and it
+     * will soon enter the Stopped state. You should usually use the onPause() callback to:
+     *
+     * - Check if the activity is visible; if it is not, stop animations or other ongoing actions
+     * that could consume CPU.
+     * Remember, beginning with Android 7.0, a paused app might be running in multi-window mode.
+     * In this case, you would not want to stop animations or video playback.
+     * - Commit unsaved changes, but only if users expect such changes to be permanently saved when
+     * they leave (such as a draft email).
+     * - Release system resources, such as broadcast receivers, handles to sensors (like GPS), or
+     * any resources
+     * that may affect battery life while your activity is paused and the user does not need them.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        Intent lIntent = new Intent(this, RadarActivity.class);
+
+        Bundle lBundle = new Bundle();
+
+        lBundle.putParcelable(MapsActivity.USER_MARKER, mCulturalObjectMarkerSelected);
+
+        lIntent.putExtras(lBundle);
+
+        this.startActivity(lIntent);
+    }
+
+    /*@Override
+    public void onStop() {
+        super.onStop();
+
+        Intent lIntent = new Intent(this, RadarActivity.class);
+
+        Bundle lBundle = new Bundle();
+
+        lBundle.putParcelable(MapsActivity.RADAR_MARKER, mCulturalObjectMarkerSelected);
+
+        lIntent.putExtras(lBundle);
+
+        this.startActivity(lIntent);
+    }*/
+
+    /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -220,11 +266,11 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         lLocation.setLatitude(aMarker.getPosition().latitude);
         lLocation.setLongitude(aMarker.getPosition().longitude);
 
-        RadarMarker lSelMarker = new RadarMarker();
+        RadarMarker lSelectedMarker = new RadarMarker();
 
-        lSelMarker.setLocation(lLocation);
-        lSelMarker.setTitle(aMarker.getTitle());
-        lSelMarker.setObjectId(aMarker.getSnippet());
+        lSelectedMarker.setLocation(lLocation);
+        lSelectedMarker.setTitle(aMarker.getTitle());
+        lSelectedMarker.setObjectId(aMarker.getSnippet());
 
         Intent lIntent = new Intent(this, SearchActivity.class);
 
@@ -232,7 +278,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         // to various Parcelable values.
         Bundle lBundle = new Bundle();
 
-        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelMarker);
+        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
 
         lIntent.putExtras(lBundle);
 
