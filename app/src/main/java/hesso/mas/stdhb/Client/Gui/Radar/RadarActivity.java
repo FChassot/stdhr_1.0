@@ -641,14 +641,21 @@ public class RadarActivity
 
             mHasInterference = (aAccuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
+            if (mHasInterference) {
+                mMovementMode = false;
+            }
+            else {
+                mMovementMode = true;
+            }
+
             if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
-                lText += " " + "SENSOR_STATUS_ACCURACY_HIGH";
+                lText += " " + "Compass sensor seems to work correctly on your mobile!"; //"SENSOR_STATUS_ACCURACY_HIGH";
             } else if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
-                lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM";
+                lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM" + " " + "Try to calibrate compass on your Android!\"";
             } else if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
-                lText += " " + "SENSOR_STATUS_ACCURACY_LOW";
+                lText += " " + "SENSOR_STATUS_ACCURACY_LOW" + " " + "Try to calibrate compass on your Android!\"";
             } else if (aAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
-                lText += " " + "SENSOR_STATUS_UNRELIABLE" + "            " + "Try to calibrate compass on your Android!";
+                lText += " " + "SENSOR_STATUS_UNRELIABLE" + " " + "Try to calibrate compass on your Android!";
             }
 
             Toast.makeText(this, lText, Toast.LENGTH_LONG).show();

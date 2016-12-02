@@ -56,7 +56,7 @@ public class RadarView extends android.view.View {
 
         private final int POINT_ARRAY_SIZE = 35;
 
-        private int fps = 1000;
+        private int fps = 100;
 
         private float mAlpha = 0;
 
@@ -136,7 +136,10 @@ public class RadarView extends android.view.View {
         Runnable mTick = new Runnable() {
             @Override
             public void run() {
+                // Force the view to draw
                 invalidate();
+                // Causes the Runnable r to be added to the message queue, to be run after
+                // the specified amount of time elapses.
                 mHandler.postDelayed(this, 1000 / fps);
             }
         };
@@ -145,10 +148,19 @@ public class RadarView extends android.view.View {
          * This method allows to start the animation
          */
         public void startRadar() {
+            // Remove any pending posts of Runnable r that are in the message queue
             mHandler.removeCallbacks(mTick);
+            // Causes the Runnable r to be added to the message queue. The runnable will be run
+            // on the thread to which this handler is attached.
             mHandler.post(mTick);
         }
 
+        /**
+         * This method allows to get the markers contained in the list held
+         * by the RadarView class
+         *
+         * @return
+         */
         public synchronized List<RadarMarker> getMarkers() {
             return mMarkers;
         }

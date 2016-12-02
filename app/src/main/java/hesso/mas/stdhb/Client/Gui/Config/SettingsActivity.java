@@ -60,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     //private Receiver mReceiver;
 
-    private MyCustomAdapter mDataAdapter = null;
+    private listViewAdapter mListViewAdapter = null;
 
     private NetworkConnectivity mConnectivity;
 
@@ -123,7 +123,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         EnumClientServerCommunication.ANDROJENA.toString());
 
         EnumClientServerCommunication lEnumValue =
-                EnumClientServerCommunication.valueOf(lClientServerCommunication);
+                EnumClientServerCommunication.valueOf(
+                        lClientServerCommunication);
 
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
@@ -178,8 +179,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         mCulturalObjectTypes = getCulturalInterestTypes();
 
         // Create an ArrayAdapter from the String Array
-        mDataAdapter =
-            new MyCustomAdapter(
+        mListViewAdapter =
+            new listViewAdapter(
                 this,
                 R.layout.culturalinterest_info,
                 mCulturalObjectTypes);
@@ -187,12 +188,12 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         ListView listView = (ListView) findViewById(R.id.mLstViewCITyp);
 
         // Assign the adapter to the ListView
-        listView.setAdapter(mDataAdapter);
+        listView.setAdapter(mListViewAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> aParent, View aView, int aPosition, long aId) {
                 // when clicked, show a toast with the TextView text
-                CulturalObjectType CulturalObjectType = (CulturalObjectType) parent.getItemAtPosition(position);
+                CulturalObjectType CulturalObjectType = (CulturalObjectType) aParent.getItemAtPosition(aPosition);
 
                 Toast.makeText(getApplicationContext(),
                         "Clicked on Row: " + CulturalObjectType.getName(),
@@ -202,32 +203,33 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     }
 
     /**
-     * Class myCustomAdapter
+     * Class listViewAdapter
      */
-    private class MyCustomAdapter extends ArrayAdapter<CulturalObjectType> {
+    private class listViewAdapter extends ArrayAdapter<CulturalObjectType> {
 
         // Member variable
         private ArrayList<CulturalObjectType> mListOfCulturalObjectType;
 
         /**
+         * Constructor
          *
-         * @param context
-         * @param textViewResourceId
+         * @param aContext
+         * @param aTextViewResourceId
          * @param aListOfCulturalObjectType
          */
-        public MyCustomAdapter(
-                Context context,
-                int textViewResourceId,
+        public listViewAdapter(
+                Context aContext,
+                int aTextViewResourceId,
                 ArrayList<CulturalObjectType> aListOfCulturalObjectType) {
 
-            super(context, textViewResourceId, aListOfCulturalObjectType);
+            super(aContext, aTextViewResourceId, aListOfCulturalObjectType);
 
             this.mListOfCulturalObjectType = new ArrayList<>();
             this.mListOfCulturalObjectType.addAll(aListOfCulturalObjectType);
         }
 
         /**
-         *
+         * A ViewHolder describes an item view and metadata about its place within the RecyclerView.
          */
         private class ViewHolder {
             TextView code;
@@ -235,12 +237,19 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         }
 
         /**
+         * Get a View that displays the data at the specified position in the data set.
          *
-         * @param aPosition
-         * @param aConvertView
-         * @param parent
+         * @param aPosition The position of the item within the adapter's data set of the item whose
+         *                  view we want.
+         * @param aConvertView The old view to reuse, if possible. Note: You should check that this
+         *                     view is non-null and of an appropriate type before using. If it is
+         *                     not possible to convert this view to display the correct data,
+         *                     this method can create a new view. Heterogeneous lists can specify
+         *                     their number of view types, so that this View is always of the right
+         *                     type (see getViewTypeCount() and getItemViewType(int)).
+         * @param parent The parent that this view will eventually be attached to
          *
-         * @return Returns the view
+         * @return A View corresponding to the data at the specified position.
          */
         @Override
         public View getView(
@@ -253,11 +262,12 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             Log.v("ConvertView", String.valueOf(aPosition));
 
             if (aConvertView == null) {
-                LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater lLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                aConvertView = vi.inflate(R.layout.culturalinterest_info, null);
+                aConvertView = lLayoutInflater.inflate(R.layout.culturalinterest_info, null);
 
                 lHolder = new ViewHolder();
+
                 lHolder.code = (TextView) aConvertView.findViewById(R.id.code);
                 lHolder.name = (CheckBox) aConvertView.findViewById(R.id.checkBox1);
                 aConvertView.setTag(lHolder);
