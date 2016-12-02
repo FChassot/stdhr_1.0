@@ -8,6 +8,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 public interface IWsClient {
 
     /**
+     * Method used to populate a request on a sparql server
      *
      * @param aQuery The query to execute
      *

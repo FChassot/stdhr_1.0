@@ -3,7 +3,7 @@ package hesso.mas.stdhb.Base.Constants;
 /**
  * Created by chf on 21.07.2016.
  *
- * Class for general constants. The class can't be instanciate because
+ * Class for general constants. The class can't be instantiate because
  * it is declared as final.
  */
 public final class BaseConstants {

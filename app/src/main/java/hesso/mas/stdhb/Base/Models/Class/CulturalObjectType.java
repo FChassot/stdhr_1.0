@@ -4,11 +4,11 @@ package hesso.mas.stdhb.Base.Models.Class;
  * Created by chf on 01.10.2016.
  *
  * This class represents a cultural object type which will be displayed in
- * a special listview (in the settings activity)
+ * a special ListView (in the settings activity)
  */
 public class CulturalObjectType {
 
-    // member variables
+    // Member variables
     String code = null;
 
     String name = null;

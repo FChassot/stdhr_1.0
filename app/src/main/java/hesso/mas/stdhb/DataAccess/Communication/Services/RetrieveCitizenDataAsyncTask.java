@@ -113,10 +113,6 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
     }
 
     /*
-     * Cet événement est appelé sur le UI thread directement après l'exécution
-     * de la méthode doInBackground(). Le paramètre result est la valeur retourné par
-     * la méthode doInBackground.
-     *
      * Runs on the UI thread after doInBackground(Params...).
      * The specified result is the value returned by doInBackground(Params...).
      */

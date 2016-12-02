@@ -17,6 +17,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 import java.util.List;
 
+import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
@@ -39,7 +40,7 @@ public class JenaSparqlWsClient implements IWsClient {
     // Constructor
     public JenaSparqlWsClient(CitizenEndPoint aWsEndpoint) {
 
-        Assert.assertNotNull(aWsEndpoint);
+        Checks.AssertNotNull(aWsEndpoint, "aWsEndpoint");
 
         mWsEndpoint = aWsEndpoint;
     }
@@ -92,6 +93,13 @@ public class JenaSparqlWsClient implements IWsClient {
         return lCitizenQueryResult;
     }
 
+    /**
+     * Get the value
+     *
+     * @param lBinding
+     * @param aFieldValue
+     * @return
+     */
     private String GetValue(
         QuerySolution lBinding,
         String aFieldValue) {

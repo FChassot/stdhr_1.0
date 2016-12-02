@@ -168,7 +168,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     }
 
     /**
-     *
+     * Called when you are no longer visible to the user. You will next receive either onRestart(),
+     * onDestroy(), or nothing, depending on later user activity.
      */
     @Override
     public void onStop() {

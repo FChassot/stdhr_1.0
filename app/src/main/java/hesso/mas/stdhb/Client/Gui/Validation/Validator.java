@@ -12,13 +12,15 @@ public class Validator {
 
     /**
      * This method validates the entries given before a search of the
-     * Citizen DB
+     * Citizen database
      *
      * @param aPlace
      * @param aPeriod
      * @return
      */
-    public static ValidationDescCollection ValidateSearch(String aPlace, String aPeriod) {
+    public static ValidationDescCollection ValidateSearch(
+            String aPlace,
+            String aPeriod) {
 
         ValidationDescCollection lValDescCollection = new ValidationDescCollection();
 

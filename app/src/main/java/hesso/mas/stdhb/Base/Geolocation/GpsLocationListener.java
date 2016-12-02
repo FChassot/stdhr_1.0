@@ -164,7 +164,7 @@ public final class GpsLocationListener implements LocationListener {
     public void showSettingsAlert() {
 
         AlertDialog.Builder alertDialog =
-                new AlertDialog.Builder(mContext);
+            new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
         alertDialog.setTitle("GPS is settings");
@@ -206,47 +206,30 @@ public final class GpsLocationListener implements LocationListener {
      */
     @Override
     public void onLocationChanged(Location aLocation) {
-        //editLocation.setText("");
-        //pb.setVisibility(View.INVISIBLE);
-        /*Toast.makeText(
-                null,
-                "Location changed: Lat: " + loc.getLatitude() + " Lng: "
-                        + loc.getLongitude(), Toast.LENGTH_SHORT).show();
-        String longitude = "Longitude: " + loc.getLongitude();
-        Log.v("TAG", longitude);
-        String latitude = "Latitude: " + loc.getLatitude();
-        Log.v("TAG", latitude);*/
-
-        /*------- To get city name from coordinates -------- */
-        /*String cityName = null;
-        Geocoder gcd = new Geocoder(null, Locale.getDefault());
-
-        List<Address> addresses;
-
-        try {
-            addresses = gcd.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
-
-            if (addresses.size() > 0) {
-                System.out.println(addresses.get(0).getLocality());
-                cityName = addresses.get(0).getLocality();
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String s = longitude + "\n" + latitude + "\n\nMy Current City is: " + cityName;
-        //editLocation.setText(s);*/
     }
 
+    /**
+     *
+     * @param provider
+     */
     @Override
     public void onProviderDisabled(String provider) {
     }
 
+    /**
+     *
+     * @param provider
+     */
     @Override
     public void onProviderEnabled(String provider) {
     }
 
+    /**
+     *
+     * @param provider
+     * @param status
+     * @param extras
+     */
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }

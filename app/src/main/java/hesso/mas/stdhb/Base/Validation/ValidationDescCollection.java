@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ValidationDescCollection {
 
-    // member variable
+    // Member variable
     private List<String> mList = new ArrayList<>();
 
     /**
@@ -45,6 +45,7 @@ public class ValidationDescCollection {
     /**
      * Give the size of the list
      *
+     * @return
      */
     public int count() { return mList.size(); }
 

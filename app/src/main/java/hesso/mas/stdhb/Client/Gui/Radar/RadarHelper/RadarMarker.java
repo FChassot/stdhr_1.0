@@ -16,7 +16,7 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  */
 public class RadarMarker extends Paint implements Parcelable {
 
-    // member variables
+    // Member variables
     private Location mLocation = new Location(MyString.EMPTY_STRING);
 
     private int mXViewPosition = 0;

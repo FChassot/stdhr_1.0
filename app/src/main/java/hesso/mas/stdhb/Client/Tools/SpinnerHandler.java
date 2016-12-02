@@ -49,6 +49,7 @@ public class SpinnerHandler {
      * It allows access to application-specific resources and classes, as well as up-calls
      * for application-level operations such as launching activities, broadcasting and receiving
      * intents, etc.
+     *
      * @param aResource
      * @param aValues
      */
@@ -72,6 +73,7 @@ public class SpinnerHandler {
      *
      * @param aSpinner the spinner control to fill
      * @param aItem
+     *
      * @return
      * @throws NoSuchElementException
      */

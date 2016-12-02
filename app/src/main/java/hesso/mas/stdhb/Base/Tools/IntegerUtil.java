@@ -9,7 +9,7 @@ import static java.lang.Math.floor;
  */
 public final class IntegerUtil {
 
-    // private constructor
+    // Private constructor
     private IntegerUtil() {}
 
     /**

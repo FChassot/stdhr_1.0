@@ -17,8 +17,8 @@ public class NetworkConnectivity {
     private final Context mContext;
 
     // Constructor
-    public NetworkConnectivity(Context context) {
-        this.mContext = context;
+    public NetworkConnectivity(Context aContext) {
+        this.mContext = aContext;
     }
 
     /**

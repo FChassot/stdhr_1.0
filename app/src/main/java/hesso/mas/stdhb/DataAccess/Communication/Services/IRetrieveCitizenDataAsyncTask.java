@@ -18,6 +18,10 @@ package hesso.mas.stdhb.DataAccess.Communication.Services;
 public interface IRetrieveCitizenDataAsyncTask {
 
     /**
+     * Perform a computation on a background thread.
+     * The specified parameters are the parameters passed to execute(Params...) by the caller
+     * of this task.
+     *
      * @param urls
      * @return
      */
