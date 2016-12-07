@@ -26,6 +26,7 @@ import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
+import hesso.mas.stdhb.Base.Tools.DoubleUtil;
 import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
@@ -277,7 +278,7 @@ public class RadarView extends android.view.View {
 
             String lText1 = getText(mRadius, 4);
             String lText2 = getText(mRadius, 2);
-            String lText3 = getText(mRadius, (4/3));
+            String lText3 = getText(mRadius, 1.3333333);
             String lText4 = getText(mRadius, 1);
 
             addNordText(aCanvas, 650, 50);
@@ -343,6 +344,8 @@ public class RadarView extends android.view.View {
                 }
 
                 lRadius = (lRadius / aQuotient);
+
+                lRadius = DoubleUtil.round(lRadius, 2);
 
                 if (aRadius < 1000) {
                     return lRadius + "m";
