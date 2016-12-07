@@ -331,26 +331,16 @@ public class RadarActivity
 
             TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
 
-            String lSubject =
-                    mPreferences.getMyStringPref(
-                            this,
-                            BaseConstants.Attr_Subject_Selected,
-                            MyString.EMPTY_STRING);
-
             if (mRadius < 1000) {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
-                //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
                 lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimuth);
-                //lText += "      " + "Ro: " + mRoll;
-                //lText += "      " + "Pitch: " + mPitch;
+
                 mRadiusInfo.setText(lText);
             }
             else {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
-                //if (!lSubject.equals(MyString.EMPTY_STRING)) {lText += "      " + lSubject;}
                 lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimuth);
-                //lText += "      " + "Ro: " + mRoll;
-                //lText += "      " + "Pitch: " + mPitch;
+
                 mRadiusInfo.setText(lText);
             }
         }

@@ -15,9 +15,10 @@ public final class DoubleUtil {
      * @param aValue
      * @param aPlaces
      *
-     * @return
+     * @return true when the value has been correctly rounded.
      */
     public static double round(double aValue, int aPlaces) {
+
         if (aPlaces < 0) throw new IllegalArgumentException();
 
         BigDecimal lBigDecimalValue = new BigDecimal(aValue);

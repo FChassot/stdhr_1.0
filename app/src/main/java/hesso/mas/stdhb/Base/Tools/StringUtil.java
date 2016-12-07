@@ -20,4 +20,23 @@ public final class StringUtil {
     {
         return (aString==null || aString.trim().equals(""));
     }
+
+    /**
+     * This method ...
+     *
+     * @param aString
+     * @param aMaxLength the max length of the string
+     *
+     * @return The string with the specified length
+     */
+    public static String subString(
+        String aString, int aMaxLength) {
+
+        if (isNullOrBlank(aString)) {return MyString.EMPTY_STRING;}
+
+        int lLength = aString.length();
+        if (lLength > aMaxLength) {return aString.substring(0, aMaxLength);}
+        return aString;
+    }
+
 }

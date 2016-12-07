@@ -14,7 +14,7 @@ import java.util.List;
  */
 public final class ParcelableUtil {
 
-    // private constructor
+    // Private constructor
     private ParcelableUtil() {}
 
     /**
