@@ -7,7 +7,7 @@ import java.math.RoundingMode;
  * Created by chf on 07.12.2016.
  */
 
-public class DoubleUtil {
+public final class DoubleUtil {
 
     /**
      * This method allow to round a number to n decimal places

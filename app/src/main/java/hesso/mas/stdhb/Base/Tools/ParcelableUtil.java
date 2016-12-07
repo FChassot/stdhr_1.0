@@ -9,7 +9,8 @@ import java.util.List;
 
 /**
  * Created by chf on 01.11.2016
- * Utility class for
+ *
+ * Utility class for the serialization
  */
 public final class ParcelableUtil {
 
