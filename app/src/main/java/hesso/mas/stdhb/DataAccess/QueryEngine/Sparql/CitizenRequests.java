@@ -24,7 +24,7 @@ public final class CitizenRequests {
      * @param aMinLongitude The min longitude for the search of the cultural objects
      * @param aMaxLongitude The max longitude for the search of the cultural objects
      *
-     * @return a sparql query
+     * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectsInProximityQuery(
@@ -104,7 +104,7 @@ public final class CitizenRequests {
      * @param aBegin the begin date of the picture
      * @param aEnd the end date of the picture
      *
-     * @return a sparql query
+     * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectQuery(
@@ -150,7 +150,7 @@ public final class CitizenRequests {
      * @param aBegin tne begin date of the picture
      * @param aEnd the end date of the picture
      *
-     * @return a sparql query
+     * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getUniqueCulturalObjectInfoQuery(
@@ -190,7 +190,7 @@ public final class CitizenRequests {
      * A specific search of the types off cultural objects available in the
      * Citizen Endpoint can be retrieved with the following query
      *
-     * @return a sparql query
+     * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectTypeQuery() {
@@ -210,7 +210,7 @@ public final class CitizenRequests {
      * A specific search of the types off cultural objects available in the
      * Citizen Endpoint can be retrieved with the following query
      *
-     * @return a sparql query
+     * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getSubjectQuery() {

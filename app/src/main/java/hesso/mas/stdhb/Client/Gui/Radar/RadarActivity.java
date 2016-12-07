@@ -63,9 +63,7 @@ public class RadarActivity
     // Member variables
     private RadarView mRadarView;
 
-    private Preferences mPrefs;
-
-    private boolean mUpdateRadarViewOrientation;
+    private Preferences mPreferences;
 
     private Button mBtnStopRadar;
 
@@ -90,7 +88,7 @@ public class RadarActivity
     // SensorManager let access the device's sensors.
     private SensorManager mSensorManager;
 
-    // sensors for the orientation
+    // Sensors for the orientation
     private Sensor mAccelerometer;
     private Sensor mMagnetometer;
 
@@ -109,14 +107,9 @@ public class RadarActivity
     private String[] mOrientationString =  new String[3];
     private String[] mOldOrientationString =  new String[3];
 
-    private int mOrientationChanged = 1;
-
-    // define if the radar must be work in radar mode
-    private boolean mCompassMode = false;
+    // Define if the radar must work with an automatic update of the position
+    // of the cultural objects according to the north.
     private boolean mMovementMode = true;
-
-    // record the compass picture angle turned
-    private int mCurrentDegree = 0;
 
     private int mRoll = 0;
     private int mPitch = 0;
@@ -139,7 +132,7 @@ public class RadarActivity
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_display);
 
-        mPrefs = new Preferences(this);
+        mPreferences = new Preferences(this);
 
         mGeolocationServices = new GpsLocationListener(this);
 
@@ -179,14 +172,14 @@ public class RadarActivity
         this.registerReceiver(mReceiver, lFilter);
 
         mRadius =
-            mPrefs.getMyIntPref(
+            mPreferences.getMyIntPref(
                 this,
                 BaseConstants.Attr_Radius_Search,
                 BaseConstants.Attr_Default_Radius_Search);
 
         updateInfoTxtView();
 
-        mRadarView.mRadius = mRadius;
+        mRadarView.Radius(mRadius);
 
         this.startRadar(mRadarView);
 
@@ -339,7 +332,7 @@ public class RadarActivity
             TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
 
             String lSubject =
-                    mPrefs.getMyStringPref(
+                    mPreferences.getMyStringPref(
                             this,
                             BaseConstants.Attr_Subject_Selected,
                             MyString.EMPTY_STRING);
@@ -409,8 +402,10 @@ public class RadarActivity
 
                 if ((mRadius / 2) <= 1) {
                     mRadius = 1;
+                    updateRadius(mRadius);
                 } else {
                     mRadius = (mRadius / 2);
+                    updateRadius(mRadius);
                 }
 
                 mRadarView.stopRadar();
@@ -420,18 +415,13 @@ public class RadarActivity
             }
             if (aView.getId()==R.id.imgBtnReset){
                 if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {return;}
-
-                //if ((mRadius * 2) > 100000) {
                     mRadius =
-                            mPrefs.getMyIntPref(
+                            mPreferences.getMyIntPref(
                                     this,
                                     BaseConstants.Attr_Radius_Search,
                                     BaseConstants.Attr_Default_Radius_Search);
-                //}
-                //else {
-                    //mRadius = (mRadius * 2);
-                //}
 
+                mRadarView.Radius(mRadius);
                 mRadarView.stopRadar();
                 mRadarView.startRadar();
 
@@ -448,17 +438,28 @@ public class RadarActivity
         @Override
         public void run() {
             startAsyncSearch();
-            mHandler.postDelayed(this, 100);
+            // Causes the Runnable r to be added to the message queue, to be run after the specified
+            // amount of time elapses (for the radar 5 seconds).
+            mHandler.postDelayed(this, 1000);
         }
     };
 
     /**
-     * Update the list of marker (property mMarkers) of the view class
+     * Update the list of marker (property mMarkers) of the view class.
+     *
      *
      * @param aMarkers The list of the markers to be updated on the view
      */
     public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
         if (mRadarView != null) mRadarView.updateMarkers(aMarkers);
+    }
+
+    public synchronized void updateAzimuth(int aAzimuth) {
+        if (mRadarView != null) mRadarView.Azimuth(aAzimuth);
+    }
+
+    public synchronized void updateRadius(double aRadius) {
+        if (mRadarView != null) mRadarView.Radius(aRadius);
     }
 
     /**
@@ -486,7 +487,6 @@ public class RadarActivity
         if (mRadarView != null) {
             mRadarView.startRadar();
             startUpdateMarkersFromCitizen();
-            startUpdateOrientation();
         }
     }
 
@@ -500,27 +500,12 @@ public class RadarActivity
         if (mRadarView != null) {
             mRadarView.stopRadar();
             stopUpdateRadarMarkers();
-            stopUpdateOrientation();
         }
     }
 
     //endregion
 
     //region Orientation
-
-    /**
-     * stop the rotation of the view in function of the orientation
-     */
-    private void stopUpdateOrientation() {
-        mUpdateRadarViewOrientation = false;
-    }
-
-    /**
-     * start the rotation of the view in function of the orientation
-     */
-    private void startUpdateOrientation() {
-        mUpdateRadarViewOrientation = true;
-    }
 
     /**
      * Called when sensor values have changed. The length and contents of the values array
@@ -578,47 +563,8 @@ public class RadarActivity
             mPitch = (int) Math.round(Math.toDegrees(mOrientation[1]));
             mRoll = (int) Math.round(Math.toDegrees(mOrientation[2]));
 
+            updateAzimuth(mAzimuth);
             updateInfoTxtView();
-
-            if (mOrientationChanged == 1) {
-
-                //Parameters
-                //mCurrentDegree: Rotation offset to apply at the start of the animation.
-                //-lAzimuthInDegrees: Rotation offset to apply at the end of the animation.
-                //Specifies how pivotXValue should be interpreted. One of Animation.ABSOLUTE, Animation.RELATIVE_TO_SELF, or Animation.RELATIVE_TO_PARENT.
-                //The X coordinate of the point about which the object is being rotated, specified as an absolute number where 0 is the left edge. This value
-                // can either be an absolute number if pivotXType is ABSOLUTE, or a percentage (where 1.0 is 100%) otherwise.
-                //Specifies how pivotYValue should be interpreted. One of Animation.ABSOLUTE, Animation.RELATIVE_TO_SELF, or Animation.RELATIVE_TO_PARENT.
-                //The Y coordinate of the point about which the object is being rotated, specified as an absolute number where 0 is the top edge.
-                // This value can either be an absolute number if pivotYType is ABSOLUTE, or a percentage (where 1.0 is 100%) otherwise.
-                /*RotateAnimation lRotation =
-                        new RotateAnimation(
-                                mCurrentDegree,
-                                -lAzimuthInDegrees,
-                                Animation.RELATIVE_TO_SELF,
-                                0.5f,
-                                Animation.RELATIVE_TO_SELF,
-                                0.5f);*/
-
-                /*RotateAnimation lRotation =
-                    new RotateAnimation(
-                        mCurrentDegree,
-                        -lAzimut);*/
-
-                //lRotation.setDuration(250);
-                //lRotation.setFillAfter(true);
-
-                if (mUpdateRadarViewOrientation) {
-                    if (mCompassMode) {
-                        mRadarView.setRotation(mCurrentDegree);
-                    }
-                }
-
-                mOrientationChanged = 1;
-            }
-            else {
-                mOrientationChanged += 1;
-            }
         }
     }
 
@@ -640,13 +586,6 @@ public class RadarActivity
             String lText = aSensor.getName();
 
             mHasInterference = (aAccuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-
-            if (mHasInterference) {
-                mMovementMode = false;
-            }
-            else {
-                mMovementMode = true;
-            }
 
             if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
                 lText += " " + "Compass sensor seems to work correctly on your mobile!"; //"SENSOR_STATUS_ACCURACY_HIGH";
@@ -690,30 +629,6 @@ public class RadarActivity
          */
         @Override
         public boolean onDoubleTap(MotionEvent aMotionEvent) {
-
-            float lX = aMotionEvent.getX();
-            float lY = aMotionEvent.getY();
-
-            /*Location lVirtualCurrentLocation =
-                    RadarHelper.determineGpsPositionOnTheView(
-                            lX,
-                            lY,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0,
-                            0.0);
-
-            mCurrentUserLocation = mCurrentUserLocation;
-
-            mRadius = (mRadius/2);
-
-            mRadarView.stopRadar();
-            mRadarView.startRadar();
-
-            //Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
-*/
             return true;
         }
     }
@@ -745,7 +660,7 @@ public class RadarActivity
                         RetrieveCitizenDataAsyncTask.ACTION2);
 
         String lClientServerCommunicationMode =
-                mPrefs.getMyStringPref(
+                mPreferences.getMyStringPref(
                         this,
                         BaseConstants.Attr_ClientServer_Communication,
                         MyString.EMPTY_STRING);
@@ -765,27 +680,29 @@ public class RadarActivity
         }
 
         String lCulturalObjectType =
-                mPrefs.getMyStringPref(
-                        this,
-                        BaseConstants.Attr_TypeOfSearch,
-                        MyString.EMPTY_STRING);
+            mPreferences.getMyStringPref(
+                this,
+                BaseConstants.Attr_TypeOfSearch,
+                MyString.EMPTY_STRING);
 
         int lRadiusOfSearch =
-                mPrefs.getMyIntPref(
-                        this,
-                        BaseConstants.Attr_Radius_Search,
-                        BaseConstants.Attr_Default_Radius_Search);
+            mPreferences.getMyIntPref(
+                this,
+                BaseConstants.Attr_Radius_Search,
+                BaseConstants.Attr_Default_Radius_Search);
 
         double lRadius =
-                mSpatialGeometryServices.getRadiusInRadian(
-                        mCurrentUserLocation,
-                        lRadiusOfSearch);
+            mSpatialGeometryServices.getRadiusInRadian(
+                mCurrentUserLocation,
+                lRadiusOfSearch);
 
         String lSubject =
-                mPrefs.getMyStringPref(
-                        this,
-                        BaseConstants.Attr_Subject_Search_Type,
-                        MyString.EMPTY_STRING);
+            mPreferences.getMyStringPref(
+                this,
+                BaseConstants.Attr_Subject_Search_Type,
+                MyString.EMPTY_STRING);
+
+        int lLimit = 200;
 
         String lQuery =
                 CitizenRequests.getCulturalObjectsInProximityQuery(
@@ -795,7 +712,7 @@ public class RadarActivity
                         (mCurrentUserLocation.getLongitude() - lRadius),
                         (mCurrentUserLocation.getLongitude() + lRadius),
                         lSubject,
-                        200);
+                        lLimit);
 
         lRetrieveTask.onPreExecuteMessageDisplay = false;
 

@@ -52,6 +52,8 @@ public class RadarView extends android.view.View {
 
         private List<RadarMarker> mMarkers = new ArrayList<>();
 
+        private int mAzimuth;
+
         private final double mTouchScreenSensibility = 35;
 
         private final int POINT_ARRAY_SIZE = 35;
@@ -68,7 +70,7 @@ public class RadarView extends android.view.View {
         public RadarMarker mSelectedMarker;
         private int mSelectedMarkerColor = Color.RED;
 
-        public double mRadius = 500.0;
+        private double mRadius = 500;
 
     //region Constructors
 
@@ -130,6 +132,9 @@ public class RadarView extends android.view.View {
         }
 
     //endregion
+
+        public void Radius(double aRadius) {mRadius = aRadius;}
+        public void Azimuth(int aAzimuth) {mAzimuth = aAzimuth;}
 
     //region Concurrency
 
@@ -653,7 +658,7 @@ public class RadarView extends android.view.View {
         // Declaration of a Location Manager
         LocationManager lLocationManager;
 
-        // Instanciate a GpsLocationListener
+        // Instantiate a GpsLocationListener
         LocationListener lLocationListener =
             new GpsLocationListener(this.getContext());
 

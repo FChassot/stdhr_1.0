@@ -121,8 +121,9 @@ public final class RadarHelper {
      * This method calculates the new position of the marker according to the new
      * value of the azimuth.
      *
+     * @param aMarker The center of the rotation
      * @param aMarker The marker
-     * @param aAngle The angle
+     * @param aAngle The current degree (Azimuth)
      */
     public static RadarViewPosition getRadarViewPositionForMarker(
             int aCenter,
