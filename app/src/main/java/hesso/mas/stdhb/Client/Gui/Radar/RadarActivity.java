@@ -83,8 +83,6 @@ public class RadarActivity
 
     private Location mCurrentUserLocation;
 
-    private double mRadius;
-
     // SensorManager let access the device's sensors.
     private SensorManager mSensorManager;
 
@@ -107,10 +105,7 @@ public class RadarActivity
     private String[] mOrientationString =  new String[3];
     private String[] mOldOrientationString =  new String[3];
 
-    // Define if the radar must work with an automatic update of the position
-    // of the cultural objects according to the north.
-    private boolean mMovementMode = true;
-
+    private double mRadius;
     private int mRoll = 0;
     private int mPitch = 0;
     private int mAzimuth = 0;
@@ -152,6 +147,7 @@ public class RadarActivity
         TextView lRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
         ImageButton lImgBtnZoom = (ImageButton)findViewById(R.id.imgBtnZoom);
         ImageButton lImgBtnZoomReset = (ImageButton)findViewById(R.id.imgBtnReset);
+        RadarView lRadarView = (RadarView)findViewById(R.id.radarView);
 
         lImgBtnZoom.setEnabled(true);
         lImgBtnZoomReset.setEnabled(true);
@@ -202,6 +198,9 @@ public class RadarActivity
 
         assert lImgBtnZoomReset != null;
         lImgBtnZoomReset.setOnClickListener(this);
+
+        assert lRadarView != null;
+        lRadarView.setOnClickListener(this);
 
         mGestureDetector = new GestureDetector(this, new GestureListener());
     }
@@ -418,6 +417,12 @@ public class RadarActivity
                 startAsyncSearch();
                 updateInfoTxtView();
             }
+            if (aView.getId()==R.id.radarView){
+                if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {
+                    this.startRadar(this.mRadarView);
+                    this.updateButtonText();
+                }
+            }
         }
 
     //endregion
@@ -444,10 +449,18 @@ public class RadarActivity
         if (mRadarView != null) mRadarView.updateMarkers(aMarkers);
     }
 
+    /**
+     *
+     * @param aAzimuth
+     */
     public synchronized void updateAzimuth(int aAzimuth) {
         if (mRadarView != null) mRadarView.Azimuth(aAzimuth);
     }
 
+    /**
+     *
+     * @param aRadius
+     */
     public synchronized void updateRadius(double aRadius) {
         if (mRadarView != null) mRadarView.Radius(aRadius);
     }
@@ -603,6 +616,9 @@ public class RadarActivity
         return mGestureDetector.onTouchEvent(aEvent);
     }
 
+    /**
+     *
+     */
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
@@ -755,7 +771,7 @@ public class RadarActivity
                             mRadius,
                             mRadarView.getHeight(),
                             mRadarView.getWidth(),
-                            mMovementMode);
+                            true);
 
             updateMarkers(lMarkers);
             updateRadarText(mNbrOfCulturalObjectsDetected);

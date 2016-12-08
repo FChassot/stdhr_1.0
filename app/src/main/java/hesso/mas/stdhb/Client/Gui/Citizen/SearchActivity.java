@@ -48,7 +48,7 @@ import com.squareup.picasso.Picasso;
  * Created by chf on 11.06.2016.
  *
  * This is the Activity in which the user will be able to request the
- * semantic datas stored on the external triplestore
+ * semantic data stored on the external triplestore
  */
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,11 +71,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private String mTitle = MyString.EMPTY_STRING;
 
     private PowerManager.WakeLock mWakeLock;
-
-    //final View lView = findViewById(R.id.imageView);
-
-    //final Animation lAnimation =
-            //AnimationUtils.loadAnimation(this, R.animator.anim);
 
     /**
      * Called when the activity is first created. This is where you should do all of your
@@ -128,11 +123,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 mTitle = lCulturalObjectMarker.getTitle();
                 mTxtPeriod.setText("1000-2016");
             }
-
-            /*String lClientServerCommunicationMode =
-                lPrefs.getPrefValue(
-                    BaseConstants.Attr_ClientServer_Communication,
-                    MyString.EMPTY_STRING);*/
 
             String lClientServerCommunicationMode =
                 mPrefs.getMyStringPref(

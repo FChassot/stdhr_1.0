@@ -66,8 +66,6 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     private ArrayList<CulturalObjectType> mCulturalObjectTypes = null;
 
-    private List<String> mCulturalObjectSubjects = new ArrayList<>();
-
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
      * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,

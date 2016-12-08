@@ -53,14 +53,15 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     private List<RadarMarker> mCulturalObjectMarkers;
 
+    private boolean mWithoutOnStop = false;
+
+    // Dependencies
     private GpsLocationListener mGeolocationServices;
 
     private NetworkConnectivity mConnectivity;
 
     // GoogleMap instance
     private GoogleMap mMapFragment;
-
-    private boolean mWithoutOnStop = false;
 
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,

@@ -18,6 +18,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
  * Created by chf on 01.09.2016.
  *
  * This helper class provides methods to calculate the distances useful for the radar module.
+ * Reference: http://stackoverflow.com/questions/5314724/get-screen-coordinates-by-specific-location-and-longitude-android
  */
 public final class RadarHelper {
 
@@ -35,6 +36,8 @@ public final class RadarHelper {
      * @param aRadius The radius of the radar's search
      * @param aHeightView the actual height size of the view
      * @param aWidthView the actual width size of the view
+     * @param aMovementMode Define if the radar must work with an automatic update of the position
+     * of the cultural objects according to the north.
      *
      * @return A list of RadarMarker
      */
@@ -149,7 +152,7 @@ public final class RadarHelper {
     }
 
     /**
-     * This method extracts the subjects of a citizen sparql request
+     * This method extracts the subjects of a citizen SPARQL request
      *
      * @param aQueryResult
      * @return
@@ -305,38 +308,45 @@ public final class RadarHelper {
         return lLocation;
     }
 
-    // http://stackoverflow.com/questions/5314724/get-screen-coordinates-by-specific-location-and-longitude-android
-
     /**
+     * This method searches the nearest Cultural object according
+     * the point touched on the screen by the user
      *
-     * Since information on this topic is very sparse, and I recently solved this problem on the iPhone, I thought I would share my method for anyone that can make it work with Android (there's nothing really specific to iPhone in this answer except for the Math functions sin, cos, and fmod, which can be found in java.lang.Math). These are the steps I took:
-
-     Obtain your own lat/lon and your current compass heading (lat1, lon1 and heading). On the iPhone, CLLocation returns these in degrees, but for these calculations they MUST be in radians (i.e. multiply by PI/180)
-     Obtain lat/lon of Points of Interest (POI) in radians (lat2 and lon2).
-     Calculate the distance between lat1/lon1 and lat2/lon2 using formula found here: http://www.movable-type.co.uk/scripts/latlong.html
-     Calculate angle to lat2/lon2 in relation to north. This is also described in the link above but I had a little bit of trouble getting this to work, here is C code for this:
-
-     double latDelta = (lat2 - lat1);
-     double lonDelta = (lon2 - lon1);
-     double y = sin(lonDelta)  * cos(lat2);
-     double x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2)* cos(lonDelta);
-     double angle = atan2(y, x); //not finished here yet
-     double headingDeg = compass.currentHeading;
-     double angleDeg = angle * 180/PI;
-     double heading = headingDeg*PI/180;
-     angle = fmod(angleDeg + 360, 360) * PI/180; //normalize to 0 to 360 (instead of -180 to 180), then convert back to radians
-     angleDeg = angle * 180/PI;
-     Using standard trigonometry, I calculate x and y. Remember, these coordinates are in 3D space, so we are not finished here yet because you still have to map them to 2D:
-
-     x = sin(angle-heading) * distance;
-     z = cos(angle-heading) * distance; //typically, z faces into the screen, but in our 2D map, it is a y-coordinate, as if you are looking from the bottom down on the world, like Google Maps
-     Finally, using the projection formula, you can calculate screen x ( I didn't do y because it was not necessary for my project, but you would need to get accelerator data and figure out if the device is perpendicular to the ground). The projection formula is found here (scroll to the very bottom): http://membres.multimania.fr/amycoders/tutorials/3dbasics.html
-
-     double screenX = (x * 256) / z
-     Now you can use this x coordinate to move an image or a marker on your screen. Remember a few points:
-
-     Everything must be in radians
-     The angle from you to the POI relative to North is angleBeteweenPoints - currentHeading
-     (For some reason I can't properly format the code on this computer, so if anyone wants to edit this answer, feel free).
+     * @param aOnTouchXCoordinate
+     * @param aOnTouchYCoordinate
+     *
+     * @return
      */
+    private RadarMarker findTheNearestCulturalObject(
+            List<RadarMarker>aMarkers,
+            float aOnTouchXCoordinate,
+            float aOnTouchYCoordinate) {
+
+        double lDistance = 0.0;
+
+        RadarMarker lNearestMarker = null;
+
+        if (aMarkers != null){
+            for (RadarMarker lMarker : aMarkers) {
+                double lHypotenuse =
+                        RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
+                                aOnTouchXCoordinate,
+                                aOnTouchYCoordinate,
+                                lMarker.getPositionX(),
+                                lMarker.getPositionY());
+
+                if (lDistance == 0) {
+                    lDistance = Math.abs(lHypotenuse);
+                    lNearestMarker = lMarker;
+                }
+
+                if (lDistance != 0 && (Math.abs(lHypotenuse) < Math.abs(lDistance))) {
+                    lNearestMarker = lMarker;
+                    lDistance = Math.abs(lHypotenuse);
+                }
+            }
+        }
+
+        return lNearestMarker;
+    }
 }

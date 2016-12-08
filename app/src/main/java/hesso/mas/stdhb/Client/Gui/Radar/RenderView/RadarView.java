@@ -63,13 +63,12 @@ public class RadarView extends android.view.View {
 
         private float mAlpha = 0;
 
-        private Point latestPoint[] = new Point[POINT_ARRAY_SIZE];
-        private Paint latestPaint[] = new Paint[POINT_ARRAY_SIZE];
+        private Point mLatestPoint[] = new Point[POINT_ARRAY_SIZE];
+        private Paint mLatestPaint[] = new Paint[POINT_ARRAY_SIZE];
         private Paint mGridPaint;
         private Paint mTextPaint;
 
         public RadarMarker mSelectedMarker;
-        private int mSelectedMarkerColor = Color.RED;
 
         private double mRadius = 500;
 
@@ -126,15 +125,16 @@ public class RadarView extends android.view.View {
 
             int lAlpha_step = 255 / POINT_ARRAY_SIZE;
 
-            for (int i=0; i < latestPaint.length; i++) {
-                latestPaint[i] = new Paint(lRadarPaint);
-                latestPaint[i].setAlpha(255 - (i* lAlpha_step));
+            for (int i=0; i < mLatestPaint.length; i++) {
+                mLatestPaint[i] = new Paint(lRadarPaint);
+                mLatestPaint[i].setAlpha(255 - (i* lAlpha_step));
             }
         }
 
     //endregion
 
         public void Radius(double aRadius) {mRadius = aRadius;}
+
         public void Azimuth(int aAzimuth) {mAzimuth = aAzimuth;}
 
     //region Concurrency
@@ -175,7 +175,8 @@ public class RadarView extends android.view.View {
          * This method allows to update the markers received
          * by the radar.
          */
-        public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
+        public synchronized void updateMarkers(
+            List<RadarMarker> aMarkers) {
             mMarkers = aMarkers;
         }
 
@@ -212,7 +213,7 @@ public class RadarView extends android.view.View {
             // to the dimensions of the view
             int lMaxDiameterOfTheRadarView = Math.min(lCanvasWidth, lCanvasHeight);
 
-            Paint lRadarPaint = latestPaint[0];
+            Paint lRadarPaint = mLatestPaint[0];
 
             int lPosX = (lMaxDiameterOfTheRadarView / 2);
             int lPosY = (lMaxDiameterOfTheRadarView / 2);
@@ -240,14 +241,14 @@ public class RadarView extends android.view.View {
             int lOffsetX =  (int) (lPosX + (float)(lPosX * Math.cos(lAngle)));
             int lOffsetY = (int) (lPosY - (float)(lPosY * Math.sin(lAngle)));
 
-            latestPoint[0]= new Point(lOffsetX, lOffsetY);
+            mLatestPoint[0]= new Point(lOffsetX, lOffsetY);
 
             for (int lIndex = POINT_ARRAY_SIZE-1; lIndex > 0; lIndex--) {
-                latestPoint[lIndex] = latestPoint[lIndex-1];
+                mLatestPoint[lIndex] = mLatestPoint[lIndex-1];
             }
 
             for (int lIndex = 0; lIndex < POINT_ARRAY_SIZE; lIndex++) {
-                Point lPoint = latestPoint[lIndex];
+                Point lPoint = mLatestPoint[lIndex];
 
                 if (lPoint != null) {
                     aCanvas.drawLine(
@@ -255,7 +256,7 @@ public class RadarView extends android.view.View {
                         lPosY,
                         lPoint.x,
                         lPoint.y,
-                        latestPaint[lIndex]);
+                        mLatestPaint[lIndex]);
                 }
             }
         }
@@ -281,7 +282,7 @@ public class RadarView extends android.view.View {
             String lText3 = getText(mRadius, 1.3333333);
             String lText4 = getText(mRadius, 1);
 
-            addNordText(aCanvas, 650, 50);
+            addNordText(aCanvas, 650, 650);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
             addText(aCanvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
             aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
@@ -309,7 +310,6 @@ public class RadarView extends android.view.View {
             Checks.AssertIsStrictPositive(aX, "aX");
             Checks.AssertIsStrictPositive(aY, "aY");
 
-            String lText = "NORD";
             Paint lPaint = new Paint();
 
             lPaint.setColor(0x0000FFFF);
@@ -319,7 +319,7 @@ public class RadarView extends android.view.View {
             lPaint.setTextSize(120.0f);
             lPaint.setTextAlign(Paint.Align.CENTER);
 
-            addText(aCanvas, lText, aX, aY, lPaint);
+            addText(aCanvas, "NORD", aX, aY, lPaint);
         }
 
         /**
@@ -390,7 +390,7 @@ public class RadarView extends android.view.View {
                 for (RadarMarker lMarker : lMarkers) {
                     if (lColorMarker != null) {
                         if (lMarker.equals(lColorMarker)) {
-                            lMarkerPaint.setColor(mSelectedMarkerColor);
+                            lMarkerPaint.setColor(Color.RED);
                             addText(aCanvas, lColorMarker.getTitle(), lColorMarker.getPositionX()+10, lColorMarker.getPositionY(), mTextPaint);
                         } else {
                             lMarkerPaint.setColor(Color.WHITE);
@@ -500,7 +500,7 @@ public class RadarView extends android.view.View {
                     lOnTouchYCoordinate);
 
             if (lCulturalObject != null) {
-                    mSelectedMarker = lCulturalObject;
+                mSelectedMarker = lCulturalObject;
 
                     // Calculate the distance on the view between the point touched and the cultural
                     // object
@@ -511,8 +511,11 @@ public class RadarView extends android.view.View {
                         lCulturalObject.getPositionX(),
                         lCulturalObject.getPositionY());
 
-                    // When the point touched by the user near enough from the cultural object then this one will be selected
-                    if (((-mTouchScreenSensibility) < lDistance) && (lDistance > mTouchScreenSensibility)) { return false;}
+                    // When the point touched by the user near enough from the cultural object then
+                    // this one will be selected
+                    if (((-mTouchScreenSensibility) < lDistance) && (lDistance > mTouchScreenSensibility)) {
+                        return false;
+                    }
 
                     if (true) {
                         Intent lIntent = new Intent(mContext, MapsActivity.class);
