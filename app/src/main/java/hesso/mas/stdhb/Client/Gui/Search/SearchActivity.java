@@ -25,11 +25,8 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
-import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
-import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
@@ -95,14 +92,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
         // Finds the views that was identified by an id attribute
-        final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-        final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
-        TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
+        final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtPlace);
+        final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriod);
 
         // Set a listener of this button
         mBtnSearch.setOnClickListener(this);
 
-        Bundle lBundle = getIntent().getExtras();
+        /*Bundle lBundle = getIntent().getExtras();
 
         if (lBundle != null) {
             // To retrieve the cultural object selected in the radar view
@@ -110,14 +106,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             if (lCulturalObjectMarker != null) {
                 mTxtPlace.setText(lCulturalObjectMarker.getTitle());
-
-                if (!StringUtil.isNullOrBlank(lCulturalObjectMarker.getDescription())) {
-                    if (lCulturalObjectMarker.getDescription().length() < 90) {
-                        mTxtDescription.setText(lCulturalObjectMarker.getDescription());
-                    } else {
-                        mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 50) + "...");
-                    }
-                }
 
                 mDescription = lCulturalObjectMarker.getDescription();
                 mTitle = lCulturalObjectMarker.getTitle();
@@ -141,7 +129,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lRequest,
                 lClientServerCommunicationMode,
                 false);
-        }
+        }*/
 
         mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
@@ -182,9 +170,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             this,
             android.R.layout.simple_spinner_item,
             lCOSubjects);
-
-        assert mTxtDescription != null;
-        mTxtDescription.setOnClickListener(this);
 
         mReceiver = new Receiver();
 
@@ -249,8 +234,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     BaseConstants.Attr_ClientServer_Communication,
                     EnumClientServerCommunication.ANDROJENA.toString());
 
-            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-            TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
+            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtPlace);
+            TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriod);
 
             ValidationDescCollection lValDescCollection =
                     Validator.ValidateSearch(
