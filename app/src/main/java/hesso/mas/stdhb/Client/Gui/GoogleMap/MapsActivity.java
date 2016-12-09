@@ -23,7 +23,7 @@ import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
+import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;
@@ -287,7 +287,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         lSelectedMarker.setTitle(aMarker.getTitle());
         lSelectedMarker.setObjectId(aMarker.getSnippet());
 
-        Intent lIntent = new Intent(this, SearchActivity.class);
+        Intent lIntent = new Intent(this, CityZenActivity.class);
 
         // The bundle object contains a mapping from String keys
         // to various Parcelable values.

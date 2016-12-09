@@ -27,7 +27,7 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
 import hesso.mas.stdhb.Base.Tools.DoubleUtil;
-import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
+import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;

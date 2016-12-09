@@ -73,14 +73,14 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
         // Set the activity content to an explicit view
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_city_zen);
 
         mPrefs = new Preferences(this);
 
         mCitizenServices = new CitizenServices();
 
         // To retrieve the button in that UI that you need to interact with programmatically
-        Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
+        //Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
 
         // Finds the views that was identified by an id attribute
         final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
@@ -88,7 +88,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
 
         // Set a listener of this button
-        mBtnSearch.setOnClickListener(this);
+        //mBtnSearch.setOnClickListener(this);
 
         Bundle lBundle = getIntent().getExtras();
 
@@ -226,7 +226,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
      */
     public void onClick(View aView){
 
-        if (aView.getId()==R.id.mBtnSearch) {
+        /*if (aView.getId()==R.id.mBtnSearch) {
             startProgress(aView);
 
             // Get the technology used for the communication between the
@@ -273,7 +273,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                     mDescription,
                     mTitle,
                     "Close");
-        }
+        }*/
     }
 
     //region asyncTask (to request the Citizen Endpoint)

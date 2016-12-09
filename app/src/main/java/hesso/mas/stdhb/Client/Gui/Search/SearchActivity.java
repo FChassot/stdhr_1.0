@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Citizen;
+package hesso.mas.stdhb.Client.Gui.Search;
 
 import java.util.Date;
 import java.util.List;

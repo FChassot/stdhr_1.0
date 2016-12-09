@@ -16,6 +16,7 @@ import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 
+import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
 import hesso.mas.stdhbtests.R;
 
 import javax.inject.Inject;
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             startActivity(lIntent);
         }
         if (aView.getId()==R.id.mBtnSearch){
-            Intent lIntent = new Intent(MainActivity.this, CityZenActivity.class);
+            Intent lIntent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(lIntent);
         }
         if (aView.getId()==R.id.mBtnMap){
