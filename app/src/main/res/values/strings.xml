@@ -93,7 +93,6 @@
 
     <string name="not_valid_place">* A place has to be given!</string>
     <string name="not_valid_period">* A period has to be given!</string>
-    <string name="periode">Period</string>
     <string name="place">Place</string>
 
     <!-- Strings for settings activity -->

@@ -27,6 +27,8 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
+import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
@@ -90,46 +92,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         // To retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
+        ImageView lImgBack = (ImageView)findViewById(R.id.mImgBack);
 
         // Finds the views that was identified by an id attribute
         final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtPlace);
         final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriod);
 
         // Set a listener of this button
+        assert mBtnSearch != null;
         mBtnSearch.setOnClickListener(this);
-
-        /*Bundle lBundle = getIntent().getExtras();
-
-        if (lBundle != null) {
-            // To retrieve the cultural object selected in the radar view
-            RadarMarker lCulturalObjectMarker = lBundle.getParcelable(MapsActivity.RADAR_MARKER);
-
-            if (lCulturalObjectMarker != null) {
-                mTxtPlace.setText(lCulturalObjectMarker.getTitle());
-
-                mDescription = lCulturalObjectMarker.getDescription();
-                mTitle = lCulturalObjectMarker.getTitle();
-                mTxtPeriod.setText("1000-2016");
-            }
-
-            String lClientServerCommunicationMode =
-                mPrefs.getMyStringPref(
-                    this,
-                    BaseConstants.Attr_ClientServer_Communication,
-                    EnumClientServerCommunication.ANDROJENA.toString());
-
-            String lRequest =
-                CitizenRequests.getUniqueCulturalObjectInfoQuery(
-                    lCulturalObjectMarker.getTitle(),
-                    lCulturalObjectMarker.getObjectId(),
-                    new Date(19000101),
-                    new Date(99990101));
-
-            startAsyncSearch(
-                lRequest,
-                lClientServerCommunicationMode,
-                false);
-        }*/
 
         mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
@@ -170,6 +141,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             this,
             android.R.layout.simple_spinner_item,
             lCOSubjects);
+
+        assert lImgBack != null;
+        lImgBack.setOnClickListener(this);
 
         mReceiver = new Receiver();
 
@@ -224,7 +198,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View aView){
 
         if (aView.getId()==R.id.mBtnSearch) {
-            startProgress(aView);
+            //startProgress(aView);
 
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
@@ -264,12 +238,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lClientServerCommunicationMode,
                 true);
         }
-        if (aView.getId()==R.id.mTxtDescription) {
-            Notifications.ShowMessageBox(
-                    this,
-                    mDescription,
-                    mTitle,
-                    "Close");
+        if (aView.getId()==R.id.mImgBack){
+            Intent lIntent = new Intent(SearchActivity.this, MainActivity.class);
+            startActivity(lIntent);
         }
     }
 

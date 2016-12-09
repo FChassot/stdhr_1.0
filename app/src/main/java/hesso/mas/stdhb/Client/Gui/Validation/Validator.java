@@ -28,14 +28,15 @@ public class Validator {
         ValidationDescCollection lValDescCollection = new ValidationDescCollection();
 
         if (aPlace.equals(MyString.EMPTY_STRING) || aPlace.equals(Resources.getSystem().getString(R.string.place))) {
-            lValDescCollection.add(Resources.getSystem().getString(R.string.not_valid_place));
+            lValDescCollection.add("* A place has to be given!");
         }
 
-        if (aPeriod.equals(MyString.EMPTY_STRING) || aPeriod.equals(Resources.getSystem().getString(R.string.periode))) {
+        if (aPeriod.equals(MyString.EMPTY_STRING) || aPeriod.equals("Period")) {
             if (lValDescCollection.count() > 0) {
                 lValDescCollection.add("\n");
             }
-            lValDescCollection.add(Resources.getSystem().getString(R.string.not_valid_place));
+            //Resources.getSystem().getString(R.string.not_valid_place
+            lValDescCollection.add("* A period has to be given!");
         }
 
         return lValDescCollection;

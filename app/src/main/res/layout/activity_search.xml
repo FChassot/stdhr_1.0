@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hesso.mas.stdhb.Client.Gui.Search.SearchActivity"
-    android:background="#084B8A">
+    android:background="#084B8A"
+    android:weightSum="1">
 
     <ImageView
         android:layout_width="match_parent"
@@ -19,22 +20,24 @@
 
     <TextView
         android:id="@+id/contact_form_title"
-        android:layout_width="128dp"
+        android:layout_width="182dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="5dp"
-        android:text="Search médiathèque"
-        android:textColor="#ce3232"
+        android:text="Search médiathèque Data"
+        android:textColor="#DF013A"
         android:textSize="20sp"
-        android:typeface="serif" />
+        android:typeface="serif"
+        android:layout_weight="0.24"
+        android:textStyle="normal|bold" />
 
     <Spinner android:id="@+id/mDcboSujet"
         android:textColor="@android:color/white"
         android:layout_width="217dp"
         android:layout_height="wrap_content"
         android:textSize="11dp"
-        android:layout_column="22" />
+        android:layout_column="2" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -63,11 +66,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/mBtnSearch"
         android:layout_gravity="center_horizontal"
-        android:background="#ce3232"
+        android:background="#DF013A"
         android:elevation="4dp"
         android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:text="Search"
         android:textColor="#fff" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_back"
+        android:id="@+id/mImgBack"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="visible" />
 
 </LinearLayout>
