@@ -29,7 +29,9 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
+import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
+import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
@@ -89,6 +91,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
         mTxtDescription.setSingleLine(false);
         mImageView = (ImageView) findViewById(imageView);
+        ImageView lImgBack = (ImageView)findViewById(R.id.mImgBack);
 
         Bundle lBundle = getIntent().getExtras();
 
@@ -145,6 +148,9 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         assert mTxtDescription != null;
         mTxtDescription.setOnClickListener(this);
+
+        assert lImgBack != null;
+        lImgBack.setOnClickListener(this);
 
         mReceiver = new Receiver();
 
@@ -208,6 +214,10 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         if (aView.getId()== imageView) {
 
+        }
+        if (aView.getId()==R.id.mImgBack){
+            Intent lIntent = new Intent(CityZenActivity.this, MainActivity.class);
+            startActivity(lIntent);
         }
     }
 

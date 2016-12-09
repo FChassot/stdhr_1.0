@@ -70,9 +70,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private ProgressDialog progress;
 
-    private String mDescription = MyString.EMPTY_STRING;
-    private String mTitle = MyString.EMPTY_STRING;
-
     private PowerManager.WakeLock mWakeLock;
 
     /**
@@ -202,7 +199,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View aView){
 
         if (aView.getId()==R.id.mBtnSearch) {
-            //startProgress(aView);
+            startProgress(aView);
 
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
@@ -271,7 +268,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
                         this,
-                        RetrieveCitizenDataAsyncTask.ACTION1);
+                        RetrieveCitizenDataAsyncTask.HTTP_CITIZEN_DATA);
 
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
@@ -286,7 +283,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 RetrieveCitizenDataAsyncTask2 lTask =
                     new RetrieveCitizenDataAsyncTask2(
                         this,
-                        RetrieveCitizenDataAsyncTask2.ACTION1);
+                        RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
 
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
@@ -301,7 +298,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
                         this,
-                        RetrieveCitizenDataAsyncTask2.ACTION1);
+                        RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
 
                 lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
@@ -341,7 +338,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     // The bundle should contain the SPARQL Result
                     lCitizenQueryResult =
                         lBundle.getParcelable(
-                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                            RetrieveCitizenDataAsyncTask.HTTP_CITIZEN_DATA);
 
                 } catch (Exception aExc) {
                     Log.i(TAG, aExc.getMessage());
@@ -370,11 +367,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     aContext.startActivity(lIntent);
                 }
                 else {
-                    /*Notifications.ShowMessageBox(
+                    Notifications.ShowMessageBox(
                             aContext,
-                            "None object found! Try with other parameter!",
-                            "Warning",
-                            "Ok");*/
+                            "None object found! Try with other parameters!",
+                            "Information",
+                            "Ok");
                 }
             }
         }

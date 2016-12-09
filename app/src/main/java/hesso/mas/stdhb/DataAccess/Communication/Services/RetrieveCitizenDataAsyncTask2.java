@@ -38,6 +38,8 @@ public class RetrieveCitizenDataAsyncTask2 extends AsyncTask<String, CitizenQuer
 
     public static final String HTTP_RESPONSE = "httpResponse";
 
+    public static final String HTTP_CITIZEN_DATA = "SEARCH_CITIZEN_DATA";
+
     private Context mContext;
 
     private String mAction;
