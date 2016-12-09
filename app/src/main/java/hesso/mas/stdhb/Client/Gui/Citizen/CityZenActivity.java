@@ -87,11 +87,10 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             RadarMarker lCulturalObjectMarker = lBundle.getParcelable(MapsActivity.RADAR_MARKER);
 
             if (lCulturalObjectMarker != null) {
-               // mTxtPlace.setText(lCulturalObjectMarker.getTitle());
                 mTitle.setText(lCulturalObjectMarker.getTitle());
 
                 if (!StringUtil.isNullOrBlank(lCulturalObjectMarker.getDescription())) {
-                    mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 50) + "...");
+                    mTxtDescription.setText(lCulturalObjectMarker.getDescription());
                 }
 
                 mDescription = lCulturalObjectMarker.getDescription();
