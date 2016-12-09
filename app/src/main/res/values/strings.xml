@@ -83,11 +83,11 @@
     <!-- String for the google Map activity -->
 
     <!-- String for the Citizen Search activity -->
-    <string name="lbl_place">Lieu</string>
+    <string name="lbl_place">Place</string>
     <string name="lbl_description">Description...</string>
     <string name="lbl_date">Date</string>
-    <string name="date">Période</string>
-    <string name="period">Période</string>
+    <string name="date">Period</string>
+    <string name="period">Period</string>
     <string name="lbl_request">SEARCH</string>
     <string name="txt_no_reponse_from_the_server">no response from the server!</string>
 
@@ -97,8 +97,8 @@
     <string name="place">Place</string>
 
     <!-- Strings for settings activity -->
-    <string name="title_settings_raysearch">Rayon de recherche [m]</string>
-    <string name="activate_radar">Activer le radar</string>
+    <string name="title_settings_raysearch">Radius of search [m]</string>
+    <string name="activate_radar">Activate the radar</string>
     <string name="action_clientserver_communication">Client-server communication</string>
     <string name="action_subject">Restreindre les sujets</string>
     <string name="themes_restrictions">Restreindre la recherche</string>

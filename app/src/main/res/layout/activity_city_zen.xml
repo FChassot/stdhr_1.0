@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_city_zen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity"
+    android:background="#084B8A">
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_logo"
+                android:id="@+id/mImgLogo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Citizen Search"
+                android:id="@+id/textView"
+                android:layout_column="13"
+                android:textColor="#f21c1c"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textIsSelectable="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </TableRow>
+
+        <Spinner android:id="@+id/mDcboSujet"
+            android:textColor="@android:color/white"
+            android:textSize="11dp"
+            android:layout_column="22" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/lbl_place"
+            android:textColor="#ffffff"
+            android:ems="10"
+            android:height="10px"
+            android:id="@+id/mTxtVille" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/date"
+            android:textColor="#ffffff"
+            android:ems="10"
+            android:height="10dp"
+            android:id="@+id/mTxtPeriode"
+            android:layout_gravity="bottom"
+            android:layout_weight="0" />
+
+        <Button
+            android:text="@string/lbl_request"
+            android:id="@+id/mBtnSearch"
+            android:layout_gravity="bottom"
+            android:layout_column="1"
+            android:layout_width="wrap_content" />
+    </TableLayout>
+
+</RelativeLayout>

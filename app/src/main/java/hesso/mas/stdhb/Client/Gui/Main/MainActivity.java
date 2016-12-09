@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 
+import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
-import hesso.mas.stdhb.Client.Gui.Citizen.SearchActivity;
 
 import hesso.mas.stdhbtests.R;
 
@@ -137,20 +137,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View aView){
 
         if (aView.getId()==R.id.mImgSettings){
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
+            Intent lIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(lIntent);
         }
         if (aView.getId()==R.id.mBtnradar){
-            Intent intent = new Intent(MainActivity.this, RadarActivity.class);
-            startActivity(intent);
+            Intent lIntent = new Intent(MainActivity.this, RadarActivity.class);
+            startActivity(lIntent);
         }
         if (aView.getId()==R.id.mBtnSearch){
-            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-            startActivity(intent);
+            Intent lIntent = new Intent(MainActivity.this, CityZenActivity.class);
+            startActivity(lIntent);
         }
         if (aView.getId()==R.id.mBtnMap){
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(intent);
+            Intent lIntent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(lIntent);
         }
     }
 }

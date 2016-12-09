@@ -25,7 +25,7 @@ public class RadarUnitTest {
     public void calculate_distance_between_two_points_isCorrect() throws Exception {
 
         double lDistance =
-                SpatialGeometryServices.getGreatCircleDistanceBetweenTwoPoints(
+                SpatialGeometryServices.getDistanceBetweenTwoPoints(
                     45,
                     45,
                     45,

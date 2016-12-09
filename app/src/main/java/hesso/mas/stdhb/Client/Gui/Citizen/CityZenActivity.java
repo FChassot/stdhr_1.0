@@ -1,23 +1,25 @@
 package hesso.mas.stdhb.Client.Gui.Citizen;
 
-import java.util.Date;
-import java.util.List;
-
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.PowerManager;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
-import android.content.IntentFilter;
-import android.os.PowerManager;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.Date;
+import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -27,33 +29,19 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
-
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
-
-import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
+import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
-
+import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhbtests.R;
 
-import com.squareup.picasso.Picasso;
-
-/**
- * Created by chf on 11.06.2016.
- *
- * This is the Activity in which the user will be able to request the
- * semantic data stored on the external triplestore
- */
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
-
-    // Variable of type OkHttpClient
-    //OkHttpClient mOkHttpClient;
+public class CityZenActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Constant
     private static final String TAG = "SearchActivity";
@@ -125,22 +113,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             String lClientServerCommunicationMode =
-                mPrefs.getMyStringPref(
-                    this,
-                    BaseConstants.Attr_ClientServer_Communication,
-                    EnumClientServerCommunication.ANDROJENA.toString());
+                    mPrefs.getMyStringPref(
+                            this,
+                            BaseConstants.Attr_ClientServer_Communication,
+                            EnumClientServerCommunication.ANDROJENA.toString());
 
             String lRequest =
-                CitizenRequests.getUniqueCulturalObjectInfoQuery(
-                    lCulturalObjectMarker.getTitle(),
-                    lCulturalObjectMarker.getObjectId(),
-                    new Date(19000101),
-                    new Date(99990101));
+                    CitizenRequests.getUniqueCulturalObjectInfoQuery(
+                            lCulturalObjectMarker.getTitle(),
+                            lCulturalObjectMarker.getObjectId(),
+                            new Date(19000101),
+                            new Date(99990101));
 
             startAsyncSearch(
-                lRequest,
-                lClientServerCommunicationMode,
-                false);
+                    lRequest,
+                    lClientServerCommunicationMode,
+                    false);
         }
 
         mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -178,10 +166,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
 
         SpinnerHandler.fillComboSubject(
-            lCboSubject,
-            this,
-            android.R.layout.simple_spinner_item,
-            lCOSubjects);
+                lCboSubject,
+                this,
+                android.R.layout.simple_spinner_item,
+                lCOSubjects);
 
         assert mTxtDescription != null;
         mTxtDescription.setOnClickListener(this);
@@ -244,10 +232,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
             String lClientServerCommunicationMode =
-                mPrefs.getMyStringPref(
-                    this,
-                    BaseConstants.Attr_ClientServer_Communication,
-                    EnumClientServerCommunication.ANDROJENA.toString());
+                    mPrefs.getMyStringPref(
+                            this,
+                            BaseConstants.Attr_ClientServer_Communication,
+                            EnumClientServerCommunication.ANDROJENA.toString());
 
             TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
             TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
@@ -259,10 +247,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             if (lValDescCollection.any()) {
                 Notifications.ShowMessageBox(
-                    this,
-                    lValDescCollection,
-                    "Warning",
-                    "Ok"
+                        this,
+                        lValDescCollection,
+                        "Warning",
+                        "Ok"
                 );
 
                 return;
@@ -275,9 +263,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             new Date(99990101));
 
             startAsyncSearch(
-                lRequest,
-                lClientServerCommunicationMode,
-                true);
+                    lRequest,
+                    lClientServerCommunicationMode,
+                    true);
         }
         if (aView.getId()==R.id.mTxtDescription) {
             Notifications.ShowMessageBox(
@@ -300,122 +288,122 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      *                          screen until the response has been received from the
      *                          server
      */
-        private void startAsyncSearch(
+    private void startAsyncSearch(
             String aRequest,
             String aClientServerArchitecture,
             boolean aDisplaySearchmsg) {
 
-            if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
-                RetrieveCitizenDataAsyncTask lTask =
+        if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
+            RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
-                        this,
-                        RetrieveCitizenDataAsyncTask.ACTION1);
+                            this,
+                            RetrieveCitizenDataAsyncTask.ACTION1);
 
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
+            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
-                lTask.execute(
+            lTask.execute(
                     aRequest,
                     aClientServerArchitecture);
 
-                return;
-            }
-
-            if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
-                RetrieveCitizenDataAsyncTask2 lTask =
-                    new RetrieveCitizenDataAsyncTask2(
-                        this,
-                        RetrieveCitizenDataAsyncTask2.ACTION1);
-
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
-
-                lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
-
-                return;
-            }
-
-            else {
-                RetrieveCitizenDataAsyncTask lTask =
-                    new RetrieveCitizenDataAsyncTask(
-                        this,
-                        RetrieveCitizenDataAsyncTask2.ACTION1);
-
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
-
-                lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
-
-                return;
-            }
+            return;
         }
 
+        if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
+            RetrieveCitizenDataAsyncTask2 lTask =
+                    new RetrieveCitizenDataAsyncTask2(
+                            this,
+                            RetrieveCitizenDataAsyncTask2.ACTION1);
+
+            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
+
+            lTask.execute(
+                    aRequest,
+                    aClientServerArchitecture);
+
+            return;
+        }
+
+        else {
+            RetrieveCitizenDataAsyncTask lTask =
+                    new RetrieveCitizenDataAsyncTask(
+                            this,
+                            RetrieveCitizenDataAsyncTask2.ACTION1);
+
+            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
+
+            lTask.execute(
+                    aRequest,
+                    aClientServerArchitecture);
+
+            return;
+        }
+    }
+
+    /**
+     * Our Broadcast Receiver. We get notified that the data is ready this way.
+     */
+    private class Receiver extends BroadcastReceiver {
+
         /**
-         * Our Broadcast Receiver. We get notified that the data is ready this way.
+         * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+         * During this time you can use the other methods on BroadcastReceiver to view/modify
+         * the current result values. This method is always called within the main thread of
+         * its process, unless you explicitly asked for it to be scheduled on a different thread
+         * using registerReceiver(BroadcastReceiver, IntentFilter, String, android.os.Handler).
+         * When it runs on the main thread you should never perform long-running operations in it
+         * (there is a timeout of 10 seconds that the system allows before considering the receiver
+         * to be blocked and a candidate to be killed). You cannot launch a popup dialog in your
+         * implementation of onReceive().
          */
-        private class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context aContext, Intent aIntent) {
 
-            /**
-             * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
-             * During this time you can use the other methods on BroadcastReceiver to view/modify
-             * the current result values. This method is always called within the main thread of
-             * its process, unless you explicitly asked for it to be scheduled on a different thread
-             * using registerReceiver(BroadcastReceiver, IntentFilter, String, android.os.Handler).
-             * When it runs on the main thread you should never perform long-running operations in it
-             * (there is a timeout of 10 seconds that the system allows before considering the receiver
-             * to be blocked and a candidate to be killed). You cannot launch a popup dialog in your
-             * implementation of onReceive().
-             */
-            @Override
-            public void onReceive(Context aContext, Intent aIntent) {
+            // The bundle object contains a mapping from String keys to various Parcelable values.
+            Bundle lBundle = aIntent.getExtras();
 
-                // The bundle object contains a mapping from String keys to various Parcelable values.
-                Bundle lBundle = aIntent.getExtras();
+            CitizenQueryResult lCitizenQueryResult = null;
 
-                CitizenQueryResult lCitizenQueryResult = null;
-
-                try {
-                    // The bundle should contain the SPARQL Result
-                    lCitizenQueryResult =
+            try {
+                // The bundle should contain the SPARQL Result
+                lCitizenQueryResult =
                         lBundle.getParcelable(
-                            RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
-                } catch (Exception aExc) {
-                    Log.i(TAG, aExc.getMessage());
-                }
+            } catch (Exception aExc) {
+                Log.i(TAG, aExc.getMessage());
+            }
 
-                if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
-                    CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
+            if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
+                CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
-                    mDescription = lCulturalObject.GetValue("description");
+                mDescription = lCulturalObject.GetValue("description");
 
-                    NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
-                    String lResourceUri = lCulturalObject.GetValue("image_url");
+                NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
+                String lResourceUri = lCulturalObject.GetValue("image_url");
 
-                    if(lNetworkConnectivity.isNetworkAvailable()) {
-                        if (true) {
-                            // Use of the Picasso library to load images
-                            ImageView lImageView = (ImageView) findViewById(R.id.imageView);
-                            Picasso.with(aContext).load(lResourceUri).into(lImageView);
-                        }
-                        else {
+                if(lNetworkConnectivity.isNetworkAvailable()) {
+                    if (true) {
+                        // Use of the Picasso library to load images
+                        ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+                        Picasso.with(aContext).load(lResourceUri).into(lImageView);
+                    }
+                    else {
                             /*VideoView lVideoView = (VideoView) findViewById(R.id.video_view);
 
                             Uri lVideoUri = null;
 
                             lVideoView.setVideoURI(lVideoUri);*/
-                        }
                     }
-                    else{
-                        Toast.makeText(
-                                getBaseContext(),
-                                "Network is not available",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                }
+                else{
+                    Toast.makeText(
+                            getBaseContext(),
+                            "Network is not available",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
 
     //endregion
 
@@ -457,5 +445,4 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //endregion
-
 }
