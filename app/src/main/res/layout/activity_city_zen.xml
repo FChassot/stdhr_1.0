@@ -14,7 +14,8 @@
     <TableLayout
         android:id="@+id/tableLayout1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
         <TableRow
             android:layout_width="match_parent"
@@ -60,16 +61,6 @@
             android:textSize="11dp"
             android:layout_column="22" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/lbl_place"
-            android:textColor="#ffffff"
-            android:ems="10"
-            android:height="10px"
-            android:id="@+id/mTxtVille" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,19 +69,8 @@
             android:textColor="#ffffff"
             android:ems="10"
             android:height="10px"
-            android:id="@+id/mTxtDescription" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/date"
-            android:textColor="#ffffff"
-            android:ems="10"
-            android:height="10dp"
-            android:id="@+id/mTxtPeriode"
-            android:layout_gravity="bottom"
-            android:layout_weight="0" />
+            android:id="@+id/mTxtDescription"
+            android:layout_weight="1.12" />
 
     </TableLayout>
 

@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,10 +27,8 @@ import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Tools.StringUtil;
-import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
@@ -79,16 +76,9 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         mCitizenServices = new CitizenServices();
 
-        // To retrieve the button in that UI that you need to interact with programmatically
-        //Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
-
         // Finds the views that was identified by an id attribute
-        final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-        final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
+        TextView mTitle = (TextView)findViewById(R.id.textView);
         TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
-
-        // Set a listener of this button
-        //mBtnSearch.setOnClickListener(this);
 
         Bundle lBundle = getIntent().getExtras();
 
@@ -97,19 +87,14 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             RadarMarker lCulturalObjectMarker = lBundle.getParcelable(MapsActivity.RADAR_MARKER);
 
             if (lCulturalObjectMarker != null) {
-                mTxtPlace.setText(lCulturalObjectMarker.getTitle());
+               // mTxtPlace.setText(lCulturalObjectMarker.getTitle());
+                mTitle.setText(lCulturalObjectMarker.getTitle());
 
                 if (!StringUtil.isNullOrBlank(lCulturalObjectMarker.getDescription())) {
-                    if (lCulturalObjectMarker.getDescription().length() < 90) {
-                        mTxtDescription.setText(lCulturalObjectMarker.getDescription());
-                    } else {
-                        mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 50) + "...");
-                    }
+                    mTxtDescription.setText(lCulturalObjectMarker.getDescription().substring(0, 50) + "...");
                 }
 
                 mDescription = lCulturalObjectMarker.getDescription();
-                mTitle = lCulturalObjectMarker.getTitle();
-                mTxtPeriod.setText("1000-2016");
             }
 
             String lClientServerCommunicationMode =
@@ -130,46 +115,6 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                     lClientServerCommunicationMode,
                     false);
         }
-
-        mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if (mTxtPlace.getText().toString().equals("")) {
-                        mTxtPlace.setText("Place");
-                    }
-                }
-                else {
-                    if (mTxtPlace.getText().toString().equals("Place")) {
-                        mTxtPlace.setText(MyString.EMPTY_STRING);
-                    }
-                }
-            }
-        });
-
-        mTxtPeriod.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    if (mTxtPeriod.getText().toString().equals("")) {
-                        mTxtPeriod.setText("Period");
-                    }
-                }
-                else {
-                    if (mTxtPeriod.getText().toString().equals("Period")) {
-                        mTxtPeriod.setText(MyString.EMPTY_STRING);
-                    }
-                }
-            }
-        });
-
-        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
-
-        List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
-
-        SpinnerHandler.fillComboSubject(
-                lCboSubject,
-                this,
-                android.R.layout.simple_spinner_item,
-                lCOSubjects);
 
         assert mTxtDescription != null;
         mTxtDescription.setOnClickListener(this);
@@ -226,54 +171,13 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
      */
     public void onClick(View aView){
 
-        /*if (aView.getId()==R.id.mBtnSearch) {
-            startProgress(aView);
-
-            // Get the technology used for the communication between the
-            // client and the server. This is configured in the shared-preferences.
-            String lClientServerCommunicationMode =
-                    mPrefs.getMyStringPref(
-                            this,
-                            BaseConstants.Attr_ClientServer_Communication,
-                            EnumClientServerCommunication.ANDROJENA.toString());
-
-            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtVille);
-            TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriode);
-
-            ValidationDescCollection lValDescCollection =
-                    Validator.ValidateSearch(
-                            mTxtPlace.getText().toString(),
-                            mTxtPeriod.getText().toString());
-
-            if (lValDescCollection.any()) {
-                Notifications.ShowMessageBox(
-                        this,
-                        lValDescCollection,
-                        "Warning",
-                        "Ok"
-                );
-
-                return;
-            }
-
-            String lRequest =
-                    CitizenRequests.getCulturalObjectQuery(
-                            mTxtPlace.getText().toString(),
-                            new Date(19000101),
-                            new Date(99990101));
-
-            startAsyncSearch(
-                    lRequest,
-                    lClientServerCommunicationMode,
-                    true);
-        }
         if (aView.getId()==R.id.mTxtDescription) {
             Notifications.ShowMessageBox(
                     this,
                     mDescription,
                     mTitle,
                     "Close");
-        }*/
+        }
     }
 
     //region asyncTask (to request the Citizen Endpoint)
