@@ -38,21 +38,6 @@ public final class CitizenRequests {
 
         //Checks.AssertNotEmpty(aCulturalObjectType, "aCulturalObjectType");
 
-        //Location lObject = new Location(MyString.EMPTY_STRING);
-        //lObject.setLongitude(aCurrentUserLocation.getLongitude());
-        //lObject.setLatitude(aCurrentUserLocation.getLatitude());
-        //lObject.setLatitude(lMaxLatitude);
-        //lObject.setLongitude(lMinLongitude);
-
-        /*double lDistance =
-                RadarHelper.getGreatCircleDistanceBetweenTwoPoints(
-                aCurrentUserLocation.getLatitude(),
-                lObject.getLatitude(),
-                aCurrentUserLocation.getLongitude(),
-                lObject.getLongitude(),
-                0,
-                0);*/
-
         String lQuery;
 
         if (aSubject.equals(MyString.EMPTY_STRING)) {
@@ -107,7 +92,7 @@ public final class CitizenRequests {
      * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
-    public static String getCulturalObjectQuery(
+    public static String getCulturalObjectQueryByTitleAndDate(
         String aTitle,
         Date aBegin,
         Date aEnd) {
@@ -147,17 +132,13 @@ public final class CitizenRequests {
      * A specific search of cultural objects can be retrieved with the following query
      *
      * @param aTitle the title of the picture
-     * @param aBegin tne begin date of the picture
-     * @param aEnd the end date of the picture
      *
      * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
-    public static String getUniqueCulturalObjectInfoQuery(
+    public static String getCulturalObjectInfoByObjectIdQuery(
         String aTitle,
-        String aCulturalInterest,
-        Date aBegin,
-        Date aEnd) {
+        String aCulturalInterest) {
 
         Checks.AssertNotEmpty(aTitle, "aTitle");
 
@@ -207,7 +188,7 @@ public final class CitizenRequests {
     }
 
     /**
-     * A specific search of the types off cultural objects available in the
+     * A specific search of the types of cultural objects available in the
      * Citizen Endpoint can be retrieved with the following query
      *
      * @return a SPARQL query

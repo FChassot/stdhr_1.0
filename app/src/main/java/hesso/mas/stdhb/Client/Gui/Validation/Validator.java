@@ -27,7 +27,7 @@ public class Validator {
 
         ValidationDescCollection lValDescCollection = new ValidationDescCollection();
 
-        if (aPlace.equals(MyString.EMPTY_STRING) || aPlace.equals(Resources.getSystem().getString(R.string.place))) {
+        if (aPlace.equals(MyString.EMPTY_STRING) || aPlace.equals("Place")) {
             lValDescCollection.add("* A place has to be given!");
         }
 

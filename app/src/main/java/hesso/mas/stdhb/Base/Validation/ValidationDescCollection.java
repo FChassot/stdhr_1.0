@@ -53,5 +53,11 @@ public class ValidationDescCollection {
      * Return true if the list at least one entry contains
      *
      */
-    public boolean any() { return (mList.size() > 0); }
+    public boolean any() {
+        if (mList != null) {
+            return (mList.size() > 0);
+        }
+
+        return false;
+    }
 }

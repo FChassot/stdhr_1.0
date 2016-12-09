@@ -113,11 +113,9 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                             EnumClientServerCommunication.ANDROJENA.toString());
 
             String lRequest =
-                    CitizenRequests.getUniqueCulturalObjectInfoQuery(
+                    CitizenRequests.getCulturalObjectInfoByObjectIdQuery(
                             mCulturalObjectMarker.getTitle(),
-                            mCulturalObjectMarker.getObjectId(),
-                            new Date(19000101),
-                            new Date(99990101));
+                            mCulturalObjectMarker.getObjectId());
 
             startAsyncSearch(
                     lRequest,

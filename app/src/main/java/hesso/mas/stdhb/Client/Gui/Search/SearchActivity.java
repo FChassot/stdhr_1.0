@@ -227,9 +227,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
+            String lPlace = "Essence pour les vins";
+            //mTxtPlace.getText().toString()
             String lRequest =
-                    CitizenRequests.getCulturalObjectQuery(
-                            mTxtPlace.getText().toString(),
+                    CitizenRequests.getCulturalObjectQueryByTitleAndDate(
+                            lPlace,
                             new Date(19000101),
                             new Date(99990101));
 
