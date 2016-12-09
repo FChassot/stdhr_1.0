@@ -107,9 +107,10 @@ public final class CitizenRequests {
             "prefix tm: <http://purl.org/dc/terms/>\n" +
             "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
             "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
-            "SELECT ?CulturalInterest ?title ?subject ?long ?lat ?image_url WHERE {\n" +
+            "SELECT ?CulturalInterest ?description ?title ?subject ?long ?lat ?image_url WHERE {\n" +
                 "?CulturalInterest dc:title ?title .\n" +
                 "?CulturalInterest tm:subject ?subject .\n" +
+                "?culturalInterest dc:description ?description .\n" +
                 "?CulturalInterest geo:location ?x .\n" +
                 "?CulturalInterest dc:creator ?creator .\n" +
                 "?cAggregator edm:aggregatedCHO ?CulturalInterest .\n" +
@@ -118,7 +119,7 @@ public final class CitizenRequests {
                 "?digitalitem dbo:image_url ?image_url .\n" +
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
-                "}\n" +
+                "filter (?title = <" + aTitle + ">) . }\n" +
                 "LIMIT 1\n";
 
                 /*"?x owl:hasEnd ?End .\n" +

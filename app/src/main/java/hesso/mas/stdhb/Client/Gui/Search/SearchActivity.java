@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -27,8 +28,11 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
+import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
+import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
@@ -346,31 +350,31 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
                     CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
-                    mDescription = lCulturalObject.GetValue("description");
-
-                    NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
+                    String lTitle = lCulturalObject.GetValue("title");
                     String lResourceUri = lCulturalObject.GetValue("image_url");
 
-                    if(lNetworkConnectivity.isNetworkAvailable()) {
-                        if (true) {
-                            // Use of the Picasso library to load images
-                            ImageView lImageView = (ImageView) findViewById(R.id.imageView);
-                            Picasso.with(aContext).load(lResourceUri).into(lImageView);
-                        }
-                        else {
-                            /*VideoView lVideoView = (VideoView) findViewById(R.id.video_view);
+                    RadarMarker lSelectedMarker = new RadarMarker();
+                    lSelectedMarker.setTitle(lTitle);
+                    lSelectedMarker.setObjectId(lResourceUri);
 
-                            Uri lVideoUri = null;
+                    Intent lIntent = new Intent(aContext, CityZenActivity.class);
 
-                            lVideoView.setVideoURI(lVideoUri);*/
-                        }
-                    }
-                    else{
-                        Toast.makeText(
-                                getBaseContext(),
-                                "Network is not available",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    // The bundle object contains a mapping from String keys
+                    // to various Parcelable values.
+                    lBundle = new Bundle();
+
+                    lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+
+                    lIntent.putExtras(lBundle);
+
+                    aContext.startActivity(lIntent);
+                }
+                else {
+                    /*Notifications.ShowMessageBox(
+                            aContext,
+                            "None object found! Try with other parameter!",
+                            "Warning",
+                            "Ok");*/
                 }
             }
         }
