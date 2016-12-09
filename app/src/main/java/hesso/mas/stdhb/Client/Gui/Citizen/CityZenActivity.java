@@ -11,14 +11,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
-import java.util.List;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -28,8 +27,7 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
-import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
@@ -37,6 +35,8 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhbtests.R;
+
+import static hesso.mas.stdhbtests.R.id.imageView;
 
 public class CityZenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -56,6 +56,9 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     private String mTitle = MyString.EMPTY_STRING;
 
     private PowerManager.WakeLock mWakeLock;
+
+    boolean lIsImageFitToScreen;
+    ImageView mImageView;
 
     /**
      * Called when the activity is first created. This is where you should do all of your
@@ -80,6 +83,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         TextView mTitle = (TextView)findViewById(R.id.textView);
         TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
         mTxtDescription.setSingleLine(false);
+        mImageView = (ImageView) findViewById(imageView);
 
         Bundle lBundle = getIntent().getExtras();
 
@@ -115,6 +119,26 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                     lClientServerCommunicationMode,
                     false);
         }
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lIsImageFitToScreen) {
+                    lIsImageFitToScreen=false;
+                    mImageView.setLayoutParams(
+                            new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT));
+                    mImageView.setAdjustViewBounds(true);
+                }else{
+                    lIsImageFitToScreen=true;
+                    mImageView.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT));
+                    mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                }
+            }
+        });
 
         assert mTxtDescription != null;
         mTxtDescription.setOnClickListener(this);
@@ -177,6 +201,10 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                     mDescription,
                     mTitle,
                     "Close");
+        }
+
+        if (aView.getId()== imageView) {
+
         }
     }
 
@@ -290,7 +318,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                 if(lNetworkConnectivity.isNetworkAvailable()) {
                     if (true) {
                         // Use of the Picasso library to load images
-                        ImageView lImageView = (ImageView) findViewById(R.id.imageView);
+                        ImageView lImageView = (ImageView) findViewById(imageView);
                         Picasso.with(aContext).load(lResourceUri).into(lImageView);
                     }
                     else {
