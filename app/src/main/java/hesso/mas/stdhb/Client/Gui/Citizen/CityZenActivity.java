@@ -79,6 +79,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         // Finds the views that was identified by an id attribute
         TextView mTitle = (TextView)findViewById(R.id.textView);
         TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
+        mTxtDescription.setSingleLine(false);
 
         Bundle lBundle = getIntent().getExtras();
 
