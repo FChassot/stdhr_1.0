@@ -281,6 +281,8 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                 CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
                 mDescription = lCulturalObject.GetValue("description");
+                TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
+                mTxtDescription.setText(mDescription);
 
                 NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
                 String lResourceUri = lCulturalObject.GetValue("image_url");
