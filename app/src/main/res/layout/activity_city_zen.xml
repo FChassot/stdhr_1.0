@@ -54,7 +54,20 @@
             android:layout_span="5"
             android:adjustViewBounds="true"
             android:scrollIndicators="right"
-            android:backgroundTintMode="screen" />
+            android:backgroundTintMode="screen"
+            android:background="#f21c1c"
+            android:padding="1dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/lbl_description"
+            android:textColor="#f21c1c"
+            android:ems="10"
+            android:height="10px"
+            android:id="@+id/mTxtViewPosition"
+            android:layout_weight="0.10" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,7 +78,7 @@
             android:ems="10"
             android:height="10px"
             android:id="@+id/mTxtDescription"
-            android:layout_weight="1.12" />
+            android:layout_weight="0.77" />
 
     </TableLayout>
 

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Tools.StringUtil;
+import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
@@ -37,6 +39,7 @@ import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhbtests.R;
 
 import static hesso.mas.stdhbtests.R.id.imageView;
+import static hesso.mas.stdhbtests.R.id.mTxtViewPosition;
 
 public class CityZenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,6 +62,8 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
     boolean lIsImageFitToScreen;
     ImageView mImageView;
+
+    private RadarMarker mCulturalObjectMarker;
 
     /**
      * Called when the activity is first created. This is where you should do all of your
@@ -89,16 +94,16 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         if (lBundle != null) {
             // To retrieve the cultural object selected in the radar view
-            RadarMarker lCulturalObjectMarker = lBundle.getParcelable(MapsActivity.RADAR_MARKER);
+            mCulturalObjectMarker = lBundle.getParcelable(MapsActivity.RADAR_MARKER);
 
-            if (lCulturalObjectMarker != null) {
-                mTitle.setText(lCulturalObjectMarker.getTitle());
+            if (mCulturalObjectMarker != null) {
+                mTitle.setText(mCulturalObjectMarker.getTitle());
 
-                if (!StringUtil.isNullOrBlank(lCulturalObjectMarker.getDescription())) {
-                    mTxtDescription.setText(lCulturalObjectMarker.getDescription());
+                if (!StringUtil.isNullOrBlank(mCulturalObjectMarker.getDescription())) {
+                    mTxtDescription.setText(mCulturalObjectMarker.getDescription());
                 }
 
-                mDescription = lCulturalObjectMarker.getDescription();
+                mDescription = mCulturalObjectMarker.getDescription();
             }
 
             String lClientServerCommunicationMode =
@@ -109,8 +114,8 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
             String lRequest =
                     CitizenRequests.getUniqueCulturalObjectInfoQuery(
-                            lCulturalObjectMarker.getTitle(),
-                            lCulturalObjectMarker.getObjectId(),
+                            mCulturalObjectMarker.getTitle(),
+                            mCulturalObjectMarker.getObjectId(),
                             new Date(19000101),
                             new Date(99990101));
 
@@ -272,6 +277,38 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
+     *
+     * @param aCurrentLocation
+     * @param aCulturalObjectMarker
+     * @return
+     */
+    private double getDistance(
+            Location aCurrentLocation,
+            Location aCulturalObjectMarker) {
+
+        return SpatialGeometryServices.getDistanceBetweenTwoPoints(
+                0,
+                0,
+                aCulturalObjectMarker.getLatitude(),
+                aCulturalObjectMarker.getLongitude(),
+                0,
+                0);
+
+    }
+
+    /**
+     *
+     * @param aCulturalObjectMarker
+     * @return
+     */
+    private String getStrLocation(
+            RadarMarker aCulturalObjectMarker) {
+
+        return "Position Lat " + aCulturalObjectMarker.getLatitude() + " Lon " + aCulturalObjectMarker.getLongitude();
+
+    }
+
+    /**
      * Our Broadcast Receiver. We get notified that the data is ready this way.
      */
     private class Receiver extends BroadcastReceiver {
@@ -311,6 +348,8 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                 mDescription = lCulturalObject.GetValue("description");
                 TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
                 mTxtDescription.setText(mDescription);
+                TextView mTxtViewPosition = (TextView)findViewById(R.id.mTxtViewPosition);
+                mTxtViewPosition.setText(getStrLocation(mCulturalObjectMarker));
 
                 NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
                 String lResourceUri = lCulturalObject.GetValue("image_url");
