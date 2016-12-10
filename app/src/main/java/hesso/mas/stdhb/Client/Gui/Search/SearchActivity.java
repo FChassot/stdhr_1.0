@@ -111,15 +111,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         final TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
         final TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
 
-        // le Handler est créé dans le Thread de l'UI
-        // Il agira sur le textView
-        this.mSearchHandler = new SearchHandler(mTxtPlace);
-        // Le Thread monThread partage avec l'activité
-        // le Handler (monHandler)
-        this.mSearchThread = new SearchThread(this.mSearchHandler);
-
-        this.mSearchThread.start();                         // The searchThread is started
-
         // Set a listener of this button
         assert mBtnSearch != null;
         mBtnSearch.setOnClickListener(this);
@@ -155,6 +146,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
 
         List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
+
+        // The Handler ist crdate in the UI Thread
+        this.mSearchHandler = new SearchHandler(mTxtPlace);
+        // SearchThread share the Handler with the activity
+        this.mSearchThread = new SearchThread(this.mSearchHandler);
+        // The Thread is started
+        this.mSearchThread.start();
 
         SpinnerHandler.fillComboSubject(
                 lCboSubject,
@@ -392,80 +390,4 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     //endregion
 
-    //region AsyncTask
-
-    //region Handler
-
-    // Create Inner Thread Class
-    Thread lBackgroundTask = new Thread(new Runnable() {
-
-        // After call for background.start this run method call
-        public void run() {
-            try {
-                String lRequest = "";
-                String lClientServerArchitecture;
-                Boolean lDisplaySearchmsg = false;
-
-                startAsyncSearch(
-                        lRequest,
-                        null,
-                        lDisplaySearchmsg);
-
-            } catch (Throwable t) {
-                // just end the background thread
-                Log.i("Animation", "Thread  exception " + t);
-            }
-        }
-
-        /**
-         *
-         * @param msg
-         */
-        private void threadMsg(String msg) {
-            if (!msg.equals(null) && !msg.equals(MyString.EMPTY_STRING)) {
-                android.os.Message lMessageFromHandler = mHandler.obtainMessage();
-
-                Bundle lBundle = new Bundle();
-                lBundle.putString("message", msg);
-                lMessageFromHandler.setData(lBundle);
-
-                // permet à un Thread partageant ce Handler (avec un autre Thread (E.g.
-                // ThreadCreateur)) de déposer (FIFO) un Message dans la file de Messages.
-                // Généralement cette méthode sera appelée à partir du run() (de cet autre
-                // Thread).
-                mHandler.sendMessage(lMessageFromHandler);
-            }
-        }
-
-        /**
-         * Define the Handler that receives messages from the thread and update the progress
-         *
-         * @param aMessage
-         */
-        public void handleMessage(android.os.Message aMessage) {
-
-            String aResponse = aMessage.getData().getString("message");
-
-            if ((null != aResponse)) {
-                // ALERT MESSAGE
-                Toast.makeText(
-                        getBaseContext(),
-                        "Server Response: "+aResponse,
-                        Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                // ALERT MESSAGE
-                Toast.makeText(
-                        getBaseContext(),
-                        "Not Got Response From Server.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    // Start Thread
-    //background.start();  //After call start method thread called run Method
-    });
-
-    //endregion
 }

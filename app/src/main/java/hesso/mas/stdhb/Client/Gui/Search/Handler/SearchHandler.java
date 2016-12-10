@@ -15,13 +15,13 @@ import android.widget.TextView;
  */
 public class SearchHandler extends Handler {
 
-    private TextView mTextView; // SearchHandler connait le TextView (UI)
+    private TextView mTextView;                             // SearchHandler knows the TextView (UI)
 
     public SearchHandler(TextView aTextView) {
         this.mTextView = aTextView;
     }
 
-    /**
+    /*
      * toute sous classe de la classe Handler doit redéfinir cette méthode.
      * cette méthode sera invoquée dans/par le ThreadCreateur.
      * Si ce Thread est le Thread UI c'est lui qui modifiera l'IHM ...
@@ -31,6 +31,6 @@ public class SearchHandler extends Handler {
      * @param aMessage
      */
     public void handleMessage(Message aMessage){
-        mTextView.setText(aMessage.getData().getString("clef"));
+        mTextView.setText(aMessage.getData().getString("Sesame Data"));
     }
 }
