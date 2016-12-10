@@ -58,9 +58,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     // Member variables
     private Preferences mPrefs;
 
-    //private Receiver mReceiver;
-
-    private listViewAdapter mListViewAdapter = null;
+    private ListViewAdapter mListViewAdapter = null;
 
     private NetworkConnectivity mConnectivity;
 
@@ -178,7 +176,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         // Create an ArrayAdapter from the String Array
         mListViewAdapter =
-            new listViewAdapter(
+            new ListViewAdapter(
                 this,
                 R.layout.culturalinterest_info,
                 mCulturalObjectTypes);
@@ -203,7 +201,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     /**
      * Class listViewAdapter
      */
-    private class listViewAdapter extends ArrayAdapter<CulturalObjectType> {
+    private class ListViewAdapter extends ArrayAdapter<CulturalObjectType> {
 
         // Member variable
         private ArrayList<CulturalObjectType> mListOfCulturalObjectType;
@@ -215,7 +213,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
          * @param aTextViewResourceId
          * @param aListOfCulturalObjectType
          */
-        public listViewAdapter(
+        public ListViewAdapter(
                 Context aContext,
                 int aTextViewResourceId,
                 ArrayList<CulturalObjectType> aListOfCulturalObjectType) {

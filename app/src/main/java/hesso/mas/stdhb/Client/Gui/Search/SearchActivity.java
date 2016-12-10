@@ -2,7 +2,9 @@ package hesso.mas.stdhb.Client.Gui.Search;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Handler;
 
+import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,6 +35,8 @@ import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
+import hesso.mas.stdhb.Client.Gui.Search.Handler.SearchHandler;
+import hesso.mas.stdhb.Client.Gui.Search.Handler.SearchThread;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
@@ -57,6 +61,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     // Variable of type OkHttpClient
     //OkHttpClient mOkHttpClient;
+
+    // An handler allows you to send and process message
+    // and Runnable objects associated with a thread's MessageQueue.
+    android.os.Handler mHandler = new android.os.Handler();
+
+    private SearchHandler mSearchHandler;
+
+    private SearchThread mSearchThread;
 
     // Constant
     private static final String TAG = "SearchActivity";
@@ -92,12 +104,21 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         mCitizenServices = new CitizenServices();
 
         // To retrieve the button in that UI that you need to interact with programmatically
-        Button mBtnSearch = (Button)findViewById(R.id.mBtnSearch);
-        ImageView lImgBack = (ImageView)findViewById(R.id.mImgBack);
+        Button mBtnSearch = (Button) findViewById(R.id.mBtnSearch);
+        ImageView lImgBack = (ImageView) findViewById(R.id.mImgBack);
 
         // Finds the views that was identified by an id attribute
-        final TextView mTxtPlace = (TextView)findViewById(R.id.mTxtPlace);
-        final TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriod);
+        final TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
+        final TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
+
+        // le Handler est créé dans le Thread de l'UI
+        // Il agira sur le textView
+        this.mSearchHandler = new SearchHandler(mTxtPlace);
+        // Le Thread monThread partage avec l'activité
+        // le Handler (monHandler)
+        this.mSearchThread = new SearchThread(this.mSearchHandler);
+
+        this.mSearchThread.start();                         // The searchThread is started
 
         // Set a listener of this button
         assert mBtnSearch != null;
@@ -105,12 +126,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     if (mTxtPlace.getText().toString().equals("")) {
                         mTxtPlace.setText("Place");
                     }
-                }
-                else {
+                } else {
                     if (mTxtPlace.getText().toString().equals("Place")) {
                         mTxtPlace.setText(MyString.EMPTY_STRING);
                     }
@@ -120,12 +140,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mTxtPeriod.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     if (mTxtPeriod.getText().toString().equals("")) {
                         mTxtPeriod.setText("Period");
                     }
-                }
-                else {
+                } else {
                     if (mTxtPeriod.getText().toString().equals("Period")) {
                         mTxtPeriod.setText(MyString.EMPTY_STRING);
                     }
@@ -138,10 +157,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
 
         SpinnerHandler.fillComboSubject(
-            lCboSubject,
-            this,
-            android.R.layout.simple_spinner_item,
-            lCOSubjects);
+                lCboSubject,
+                this,
+                android.R.layout.simple_spinner_item,
+                lCOSubjects);
 
         assert lImgBack != null;
         lImgBack.setOnClickListener(this);
@@ -159,7 +178,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * When the user resumes your activity from the Paused state, the system calls the onResume() method.
-     *
+     * <p>
      * Be aware that the system calls this method every time your activity comes into the foreground,
      * including when it's created for the first time. As such, you should implement onResume() to initialize
      * components that you release during onPause() and perform any other initializations that must occur each time
@@ -196,21 +215,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @param aView
      */
-    public void onClick(View aView){
+    public void onClick(View aView) {
 
-        if (aView.getId()==R.id.mBtnSearch) {
-            startProgress(aView);
-
+        if (aView.getId() == R.id.mBtnSearch) {
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
             String lClientServerCommunicationMode =
-                mPrefs.getMyStringPref(
-                    this,
-                    BaseConstants.Attr_ClientServer_Communication,
-                    EnumClientServerCommunication.ANDROJENA.toString());
+                    mPrefs.getMyStringPref(
+                            this,
+                            BaseConstants.Attr_ClientServer_Communication,
+                            EnumClientServerCommunication.ANDROJENA.toString());
 
-            TextView mTxtPlace = (TextView)findViewById(R.id.mTxtPlace);
-            TextView mTxtPeriod = (TextView)findViewById(R.id.mTxtPeriod);
+            TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
+            TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
 
             ValidationDescCollection lValDescCollection =
                     Validator.ValidateSearch(
@@ -219,10 +236,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             if (lValDescCollection.any()) {
                 Notifications.ShowMessageBox(
-                    this,
-                    lValDescCollection,
-                    "Warning",
-                    "Ok"
+                        this,
+                        lValDescCollection,
+                        "Warning",
+                        "Ok"
                 );
 
                 return;
@@ -241,7 +258,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lClientServerCommunicationMode,
                 true);
         }
-        if (aView.getId()==R.id.mImgBack){
+        if (aView.getId() == R.id.mImgBack) {
             Intent lIntent = new Intent(SearchActivity.this, MainActivity.class);
             startActivity(lIntent);
         }
@@ -252,129 +269,126 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Start an Async Search on a Sparql endPoint
      *
-     * @param aRequest represents the sparql request
+     * @param aRequest                  represents the sparql request
      * @param aClientServerArchitecture provides the type of architecture choosen
      *                                  for the communication with the server
-     * @param aDisplaySearchmsg when true a wait-message will be displayed on the
-     *                          screen until the response has been received from the
-     *                          server
+     * @param aDisplaySearchmsg         when true a wait-message will be displayed on the
+     *                                  screen until the response has been received from the
+     *                                  server
      */
-        private void startAsyncSearch(
+    private void startAsyncSearch(
             String aRequest,
             String aClientServerArchitecture,
             boolean aDisplaySearchmsg) {
 
-            if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
-                RetrieveCitizenDataAsyncTask lTask =
+        if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
+            RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
-                        this,
-                        RetrieveCitizenDataAsyncTask.HTTP_CITIZEN_DATA);
-
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
-
-                lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
-
-                return;
-            }
-
-            if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
-                RetrieveCitizenDataAsyncTask2 lTask =
-                    new RetrieveCitizenDataAsyncTask2(
-                        this,
-                        RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
-
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
-
-                lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
-
-                return;
-            }
-
-            else {
-                RetrieveCitizenDataAsyncTask lTask =
-                    new RetrieveCitizenDataAsyncTask(
-                        this,
-                        RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
-
-                lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
-
-                lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
-
-                return;
-            }
-        }
-
-        /**
-         * Our Broadcast Receiver. We get notified that the data is ready this way.
-         */
-        private class Receiver extends BroadcastReceiver {
-
-            /**
-             * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
-             * During this time you can use the other methods on BroadcastReceiver to view/modify
-             * the current result values. This method is always called within the main thread of
-             * its process, unless you explicitly asked for it to be scheduled on a different thread
-             * using registerReceiver(BroadcastReceiver, IntentFilter, String, android.os.Handler).
-             * When it runs on the main thread you should never perform long-running operations in it
-             * (there is a timeout of 10 seconds that the system allows before considering the receiver
-             * to be blocked and a candidate to be killed). You cannot launch a popup dialog in your
-             * implementation of onReceive().
-             */
-            @Override
-            public void onReceive(Context aContext, Intent aIntent) {
-
-                // The bundle object contains a mapping from String keys to various Parcelable values.
-                Bundle lBundle = aIntent.getExtras();
-
-                CitizenQueryResult lCitizenQueryResult = null;
-
-                try {
-                    // The bundle should contain the SPARQL Result
-                    lCitizenQueryResult =
-                        lBundle.getParcelable(
+                            this,
                             RetrieveCitizenDataAsyncTask.HTTP_CITIZEN_DATA);
 
-                } catch (Exception aExc) {
-                    Log.i(TAG, aExc.getMessage());
-                }
+            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
-                if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
-                    CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
+            lTask.execute(
+                    aRequest,
+                    aClientServerArchitecture);
 
-                    String lTitle = lCulturalObject.GetValue("title");
-                    String lResourceUri = lCulturalObject.GetValue("image_url");
+            return;
+        }
 
-                    RadarMarker lSelectedMarker = new RadarMarker();
-                    lSelectedMarker.setTitle(lTitle);
-                    lSelectedMarker.setObjectId(lResourceUri);
+        if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
+            RetrieveCitizenDataAsyncTask2 lTask =
+                    new RetrieveCitizenDataAsyncTask2(
+                            this,
+                            RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
 
-                    Intent lIntent = new Intent(aContext, CityZenActivity.class);
+            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
-                    // The bundle object contains a mapping from String keys
-                    // to various Parcelable values.
-                    lBundle = new Bundle();
+            lTask.execute(
+                    aRequest,
+                    aClientServerArchitecture);
 
-                    lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+            return;
+        } else {
+            RetrieveCitizenDataAsyncTask lTask =
+                    new RetrieveCitizenDataAsyncTask(
+                            this,
+                            RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
 
-                    lIntent.putExtras(lBundle);
+            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
-                    aContext.startActivity(lIntent);
-                }
-                else {
-                    Notifications.ShowMessageBox(
-                            aContext,
-                            "None object found! Try with other parameters!",
-                            "Information",
-                            "Ok");
-                }
+            lTask.execute(
+                    aRequest,
+                    aClientServerArchitecture);
+
+            return;
+        }
+    }
+
+    /**
+     * Our Broadcast Receiver. We get notified that the data is ready this way.
+     */
+    private class Receiver extends BroadcastReceiver {
+
+        /**
+         * This method is called when the BroadcastReceiver is receiving an Intent broadcast.
+         * During this time you can use the other methods on BroadcastReceiver to view/modify
+         * the current result values. This method is always called within the main thread of
+         * its process, unless you explicitly asked for it to be scheduled on a different thread
+         * using registerReceiver(BroadcastReceiver, IntentFilter, String, android.os.Handler).
+         * When it runs on the main thread you should never perform long-running operations in it
+         * (there is a timeout of 10 seconds that the system allows before considering the receiver
+         * to be blocked and a candidate to be killed). You cannot launch a popup dialog in your
+         * implementation of onReceive().
+         */
+        @Override
+        public void onReceive(Context aContext, Intent aIntent) {
+
+            // The bundle object contains a mapping from String keys to various Parcelable values.
+            Bundle lBundle = aIntent.getExtras();
+
+            CitizenQueryResult lCitizenQueryResult = null;
+
+            try {
+                // The bundle should contain the SPARQL Result
+                lCitizenQueryResult =
+                        lBundle.getParcelable(
+                                RetrieveCitizenDataAsyncTask.HTTP_CITIZEN_DATA);
+
+            } catch (Exception aExc) {
+                Log.i(TAG, aExc.getMessage());
+            }
+
+            if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
+                CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
+
+                String lTitle = lCulturalObject.GetValue("title");
+                String lResourceUri = lCulturalObject.GetValue("image_url");
+
+                RadarMarker lSelectedMarker = new RadarMarker();
+                lSelectedMarker.setTitle(lTitle);
+                lSelectedMarker.setObjectId(lResourceUri);
+
+                Intent lIntent = new Intent(aContext, CityZenActivity.class);
+
+                // The bundle object contains a mapping from String keys
+                // to various Parcelable values.
+                lBundle = new Bundle();
+
+                lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+
+                lIntent.putExtras(lBundle);
+
+                aContext.startActivity(lIntent);
+            } else {
+                Notifications.ShowMessageBox(
+                        aContext,
+                        "None object found! Try with other parameters!",
+                        "Information",
+                        "Ok");
             }
         }
+    }
 
     //endregion
 
@@ -382,39 +396,76 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     //region Handler
 
-    public void startProgress(View view) {
-        // do something long
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i <= 10; i++) {
-                    final int value = i;
+    // Create Inner Thread Class
+    Thread lBackgroundTask = new Thread(new Runnable() {
 
-                    doFakeWork();
+        // After call for background.start this run method call
+        public void run() {
+            try {
+                String lRequest = "";
+                String lClientServerArchitecture;
+                Boolean lDisplaySearchmsg = false;
 
-                    /*progress.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            text.setText("Updating");
-                            progress.setProgress(value);
-                        }
-                    });*/
-                }
+                startAsyncSearch(
+                        lRequest,
+                        null,
+                        lDisplaySearchmsg);
+
+            } catch (Throwable t) {
+                // just end the background thread
+                Log.i("Animation", "Thread  exception " + t);
             }
-        };
-
-        new Thread(runnable).start();
-    }
-
-    // Simulating something timeconsuming
-    private void doFakeWork() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
-    }
+
+        /**
+         *
+         * @param msg
+         */
+        private void threadMsg(String msg) {
+            if (!msg.equals(null) && !msg.equals(MyString.EMPTY_STRING)) {
+                android.os.Message lMessageFromHandler = mHandler.obtainMessage();
+
+                Bundle lBundle = new Bundle();
+                lBundle.putString("message", msg);
+                lMessageFromHandler.setData(lBundle);
+
+                // permet à un Thread partageant ce Handler (avec un autre Thread (E.g.
+                // ThreadCreateur)) de déposer (FIFO) un Message dans la file de Messages.
+                // Généralement cette méthode sera appelée à partir du run() (de cet autre
+                // Thread).
+                mHandler.sendMessage(lMessageFromHandler);
+            }
+        }
+
+        /**
+         * Define the Handler that receives messages from the thread and update the progress
+         *
+         * @param aMessage
+         */
+        public void handleMessage(android.os.Message aMessage) {
+
+            String aResponse = aMessage.getData().getString("message");
+
+            if ((null != aResponse)) {
+                // ALERT MESSAGE
+                Toast.makeText(
+                        getBaseContext(),
+                        "Server Response: "+aResponse,
+                        Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                // ALERT MESSAGE
+                Toast.makeText(
+                        getBaseContext(),
+                        "Not Got Response From Server.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    // Start Thread
+    //background.start();  //After call start method thread called run Method
+    });
 
     //endregion
-
 }
