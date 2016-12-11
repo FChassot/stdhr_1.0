@@ -87,12 +87,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         mPrefs = new Preferences(this);
 
         // To retrieve the button in that UI that you need to interact with programmatically
+        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
         Button mBtnSearch = (Button) findViewById(R.id.mBtnSearch);
         ImageView lImgBack = (ImageView) findViewById(R.id.mImgBack);
 
         // Finds the views that was identified by an id attribute
         final TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
         final TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
+
+        lCboSubject.requestFocus();
 
         // Set a listener of this button
         assert mBtnSearch != null;
@@ -125,8 +128,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
-
-        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
 
         // The Handler ist create in the UI Thread
         this.mSearchHandler = new SearchHandler(lCboSubject, this);
@@ -161,6 +162,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
+
+        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
+        lCboSubject.requestFocus();
     }
 
     /**

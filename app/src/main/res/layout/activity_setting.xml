@@ -35,7 +35,7 @@
                 android:textColor="#ffffff"
                 android:id="@+id/RadarSwitch"
                 android:layout_column="22"
-                android:checked="false" />
+                android:checked="true" />
         </TableRow>
 
         <TableRow

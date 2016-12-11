@@ -119,7 +119,7 @@ public final class CitizenRequests {
                 "?digitalitem dbo:image_url ?image_url .\n" +
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
-                "filter (?description = <" + aTitle + ">) . }\n" +
+                "filter (?description = " + aTitle + ") . }\n" +
                 "LIMIT 1\n";
 
                 /*"?x owl:hasEnd ?End .\n" +

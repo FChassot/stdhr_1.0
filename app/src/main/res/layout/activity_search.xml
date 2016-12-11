@@ -19,21 +19,19 @@
         android:id="@+id/mImgLogo" />
 
     <TextView
-        android:id="@+id/contact_form_title"
-        android:layout_width="182dp"
+        android:id="@+id/mTextViewTitle"
+        android:layout_width="306dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="5dp"
-        android:text="Search médiathèque Data"
+        android:text="Search Cityzen Data"
         android:textColor="#DF013A"
         android:textSize="20sp"
-        android:typeface="serif"
-        android:layout_weight="0.24"
         android:textStyle="normal|bold" />
 
     <Spinner android:id="@+id/mDcboSujet"
-        android:textColor="@android:color/white"
+        android:textColor="#FF0000"
         android:layout_width="217dp"
         android:layout_height="wrap_content"
         android:textSize="11dp"
@@ -75,12 +73,12 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:src="@mipmap/ic_back"
         android:id="@+id/mImgBack"
-        android:layout_alignParentBottom="true"
+        android:visibility="visible"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:visibility="visible" />
+        android:layout_alignParentBottom="true" />
 
 </LinearLayout>

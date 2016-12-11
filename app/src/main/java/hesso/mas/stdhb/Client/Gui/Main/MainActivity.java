@@ -11,12 +11,11 @@ import android.widget.ImageView;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 
-import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
-
 import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
+
 import hesso.mas.stdhbtests.R;
 
 import javax.inject.Inject;

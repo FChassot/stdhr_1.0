@@ -1,2 +1,2 @@
-The package Communication allow to perform database operations using Async Task
+The package Communication allow to perform database operations using Handlers or Async Task
 

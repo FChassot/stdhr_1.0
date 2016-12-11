@@ -651,7 +651,7 @@ public class RadarActivity
 
         //todo chf removes for the production
         Location lCurrentUserLocation = null;
-        //mGeolocationServices.getCurrentLocation();
+                //mGeolocationServices.getCurrentLocation();
 
         // TODO chf removes when the application works
         if (lCurrentUserLocation == null) {
