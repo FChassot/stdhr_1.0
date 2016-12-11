@@ -145,20 +145,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
 
-        List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
+        //List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
 
-        // The Handler ist crdate in the UI Thread
-        this.mSearchHandler = new SearchHandler(mTxtPlace);
+        // The Handler ist create in the UI Thread
+        this.mSearchHandler = new SearchHandler(lCboSubject, this);
         // SearchThread share the Handler with the activity
         this.mSearchThread = new SearchThread(this.mSearchHandler);
         // The Thread is started
         this.mSearchThread.start();
 
-        SpinnerHandler.fillComboSubject(
+        /*SpinnerHandler.fillComboSubject(
                 lCboSubject,
                 this,
                 android.R.layout.simple_spinner_item,
-                lCOSubjects);
+                lCOSubjects);*/
 
         assert lImgBack != null;
         lImgBack.setOnClickListener(this);

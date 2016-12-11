@@ -1,8 +1,15 @@
 package hesso.mas.stdhb.Client.Gui.Search.Handler;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.TextView;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 
 /**
  * Created by chf on 10.12.2016.
@@ -15,10 +22,13 @@ import android.widget.TextView;
  */
 public class SearchHandler extends Handler {
 
-    private TextView mTextView;                             // SearchHandler knows the TextView (UI)
+    private Spinner mSpinner;
+    private Context mContext;
 
-    public SearchHandler(TextView aTextView) {
-        this.mTextView = aTextView;
+    public SearchHandler(Spinner aSpinner, Context aContext) {
+
+        this.mSpinner = aSpinner;
+        this.mContext = aContext;
     }
 
     /*
@@ -30,7 +40,21 @@ public class SearchHandler extends Handler {
      *
      * @param aMessage
      */
-    public void handleMessage(Message aMessage){
-        mTextView.setText(aMessage.getData().getString("Sesame Data"));
+    public void handleMessage(Message aMessage) {
+
+        List<CitizenDbObject> lCityZenObjects =
+                aMessage.getData().getParcelableArrayList("CityZen Data");
+
+        List<String> lItems = new ArrayList<>();
+
+        for (CitizenDbObject lObjet : lCityZenObjects) {
+            lItems.add(lObjet.GetValue("subject"));
+        }
+
+        SpinnerHandler.fillComboSubject(
+                mSpinner,
+                mContext,
+                android.R.layout.simple_spinner_item,
+                lItems);
     }
 }
