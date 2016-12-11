@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Search.Handler;
+package hesso.mas.stdhb.DataAccess.Communication.Handler;
 
 import android.content.Context;
 import android.os.Handler;

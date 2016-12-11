@@ -105,8 +105,6 @@ public class SpatialGeometryServices {
         double aElevation1,
         double aElevation2) {
 
-        //final int lRadiusOfEarth = 6371; // Radius of the earth
-
         double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
         double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
 

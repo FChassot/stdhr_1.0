@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Search.Handler;
+package hesso.mas.stdhb.DataAccess.Communication.Handler;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -10,7 +10,6 @@ import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.WsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 
@@ -25,8 +24,6 @@ public class SearchThread extends Thread {
 
     // Dependency
     private SearchHandler mSearchHandler;
-
-    private boolean mContinue = true;
 
     /**
      *

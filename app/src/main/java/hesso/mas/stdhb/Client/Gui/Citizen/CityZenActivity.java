@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Date;
-
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
@@ -31,17 +29,14 @@ import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
-import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhbtests.R;
 
 import static hesso.mas.stdhbtests.R.id.imageView;
-import static hesso.mas.stdhbtests.R.id.mTxtViewPosition;
 
 public class CityZenActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,8 +45,6 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
     // Member variables
     private Preferences mPrefs;
-
-    private CitizenServices mCitizenServices;
 
     private Receiver mReceiver;
 
@@ -83,8 +76,6 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_city_zen);
 
         mPrefs = new Preferences(this);
-
-        mCitizenServices = new CitizenServices();
 
         // Finds the views that was identified by an id attribute
         TextView mTitle = (TextView)findViewById(R.id.textView);

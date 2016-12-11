@@ -1,20 +1,15 @@
 package hesso.mas.stdhb.Client.Gui.Search;
 
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Handler;
 
-import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Button;
 import android.content.IntentFilter;
 import android.os.PowerManager;
@@ -22,7 +17,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
@@ -33,14 +27,11 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
-import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Gui.Search.Handler.SearchHandler;
-import hesso.mas.stdhb.Client.Gui.Search.Handler.SearchThread;
-import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
+import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchHandler;
+import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchThread;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
-import hesso.mas.stdhb.DataAccess.Services.CitizenServices;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
@@ -48,8 +39,6 @@ import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyn
 import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
 
 import hesso.mas.stdhbtests.R;
-
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by chf on 11.06.2016.
@@ -64,8 +53,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     // An handler allows you to send and process message
     // and Runnable objects associated with a thread's MessageQueue.
-    android.os.Handler mHandler = new android.os.Handler();
-
     private SearchHandler mSearchHandler;
 
     private SearchThread mSearchThread;
@@ -75,8 +62,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     // Member variables
     private Preferences mPrefs;
-
-    private CitizenServices mCitizenServices;
 
     private Receiver mReceiver;
 
@@ -100,8 +85,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_search);
 
         mPrefs = new Preferences(this);
-
-        mCitizenServices = new CitizenServices();
 
         // To retrieve the button in that UI that you need to interact with programmatically
         Button mBtnSearch = (Button) findViewById(R.id.mBtnSearch);
@@ -145,20 +128,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
 
-        //List<String> lCOSubjects = mCitizenServices.getCulturalObjectSubjects();
-
         // The Handler ist create in the UI Thread
         this.mSearchHandler = new SearchHandler(lCboSubject, this);
         // SearchThread share the Handler with the activity
         this.mSearchThread = new SearchThread(this.mSearchHandler);
         // The Thread is started
         this.mSearchThread.start();
-
-        /*SpinnerHandler.fillComboSubject(
-                lCboSubject,
-                this,
-                android.R.layout.simple_spinner_item,
-                lCOSubjects);*/
 
         assert lImgBack != null;
         lImgBack.setOnClickListener(this);
@@ -378,7 +353,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lIntent.putExtras(lBundle);
 
                 aContext.startActivity(lIntent);
-            } else {
+            }
+            else {
                 Notifications.ShowMessageBox(
                         aContext,
                         "None object found! Try with other parameters!",
@@ -389,5 +365,4 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //endregion
-
 }
