@@ -42,8 +42,8 @@ public class QueryEngine {
         try {
             lResponse = lWsClient.executeRequest(aQuery);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception aExc) {
+            aExc.printStackTrace();
             return null;
         }
 

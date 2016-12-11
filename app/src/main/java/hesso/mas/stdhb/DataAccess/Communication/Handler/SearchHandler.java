@@ -23,9 +23,12 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 public class SearchHandler extends Handler {
 
     private Spinner mSpinner;
+
     private Context mContext;
 
-    public SearchHandler(Spinner aSpinner, Context aContext) {
+    public SearchHandler(
+        Spinner aSpinner,
+        Context aContext) {
 
         this.mSpinner = aSpinner;
         this.mContext = aContext;
@@ -43,7 +46,7 @@ public class SearchHandler extends Handler {
     public void handleMessage(Message aMessage) {
 
         List<CitizenDbObject> lCityZenObjects =
-                aMessage.getData().getParcelableArrayList("CityZen Data");
+                aMessage.getData().getParcelableArrayList(SearchThread.CityZenData);
 
         List<String> lItems = new ArrayList<>();
 

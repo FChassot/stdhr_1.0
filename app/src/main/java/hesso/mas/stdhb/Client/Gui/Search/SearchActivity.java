@@ -141,7 +141,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION1);
+        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.HTTP_CITYZEN_DATA);
         this.registerReceiver(mReceiver, lFilter);
 
         PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -258,11 +258,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String aClientServerArchitecture,
             boolean aDisplaySearchmsg) {
 
-        if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
+        if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
             RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask.HTTP_CITIZEN_DATA);
+                            RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
 
             lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
@@ -277,7 +277,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             RetrieveCitizenDataAsyncTask2 lTask =
                     new RetrieveCitizenDataAsyncTask2(
                             this,
-                            RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
+                            RetrieveCitizenDataAsyncTask2.HTTP_CITYZEN_DATA);
 
             lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
@@ -290,7 +290,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask2.HTTP_CITIZEN_DATA);
+                            RetrieveCitizenDataAsyncTask2.HTTP_CITYZEN_DATA);
 
             lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
@@ -330,7 +330,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 // The bundle should contain the SPARQL Result
                 lCitizenQueryResult =
                         lBundle.getParcelable(
-                                RetrieveCitizenDataAsyncTask.HTTP_CITIZEN_DATA);
+                                RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());

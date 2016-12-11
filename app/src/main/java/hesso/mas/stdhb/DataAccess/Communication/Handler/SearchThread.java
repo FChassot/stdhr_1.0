@@ -18,6 +18,8 @@ import java.util.*;
 /**
  * Created by chf on 10.12.2016.
  *
+ * A thread is a thread of execution in a program. The Java Virtual Machine allows an
+ * application to have multiple threads of execution running concurrently.
  * Thread wo want to do a long task and to give the answer to the UI Thread.
  */
 public class SearchThread extends Thread {
@@ -25,7 +27,10 @@ public class SearchThread extends Thread {
     // Dependency
     private SearchHandler mSearchHandler;
 
+    public static String CityZenData = "CityZenData";
+
     /**
+     * Public constructor
      *
      * @param aSearchHandler
      */
@@ -33,15 +38,18 @@ public class SearchThread extends Thread {
         this.mSearchHandler = aSearchHandler;
     }
 
+    /**
+     * If this thread was constructed using a separate Runnable run object, then that
+     * Runnable object's run method is called; otherwise, this method does nothing and returns.
+     */
     public void run() {
-        Message lMessage = null;
 
         Bundle lBundle = new Bundle();
 
         // Permet d'obtenir du Handler un Message dans lequel on va «glisser» les informations
         // à transmettre (à la fonction handleMessage).
         // Returns a new Message from the global message pool.
-        lMessage = mSearchHandler.obtainMessage();
+        Message lMessage = mSearchHandler.obtainMessage();
 
         // Do the CityZen Search
         IWsClientFactory lFactory = new WsClientFactory();
@@ -63,21 +71,17 @@ public class SearchThread extends Thread {
         try {
             lResponse = lWsClient.executeRequest(lQuery);
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (Exception aExc) {
+            aExc.printStackTrace();
         }
 
-        //lBundle.putString("Sesame Data", lItem);
         lBundle.putParcelableArrayList(
-            "CityZen Data",
+            CityZenData,
             (ArrayList<? extends Parcelable>)lResponse.Results());
 
         lMessage.setData(lBundle);
 
-        // permet à un Thread partageant ce Handler (avec un autre Thread (E.g.
-        // ThreadCreateur)) de déposer (FIFO) un Message dans la file de Messages.
-        // Généralement cette méthode sera appelée à partir du run() (de cet autre
-        // Thread).
+        // Allow to deposit (FIFO) a message in the message's queue.
         mSearchHandler.sendMessage(lMessage);
     }
 
