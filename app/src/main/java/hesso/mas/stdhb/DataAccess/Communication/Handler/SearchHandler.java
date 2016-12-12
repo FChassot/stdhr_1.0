@@ -59,5 +59,9 @@ public class SearchHandler extends Handler {
                 mContext,
                 android.R.layout.simple_spinner_item,
                 lItems);
+
+        int lIndex = SpinnerHandler.getPositionByItem(mSpinner, "Mountain");
+        mSpinner.setSelection(lIndex);
+
     }
 }

@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
@@ -30,6 +32,7 @@ import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
+import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchThread;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
@@ -64,6 +67,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     // Member variables
     private Preferences mPrefs;
 
+    private NetworkConnectivity mConnectivity;
+
     private Receiver mReceiver;
 
     private ProgressDialog progress;
@@ -86,6 +91,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_search);
 
         mPrefs = new Preferences(this);
+
+        mConnectivity = new NetworkConnectivity(this);
 
         // To retrieve the button in that UI that you need to interact with programmatically
         Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
@@ -196,6 +203,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View aView) {
 
         if (aView.getId() == R.id.mBtnSearch) {
+            if (!mConnectivity.isActive() || !mConnectivity.isNetworkAvailable()) {
+                Notifications.ShowMessageBox(this, "Sorry! unable to search Cityzen Data [internet network not active]", "Warning", "Ok");
+                return;
+            }
+
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
             String lClientServerCommunicationMode =
@@ -223,28 +235,17 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
-            String lPlace = "Cabane de Louvie";
             Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSujet);
-
-            Object lItem =lSubjectSpinner.getSelectedItem();
-            String lSubject = "Mountain";
-
-            if (lItem != null) {
-                lSubject = lItem.toString();
-            }
-
-            lSubject = "Mountain";
+            String lPlace = mTxtPlace.getText().toString();
             String lBegin = mTxtPeriod.getText().toString().substring(0, 4);
             String lEnd = mTxtPeriod.getText().toString().substring(5, 9);
-
-            //mTxtPlace.getText().toString()
 
             String lRequest =
                     CitizenRequests.getCulturalObjectQueryByTitleAndDate(
                             lPlace,
                             Integer.parseInt(lBegin),
                             Integer.parseInt(lEnd),
-                            lSubject);
+                            lSubjectSpinner.getSelectedItem().toString());
 
             startAsyncSearch(
                 lRequest,
