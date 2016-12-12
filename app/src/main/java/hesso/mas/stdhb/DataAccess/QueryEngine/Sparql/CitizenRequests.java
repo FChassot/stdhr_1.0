@@ -95,7 +95,8 @@ public final class CitizenRequests {
     public static String getCulturalObjectQueryByTitleAndDate(
         String aTitle,
         Date aBegin,
-        Date aEnd) {
+        Date aEnd,
+        String aSubject) {
 
         Checks.AssertNotEmpty(aTitle, "aTitle");
 
@@ -119,7 +120,7 @@ public final class CitizenRequests {
                 "?digitalitem dbo:image_url ?image_url .\n" +
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
-                "filter (?description = " + aTitle + ") . }\n" +
+                "filter (?title = '" + aTitle + "' && ?subject = '" + aSubject + "') . }\n" +
                 "LIMIT 1\n";
 
                 /*"?x owl:hasEnd ?End .\n" +

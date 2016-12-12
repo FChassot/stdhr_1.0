@@ -1,6 +1,8 @@
 package hesso.mas.stdhb.Client.Gui.Search;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -90,7 +92,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Button mBtnSearch = (Button) findViewById(R.id.mBtnSearch);
         ImageView lImgBack = (ImageView) findViewById(R.id.mImgBack);
 
-        // Finds the views that was identified by an id attribute
+        // Find the views that was identified by an id attribute
         final TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
         final TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
 
@@ -221,13 +223,23 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
-            String lPlace = "Essence pour les vins";
+            String lPlace = "Tourbillon et la Chapelle de tous les Saints";
+            Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSujet);
+
+            Object lItem =lSubjectSpinner.getSelectedItem();
+            String lSubject = MyString.EMPTY_STRING;
+
+            if (lItem != null) {
+                lSubject = lItem.toString();
+            }
+
             //mTxtPlace.getText().toString()
             String lRequest =
                     CitizenRequests.getCulturalObjectQueryByTitleAndDate(
                             lPlace,
                             new Date(19000101),
-                            new Date(99990101));
+                            new Date(99990101),
+                            lSubject);
 
             startAsyncSearch(
                 lRequest,
@@ -315,7 +327,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 // The bundle should contain the SPARQL Result
                 lCitizenQueryResult =
                         lBundle.getParcelable(
-                                RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
+                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());

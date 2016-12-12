@@ -669,7 +669,7 @@ public class RadarActivity
                 mPreferences.getMyStringPref(
                         this,
                         BaseConstants.Attr_ClientServer_Communication,
-                        MyString.EMPTY_STRING);
+                        EnumClientServerCommunication.ANDROJENA.toString());
 
         EnumClientServerCommunication lEnumValue =
                 EnumClientServerCommunication.valueOf(

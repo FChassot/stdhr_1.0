@@ -134,7 +134,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         Boolean lRadarMode = mPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, true);
         lRadarSwitch.setChecked(lRadarMode);
 
-        if (mConnectivity.isActive()) {
+        if (mConnectivity.isActive() && mConnectivity.isNetworkAvailable()) {
             startAsyncSearch();
         }
         else {
