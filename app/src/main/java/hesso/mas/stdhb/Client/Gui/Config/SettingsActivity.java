@@ -36,11 +36,10 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Tools.IntegerUtil;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
-import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhbtests.R;
@@ -132,7 +131,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         mDTxtRadius.setText(lRadiusOfSearch.toString());
 
-        Boolean lRadarMode = mPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, false);
+        Boolean lRadarMode = mPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, true);
         lRadarSwitch.setChecked(lRadarMode);
 
         if (mConnectivity.isActive()) {

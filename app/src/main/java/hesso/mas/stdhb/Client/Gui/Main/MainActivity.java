@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 mPrefs.getMyBooleanPref(
                     this,
                     BaseConstants.Attr_Radar_Switch,
-                    false);
+                    true);
 
         lRadarButton.setEnabled(lRadarMode);
     }
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 mPrefs.getMyBooleanPref(
                         this,
                         BaseConstants.Attr_Radar_Switch,
-                        false);
+                        true);
 
         lRadarButton.setEnabled(lRadarMode);
     }

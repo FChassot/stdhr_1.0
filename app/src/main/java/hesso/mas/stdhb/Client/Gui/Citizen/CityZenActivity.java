@@ -29,8 +29,7 @@ import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
+import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
@@ -145,7 +144,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.ACTION1);
+        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION1);
         this.registerReceiver(mReceiver, lFilter);
 
         PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -243,27 +242,11 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
             return;
         }
-
-        if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
-            RetrieveCitizenDataAsyncTask2 lTask =
-                    new RetrieveCitizenDataAsyncTask2(
-                            this,
-                            RetrieveCitizenDataAsyncTask2.ACTION1);
-
-            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
-
-            lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
-
-            return;
-        }
-
         else {
             RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask2.ACTION1);
+                            RetrieveCitizenDataAsyncTask.ACTION1);
 
             lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 

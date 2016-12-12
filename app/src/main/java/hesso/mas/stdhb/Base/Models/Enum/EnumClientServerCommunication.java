@@ -8,7 +8,8 @@ package hesso.mas.stdhb.Base.Models.Enum;
  */
 public enum EnumClientServerCommunication {
 
-    UNDEFINED(0), ANDROJENA(1), RDF4J(2), REST(3) ;
+    // RDF4J(2)
+    UNDEFINED(0), ANDROJENA(1), REST(2) ;
 
     private Integer value ;
 

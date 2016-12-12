@@ -32,9 +32,9 @@ public class WsClientFactory implements IWsClientFactory {
             lWsClient = new JenaSparqlWsClient(aCitizenEndPoint);
         }
 
-        if (aClientServerCommunication == EnumClientServerCommunication.RDF4J) {
+        /*if (aClientServerCommunication == EnumClientServerCommunication.RDF4J) {
             lWsClient = new Rdf4jSparqlWsClient(aCitizenEndPoint);
-        }
+        }*/
 
         if (aClientServerCommunication == EnumClientServerCommunication.REST) {
             lWsClient = new Rdf4jSparqlWsClient(aCitizenEndPoint);

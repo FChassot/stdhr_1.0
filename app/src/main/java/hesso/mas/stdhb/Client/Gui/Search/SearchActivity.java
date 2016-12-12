@@ -35,8 +35,7 @@ import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.Communication.Services.RetrieveCitizenDataAsyncTask2;
+import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
 
 import hesso.mas.stdhbtests.R;
 
@@ -141,7 +140,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask2.HTTP_CITYZEN_DATA);
+        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
         this.registerReceiver(mReceiver, lFilter);
 
         PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -272,25 +271,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             return;
         }
-
-        if (aClientServerArchitecture.equals(EnumClientServerCommunication.RDF4J)) {
-            RetrieveCitizenDataAsyncTask2 lTask =
-                    new RetrieveCitizenDataAsyncTask2(
-                            this,
-                            RetrieveCitizenDataAsyncTask2.HTTP_CITYZEN_DATA);
-
-            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
-
-            lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
-
-            return;
-        } else {
+        else {
             RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask2.HTTP_CITYZEN_DATA);
+                            RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
 
             lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
 
@@ -361,7 +346,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             else {
                 Notifications.ShowMessageBox(
                         aContext,
-                        "None object found! Try with other parameters!",
+                        "No results found! Try giving other parameters!",
                         "Information",
                         "Ok");
             }
