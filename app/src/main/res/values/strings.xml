@@ -87,6 +87,7 @@
     <string name="lbl_description"></string>
     <string name="lbl_date">Date</string>
     <string name="date">Period</string>
+    <string name="siecle">1900-2016</string>
     <string name="period">Period</string>
     <string name="lbl_request">SEARCH</string>
     <string name="txt_no_reponse_from_the_server">no response from the server!</string>

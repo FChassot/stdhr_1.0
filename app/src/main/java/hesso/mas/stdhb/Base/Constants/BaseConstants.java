@@ -16,7 +16,7 @@ public final class BaseConstants {
     public static final String Attr_Citizen_Repository_NAME = "CityZenDM";
 
     // constant used to define the default radius of search
-    public static final int Attr_Default_Radius_Search = 5000;
+    public static final int Attr_Default_Radius_Search = 15000;
 
     // constant used to save the radius of search of the radar
     public static final String Attr_Radius_Search = "Attr_Radius_Search";

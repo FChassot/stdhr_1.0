@@ -103,7 +103,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         final TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
         final TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
 
-        lCboSubject.requestFocus();
+        mBtnSearch.requestFocus();
 
         // Set a listener of this button
         assert mBtnSearch != null;
@@ -171,8 +171,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public void onResume() {
         super.onResume();
 
-        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
-        lCboSubject.requestFocus();
+        Button mBtnSearch = (Button) findViewById(R.id.mBtnSearch);
+        mBtnSearch.requestFocus();
     }
 
     /**

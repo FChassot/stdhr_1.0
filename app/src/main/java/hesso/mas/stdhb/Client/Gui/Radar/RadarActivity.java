@@ -706,7 +706,7 @@ public class RadarActivity
             mPreferences.getMyStringPref(
                 this,
                 BaseConstants.Attr_Subject_Search_Type,
-                MyString.EMPTY_STRING);
+                "Viticulture");
 
         int lLimit = 200;
 
