@@ -94,8 +94,8 @@ public final class CitizenRequests {
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectQueryByTitleAndDate(
         String aTitle,
-        Date aBegin,
-        Date aEnd,
+        int aBegin,
+        int aEnd,
         String aSubject) {
 
         Checks.AssertNotEmpty(aTitle, "aTitle");
@@ -108,12 +108,12 @@ public final class CitizenRequests {
             "prefix tm: <http://purl.org/dc/terms/>\n" +
             "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
             "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
-            "SELECT ?CulturalInterest ?description ?title ?subject ?long ?lat ?image_url WHERE {\n" +
-                "?CulturalInterest dc:title ?title .\n" +
-                "?CulturalInterest tm:subject ?subject .\n" +
+            "SELECT ?culturalInterest ?description ?title ?subject ?long ?lat ?image_url WHERE {\n" +
+                "?culturalInterest dc:title ?title .\n" +
+                "?culturalInterest tm:subject ?subject .\n" +
                 "?culturalInterest dc:description ?description .\n" +
-                "?CulturalInterest geo:location ?x .\n" +
-                "?CulturalInterest dc:creator ?creator .\n" +
+                "?culturalInterest geo:location ?x .\n" +
+                "?culturalInterest dc:creator ?creator .\n" +
                 "?cAggregator edm:aggregatedCHO ?CulturalInterest .\n" +
                 "?cAggregator edm:hasView ?digitalrepresentation .\n" +
                 "?digitalrepresentation tm:hasPart ?digitalitem .\n" +
@@ -122,6 +122,8 @@ public final class CitizenRequests {
                 "?x geo:lat ?lat .\n" +
                 "filter (?title = '" + aTitle + "' && ?subject = '" + aSubject + "') . }\n" +
                 "LIMIT 1\n";
+
+        //"' && ?date " + aBegin + " && ?date < " + aEnd +
 
                 /*"?x owl:hasEnd ?End .\n" +
                 "?x owl:hasBeginning ?Begin .\n" +

@@ -40,6 +40,6 @@ public final class BaseConstants {
     public static final String Attr_TypeOfSearch = "Attr_Type_of_Search";
 
     // constant used to save the type of search
-    public static final String Attr_Citizen_User_Text = "Citizen radar's user";
+    public static final String Attr_Citizen_User_Text = "Cityzen radar's user";
 
 }

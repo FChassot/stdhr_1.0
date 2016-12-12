@@ -110,7 +110,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 } else {
                     if (mTxtPlace.getText().toString().equals("Place")) {
-                        mTxtPlace.setText(MyString.EMPTY_STRING);
+                        mTxtPlace.setText("Cabane de Louvie");
                     }
                 }
             }
@@ -124,7 +124,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 } else {
                     if (mTxtPeriod.getText().toString().equals("Period")) {
-                        mTxtPeriod.setText(MyString.EMPTY_STRING);
+                        mTxtPeriod.setText("1900-2016");
                     }
                 }
             }
@@ -223,22 +223,27 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
-            String lPlace = "Tourbillon et la Chapelle de tous les Saints";
+            String lPlace = "Cabane de Louvie";
             Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSujet);
 
             Object lItem =lSubjectSpinner.getSelectedItem();
-            String lSubject = MyString.EMPTY_STRING;
+            String lSubject = "Mountain";
 
             if (lItem != null) {
                 lSubject = lItem.toString();
             }
 
+            lSubject = "Mountain";
+            String lBegin = mTxtPeriod.getText().toString().substring(0, 4);
+            String lEnd = mTxtPeriod.getText().toString().substring(5, 9);
+
             //mTxtPlace.getText().toString()
+
             String lRequest =
                     CitizenRequests.getCulturalObjectQueryByTitleAndDate(
                             lPlace,
-                            new Date(19000101),
-                            new Date(99990101),
+                            Integer.parseInt(lBegin),
+                            Integer.parseInt(lEnd),
                             lSubject);
 
             startAsyncSearch(
@@ -337,11 +342,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
 
                 String lTitle = lCulturalObject.GetValue("title");
-                String lResourceUri = lCulturalObject.GetValue("image_url");
+                String lObjectId = lCulturalObject.GetValue("culturalInterest");
 
                 RadarMarker lSelectedMarker = new RadarMarker();
                 lSelectedMarker.setTitle(lTitle);
-                lSelectedMarker.setObjectId(lResourceUri);
+                lSelectedMarker.setObjectId(lObjectId);
 
                 Intent lIntent = new Intent(aContext, CityZenActivity.class);
 

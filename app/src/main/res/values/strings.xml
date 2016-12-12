@@ -99,11 +99,11 @@
     <string name="title_settings_raysearch">Radius of search [m]</string>
     <string name="activate_radar">Activate the radar</string>
     <string name="action_clientserver_communication">Client-server communication</string>
-    <string name="action_subject">Restreindre les sujets</string>
-    <string name="themes_restrictions">Restreindre la recherche</string>
+    <string name="action_subject">Search restrictions</string>
+    <string name="themes_restrictions">Search restrictions</string>
     <string name="action_sign_in">action_sign_in</string>
 
     <!-- Strings for AsyncTask -->
-    <string name="citizen_search">Searching Citizen Data..</string>
+    <string name="citizen_search">Searching Cityzen Data..</string>
     <string name="wait">Please wait</string>
 </resources>

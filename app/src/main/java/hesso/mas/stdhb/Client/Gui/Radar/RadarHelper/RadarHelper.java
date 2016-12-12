@@ -74,11 +74,6 @@ public final class RadarHelper {
             SpatialGeometryServices lSpatialGeometryServices = new SpatialGeometryServices();
             double lRadius = lSpatialGeometryServices.getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
 
-            //double lLatitudeMin = lCulturalObjectLatitude - lRadius;
-            //double lLatitudeMax = lCulturalObjectLatitude + lRadius;
-            //double lLongitudeMin = lCulturalObjectLongitude - lRadius;
-            //double lLongitudeMax = lCulturalObjectLongitude + lRadius;
-
             RadarViewPosition lRadarViewPosition =
                 calculateXYPositionOfTheMarkerInTheRadarView(
                     aHeightView,
