@@ -171,7 +171,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onCreateOptionsMenu(Menu aMenu) {
         // Add the actionmenu Entries to the ActionBar
-        getMenuInflater().inflate(R.menu.actionmenu, aMenu);
+        getMenuInflater().inflate(R.menu.actionsearchmenu, aMenu);
         return true;
     }
 
@@ -391,9 +391,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     //endregion
 
     /**
+     * This hook is called whenever an item in your options menu is selected.
      *
-     * @param aMenuItem
-     * @return
+     * @param aMenuItem The menu item that was selected.
+     *
+     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem aMenuItem) {

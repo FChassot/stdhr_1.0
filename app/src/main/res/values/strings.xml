@@ -64,7 +64,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- String for the main activity -->
-    <string name="main_title_1">HES-SO,Médiathèque du Valais!</string>
+    <string name="main_title_1">Valais * Wallis Digital</string>
     <string name="main_title_2">SPATIO-TEMPORAL DIGITAL HERITAGE RADAR!</string>
     <string name="txt_btn_radar">RADAR</string>
     <string name="txt_btn_gmap">GOOGLE MAP</string>

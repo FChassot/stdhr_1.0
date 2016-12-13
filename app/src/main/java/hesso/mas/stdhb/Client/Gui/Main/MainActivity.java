@@ -170,9 +170,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     /**
+     * This hook is called whenever an item in your options menu is selected.
      *
-     * @param aMenuItem
-     * @return
+     * @param aMenuItem The menu item that was selected.
+     *
+     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem aMenuItem) {

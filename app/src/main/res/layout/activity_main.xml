@@ -16,36 +16,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/mImgSettings"
         android:src="@mipmap/ic_settings"
-        android:layout_alignRight="@+id/mDtxtTitleRadar" />
-
-    <TextView
-        android:id="@+id/mDtxtTitleRadar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/main_title_1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="119dp"
-        android:textColor="#DF013A"
-        android:textStyle="bold"
-        android:textSize="28dp"
-        android:textIsSelectable="false"
-        android:layout_toEndOf="@+id/mImgLogoHesSo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/mTxtTitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_title_2"
-        android:textColor="#ffffff"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignRight="@+id/mDtxtTitleRadar"
+        android:visibility="invisible" />
 
     <Button xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mBtnradar"
@@ -77,7 +49,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_logo"
+        android:src="@mipmap/ic_logo_valais_digital"
         android:id="@+id/mImgLogo"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -102,7 +74,34 @@
         android:src="@mipmap/ic_hesso"
         android:id="@+id/mImgLogoHesSo"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/mImgRadar"
-        android:layout_toStartOf="@+id/mImgRadar" />
+        android:layout_toRightOf="@+id/mImgLogo"
+        android:layout_toEndOf="@+id/mImgLogo" />
+
+    <TextView
+        android:id="@+id/mTxtTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_title_2"
+        android:textColor="#ffffff"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/mDtxtTitleRadar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/mDtxtTitleRadar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_title_1"
+        android:layout_marginTop="49dp"
+        android:textColor="#DF013A"
+        android:textStyle="bold"
+        android:textSize="32dp"
+        android:textIsSelectable="false"
+        android:layout_below="@+id/mImgSettings"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
