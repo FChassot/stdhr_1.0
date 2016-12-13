@@ -2,6 +2,8 @@ package hesso.mas.stdhb.Client.Gui.Main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -70,6 +72,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         assert mImgSettings != null;
         mImgSettings.setOnClickListener(this);
+    }
+
+    /**
+     * Methode to speficy the options menu
+     *
+     * @param aMenu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu aMenu) {
+        //ajoute les entrées de menu_test à l'ActionBar
+        getMenuInflater().inflate(R.menu.actionmenu, aMenu);
+        return true;
     }
 
     /**
@@ -151,6 +166,34 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         if (aView.getId()==R.id.mBtnMap){
             Intent lIntent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(lIntent);
+        }
+    }
+
+    /**
+     *
+     * @param aMenuItem
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem aMenuItem) {
+        switch (aMenuItem.getItemId()) {
+            case R.id.action_settings:
+                Intent lIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(lIntent);
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_search:
+                Intent lIntent2 = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(lIntent2);
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(aMenuItem);
         }
     }
 }
