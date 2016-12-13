@@ -75,14 +75,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     /**
-     * Methode to speficy the options menu
+     * Method to specify the options menu
      *
      * @param aMenu
      * @return
      */
     @Override
     public boolean onCreateOptionsMenu(Menu aMenu) {
-        //ajoute les entrées de menu_test à l'ActionBar
+        // Add the actionmenu Entries to the ActionBar
         getMenuInflater().inflate(R.menu.actionmenu, aMenu);
         return true;
     }

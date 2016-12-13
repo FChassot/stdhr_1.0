@@ -108,6 +108,6 @@
     <string name="citizen_search">Searching Cityzen Data..</string>
     <string name="wait">Please wait</string>
 
-    <string name="action_search">cityzen search</string>
-    <string name="action_settings">settings</string>
+    <string name="action_search">Cityzen search</string>
+    <string name="action_settings">Settings</string>
 </resources>

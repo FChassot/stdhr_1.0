@@ -9,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -29,8 +31,10 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
 import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
+import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchHandler;
@@ -156,6 +160,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
         mWakeLock.acquire();
 
+    }
+
+    /**
+     * Method to specify the options menu
+     *
+     * @param aMenu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu aMenu) {
+        // Add the actionmenu Entries to the ActionBar
+        getMenuInflater().inflate(R.menu.actionmenu, aMenu);
+        return true;
     }
 
     /**
@@ -372,4 +389,27 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //endregion
+
+    /**
+     *
+     * @param aMenuItem
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem aMenuItem) {
+        switch (aMenuItem.getItemId()) {
+            case R.id.action_settings:
+                Intent lIntent = new Intent(SearchActivity.this, SettingsActivity.class);
+                startActivity(lIntent);
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(aMenuItem);
+        }
+    }
+
+
 }
