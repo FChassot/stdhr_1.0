@@ -170,7 +170,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      */
     @Override
     public boolean onCreateOptionsMenu(Menu aMenu) {
-        // Add the actionmenu Entries to the ActionBar
+        // Add the actionmenu entries to the ActionBar
         getMenuInflater().inflate(R.menu.actionsearchmenu, aMenu);
         return true;
     }

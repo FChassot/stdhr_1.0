@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.Client.Gui.Main;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu aMenu) {
-        // Add the actionmenu Entries to the ActionBar
+        // Add the actionmenu entries to the ActionBar
         getMenuInflater().inflate(R.menu.actionmenu, aMenu);
         return true;
     }
@@ -198,5 +200,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 return super.onOptionsItemSelected(aMenuItem);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MainActivity.super.onBackPressed();
+                    }
+                }).create().show();
+    }
+
 }
 

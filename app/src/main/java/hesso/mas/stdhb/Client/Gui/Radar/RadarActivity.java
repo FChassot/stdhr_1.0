@@ -216,7 +216,7 @@ public class RadarActivity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu aMenu) {
-        // Add the actionmenu Entries to the ActionBar
+        // Add the actionmenu entries to the ActionBar
         getMenuInflater().inflate(R.menu.actionmenu, aMenu);
         return true;
     }
