@@ -9,11 +9,11 @@ public class CitizenEndPoint extends WsEndPoint {
 
     // Constructor
     public CitizenEndPoint(
-        String aServerUri,
-        String aRepositoryName) {
+        String serverUri,
+        String repositoryName) {
 
-        this.ServerUri(aServerUri);
-        this.Repository(aRepositoryName);
+        this.ServerUri(serverUri);
+        this.Repository(repositoryName);
     }
 
     /**

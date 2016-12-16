@@ -19,8 +19,8 @@ public abstract class WsEndPoint {
     public WsEndPoint() {}
 
     // Setter
-    public void ServerUri(String aCitizenServerUri) {
-        mServerUri = aCitizenServerUri;
+    public void ServerUri(String citizenServerUri) {
+        mServerUri = citizenServerUri;
     }
 
     // Getter
@@ -29,8 +29,8 @@ public abstract class WsEndPoint {
     }
 
     // Setter
-    public void Repository(String aRepositoryName) {
-        mRepositoryName = aRepositoryName;
+    public void Repository(String repositoryName) {
+        mRepositoryName = repositoryName;
     }
 
     // Getter

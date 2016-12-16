@@ -38,50 +38,50 @@ public class JenaSparqlWsClient implements IWsClient {
     private JenaSparqlWsClient() {}
 
     // Constructor
-    public JenaSparqlWsClient(CitizenEndPoint aWsEndpoint) {
+    public JenaSparqlWsClient(CitizenEndPoint wsEndpoint) {
 
-        Checks.AssertNotNull(aWsEndpoint, "aWsEndpoint");
+        Checks.AssertNotNull(wsEndpoint, "wsEndpoint");
 
-        mWsEndpoint = aWsEndpoint;
+        mWsEndpoint = wsEndpoint;
     }
 
     /**
      * This method allows to execute a request on the Sparql endpoint
      *
-     * @param aQuery
+     * @param query
      *
      * @return The result of the request
      */
-    public CitizenQueryResult executeRequest(String aQuery) {
+    public CitizenQueryResult executeRequest(String query) {
 
-        CitizenQueryResult lCitizenQueryResult = new CitizenQueryResult();
+        CitizenQueryResult citizenQueryResult = new CitizenQueryResult();
 
-        System.out.println(aQuery);
+        System.out.println(query);
 
         try {
-            Query lQuery = QueryFactory.create(aQuery);
+            Query lQuery = QueryFactory.create(query);
 
-            String lService = mWsEndpoint.Service();
+            String service = mWsEndpoint.Service();
 
-            QueryExecution lQueryExecution =
+            QueryExecution queryExecution =
                     QueryExecutionFactory.sparqlService(
-                            lService,
+                            service,
                             lQuery);
 
-            ResultSet lResults = lQueryExecution.execSelect();
+            ResultSet lResults = queryExecution.execSelect();
 
-            List<String> lResultsVar = lResults.getResultVars();
+            List<String> resultsVar = lResults.getResultVars();
 
             while (lResults.hasNext())
             {
-                CitizenDbObject lCitizenDbObject = new CitizenDbObject();
-                QuerySolution lBinding = lResults.nextSolution();
+                CitizenDbObject citizenDbObject = new CitizenDbObject();
+                QuerySolution binding = lResults.nextSolution();
 
-                for (String lVariable : lResultsVar) {
-                    lCitizenDbObject.put(lVariable, GetValue(lBinding, lVariable));
+                for (String variable : resultsVar) {
+                    citizenDbObject.put(variable, GetValue(binding, variable));
                 }
 
-                lCitizenQueryResult.Add(lCitizenDbObject);
+                citizenQueryResult.Add(citizenDbObject);
             }
         }
         catch (Exception aException) {
@@ -90,29 +90,30 @@ public class JenaSparqlWsClient implements IWsClient {
         finally {
         }
 
-        return lCitizenQueryResult;
+        return citizenQueryResult;
     }
 
     /**
      * Get the value
      *
-     * @param lBinding
-     * @param aFieldValue
+     * @param binding
+     * @param fieldValue
+     *
      * @return
      */
     private String GetValue(
-        QuerySolution lBinding,
-        String aFieldValue) {
+        QuerySolution binding,
+        String fieldValue) {
 
-        String lLiteral = TryGetLiteral(lBinding, "?" + aFieldValue);
-        String lUri = TryGetResource(lBinding, "?" + aFieldValue);
+        String literal = TryGetLiteral(binding, "?" + fieldValue);
+        String uri = TryGetResource(binding, "?" + fieldValue);
 
-        if (!lLiteral.equals(MyString.EMPTY_STRING)) {
-            return lLiteral;
+        if (!literal.equals(MyString.EMPTY_STRING)) {
+            return literal;
         }
 
-        if (!lUri.equals(MyString.EMPTY_STRING)) {
-            return lUri;
+        if (!uri.equals(MyString.EMPTY_STRING)) {
+            return uri;
         }
 
         return null;
@@ -120,19 +121,20 @@ public class JenaSparqlWsClient implements IWsClient {
 
     /**
      *
-     * @param aBinding
-     * @param aValue
+     * @param binding
+     * @param value
+     *
      * @return
      */
     private String TryGetLiteral(
-            QuerySolution aBinding,
-            String aValue) {
+        QuerySolution binding,
+        String value) {
 
-        RDFNode lRDFNode = aBinding.get(aValue);
+        RDFNode rdfNode = binding.get(value);
 
-        if (lRDFNode != null) {
-            if (lRDFNode.isLiteral()) {
-                Literal lLiteral = aBinding.getLiteral(aValue);
+        if (rdfNode != null) {
+            if (rdfNode.isLiteral()) {
+                Literal lLiteral = binding.getLiteral(value);
                 return lLiteral.toString();
             }
         }
@@ -142,17 +144,20 @@ public class JenaSparqlWsClient implements IWsClient {
 
     /**
      *
-     * @param aBinding
-     * @param aValue
+     * @param binding
+     * @param value
+     *
      * @return
      */
-    private String TryGetResource(QuerySolution aBinding, String aValue) {
+    private String TryGetResource(
+        QuerySolution binding,
+        String value) {
 
-        RDFNode lRDFNode = aBinding.get(aValue);
+        RDFNode rdfNode = binding.get(value);
 
-        if (lRDFNode != null) {
-            if (lRDFNode.isResource()) {
-                Resource lResource = aBinding.getResource(aValue);
+        if (rdfNode != null) {
+            if (rdfNode.isResource()) {
+                Resource lResource = binding.getResource(value);
                 return lResource.getURI();
             }
         }

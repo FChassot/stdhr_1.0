@@ -17,33 +17,33 @@ public class WsClientFactory implements IWsClientFactory {
     /**
      * @see
      *
-     * @param aClientServerCommunication
-     * @param aCitizenEndPoint
+     * @param clientServerCommunication
+     * @param citizenEndPoint
      *
      * @return a IWsClient Instance
      */
     public IWsClient Create(
-        EnumClientServerCommunication aClientServerCommunication,
-        CitizenEndPoint aCitizenEndPoint) {
+        EnumClientServerCommunication clientServerCommunication,
+        CitizenEndPoint citizenEndPoint) {
 
-        IWsClient lWsClient  = null;
+        IWsClient wsClient  = null;
 
-        if (aClientServerCommunication == EnumClientServerCommunication.ANDROJENA) {
-            lWsClient = new JenaSparqlWsClient(aCitizenEndPoint);
+        if (clientServerCommunication == EnumClientServerCommunication.ANDROJENA) {
+            wsClient = new JenaSparqlWsClient(citizenEndPoint);
         }
 
         /*if (aClientServerCommunication == EnumClientServerCommunication.RDF4J) {
             lWsClient = new Rdf4jSparqlWsClient(aCitizenEndPoint);
         }*/
 
-        if (aClientServerCommunication == EnumClientServerCommunication.REST) {
-            lWsClient = new Rdf4jSparqlWsClient(aCitizenEndPoint);
+        if (clientServerCommunication == EnumClientServerCommunication.REST) {
+            wsClient = new Rdf4jSparqlWsClient(citizenEndPoint);
         }
 
-        if (lWsClient == null) {
-            lWsClient = new JenaSparqlWsClient(aCitizenEndPoint);
+        if (wsClient == null) {
+            wsClient = new JenaSparqlWsClient(citizenEndPoint);
         }
 
-        return lWsClient;
+        return wsClient;
     }
 }

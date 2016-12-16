@@ -121,7 +121,7 @@ public final class CitizenRequests {
                 "filter (?subject = '" + subject + "' && regex(?title, '" + title + "', 'i')) . }\n" +
                 "LIMIT 1\n";
 
-        // ceci fonctionnne filter (?subject = "Mountain" && regex(?title, "Louvie", "i")) . }
+        // ceci fonctionne filter (?subject = "Mountain" && regex(?title, "Louvie", "i")) . }
 
         //"' && ?date " + aBegin + " && ?date < " + aEnd +
 

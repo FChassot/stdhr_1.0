@@ -32,10 +32,10 @@ public class SearchThread extends Thread {
     /**
      * Public constructor
      *
-     * @param aSearchHandler
+     * @param searchHandler
      */
-    public SearchThread(SearchHandler aSearchHandler) {
-        this.mSearchHandler = aSearchHandler;
+    public SearchThread(SearchHandler searchHandler) {
+        this.mSearchHandler = searchHandler;
     }
 
     /**
@@ -44,45 +44,45 @@ public class SearchThread extends Thread {
      */
     public void run() {
 
-        Bundle lBundle = new Bundle();
+        Bundle bundle = new Bundle();
 
         // Permet d'obtenir du Handler un Message dans lequel on va «glisser» les informations
         // à transmettre (à la fonction handleMessage).
         // Returns a new Message from the global message pool.
-        Message lMessage = mSearchHandler.obtainMessage();
+        Message message = mSearchHandler.obtainMessage();
 
         // Do the CityZen Search
-        IWsClientFactory lFactory = new WsClientFactory();
+        IWsClientFactory factory = new WsClientFactory();
 
-        String lQuery = CitizenRequests.getSubjectQuery();
+        String query = CitizenRequests.getSubjectQuery();
 
-        CitizenEndPoint lEndPointWs =
+        CitizenEndPoint endPointWs =
             new CitizenEndPoint(
                 BaseConstants.Attr_Citizen_Server_URI,
                 BaseConstants.Attr_Citizen_Repository_NAME);
 
-        CitizenQueryResult lResponse = null;
+        CitizenQueryResult response = null;
 
-        IWsClient lWsClient =
-            lFactory.Create(
+        IWsClient wsClient =
+            factory.Create(
                 EnumClientServerCommunication.ANDROJENA,
-                lEndPointWs);
+                endPointWs);
 
         try {
-            lResponse = lWsClient.executeRequest(lQuery);
+            response = wsClient.executeRequest(query);
         }
         catch (Exception aExc) {
             aExc.printStackTrace();
         }
 
-        lBundle.putParcelableArrayList(
+        bundle.putParcelableArrayList(
             CityZenData,
-            (ArrayList<? extends Parcelable>)lResponse.Results());
+            (ArrayList<? extends Parcelable>)response.Results());
 
-        lMessage.setData(lBundle);
+        message.setData(bundle);
 
         // Allow to deposit (FIFO) a message in the message's queue.
-        mSearchHandler.sendMessage(lMessage);
+        mSearchHandler.sendMessage(message);
     }
 
 }

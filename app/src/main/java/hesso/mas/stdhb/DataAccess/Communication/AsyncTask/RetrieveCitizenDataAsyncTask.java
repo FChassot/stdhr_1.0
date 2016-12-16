@@ -49,15 +49,15 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
 
     /**
      *
-     * @param aContext
-     * @param aAction
+     * @param context
+     * @param action
      */
     public RetrieveCitizenDataAsyncTask(
-        Context aContext,
-        String aAction)
+        Context context,
+        String action)
     {
-        mContext = aContext;
-        mAction = aAction;
+        mContext = context;
+        mAction = action;
     }
 
     /**
@@ -87,26 +87,26 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
 
         String lQuery = urls[0];
 
-        EnumClientServerCommunication lClientServerCommunicationMode =
+        EnumClientServerCommunication clientServerCommunicationMode =
                 EnumClientServerCommunication.valueOf(urls[1]);
 
-        CitizenEndPoint lEndPointWs =
+        CitizenEndPoint endPointWs =
             new CitizenEndPoint(
                 BaseConstants.Attr_Citizen_Server_URI,
                 BaseConstants.Attr_Citizen_Repository_NAME);
 
-        CitizenQueryResult lResponse = null;
+        CitizenQueryResult response = null;
 
         try {
-            IWsClientFactory lFactory = new WsClientFactory();
+            IWsClientFactory factory = new WsClientFactory();
 
-            IWsClient lWsClient =
-                lFactory.Create(
-                        lClientServerCommunicationMode,
-                        lEndPointWs);
+            IWsClient wsClient =
+                factory.Create(
+                    clientServerCommunicationMode,
+                    endPointWs);
 
             try {
-                lResponse = lWsClient.executeRequest(lQuery);
+                response = wsClient.executeRequest(lQuery);
 
             } catch (Exception e) {
                     e.printStackTrace();
@@ -116,7 +116,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
                 return null;
         }
 
-        return lResponse;
+        return response;
     }
 
     /*
@@ -128,14 +128,14 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
         // TODO: do something with the feed
         Log.i(TAG, "RESULT = " + aCitizenQueryResult);
 
-        Intent lIntent = new Intent();
+        Intent intent = new Intent();
 
-        lIntent.setAction(mAction);
+        intent.setAction(mAction);
 
-        Bundle lBundle = new Bundle();
+        Bundle bundle = new Bundle();
 
-        lBundle.putParcelable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, aCitizenQueryResult);
-        lIntent.putExtras(lBundle);
+        bundle.putParcelable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, aCitizenQueryResult);
+        intent.putExtras(bundle);
 
         // clear the progress indicator
         if (mProgress != null)
@@ -144,7 +144,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
         }
 
         try{
-            mContext.sendBroadcast(lIntent);
+            mContext.sendBroadcast(intent);
 
         } catch (Exception e){
             Log.i(TAG, e.getMessage());

@@ -14,12 +14,12 @@ public interface IWsClientFactory {
     /**
      * Factory for the generation of IWsClient instance.
      *
-     * @param aClientServerCommunication
-     * @param aCitizenEndPoint
+     * @param clientServerCommunication
+     * @param citizenEndPoint
      *
      * @return
      */
     IWsClient Create(
-            EnumClientServerCommunication aClientServerCommunication,
-            CitizenEndPoint aCitizenEndPoint);
+            EnumClientServerCommunication clientServerCommunication,
+            CitizenEndPoint citizenEndPoint);
 }

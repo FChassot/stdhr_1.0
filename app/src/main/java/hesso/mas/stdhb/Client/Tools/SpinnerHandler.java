@@ -21,7 +21,7 @@ public class SpinnerHandler {
      *
      * @param spinner the spinner control to fill
      * @param context interface to global information about the application environment.
-     * @param resource
+     * @param resource int: The resource ID for a layout file containing a layout to use when instantiating views.
      */
     public static void fillComboByEnum(
         Spinner spinner,
@@ -46,8 +46,8 @@ public class SpinnerHandler {
      * for application-level operations such as launching activities, broadcasting and receiving
      * intents, etc.
      *
-     * @param resource
-     * @param values
+     * @param resource int: The resource ID for a layout file containing a layout to use when instantiating views.
+     * @param values The objects to represent in the spinnerView.
      */
     public static void fillComboSubject(
         Spinner spinner,

@@ -27,11 +27,11 @@ public class SearchHandler extends Handler {
     private Context mContext;
 
     public SearchHandler(
-        Spinner aSpinner,
-        Context aContext) {
+        Spinner spinner,
+        Context context) {
 
-        this.mSpinner = aSpinner;
-        this.mContext = aContext;
+        this.mSpinner = spinner;
+        this.mContext = context;
     }
 
     /*
@@ -43,25 +43,25 @@ public class SearchHandler extends Handler {
      *
      * @param aMessage
      */
-    public void handleMessage(Message aMessage) {
+    public void handleMessage(Message message) {
 
-        List<CitizenDbObject> lCityZenObjects =
-                aMessage.getData().getParcelableArrayList(SearchThread.CityZenData);
+        List<CitizenDbObject> cityZenObjects =
+                message.getData().getParcelableArrayList(SearchThread.CityZenData);
 
-        List<String> lItems = new ArrayList<>();
+        List<String> items = new ArrayList<>();
 
-        for (CitizenDbObject lObjet : lCityZenObjects) {
-            lItems.add(lObjet.GetValue("subject"));
+        for (CitizenDbObject object : cityZenObjects) {
+            items.add(object.GetValue("subject"));
         }
 
         SpinnerHandler.fillComboSubject(
                 mSpinner,
                 mContext,
                 android.R.layout.simple_spinner_item,
-                lItems);
+                items);
 
-        int lIndex = SpinnerHandler.getPositionByItem(mSpinner, "Mountain");
-        mSpinner.setSelection(lIndex);
+        int index = SpinnerHandler.getPositionByItem(mSpinner, "Mountain");
+        mSpinner.setSelection(index);
 
     }
 }
