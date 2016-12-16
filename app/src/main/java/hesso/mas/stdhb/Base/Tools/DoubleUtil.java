@@ -12,18 +12,18 @@ public final class DoubleUtil {
     /**
      * This method allow to round a number to n decimal places
      *
-     * @param aValue
-     * @param aPlaces
+     * @param value the number to round
+     * @param places the number of places after the decimal
      *
      * @return true when the value has been correctly rounded.
      */
-    public static double round(double aValue, int aPlaces) {
+    public static double round(double value, int places) {
 
-        if (aPlaces < 0) throw new IllegalArgumentException();
+        if (places < 0) throw new IllegalArgumentException();
 
-        BigDecimal lBigDecimalValue = new BigDecimal(aValue);
-        lBigDecimalValue = lBigDecimalValue.setScale(aPlaces, RoundingMode.HALF_UP);
+        BigDecimal bigDecimalValue = new BigDecimal(value);
+        bigDecimalValue = bigDecimalValue.setScale(places, RoundingMode.HALF_UP);
 
-        return lBigDecimalValue.doubleValue();
+        return bigDecimalValue.doubleValue();
     }
 }

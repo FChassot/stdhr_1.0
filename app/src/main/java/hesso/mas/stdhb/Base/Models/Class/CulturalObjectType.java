@@ -9,53 +9,53 @@ package hesso.mas.stdhb.Base.Models.Class;
 public class CulturalObjectType {
 
     // Member variables
-    String code = null;
+    private String mCode = null;
 
-    String name = null;
+    private String mName = null;
 
-    boolean selected = false;
+    private boolean mSelected = false;
 
     // public constructor
     public CulturalObjectType(
-        String aCode,
-        String aName,
+        String code,
+        String name,
         boolean selected) {
 
         super();
 
-        this.code = aCode;
-        this.name = aName;
-        this.selected = selected;
+        this.mCode = code;
+        this.mName = name;
+        this.mSelected = selected;
     }
 
     // Setter
-    public void setCode(String aCode) {
-        this.code = aCode;
+    public void setCode(String code) {
+        this.mCode = code;
     }
 
     // Getter
     public String getCode() {
-        return code;
+        return mCode;
     }
 
     // Setter
-    public void setName(String aName) {
-        this.name = aName;
+    public void setName(String name) {
+        this.mName = name;
     }
 
     // Getter
     public String getName() {
-        return name;
+        return mName;
     }
 
     // Setter
-    public void setSelected(boolean aSelected) {
-        this.selected = aSelected;
+    public void setSelected(boolean selected) {
+        this.mSelected = selected;
     }
 
     // Getter
     public boolean isSelected() {
-        return selected;
+        return mSelected;
     }
 
 }

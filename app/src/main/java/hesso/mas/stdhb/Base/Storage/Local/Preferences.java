@@ -16,101 +16,100 @@ import java.util.Set;
 public class Preferences {
 
     // interface to global information about the application environment.
-    Context mContext;
+    private Context mContext;
 
     private static SharedPreferences getPrefs(Context aContext) {
         return PreferenceManager.getDefaultSharedPreferences(aContext);
     }
 
     // Constructor
-    public Preferences(Context aContext) {
-        mContext = aContext;
+    public Preferences(Context context) {
+        mContext = context;
     }
 
     /**
      *
-     * @param aContext
-     * @param aKey
-     * @param aValue
+     * @param context
+     * @param key
+     * @param value
      */
-    public static void setMyIntPref(@NonNull Context aContext, @NonNull String aKey, @Nullable int aValue) {
-        getPrefs(aContext).edit().putInt(aKey, aValue).commit();
+    public static void setMyIntPref(@NonNull Context context, @NonNull String key, @Nullable int value) {
+        getPrefs(context).edit().putInt(key, value).commit();
     }
 
     /**
      *
-     * @param aContext
-     * @param aKey
-     * @param aDefaultValue
+     * @param context
+     * @param key
+     * @param defaultValue
      * @return
      */
     @NonNull
-    public static Integer getMyIntPref(@NonNull Context aContext, @NonNull String aKey, @Nullable int aDefaultValue) {
-        return getPrefs(aContext).getInt(aKey, aDefaultValue);
+    public static Integer getMyIntPref(@NonNull Context context, @NonNull String key, @Nullable int defaultValue) {
+        return getPrefs(context).getInt(key, defaultValue);
     }
 
     /**
      *
      * @param aContext
      * @param aKey
-     * @param aValue
+     * @param value
      */
-    public static void setMyStringPref(@NonNull Context aContext, @NonNull String aKey, @Nullable String aValue) {
-        getPrefs(aContext).edit().putString(aKey, aValue).commit();
+    public static void setMyStringPref(@NonNull Context aContext, @NonNull String aKey, @Nullable String value) {
+        getPrefs(aContext).edit().putString(aKey, value).commit();
     }
 
     /**
      *
-     * @param aContext
-     * @param aKey
-     * @param aDefaultValue
+     * @param context
+     * @param key
+     * @param defaultValue
      * @return
      */
-    public static String getMyStringPref(@NonNull Context aContext, @NonNull String aKey, @Nullable String aDefaultValue) {
-        return getPrefs(aContext).getString(aKey, aDefaultValue);
+    public static String getMyStringPref(@NonNull Context context, @NonNull String key, @Nullable String defaultValue) {
+        return getPrefs(context).getString(key, defaultValue);
     }
 
     /**
      *
-     * @param aContext
+     * @param context
      * @param aKey
-     * @param aValue
+     * @param value
      */
-    public static void setMyBooleanPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Boolean aValue) {
-        getPrefs(aContext).edit().putBoolean(aKey, aValue).commit();
+    public static void setMyBooleanPref(@NonNull Context context, @NonNull String aKey, @Nullable Boolean value) {
+        getPrefs(context).edit().putBoolean(aKey, value).commit();
     }
 
     /**
      *
-     * @param aContext
-     * @param aKey
-     * @param aDefaultValue
+     * @param context
+     * @param key
+     * @param defaultValue
      * @return
      */
-    public Boolean getMyBooleanPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Boolean aDefaultValue) {
-        return getPrefs(aContext).getBoolean(aKey, aDefaultValue);
+    public Boolean getMyBooleanPref(@NonNull Context context, @NonNull String key, @Nullable Boolean defaultValue) {
+        return getPrefs(context).getBoolean(key, defaultValue);
     }
 
     /**
      *
-     * @param aContext
-     * @param aKey
-     * @param aValue
+     * @param context
+     * @param key
+     * @param value
      */
-    public static void setMySetPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Set<String> aValue) {
-        getPrefs(aContext).edit().putStringSet(aKey, aValue).commit();
+    public static void setMySetPref(@NonNull Context context, @NonNull String key, @Nullable Set<String> value) {
+        getPrefs(context).edit().putStringSet(key, value).commit();
     }
 
     /**
      *
-     * @param aContext
-     * @param aKey
-     * @param aDefaultValue
+     * @param context
+     * @param key
+     * @param defaultValue
      * @return
      */
-    public static Set<String> getMySetPref(@NonNull Context aContext, @NonNull String aKey, @Nullable Set<String> aDefaultValue) {
-        return getPrefs(aContext).getStringSet(aKey, aDefaultValue);
+    public static Set<String> getMySetPref(@NonNull Context context, @NonNull String key, @Nullable Set<String> defaultValue) {
+        return getPrefs(context).getStringSet(key, defaultValue);
     }
-
 
 }

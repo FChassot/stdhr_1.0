@@ -18,74 +18,77 @@ import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 public final class Notifications {
 
     /**
+     * Display a dialog Box with the alert message
      *
-     * @param aContext
-     * @param aMessage
-     * @param aTitle
-     * @param aPositiveButtonText
+     * @param context
+     * @param message
+     * @param title
+     * @param positiveButtonText
      */
     public static void ShowMessageBox(
-        Context aContext,
-        String aMessage,
-        String aTitle,
-        String aPositiveButtonText) {
+        Context context,
+        String message,
+        String title,
+        String positiveButtonText) {
 
-        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(aContext);
+        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(context);
 
-        lAlertDialog.setMessage(aMessage);
-        lAlertDialog.setTitle(aTitle);
-        lAlertDialog.setPositiveButton(aPositiveButtonText, null);
+        lAlertDialog.setMessage(message);
+        lAlertDialog.setTitle(title);
+        lAlertDialog.setPositiveButton(positiveButtonText, null);
         lAlertDialog.setCancelable(true);
         lAlertDialog.create().show();
     }
 
     /**
+     * Display a dialog Box with the alert message
      *
-     * @param aContext
-     * @param aValDescCollection
-     * @param aTitle
-     * @param aPositiveButtonText
+     * @param context
+     * @param valDescCollection
+     * @param title
+     * @param positiveButtonText
      */
     public static void ShowMessageBox(
-        Context aContext,
-        ValidationDescCollection aValDescCollection,
-        String aTitle,
-        String aPositiveButtonText) {
+        Context context,
+        ValidationDescCollection valDescCollection,
+        String title,
+        String positiveButtonText) {
 
-        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(aContext);
+        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(context);
 
         String lFormattedMsg = MyString.EMPTY_STRING;
 
-        for (String lMessage : aValDescCollection.values()) {
+        for (String lMessage : valDescCollection.values()) {
             lFormattedMsg += lMessage;
         }
 
         lAlertDialog.setMessage(lFormattedMsg);
-        lAlertDialog.setTitle(aTitle);
-        lAlertDialog.setPositiveButton(aPositiveButtonText, null);
+        lAlertDialog.setTitle(title);
+        lAlertDialog.setPositiveButton(positiveButtonText, null);
         lAlertDialog.setCancelable(true);
         lAlertDialog.create().show();
     }
 
     /**
+     * Display a dialog Box with the alert message
      *
-     * @param aContext
-     * @param aMessage
-     * @param aTitle
-     * @param aPositiveText
+     * @param context
+     * @param message
+     * @param title
+     * @param positiveText
      */
     public static void ShowMessageBoxWithSettingsOption(
-            final Context aContext,
-            String aMessage,
-            String aTitle,
-            String aPositiveText,
-            String aSettingsAction,
-            String aNegativeButtonText) {
+            final Context context,
+            String message,
+            String title,
+            String positiveText,
+            String settingsAction,
+            String negativeButtonText) {
 
-        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(aContext);
+        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(context);
 
-        lAlertDialog.setMessage(aMessage);
-        lAlertDialog.setTitle(aTitle);
+        lAlertDialog.setMessage(message);
+        lAlertDialog.setTitle(title);
 
         // On pressing Settings button
         lAlertDialog.setPositiveButton("Settings",
@@ -93,7 +96,7 @@ public final class Notifications {
                     public void onClick(DialogInterface aDialog, int which) {
                         Intent lIntent = new Intent(
                                 Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        aContext.startActivity(lIntent);
+                        context.startActivity(lIntent);
                     }
                 });
 

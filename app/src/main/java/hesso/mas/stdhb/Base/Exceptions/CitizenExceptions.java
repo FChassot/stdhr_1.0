@@ -11,40 +11,40 @@ public class CitizenExceptions extends Exception
     /**
      * Generate a new Exception
      *
-     * @param aMessage Message of the Exception
+     * @param message Message of the Exception
      */
-    public CitizenExceptions(String aMessage) {
-        super(aMessage);
+    public CitizenExceptions(String message) {
+        super(message);
     }
 
     /**
      * Generate a new Exception
      *
-     * @param aMessage Message of the Exception
-     * @param aThrowable The Throwable class is the superclass of all errors and exceptions in the
+     * @param message Message of the Exception
+     * @param throwable The Throwable class is the superclass of all errors and exceptions in the
      *                   Java language.
      *                   Only objects that are instances of this class (or one of its subclasses) are
      *                   thrown by the Java Virtual Machine or can be thrown by the Java throw statement.
      */
-    public CitizenExceptions(String aMessage, Throwable aThrowable) {
-        super(aMessage, aThrowable);
+    public CitizenExceptions(String message, Throwable throwable) {
+        super(message, throwable);
     }
 
     /**
      *
-     * @param aMessage
-     * @param aInnereException
+     * @param message
+     * @param innereException
      */
-    public CitizenExceptions(String aMessage, Exception aInnereException) {
-        super(aMessage, aInnereException);
+    public CitizenExceptions(String message, Exception innereException) {
+        super(message, innereException);
     }
 
     /**
      *
-     * @param aCause
+     * @param cause
      */
-    public CitizenExceptions(Throwable aCause) {
-        super(aCause);
+    public CitizenExceptions(Throwable cause) {
+        super(cause);
         // TODO Auto-generated constructor stub
     }
 }

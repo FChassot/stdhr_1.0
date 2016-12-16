@@ -7,9 +7,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by chf on 27.07.2016.
- *
  * This class is used to check internet access connection.
+ *
+ * @author chf
+ * @version Version 1.0
+ * @since 27.07.2016
  */
 public class NetworkConnectivity {
 
@@ -17,8 +19,8 @@ public class NetworkConnectivity {
     private final Context mContext;
 
     // Constructor
-    public NetworkConnectivity(Context aContext) {
-        this.mContext = aContext;
+    public NetworkConnectivity(Context context) {
+        this.mContext = context;
     }
 
     /**
@@ -28,12 +30,12 @@ public class NetworkConnectivity {
      */
     public boolean isActive() {
 
-        ConnectivityManager lConnectivityManager =
+        ConnectivityManager connectivityManager =
             (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo lNetworkInfo = lConnectivityManager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-        if (lNetworkInfo != null && lNetworkInfo.isConnected()) {
+        if (networkInfo != null && networkInfo.isConnected()) {
             return true;
         }
 
@@ -47,21 +49,21 @@ public class NetworkConnectivity {
      */
     public boolean isNetworkAvailable() {
 
-        boolean lIsNetworkAvailable = false;
+        boolean isNetworkAvailable = false;
 
         try {
-            LocationManager lLocationManager =
+            LocationManager locationManager =
                 (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
             // get network status
-            lIsNetworkAvailable = lLocationManager
+            isNetworkAvailable = locationManager
                 .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         } catch (Exception aExc) {
             aExc.printStackTrace();
         }
 
-        return lIsNetworkAvailable;
+        return isNetworkAvailable;
     }
 
     /**
@@ -71,20 +73,20 @@ public class NetworkConnectivity {
      */
     public boolean isGpsEnabled() {
 
-        boolean lIsGpsEnabled = false;
+        boolean isGpsEnabled = false;
 
         try {
             // the locationManager class provides access to the system location services.
-            LocationManager lLocationManager =
+            LocationManager locationManager =
                 (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
             // get GPS status
-            lIsGpsEnabled = lLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         } catch (Exception aExc) {
             aExc.printStackTrace();
         }
 
-        return lIsGpsEnabled;
+        return isGpsEnabled;
     }
 }

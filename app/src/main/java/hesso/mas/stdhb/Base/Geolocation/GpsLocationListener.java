@@ -24,7 +24,7 @@ public final class GpsLocationListener implements LocationListener {
     private final Context mContext;
 
     // Declare a Location Manager
-    protected LocationManager mLocationManager;
+    private LocationManager mLocationManager;
 
     // location
     private Location mLocation;
@@ -81,7 +81,7 @@ public final class GpsLocationListener implements LocationListener {
      */
     public Location getCurrentLocation() {
 
-        Location lLocation = null;
+        Location location = null;
 
         try {
             mLocationManager = (LocationManager) mContext
@@ -111,16 +111,16 @@ public final class GpsLocationListener implements LocationListener {
                     //Log.d("Network", "Network");
 
                     if (mLocationManager != null) {
-                        lLocation = mLocationManager
+                        location = mLocationManager
                             .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     }
                 }
 
                 // if GPS Enabled get lat/long using GPS Services
                 if (mIsGpsEnabled) {
-                    lLocation = null;
+                    location = null;
 
-                    if (lLocation == null) {
+                    if (location == null) {
                         mLocationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
@@ -129,7 +129,7 @@ public final class GpsLocationListener implements LocationListener {
                         //Log.d("GPS Enabled", "GPS Enabled");
 
                         if (mLocationManager != null) {
-                            lLocation = mLocationManager
+                            location = mLocationManager
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         }
                     }
@@ -144,7 +144,7 @@ public final class GpsLocationListener implements LocationListener {
             Notifications.ShowMessageBox(this.mContext, "Location " + lLocation.getLatitude() + "" + lLocation.getLongitude(), "info", "ok");
         }*/
 
-        return lLocation;
+        return location;
     }
 
     /**

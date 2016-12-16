@@ -21,12 +21,12 @@ public final class ParcelableUtil {
      * Inserts a Serializable value into the mapping of this Bundle, replacing any existing value
      * for the given key. Either key or value may be null.
      *
-     * @param aBundle
+     * @param bundle
      * @param aList
      * @param aKey
      */
     public static void putSerializableList(
-        Bundle aBundle,
+        Bundle bundle,
         ArrayList<? extends Serializable> aList,
         String aKey) {
 
@@ -34,10 +34,10 @@ public final class ParcelableUtil {
             return;
         }
 
-        aBundle.putInt(aKey + "size", aList.size());
+        bundle.putInt(aKey + "size", aList.size());
 
         for (int i = 0; i < aList.size(); i++) {
-            aBundle.putSerializable(aKey + i, aList.get(i));
+            bundle.putSerializable(aKey + i, aList.get(i));
         }
     }
 
@@ -45,17 +45,17 @@ public final class ParcelableUtil {
      * Returns the value associated with the given key, or null if no mapping of the desired type
      * exists for the given key or a null value is explicitly associated with the key.
      *
-     * @param aBundle
+     * @param bundle
      * @param key
      * @param <T>
      * @return
      */
     @SuppressWarnings("unchecked")
     public static <T> ArrayList<T> getSerializableArrayList(
-        Bundle aBundle,
+        Bundle bundle,
         String key) {
 
-        int lSize = aBundle.getInt(key + "size", -1);
+        int lSize = bundle.getInt(key + "size", -1);
 
         if (lSize < 0) {
             return null;
@@ -64,7 +64,7 @@ public final class ParcelableUtil {
         ArrayList<T> result = new ArrayList<>();
 
         for (int i = 0; i < lSize; i++) {
-            result.add((T) aBundle.getSerializable(key + i));
+            result.add((T) bundle.getSerializable(key + i));
         }
 
         return result;
@@ -74,28 +74,28 @@ public final class ParcelableUtil {
      * Inserts a List of Parcelable values into the mapping of this Bundle,
      * replacing any existing value for the given key.
      *
-     * @param aBundle
-     * @param aList
-     * @param aKey
+     * @param bundle
+     * @param list
+     * @param key
      */
     @SuppressWarnings("unchecked")
     public static void putParcelableList(
-        Bundle aBundle,
-        List<? extends Parcelable> aList,
-        String aKey) {
+        Bundle bundle,
+        List<? extends Parcelable> list,
+        String key) {
 
-        if (aList == null) {
+        if (list == null) {
             return;
         }
 
         ArrayList<? extends Parcelable> arrayList;
 
-        if (aList instanceof ArrayList) {
-            arrayList = (ArrayList<? extends Parcelable>) aList;
+        if (list instanceof ArrayList) {
+            arrayList = (ArrayList<? extends Parcelable>) list;
         } else {
-            arrayList = new ArrayList<>(aList);
+            arrayList = new ArrayList<>(list);
         }
 
-        aBundle.putParcelableArrayList(aKey, arrayList);
+        bundle.putParcelableArrayList(key, arrayList);
     }
 }

@@ -15,13 +15,13 @@ public final class IntegerUtil {
     /**
      * The method try to cast the string aValue to an int.
      *
-     * @param aValue The String Value to cast
+     * @param value The String Value to cast
      *
      * @return true when the value has been correctly casted.
      */
-    public static boolean tryParseInt(String aValue) {
+    public static boolean tryParseInt(String value) {
         try {
-            Integer.parseInt(aValue);
+            Integer.parseInt(value);
             return true;
         }
         catch (NumberFormatException aExc) {
@@ -32,11 +32,11 @@ public final class IntegerUtil {
     /**
      * The method rounds the integer value to the decimal
      *
-     * @param aIntValue
+     * @param intValue
      *
      * @return
      */
-    public static double roundToDecimal(int aIntValue) {
-        return floor(aIntValue / 10) * 10;
+    public static double roundToDecimal(int intValue) {
+        return floor(intValue / 10) * 10;
     }
 }

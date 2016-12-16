@@ -6,7 +6,7 @@
         android:startOffset="0"
         android:fromAlpha="0"
         android:toAlpha="1"
-        android:duration="5000">
+        android:duration="7000">
     </alpha>
 
     <scale
@@ -16,8 +16,7 @@
         android:toYScale="1.5"
         android:duration="5000"
         android:pivotX="50%"
-        android:pivotY="50%"
-    />
+        android:pivotY="50%" />
 
     <rotate
         android:startOffset="0"
@@ -25,8 +24,7 @@
         android:toDegrees="360"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:duration="5000"
-        />
+        android:duration="5000" />
 
 </set>
 

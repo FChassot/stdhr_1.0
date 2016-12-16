@@ -12,31 +12,33 @@ public final class StringUtil {
     /**
      * Indicates whether the specified string is null or an Empty string.
      *
-     * @param aString The string to evaluate
+     * @param string The string to evaluate
      *
      * @return yes if the string is null or blank
      */
-    public static boolean isNullOrBlank(String aString)
+    public static boolean isNullOrBlank(String string)
     {
-        return (aString==null || aString.trim().equals(""));
+        return (string==null || string.trim().equals(""));
     }
 
     /**
-     * This method ...
+     * This method cuts a string if this one is longer
+     * than the max length
      *
-     * @param aString
-     * @param aMaxLength the max length of the string
+     * @param string
+     * @param maxLength the max length of the string
      *
      * @return The string with the specified length
      */
     public static String subString(
-        String aString, int aMaxLength) {
+        String string, int maxLength) {
 
-        if (isNullOrBlank(aString)) {return MyString.EMPTY_STRING;}
+        if (isNullOrBlank(string)) {return MyString.EMPTY_STRING;}
 
-        int lLength = aString.length();
-        if (lLength > aMaxLength) {return aString.substring(0, aMaxLength);}
-        return aString;
+        int lLength = string.length();
+
+        if (lLength > maxLength) {return string.substring(0, maxLength);}
+        return string;
     }
 
 }

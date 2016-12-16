@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Created by chf on 13.09.2016.
+ * @author chf
+ * @version Version 1.0
+ * @since 13.09.2016
  */
 public final class MyDate {
 

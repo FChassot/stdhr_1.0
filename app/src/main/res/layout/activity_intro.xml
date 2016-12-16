@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Cityzen"
-        android:textStyle="bold"
         android:textSize="50dp"
         android:textColor="#DF013A"/>
 

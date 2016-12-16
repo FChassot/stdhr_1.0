@@ -8,15 +8,15 @@ import hesso.mas.stdhbtests.R;
  */
 import android.content.Intent;
 import android.os.Bundle;
-        import android.support.v7.app.AppCompatActivity;
-        import android.view.Gravity;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.widget.Button;
-        import android.widget.ImageView;
-        import android.widget.PopupWindow;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 /**
  * Created by chf on 11.06.2016.
@@ -29,8 +29,10 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set the activity content to an explicit view
         setContentView(R.layout.activity_intro);
 
+        // Find the imageView that was identified by an id attribute
         ImageView imageView = (ImageView) findViewById(R.id.logo);
         imageView.setImageResource(R.mipmap.ic_logo2);
 
