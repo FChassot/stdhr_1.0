@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -292,6 +293,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String aClientServerArchitecture,
             boolean aDisplaySearchmsg) {
 
+        // Start method tracing with default log name and buffer size.
+        Debug.startMethodTracing("myapp_stdhr");
+
         if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
             RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
@@ -340,6 +344,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
          */
         @Override
         public void onReceive(Context aContext, Intent aIntent) {
+
+            // Stop method tracing.
+            Debug.stopMethodTracing();
 
             // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle lBundle = aIntent.getExtras();
