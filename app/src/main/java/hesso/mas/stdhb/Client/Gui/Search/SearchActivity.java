@@ -28,16 +28,13 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
-import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
 import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
-import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchThread;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
@@ -122,7 +119,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 } else {
                     if (mTxtPlace.getText().toString().equals("Place")) {
-                        mTxtPlace.setText("Cabane de Louvie");
+                        mTxtPlace.setText("Louvie");
                     }
                 }
             }

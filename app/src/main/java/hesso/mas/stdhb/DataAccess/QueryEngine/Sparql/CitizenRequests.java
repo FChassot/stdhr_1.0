@@ -1,7 +1,5 @@
 package hesso.mas.stdhb.DataAccess.QueryEngine.Sparql;
 
-import java.util.Date;
-
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
