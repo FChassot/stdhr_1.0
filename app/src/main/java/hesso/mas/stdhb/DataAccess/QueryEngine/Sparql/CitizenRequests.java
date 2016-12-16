@@ -16,30 +16,30 @@ public final class CitizenRequests {
     /**
      * Points around a given co-ordinate can be retrieved with the following query
      *
-     * @param aCulturalObjectType The type of the cultural object to search
-     * @param aMinLatitude The min latitude for the search of the cultural objects
-     * @param aMaxLatitude The max latitude for the search of the cultural objects
-     * @param aMinLongitude The min longitude for the search of the cultural objects
-     * @param aMaxLongitude The max longitude for the search of the cultural objects
+     * @param culturalObjectType The type of the cultural object to search
+     * @param minLatitude The min latitude for the search of the cultural objects
+     * @param maxLatitude The max latitude for the search of the cultural objects
+     * @param minLongitude The min longitude for the search of the cultural objects
+     * @param maxLongitude The max longitude for the search of the cultural objects
      *
      * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectsInProximityQuery(
-        String aCulturalObjectType,
-        double aMinLatitude,
-        double aMaxLatitude,
-        double aMinLongitude,
-        double aMaxLongitude,
-        String aSubject,
-        Integer aLimit) {
+        String culturalObjectType,
+        double minLatitude,
+        double maxLatitude,
+        double minLongitude,
+        double maxLongitude,
+        String subject,
+        Integer limit) {
 
         //Checks.AssertNotEmpty(aCulturalObjectType, "aCulturalObjectType");
 
-        String lQuery;
+        String query;
 
-        if (aSubject.equals(MyString.EMPTY_STRING)) {
-            lQuery =
+        if (subject.equals(MyString.EMPTY_STRING)) {
+            query =
                     "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                     "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                     "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
@@ -52,13 +52,13 @@ public final class CitizenRequests {
                         "?culturalInterest geo:location ?x .\n" +
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
-                        "FILTER (xsd:double(?long) > " + aMinLongitude + " && xsd:double(?long) < " + aMaxLongitude + " && \n" +
-                        "xsd:double(?lat) > " + aMinLatitude + " && xsd:double(?lat) < " + aMaxLatitude + ") .\n" +
+                        "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
+                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + ") .\n" +
                         "}\n" +
-                        "LIMIT " + aLimit;
+                        "LIMIT " + limit;
         }
         else {
-            lQuery =
+            query =
                     "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                     "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                     "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
@@ -71,42 +71,42 @@ public final class CitizenRequests {
                         "?culturalInterest geo:location ?x .\n" +
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
-                        "FILTER (xsd:double(?long) > " + aMinLongitude + " && xsd:double(?long) < " + aMaxLongitude + " && \n" +
-                        "xsd:double(?lat) > " + aMinLatitude + " && xsd:double(?lat) < " + aMaxLatitude + " && ?subject = '" + aSubject + "') .\n" +
+                        "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
+                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + minLongitude + " && ?subject = '" + subject + "') .\n" +
                         "}\n" +
-                        "LIMIT " + aLimit;
+                        "LIMIT " + limit;
         }
 
-        return lQuery;
+        return query;
     }
 
     /**
      * A specific search of cultural objects can be retrieved with the following query
      *
-     * @param aTitle the title of the object to search
-     * @param aBegin the begin date of the picture
-     * @param aEnd the end date of the picture
+     * @param title the title of the object to search
+     * @param begin the begin date of the picture
+     * @param end the end date of the picture
      *
      * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectQueryByTitleAndDate(
-        String aTitle,
-        int aBegin,
-        int aEnd,
-        String aSubject) {
+        String title,
+        int begin,
+        int end,
+        String subject) {
 
-        Checks.AssertNotEmpty(aTitle, "aTitle");
+        Checks.AssertNotEmpty(title, "title");
 
         return
             "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-            "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-            "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-            "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
-            "prefix tm: <http://purl.org/dc/terms/>\n" +
-            "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-            "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
-            "SELECT ?culturalInterest ?description ?title ?subject ?long ?lat ?image_url WHERE {\n" +
+                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+                "prefix tm: <http://purl.org/dc/terms/>\n" +
+                "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
+                "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
+                "SELECT ?culturalInterest ?description ?title ?subject ?long ?lat ?image_url WHERE {\n" +
                 "?culturalInterest dc:title ?title .\n" +
                 "?culturalInterest tm:subject ?subject .\n" +
                 "?culturalInterest dc:description ?description .\n" +
@@ -118,8 +118,10 @@ public final class CitizenRequests {
                 "?digitalitem dbo:image_url ?image_url .\n" +
                 "?x geo:long ?long .\n" +
                 "?x geo:lat ?lat .\n" +
-                "filter (?title = '" + aTitle + "' && ?subject = '" + aSubject + "') . }\n" +
+                "filter (?subject = '" + subject + "' && regex(?title, '" + title + "', 'i')) . }\n" +
                 "LIMIT 1\n";
+
+        // ceci fonctionnne filter (?subject = "Mountain" && regex(?title, "Louvie", "i")) . }
 
         //"' && ?date " + aBegin + " && ?date < " + aEnd +
 
@@ -133,18 +135,18 @@ public final class CitizenRequests {
     /**
      * A specific search of cultural objects can be retrieved with the following query
      *
-     * @param aTitle the title of the picture
+     * @param title the title of the picture
      *
      * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectInfoByObjectIdQuery(
-        String aTitle,
-        String aCulturalInterest) {
+        String title,
+        String culturalInterest) {
 
-        Checks.AssertNotEmpty(aTitle, "aTitle");
+        Checks.AssertNotEmpty(title, "title");
 
-        String lQuery =
+        String query =
                 "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
                 "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
@@ -163,10 +165,10 @@ public final class CitizenRequests {
                 "?digitalitem dbo:image_url ?image_url.\n" +
                 "?location geo:long ?long .\n" +
                 "?location geo:lat ?lat .\n" +
-                "filter (?culturalInterest = <" + aCulturalInterest + ">) . }\n" +
+                "filter (?culturalInterest = <" + culturalInterest + ">) . }\n" +
                 "LIMIT 1\n";
 
-        return lQuery;
+        return query;
     }
 
     /**
@@ -178,7 +180,7 @@ public final class CitizenRequests {
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectTypeQuery() {
 
-        String lQuery =
+        String query =
             "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
             "prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
             "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
@@ -186,7 +188,7 @@ public final class CitizenRequests {
             "WHERE {?culturalObjectType rdfs:subClassOf ?class.\n" +
             "}";
 
-        return lQuery;
+        return query;
     }
 
     /**
@@ -198,12 +200,12 @@ public final class CitizenRequests {
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getSubjectQuery() {
 
-        String lQuery =
+        String query =
             "prefix tm: <http://purl.org/dc/terms/>\n" +
                 "SELECT distinct ?subject WHERE {\n" +
                 "?culturalObject tm:subject ?subject .\n" +
                 "}";
 
-        return lQuery;
+        return query;
     }
 }
