@@ -13,79 +13,75 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 /**
  * Created by chf on 24.08.2016.
  *
- * Hinweis: die Klasse muss nach und nach so umgestellt werden, dass die Methoden nicht mehr
- * statisch angeboten werden, sondern dass es sich nur noch um Instanzmethoden handelt, welche
- * durch das entsprechende Interface definiert werden
- *
  */
 public class SpinnerHandler {
 
     /**
      * The method fill a spinner control with the given enum
      *
-     * @param aSpinner the spinner control to fill
-     * @param aContext interface to global information about the application environment.
-     * @param aResource
+     * @param spinner the spinner control to fill
+     * @param context interface to global information about the application environment.
+     * @param resource
      */
     public static void fillComboByEnum(
-        Spinner aSpinner,
-        Context aContext,
-        int aResource) {
+        Spinner spinner,
+        Context context,
+        int resource) {
 
         ArrayAdapter lAdapter =
             new ArrayAdapter(
-                aContext,
-                aResource,
+                context,
+                resource,
                 EnumClientServerCommunication.values());
 
-        aSpinner.setAdapter(lAdapter);
+        spinner.setAdapter(lAdapter);
     }
 
     /**
      * The method fill a spinner control with the possible subject contained in the Citizen DB.
      *
-     * @param aSpinner the spinner control to fill
-     * @param aContext Interface to global information about the application environment.
+     * @param spinner the spinner control to fill
+     * @param context Interface to global information about the application environment.
      * It allows access to application-specific resources and classes, as well as up-calls
      * for application-level operations such as launching activities, broadcasting and receiving
      * intents, etc.
      *
-     * @param aResource
-     * @param aValues
+     * @param resource
+     * @param values
      */
     public static void fillComboSubject(
-        Spinner aSpinner,
-        Context aContext,
-        int aResource,
-        List<String> aValues) {
+        Spinner spinner,
+        Context context,
+        int resource,
+        List<String> values) {
 
         ArrayAdapter lAdapter =
                 new ArrayAdapter(
-                        aContext,
-                        aResource,
-                        aValues.toArray());
+                        context,
+                        resource,
+                        values.toArray());
 
-        aSpinner.setAdapter(lAdapter);
+        spinner.setAdapter(lAdapter);
     }
 
     /**
      * Get the position of an item in the spinner control
      *
-     * @param aSpinner the spinner control to fill
-     * @param aItem
+     * @param spinner the spinner control to fill
+     * @param item
      *
      * @return
      * @throws NoSuchElementException
      */
     public static int getPositionByItem(
-        Spinner aSpinner,
-        String aItem) throws NoSuchElementException {
+        Spinner spinner,
+        String item) throws NoSuchElementException {
 
-        final int lCount = aSpinner.getCount();
+        final int count = spinner.getCount();
 
-        for (int lIndex = 0; lIndex < lCount; lIndex++) {
-            if (aItem.equals(aSpinner.getItemAtPosition(lIndex))) {
-                return lIndex;
+        for (int index = 0; index < count; index++) {
+            if (item.equals(spinner.getItemAtPosition(index))) {
+                return index;
             }
         }
 

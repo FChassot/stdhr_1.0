@@ -27,6 +27,7 @@ public class IntroActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         // Set the activity content to an explicit view
@@ -43,12 +44,12 @@ public class IntroActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                LayoutInflater layoutInflater =
+                        (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
                 View detailsView = layoutInflater.inflate(R.layout.details_popup_layout, null);
-//        final PopupWindow popupWindow = new PopupWindow(detailsView, LayoutParams.WRAP_CONTENT , LayoutParams.WRAP_CONTENT);
+
                 final PopupWindow popupWindow = new PopupWindow(detailsView, 1200 , 900);
-//        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
                 Button dismissButton = (Button) detailsView.findViewById(R.id.dismiss_button);
 
@@ -65,7 +66,6 @@ public class IntroActivity extends AppCompatActivity {
 
         myFadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
 
-
             @Override
             public void onAnimationStart(Animation animation) {
                 // TODO Auto-generated method stub
@@ -80,6 +80,7 @@ public class IntroActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+
                 Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
             }

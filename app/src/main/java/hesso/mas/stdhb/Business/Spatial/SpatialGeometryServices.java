@@ -18,69 +18,69 @@ public class SpatialGeometryServices {
     /**
      * This method allows to search the radius of search in radians
      *
-     * @param aRadiusSearch the radius of search in meters
+     * @param radiusSearch the radius of search in meters
      *
      * @return the radius of search in radians
      */
     public double getRadiusInRadian(
-        Location aCurrentUserLocation,
-        int aRadiusSearch) {
+        Location currentUserLocation,
+        int radiusSearch) {
 
-        double lRadiusInKm = (aRadiusSearch / 1000);      // convert to kilometers
+        double lRadiusInKm = (radiusSearch / 1000);             // convert to kilometers
 
-        double lDistanceInMetersForOneLatitudeDegree =
+        double distanceInMetersForOneLatitudeDegree =
             getDistanceForOneLatitudeDegree(
-                    aCurrentUserLocation);
+                    currentUserLocation);
 
-        double lLatDelta = (lDistanceInMetersForOneLatitudeDegree/1000) / lRadiusInKm;
+        double latDelta = (distanceInMetersForOneLatitudeDegree/1000) / lRadiusInKm;
 
-        return 1 / lLatDelta;
+        return 1 / latDelta;
     }
 
     /**
      * This method calculate the number of meters who corresponds to one degree
      *
-     * @param aCurrentUserLocation the current location of the app's user
+     * @param currentUserLocation the current location of the app's user
      *
      * @return the distance in meters between the current latitude and this one
      * with a difference of one degree
      */
     public double getDistanceForOneLatitudeDegree(
-        Location aCurrentUserLocation) {
+        Location currentUserLocation) {
 
-        double lDistance =
+        double distance =
             getDistanceBetweenTwoPoints(
-                aCurrentUserLocation.getLatitude(),
-                aCurrentUserLocation.getLatitude() + 1,
-                aCurrentUserLocation.getLongitude(),
-                aCurrentUserLocation.getLongitude(),
+                currentUserLocation.getLatitude(),
+                currentUserLocation.getLatitude() + 1,
+                currentUserLocation.getLongitude(),
+                currentUserLocation.getLongitude(),
                 0,
                 0);
 
-        return lDistance;
+        return distance;
     }
 
     /**
      * This method calculate the number of meters who corresponds to one degree
      *
-     * @param aCurrentUserLocation the current location of the app's user
+     * @param currentUserLocation the current location of the app's user
      *
      * @return the distance in meters between the current longitude and this one
      * with a difference of one degree
      */
     public double getDistanceForOneLongitudeDegree(
-        Location aCurrentUserLocation) {
+        Location currentUserLocation) {
 
-        double lDistance =
+        double distance =
             getDistanceBetweenTwoPoints(
-                aCurrentUserLocation.getLatitude(),
-                aCurrentUserLocation.getLatitude(),
-                aCurrentUserLocation.getLongitude(),
-                aCurrentUserLocation.getLongitude() + 1,
+                currentUserLocation.getLatitude(),
+                currentUserLocation.getLatitude(),
+                currentUserLocation.getLongitude(),
+                currentUserLocation.getLongitude() + 1,
                 0,
                 0);
 
-        return lDistance;
+        return distance;
     }
 
     /*
@@ -98,26 +98,26 @@ public class SpatialGeometryServices {
      * @returns the distance in meters
      */
     public static double getDistanceBetweenTwoPoints(
-        double aLatitude1,
-        double aLatitude2,
-        double aLongitude1,
-        double aLongitude2,
-        double aElevation1,
-        double aElevation2) {
+        double latitude1,
+        double latitude2,
+        double longitude1,
+        double longitude2,
+        double elevation1,
+        double elevation2) {
 
-        double lLatitudeDistance = Math.toRadians(aLatitude2 - aLatitude1);
-        double lLongitudeDistance = Math.toRadians(aLongitude2 - aLongitude1);
+        double lLatitudeDistance = Math.toRadians(latitude2 - latitude1);
+        double lLongitudeDistance = Math.toRadians(longitude2 - longitude1);
 
         double lA =
             Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
-            + Math.cos(Math.toRadians(aLatitude1)) * Math.cos(Math.toRadians(aLatitude2))
+            + Math.cos(Math.toRadians(latitude1)) * Math.cos(Math.toRadians(latitude2))
             * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
 
         double lC = 2 * Math.atan2(Math.sqrt(lA), Math.sqrt(1 - lA));
 
         double lDistance = EARTH_RADIUS_KM * lC * 1000;   // convert to meters
 
-        double lHeight = aElevation1 - aElevation2;
+        double lHeight = elevation1 - elevation2;
 
         lDistance = Math.pow(lDistance, 2) + Math.pow(lHeight, 2);
 
@@ -135,10 +135,10 @@ public class SpatialGeometryServices {
      * @return the distance, in kilometers, between the two points
      */
     public static float getDistance(
-            double latitude1,
-            double longitude1,
-            double latitude2,
-            double longitude2) {
+        double latitude1,
+        double longitude1,
+        double latitude2,
+        double longitude2) {
 
         double dLat = Math.toRadians(latitude2 - latitude1);
         double dLon = Math.toRadians(longitude2 - longitude1);
@@ -156,29 +156,29 @@ public class SpatialGeometryServices {
     /**
      * Gets the relative bearing from one geographical coordinate to another.
      *
-     * @param aLatitude1 the latitude of the source point
-     * @param aLongitude1 the longitude of the source point
-     * @param aLatitude2 the latitude of the destination point
-     * @param aLongitude2 the longitude of the destination point
+     * @param latitude1 the latitude of the source point
+     * @param longitude1 the longitude of the source point
+     * @param latitude2 the latitude of the destination point
+     * @param longitude2 the longitude of the destination point
      * @return the relative bearing from point 1 to point 2, in degrees. The result is guaranteed
      *         to fall in the range 0-360
      */
     public static float getBearing(
-            double aLatitude1,
-            double aLongitude1,
-            double aLatitude2,
-            double aLongitude2) {
+        double latitude1,
+        double longitude1,
+        double latitude2,
+        double longitude2) {
 
-        aLatitude1 = Math.toRadians(aLatitude1);
-        aLongitude1 = Math.toRadians(aLongitude1);
-        aLatitude2 = Math.toRadians(aLatitude2);
-        aLongitude2 = Math.toRadians(aLongitude2);
+        latitude1 = Math.toRadians(latitude1);
+        longitude1 = Math.toRadians(longitude1);
+        latitude2 = Math.toRadians(latitude2);
+        longitude2 = Math.toRadians(longitude2);
 
-        double dLon = aLongitude2 - aLongitude1;
+        double lon = longitude2 - longitude1;
 
-        double y = Math.sin(dLon) * Math.cos(aLatitude2);
-        double x = Math.cos(aLatitude1) * Math.sin(aLatitude2) - Math.sin(aLatitude1)
-                * Math.cos(aLatitude2) * Math.cos(dLon);
+        double y = Math.sin(lon) * Math.cos(latitude2);
+        double x = Math.cos(latitude1) * Math.sin(latitude2) - Math.sin(latitude1)
+                * Math.cos(latitude2) * Math.cos(lon);
 
         double bearing = Math.atan2(y, x);
         return mod((float) Math.toDegrees(bearing), 360.0f);
