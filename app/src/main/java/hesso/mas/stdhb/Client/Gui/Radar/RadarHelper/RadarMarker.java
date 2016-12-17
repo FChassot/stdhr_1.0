@@ -64,41 +64,25 @@ public class RadarMarker extends Paint implements Parcelable {
 
     // Constructor
     public RadarMarker(
-        int aPositionX,
-        int aPositionY,
-        double aLatitude,
-        double aLongitude,
-        int aColor,
-        String aTitle,
-        String aObjectId,
-        String aDescription) {
+        int positionX,
+        int positionY,
+        double latitude,
+        double longitude,
+        int color,
+        String title,
+        String objectId,
+        String description) {
 
         super();
 
-        mXViewPosition = aPositionX;
-        mYViewPosition = aPositionY;
-        mLocation.setLatitude(aLatitude);
-        mLocation.setLongitude(aLongitude);
-        mColor = aColor;
-        mTitle = aTitle;
-        mObjectId = aObjectId;
-        mDescription = aDescription;
-
-    }
-
-    // Constructor
-    public RadarMarker(
-        int aColor,
-        boolean aAntiAlias,
-        Paint.Style aStyle,
-        float aStrokeWidth,
-        int aAlpha) {
-
-        super.setColor(aColor);
-        super.setAntiAlias(aAntiAlias);
-        super.setStyle(aStyle);
-        super.setStrokeWidth(aStrokeWidth);
-        super.setAlpha(aAlpha);
+        mXViewPosition = positionX;
+        mYViewPosition = positionY;
+        mLocation.setLatitude(latitude);
+        mLocation.setLongitude(longitude);
+        mColor = color;
+        mTitle = title;
+        mObjectId = objectId;
+        mDescription = description;
 
     }
 
@@ -119,25 +103,25 @@ public class RadarMarker extends Paint implements Parcelable {
     //endregion
 
     // Setter
-    public void setPositionX(int aX) { mXViewPosition = aX; }
+    public void setPositionX(int x) { mXViewPosition = x; }
 
     // Getter
     public int getPositionX() { return mXViewPosition; }
 
     // Setter
-    public void setPositionY(int aY) { mYViewPosition = aY; }
+    public void setPositionY(int y) { mYViewPosition = y; }
 
     // Getter
     public int getPositionY() { return mYViewPosition; }
 
     // Setter
-    public void setCurrentPositionX(int aX) { mXViewCurrentPosition = aX; }
+    public void setCurrentPositionX(int x) { mXViewCurrentPosition = x; }
 
     // Getter
     public int getCurrentPositionX() { return mXViewCurrentPosition; }
 
     // Setter
-    public void setCurrentPositionY(int aY) { mYViewCurrentPosition = aY; }
+    public void setCurrentPositionY(int y) { mYViewCurrentPosition = y; }
 
     // Getter
     public int getCurrentPositionY() { return mYViewCurrentPosition; }
@@ -146,8 +130,8 @@ public class RadarMarker extends Paint implements Parcelable {
     public int getColor() { return mColor; }
 
     // Setter
-    public void setTitle(String aTitle) {
-        mTitle = aTitle;
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     // Getter
@@ -156,20 +140,20 @@ public class RadarMarker extends Paint implements Parcelable {
     }
 
     // Setter
-    public void setObjectId(String aObjectId) { mObjectId = aObjectId; }
+    public void setObjectId(String objectId) { mObjectId = objectId; }
 
     // Getter
     public String getObjectId() { return mObjectId; }
 
     // Setter
-    public void setDescription(String aDescription) { mDescription = aDescription; }
+    public void setDescription(String description) { mDescription = description; }
 
     // Getter
     public String getDescription() { return mDescription; }
 
     // Setter
-    public void setLocation(Location aLocation) {
-        mLocation = aLocation;
+    public void setLocation(Location location) {
+        mLocation = location;
     }
 
     // Getter
@@ -178,15 +162,15 @@ public class RadarMarker extends Paint implements Parcelable {
     }
 
     // Setter
-    public void setLongitude(Double aLongitude) {
-        mLocation.setLongitude(aLongitude);
+    public void setLongitude(Double longitude) {
+        mLocation.setLongitude(longitude);
     }
 
     // Getter
     public double getLongitude() { return mLocation.getLongitude(); }
 
     // Setter
-    public void setLatitude(Double aLatitude) { mLocation.setLatitude(aLatitude); }
+    public void setLatitude(Double latitude) { mLocation.setLatitude(latitude); }
 
     // Getter
     public double getLatitude() { return mLocation.getLatitude(); }
@@ -196,17 +180,17 @@ public class RadarMarker extends Paint implements Parcelable {
 
     //region Parcelable
 
-    public void writeToParcel(Parcel aDest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
 
-        aDest.writeParcelable(mLocation, flags);
-        aDest.writeInt(mXViewPosition);
-        aDest.writeInt(mYViewPosition);
-        aDest.writeInt(mXViewCurrentPosition);
-        aDest.writeInt(mYViewCurrentPosition);
-        aDest.writeInt(mColor);
-        aDest.writeString(mTitle);
-        aDest.writeString(mObjectId);
-        aDest.writeString(mDescription);
+        dest.writeParcelable(mLocation, flags);
+        dest.writeInt(mXViewPosition);
+        dest.writeInt(mYViewPosition);
+        dest.writeInt(mXViewCurrentPosition);
+        dest.writeInt(mYViewCurrentPosition);
+        dest.writeInt(mColor);
+        dest.writeString(mTitle);
+        dest.writeString(mObjectId);
+        dest.writeString(mDescription);
     }
 
     /**
