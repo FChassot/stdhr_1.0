@@ -68,14 +68,14 @@ public class JenaSparqlWsClient implements IWsClient {
                             service,
                             lQuery);
 
-            ResultSet lResults = queryExecution.execSelect();
+            ResultSet results = queryExecution.execSelect();
 
-            List<String> resultsVar = lResults.getResultVars();
+            List<String> resultsVar = results.getResultVars();
 
-            while (lResults.hasNext())
+            while (results.hasNext())
             {
                 CitizenDbObject citizenDbObject = new CitizenDbObject();
-                QuerySolution binding = lResults.nextSolution();
+                QuerySolution binding = results.nextSolution();
 
                 for (String variable : resultsVar) {
                     citizenDbObject.put(variable, GetValue(binding, variable));

@@ -28,19 +28,19 @@ public class CitizenQueryResult implements Parcelable {
     /**
      * Add an CitizenDbObject in the CitizenQueryResult's list
      *
-     * @param aCitizenDbObject The object to add in the list
+     * @param citizenDbObject The object to add in the list
      */
-    public void Add(CitizenDbObject aCitizenDbObject) {
-        mList.add(aCitizenDbObject);
+    public void Add(CitizenDbObject citizenDbObject) {
+        mList.add(citizenDbObject);
     }
 
     /**
      * Add a list of objects in the list
      *
-     * @param aCitizenDbObjects The list of objects to add in the list
+     * @param citizenDbObjects The list of objects to add in the list
      */
-    public void AddRange(List<CitizenDbObject> aCitizenDbObjects) {
-        mList = aCitizenDbObjects;
+    public void AddRange(List<CitizenDbObject> citizenDbObjects) {
+        mList = citizenDbObjects;
     }
 
     /**
@@ -61,11 +61,11 @@ public class CitizenQueryResult implements Parcelable {
     /**
      * Flatten this object in to a Parcel.
      *
-     * @param aDest The Parcel in which the object should be written.
-     * @param aFlags Additional flags about how the object should be written. May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
+     * @param dest The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written. May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
      */
-    public void writeToParcel(Parcel aDest, int aFlags) {
-        aDest.writeList(mList);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeList(mList);
     }
 
     /**

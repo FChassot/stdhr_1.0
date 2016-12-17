@@ -450,8 +450,8 @@ public class RadarActivity
         public void run() {
             startAsyncSearch();
             // Causes the Runnable r to be added to the message queue, to be run after the specified
-            // amount of time elapses (for the radar 5 seconds).
-            mHandler.postDelayed(this, 1000);
+            // amount of time elapses (for the radar 4 seconds).
+            mHandler.postDelayed(this, 4000);
         }
     };
 

@@ -72,7 +72,7 @@ public final class CitizenRequests {
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
                         "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
-                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + minLongitude + " && ?subject = '" + subject + "') .\n" +
+                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "') .\n" +
                         "}\n" +
                         "LIMIT " + limit;
         }

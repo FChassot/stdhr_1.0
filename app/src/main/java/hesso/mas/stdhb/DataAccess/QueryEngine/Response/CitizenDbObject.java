@@ -25,8 +25,8 @@ public class CitizenDbObject implements Parcelable {
         in.readMap(mMap, getClass().getClassLoader());
     }
 
-    public void put(String aVariable, String aValue) {
-        mMap.put(aVariable, aValue);
+    public void put(String variable, String value) {
+        mMap.put(variable, value);
     }
 
     /**
@@ -44,20 +44,20 @@ public class CitizenDbObject implements Parcelable {
     /**
      * Get the value of the sparql variable
      *
-     * @param aVariable
+     * @param variable
      */
-    public String GetValue(String aVariable) {
-        return mMap.get(aVariable);
+    public String GetValue(String variable) {
+        return mMap.get(variable);
     }
 
     /**
      * Flatten this object in to a Parcel.
      *
-     * @param aDest The Parcel in which the object should be written.
-     * @param aFlags Additional flags about how the object should be written. May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
+     * @param dest The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written. May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
      */
-    public void writeToParcel(Parcel aDest, int aFlags) {
-        aDest.writeMap(mMap);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeMap(mMap);
     }
 
     /**
