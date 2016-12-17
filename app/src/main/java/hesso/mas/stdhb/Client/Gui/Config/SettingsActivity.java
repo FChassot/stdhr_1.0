@@ -83,8 +83,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // components of the application are not running.
         Receiver mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION3);
-        this.registerReceiver(mReceiver, lFilter);
+        IntentFilter filter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION3);
+        this.registerReceiver(mReceiver, filter);
 
         mPrefs = new Preferences(this);
 
@@ -98,20 +98,20 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lRadarSwitch.setFocusable(true);
 
         // Similar to another answer, but you can use an ArrayAdapter to populate based on an Enum class.
-        ArrayAdapter lAdapter =
+        ArrayAdapter adapter =
                 new ArrayAdapter(
                         this,
                         android.R.layout.simple_spinner_item,
                         EnumClientServerCommunication.values());
 
-        lCboClientServerCommunication.setAdapter(lAdapter);
+        lCboClientServerCommunication.setAdapter(adapter);
 
         /*SpinnerHandler.fillComboClientServerTechnology(
                 lCboClientServerCommunication,
                 this,
                 android.R.layout.simple_spinner_item);*/
 
-        String lClientServerCommunication =
+        String clientServerCommunication =
                 mPrefs.getMyStringPref(
                         this,
                         BaseConstants.Attr_ClientServer_Communication,
@@ -119,46 +119,46 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         EnumClientServerCommunication lEnumValue =
                 EnumClientServerCommunication.valueOf(
-                        lClientServerCommunication);
+                        clientServerCommunication);
 
         lCboClientServerCommunication.setSelection(lEnumValue.showValue());
 
-        Integer lRadiusOfSearch =
+        Integer radiusOfSearch =
                 mPrefs.getMyIntPref(
                         this,
                         BaseConstants.Attr_Radius_Search,
                         BaseConstants.Attr_Default_Radius_Search);
 
-        mDTxtRadius.setText(lRadiusOfSearch.toString());
+        mDTxtRadius.setText(radiusOfSearch.toString());
 
-        Boolean lRadarMode = mPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, true);
-        lRadarSwitch.setChecked(lRadarMode);
+        Boolean radarMode = mPrefs.getMyBooleanPref(this, BaseConstants.Attr_Radar_Switch, true);
+        lRadarSwitch.setChecked(radarMode);
 
         if (mConnectivity.isActive() && mConnectivity.isNetworkAvailable()) {
             startAsyncSearch();
         }
         else {
-            Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
+            Spinner subjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
 
-            List<String> lCulturalObjectSubjects = new ArrayList<>();
+            List<String> culturalObjectSubjects = new ArrayList<>();
 
-            String lSubjectSelected =
+            String subjectSelected =
                     mPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_Subject_Selected,
                             MyString.EMPTY_STRING);
 
-            lCulturalObjectSubjects.add(lSubjectSelected);
+            culturalObjectSubjects.add(subjectSelected);
 
-            ArrayAdapter<String> lSubjectAdapter =
+            ArrayAdapter<String> subjectAdapter =
                     new ArrayAdapter<>(
                             this,
                             android.R.layout.simple_spinner_item,
-                            lCulturalObjectSubjects);
+                            culturalObjectSubjects);
 
-            lSubjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            lSubjectSpinner.setAdapter(lSubjectAdapter);
-            lSubjectSpinner.setSelection(0);
+            subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            subjectSpinner.setAdapter(subjectAdapter);
+            subjectSpinner.setSelection(0);
         }
 
         displayListView();
@@ -208,19 +208,19 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         /**
          * Constructor
          *
-         * @param aContext
-         * @param aTextViewResourceId
-         * @param aListOfCulturalObjectType
+         * @param context
+         * @param textViewResourceId
+         * @param listOfCulturalObjectType
          */
         public ListViewAdapter(
-                Context aContext,
-                int aTextViewResourceId,
-                ArrayList<CulturalObjectType> aListOfCulturalObjectType) {
+                Context context,
+                int textViewResourceId,
+                ArrayList<CulturalObjectType> listOfCulturalObjectType) {
 
-            super(aContext, aTextViewResourceId, aListOfCulturalObjectType);
+            super(context, textViewResourceId, listOfCulturalObjectType);
 
             this.mListOfCulturalObjectType = new ArrayList<>();
-            this.mListOfCulturalObjectType.addAll(aListOfCulturalObjectType);
+            this.mListOfCulturalObjectType.addAll(listOfCulturalObjectType);
         }
 
         /**
@@ -234,9 +234,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         /**
          * Get a View that displays the data at the specified position in the data set.
          *
-         * @param aPosition The position of the item within the adapter's data set of the item whose
+         * @param position The position of the item within the adapter's data set of the item whose
          *                  view we want.
-         * @param aConvertView The old view to reuse, if possible. Note: You should check that this
+         * @param convertView The old view to reuse, if possible. Note: You should check that this
          *                     view is non-null and of an appropriate type before using. If it is
          *                     not possible to convert this view to display the correct data,
          *                     this method can create a new view. Heterogeneous lists can specify
@@ -248,26 +248,26 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
          */
         @Override
         public View getView(
-                int aPosition,
-                View aConvertView,
+                int position,
+                View convertView,
                 ViewGroup parent) {
 
-            ViewHolder lHolder;
+            ViewHolder holder;
 
-            Log.v("ConvertView", String.valueOf(aPosition));
+            Log.v("ConvertView", String.valueOf(position));
 
-            if (aConvertView == null) {
+            if (convertView == null) {
                 LayoutInflater lLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                aConvertView = lLayoutInflater.inflate(R.layout.culturalinterest_info, null);
+                convertView = lLayoutInflater.inflate(R.layout.culturalinterest_info, null);
 
-                lHolder = new ViewHolder();
+                holder = new ViewHolder();
 
-                lHolder.code = (TextView) aConvertView.findViewById(R.id.code);
-                lHolder.name = (CheckBox) aConvertView.findViewById(R.id.checkBox1);
-                aConvertView.setTag(lHolder);
+                holder.code = (TextView) convertView.findViewById(R.id.code);
+                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(holder);
 
-                lHolder.name.setOnClickListener(new View.OnClickListener() {
+                holder.name.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View aView) {
                         CheckBox lCheckbox = (CheckBox) aView;
                         CulturalObjectType lCulturalObjectType = (CulturalObjectType) lCheckbox.getTag();
@@ -276,7 +276,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 });
             }
             else {
-                lHolder = (ViewHolder) aConvertView.getTag();
+                holder = (ViewHolder) convertView.getTag();
             }
 
             Set<String> lListOfCulturalObjectType =
@@ -285,22 +285,22 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         BaseConstants.Attr_CulturalObject_Type,
                         null);
 
-            CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(aPosition);
+            CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(position);
 
-            lHolder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
-            lHolder.name.setText(llCulturalObjectType.getName());
+            holder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
+            holder.name.setText(llCulturalObjectType.getName());
 
             if (lListOfCulturalObjectType != null) {
                 for (String aCulturalObjectType : lListOfCulturalObjectType) {
                     if (llCulturalObjectType.getName().equals(aCulturalObjectType)) {
-                        lHolder.name.setChecked(true);
+                        holder.name.setChecked(true);
                     }
                 }
             }
             //lHolder.name.setChecked(llCulturalInterestType.isSelected());
-            lHolder.name.setTag(llCulturalObjectType);
+            holder.name.setTag(llCulturalObjectType);
 
-            return aConvertView;
+            return convertView;
         }
     }
 
@@ -372,32 +372,32 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
         }
 
-        Boolean lRadarMode = lSwitchRadar.isChecked();
+        Boolean radarMode = lSwitchRadar.isChecked();
 
         mPrefs.setMyBooleanPref(
                 this,
                 BaseConstants.Attr_Radar_Switch,
-                lRadarMode);
+                radarMode);
 
-        String lClientServerCommunication = lCboCommunication.getSelectedItem().toString();
+        String clientServerCommunication = lCboCommunication.getSelectedItem().toString();
 
         mPrefs.setMyStringPref(
                 this,
                 BaseConstants.Attr_ClientServer_Communication,
-                lClientServerCommunication);
+                clientServerCommunication);
 
-        Set<String> lListOfCulturalObjectType = new HashSet<>();
+        Set<String> listOfCulturalObjectType = new HashSet<>();
 
         for (CulturalObjectType aCulturalObjectType : mCulturalObjectTypes) {
             if (aCulturalObjectType.isSelected()) {
-                lListOfCulturalObjectType.add(aCulturalObjectType.getName());
+                listOfCulturalObjectType.add(aCulturalObjectType.getName());
             }
         }
 
         mPrefs.setMySetPref(
                 this,
                 BaseConstants.Attr_CulturalObject_Type,
-                lListOfCulturalObjectType);
+                listOfCulturalObjectType);
 
         mPrefs.setMyStringPref(
                 this,
@@ -412,22 +412,22 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      */
     private void startAsyncSearch() {
 
-        RetrieveCitizenDataAsyncTask lRetrieveTask =
+        RetrieveCitizenDataAsyncTask retrieveTask =
             new RetrieveCitizenDataAsyncTask(
                 this,
                 RetrieveCitizenDataAsyncTask.ACTION3);
 
-        String lClientServerCommunicationMode =
+        String clientServerCommunicationMode =
             mPrefs.getMyStringPref(
                 this,
                 BaseConstants.Attr_ClientServer_Communication,
                 EnumClientServerCommunication.ANDROJENA.toString());
 
-        EnumClientServerCommunication lEnumValue =
+        EnumClientServerCommunication enumValue =
             EnumClientServerCommunication.valueOf(
-                lClientServerCommunicationMode);
+                clientServerCommunicationMode);
 
-        if (lEnumValue != EnumClientServerCommunication.ANDROJENA) {
+        if (enumValue != EnumClientServerCommunication.ANDROJENA) {
             Notifications.ShowMessageBox(
                     this,
                     getResources().getString(R.string.txt_radar_possible_mode),
@@ -437,14 +437,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             return;
         }
 
-        lRetrieveTask.onPreExecuteMessageDisplay = false;
+        retrieveTask.onPreExecuteMessageDisplay = false;
 
         //String lQuery = CitizenRequests.getCulturalObjectTypeQuery();
-        String lQuery = CitizenRequests.getSubjectQuery();
+        String query = CitizenRequests.getSubjectQuery();
 
-        lRetrieveTask.execute(
-            lQuery,
-            lClientServerCommunicationMode);
+        retrieveTask.execute(
+            query,
+            clientServerCommunicationMode);
     }
 
     /**
@@ -471,44 +471,45 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
 
             // The bundle object contains a mapping from String keys to various Parcelable values.
-            Bundle lBundle = aIntent.getExtras();
+            Bundle bundle = aIntent.getExtras();
 
-            CitizenQueryResult lCitizenQueryResult = null;
+            CitizenQueryResult citizenQueryResult = null;
 
             try {
-                lCitizenQueryResult =
-                    lBundle.getParcelable(
+                citizenQueryResult =
+                    bundle.getParcelable(
                         RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
             }
             catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
-            List<String> lCulturalObjectSubjects =
+            List<String> culturalObjectSubjects =
                     RadarHelper.getCulturalObjectSubjectFromResponse(
-                            lCitizenQueryResult);
+                        citizenQueryResult);
 
-            Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
+            Spinner subjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
 
-            ArrayAdapter<String> lSubjectAdapter =
+            ArrayAdapter<String> subjectAdapter =
                     new ArrayAdapter<>(
                             aContext,
                             android.R.layout.simple_spinner_item,
-                            lCulturalObjectSubjects);
+                            culturalObjectSubjects);
 
-            lSubjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            lSubjectSpinner.setAdapter(lSubjectAdapter);
+            subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            subjectSpinner.setAdapter(subjectAdapter);
 
-            String lSubjectSelected =
+            String subjectSelected =
                     mPrefs.getMyStringPref(
                             aContext,
                             BaseConstants.Attr_Subject_Selected,
                             MyString.EMPTY_STRING);
 
-            Integer lItemPosition = SpinnerHandler.getPositionByItem(lSubjectSpinner, lSubjectSelected);
+            Integer itemPosition =
+                    SpinnerHandler.getPositionByItem(subjectSpinner, subjectSelected);
 
-            if (!lItemPosition.equals(Basemodel.NULL_KEY)) {
-                lSubjectSpinner.setSelection(lItemPosition);
+            if (!itemPosition.equals(Basemodel.NULL_KEY)) {
+                subjectSpinner.setSelection(itemPosition);
             }
         }
     }
@@ -519,15 +520,15 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     private ArrayList<CulturalObjectType> getCulturalInterestTypes() {
 
         // array list of type of cultural interest
-        ArrayList<CulturalObjectType> lListOfCIType = new ArrayList<>();
+        ArrayList<CulturalObjectType> listOfCIType = new ArrayList<>();
 
-        lListOfCIType.add(new CulturalObjectType("","Cultural place", false));
-        lListOfCIType.add(new CulturalObjectType("","Cultural person", false));
-        lListOfCIType.add(new CulturalObjectType("","Cultural event", false));
-        lListOfCIType.add(new CulturalObjectType("","Folklore", false));
-        lListOfCIType.add(new CulturalObjectType("","Physical object", false));
+        listOfCIType.add(new CulturalObjectType("","Cultural place", false));
+        listOfCIType.add(new CulturalObjectType("","Cultural person", false));
+        listOfCIType.add(new CulturalObjectType("","Cultural event", false));
+        listOfCIType.add(new CulturalObjectType("","Folklore", false));
+        listOfCIType.add(new CulturalObjectType("","Physical object", false));
 
-        return lListOfCIType;
+        return listOfCIType;
     }
 
     //endregion

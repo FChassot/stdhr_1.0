@@ -84,21 +84,21 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         // An intent is an abstract description of an operation to be performed.
         // getIntent returns the intent that started this activity.
-        Intent lIntent = this.getIntent();
+        Intent intent = this.getIntent();
 
         // The bundle object contains a mapping from String keys
         // to various Parcelable values.
-        Bundle lBundle = lIntent.getExtras();
+        Bundle bundle = intent.getExtras();
 
         mWithoutOnStop = false;
 
-        if (lBundle != null) {
+        if (bundle != null) {
             // To retrieve the current user marker
-            mCurrentUserMarker = lBundle.getParcelable(USER_MARKER);
+            mCurrentUserMarker = bundle.getParcelable(USER_MARKER);
             // To retrieve the cultural object selected in the radar view
-            mSelectedMarker = lBundle.getParcelable(RADAR_MARKER);
+            mSelectedMarker = bundle.getParcelable(RADAR_MARKER);
             // To retrieve all cultural objects found in the radar but not selected
-            mCulturalObjectMarkers = lBundle.getParcelableArrayList(RADAR_MARKER_ARRAY);
+            mCulturalObjectMarkers = bundle.getParcelableArrayList(RADAR_MARKER_ARRAY);
         }
         else {
             if (mCurrentUserLocation != null){
@@ -156,15 +156,15 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         super.onPause();
 
         if (!mWithoutOnStop) {
-            Intent lIntent = new Intent(this, RadarActivity.class);
+            Intent intent = new Intent(this, RadarActivity.class);
 
-            Bundle lBundle = new Bundle();
+            Bundle bundle = new Bundle();
 
-            lBundle.putParcelable(MapsActivity.USER_MARKER, mSelectedMarker);
+            bundle.putParcelable(MapsActivity.USER_MARKER, mSelectedMarker);
 
-            lIntent.putExtras(lBundle);
+            intent.putExtras(bundle);
 
-            this.startActivity(lIntent);
+            this.startActivity(intent);
         }
     }
 
@@ -177,15 +177,15 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         super.onStop();
 
         if (!mWithoutOnStop) {
-            Intent lIntent = new Intent(this, RadarActivity.class);
+            Intent intent = new Intent(this, RadarActivity.class);
 
-            Bundle lBundle = new Bundle();
+            Bundle bundle = new Bundle();
 
-            lBundle.putParcelable(MapsActivity.RADAR_MARKER, mSelectedMarker);
+            bundle.putParcelable(MapsActivity.RADAR_MARKER, mSelectedMarker);
 
-            lIntent.putExtras(lBundle);
+            intent.putExtras(bundle);
 
-            this.startActivity(lIntent);
+            this.startActivity(intent);
         }
     }
 
@@ -206,53 +206,53 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
         mMapFragment.setOnMarkerClickListener(this);
         mMapFragment.setMyLocationEnabled(true);
 
-        LatLngBounds.Builder lBuilder = new LatLngBounds.Builder();
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        LatLng lLatLngCurrentUserLocation =
+        LatLng latLngCurrentUserLocation =
             new LatLng(
                 mCurrentUserMarker.getLatitude(),
                 mCurrentUserMarker.getLongitude());
 
-        lBuilder.include(lLatLngCurrentUserLocation);
+        builder.include(latLngCurrentUserLocation);
 
         // Add a marker in the marker location
         mMapFragment.addMarker(
                 new MarkerOptions()
-                        .position(lLatLngCurrentUserLocation)
+                        .position(latLngCurrentUserLocation)
                         .title(mCurrentUserMarker.getTitle()));
 
         if (mSelectedMarker != null) {
-            LatLng lLatLngCulturalObjectLocation =
+            LatLng latLngCulturalObjectLocation =
                 new LatLng(
                         mSelectedMarker.getLatitude(),
                         mSelectedMarker.getLongitude());
 
-            lBuilder.include(lLatLngCulturalObjectLocation);
+            builder.include(latLngCulturalObjectLocation);
 
             // Add a marker in the current location and move the camera
-            Marker lMarker = mMapFragment.addMarker(
+            Marker marker = mMapFragment.addMarker(
                 new MarkerOptions()
-                    .position(lLatLngCulturalObjectLocation)
+                    .position(latLngCulturalObjectLocation)
                     .snippet(mSelectedMarker.getObjectId())
                     .title(mSelectedMarker.getTitle()));
 
-            lMarker.showInfoWindow();
+            marker.showInfoWindow();
         }
 
         // Add all markers non selected as well
         if (mCulturalObjectMarkers != null) {
             for (RadarMarker lMarker : mCulturalObjectMarkers) {
-                LatLng lLatLngCulturalObjectLocation =
+                LatLng latLngCulturalObjectLocation =
                     new LatLng(
                         lMarker.getLatitude(),
                         lMarker.getLongitude());
 
-                lBuilder.include(lLatLngCulturalObjectLocation);
+                builder.include(latLngCulturalObjectLocation);
 
                 // Add a marker in the current location and move the camera
                 mMapFragment.addMarker(
                     new MarkerOptions()
-                        .position(lLatLngCulturalObjectLocation)
+                        .position(latLngCulturalObjectLocation)
                         .title(lMarker.getTitle())
                         .snippet(lMarker.getObjectId())
                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_marker_museum)));
@@ -261,7 +261,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         // Returns a CameraUpdate that transforms the camera such that the specified
         // latitude/longitude bounds are centered on screen at the greatest possible zoom level.
-        mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(lBuilder.build(), 900, 900, 2));
+        mMapFragment.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 900, 900, 2));
     }
 
     /**
@@ -277,27 +277,27 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         if (aMarker.getTitle().equals(BaseConstants.Attr_Citizen_User_Text)) { return true; }
 
-        Location lLocation = new Location(MyString.EMPTY_STRING);
-        lLocation.setLatitude(aMarker.getPosition().latitude);
-        lLocation.setLongitude(aMarker.getPosition().longitude);
+        Location location = new Location(MyString.EMPTY_STRING);
+        location.setLatitude(aMarker.getPosition().latitude);
+        location.setLongitude(aMarker.getPosition().longitude);
 
-        RadarMarker lSelectedMarker = new RadarMarker();
+        RadarMarker selectedMarker = new RadarMarker();
 
-        lSelectedMarker.setLocation(lLocation);
-        lSelectedMarker.setTitle(aMarker.getTitle());
-        lSelectedMarker.setObjectId(aMarker.getSnippet());
+        selectedMarker.setLocation(location);
+        selectedMarker.setTitle(aMarker.getTitle());
+        selectedMarker.setObjectId(aMarker.getSnippet());
 
-        Intent lIntent = new Intent(this, CityZenActivity.class);
+        Intent intent = new Intent(this, CityZenActivity.class);
 
         // The bundle object contains a mapping from String keys
         // to various Parcelable values.
-        Bundle lBundle = new Bundle();
+        Bundle bundle = new Bundle();
 
-        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+        bundle.putParcelable(MapsActivity.RADAR_MARKER, selectedMarker);
 
-        lIntent.putExtras(lBundle);
+        intent.putExtras(bundle);
 
-        this.startActivity(lIntent);
+        this.startActivity(intent);
 
         mWithoutOnStop = true;
 

@@ -25,10 +25,10 @@ public class ValidationDescCollection {
     /**
      * Add a new String in the list
      *
-     * @param aValDesc String to add
+     * @param valDesc String to add
      */
-    public void add(String aValDesc) {
-        mList.add(aValDesc);
+    public void add(String valDesc) {
+        mList.add(valDesc);
     }
 
     /**

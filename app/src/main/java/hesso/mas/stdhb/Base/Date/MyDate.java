@@ -17,16 +17,16 @@ public final class MyDate {
 
     private MyDate() {}
 
-    public static MyDate Today() { return new MyDate();}
+    public static MyDate today() { return new MyDate();}
 
-    public String GetDateNow() {
+    public String getDateNow() {
 
-        DateFormat lDateFormat = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
-        String lCurrentDate = lDateFormat.format(Calendar.getInstance().getTime());
+        DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+        String currentDate = dateFormat.format(Calendar.getInstance().getTime());
 
-        return lCurrentDate;
+        return currentDate;
     }
 
-    public Integer Year() { return 2016; }
+    public Integer year() { return 2016; }
 
 }
