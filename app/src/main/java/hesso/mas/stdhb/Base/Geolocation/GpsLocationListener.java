@@ -45,9 +45,9 @@ public final class GpsLocationListener implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1;              // 1 minute
 
     // Constructor
-    public GpsLocationListener(Context aContext) {
+    public GpsLocationListener(Context context) {
 
-        this.mContext = aContext;
+        this.mContext = context;
         this.mLocation = getCurrentLocation();
     }
 

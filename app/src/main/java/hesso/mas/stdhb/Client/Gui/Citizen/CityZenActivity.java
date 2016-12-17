@@ -83,11 +83,11 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         mImageView = (ImageView) findViewById(imageView);
         ImageView lImgBack = (ImageView)findViewById(R.id.mImgBack);
 
-        Bundle lBundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
 
-        if (lBundle != null) {
+        if (bundle != null) {
             // To retrieve the cultural object selected in the radar view
-            mCulturalObjectMarker = lBundle.getParcelable(MapsActivity.RADAR_MARKER);
+            mCulturalObjectMarker = bundle.getParcelable(MapsActivity.RADAR_MARKER);
 
             if (mCulturalObjectMarker != null) {
                 mTitle.setText(mCulturalObjectMarker.getTitle());
@@ -99,7 +99,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                 mDescription = mCulturalObjectMarker.getDescription();
             }
 
-            String lClientServerCommunicationMode =
+            String clientServerCommunicationMode =
                     mPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_ClientServer_Communication,
@@ -112,7 +112,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
             startAsyncSearch(
                     lRequest,
-                    lClientServerCommunicationMode,
+                    clientServerCommunicationMode,
                     false);
         }
 
@@ -216,29 +216,29 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * Start an Async Search on a Sparql endPoint
      *
-     * @param aRequest represents the sparql request
-     * @param aClientServerArchitecture provides the type of architecture choosen
+     * @param request represents the sparql request
+     * @param clientServerArchitecture provides the type of architecture choosen
      *                                  for the communication with the server
-     * @param aDisplaySearchmsg when true a wait-message will be displayed on the
+     * @param displaySearchmsg when true a wait-message will be displayed on the
      *                          screen until the response has been received from the
      *                          server
      */
     private void startAsyncSearch(
-            String aRequest,
-            String aClientServerArchitecture,
-            boolean aDisplaySearchmsg) {
+            String request,
+            String clientServerArchitecture,
+            boolean displaySearchmsg) {
 
-        if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
-            RetrieveCitizenDataAsyncTask lTask =
+        if (clientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
+            RetrieveCitizenDataAsyncTask task =
                     new RetrieveCitizenDataAsyncTask(
                             this,
                             RetrieveCitizenDataAsyncTask.ACTION1);
 
-            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
+            task.onPreExecuteMessageDisplay = displaySearchmsg;
 
-            lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
+            task.execute(
+                    request,
+                    clientServerArchitecture);
 
             return;
         }
@@ -248,11 +248,11 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                             this,
                             RetrieveCitizenDataAsyncTask.ACTION1);
 
-            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
+            lTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
             lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
+                    request,
+                    clientServerArchitecture);
 
             return;
         }
@@ -260,19 +260,19 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      *
-     * @param aCurrentLocation
-     * @param aCulturalObjectMarker
+     * @param currentLocation
+     * @param culturalObjectMarker
      * @return
      */
     private double getDistance(
-            Location aCurrentLocation,
-            Location aCulturalObjectMarker) {
+            Location currentLocation,
+            Location culturalObjectMarker) {
 
         return SpatialGeometryServices.getDistanceBetweenTwoPoints(
                 0,
                 0,
-                aCulturalObjectMarker.getLatitude(),
-                aCulturalObjectMarker.getLongitude(),
+                culturalObjectMarker.getLatitude(),
+                culturalObjectMarker.getLongitude(),
                 0,
                 0);
 
@@ -280,13 +280,13 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      *
-     * @param aCulturalObjectMarker
+     * @param culturalObjectMarker
      * @return
      */
     private String getStrLocation(
-            RadarMarker aCulturalObjectMarker) {
+            RadarMarker culturalObjectMarker) {
 
-        return "Position Lat " + aCulturalObjectMarker.getLatitude() + " Lon " + aCulturalObjectMarker.getLongitude();
+        return "Position Lat " + culturalObjectMarker.getLatitude() + " Lon " + culturalObjectMarker.getLongitude();
 
     }
 
@@ -307,40 +307,40 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
          * implementation of onReceive().
          */
         @Override
-        public void onReceive(Context aContext, Intent aIntent) {
+        public void onReceive(Context context, Intent intent) {
 
             // The bundle object contains a mapping from String keys to various Parcelable values.
-            Bundle lBundle = aIntent.getExtras();
+            Bundle bundle = intent.getExtras();
 
-            CitizenQueryResult lCitizenQueryResult = null;
+            CitizenQueryResult citizenQueryResult = null;
 
             try {
                 // The bundle should contain the SPARQL Result
-                lCitizenQueryResult =
-                        lBundle.getParcelable(
+                citizenQueryResult =
+                        bundle.getParcelable(
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
-            if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
-                CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
+            if (citizenQueryResult != null && citizenQueryResult.Count() > 0) {
+                CitizenDbObject culturalObject = citizenQueryResult.Results().get(0);
 
-                mDescription = lCulturalObject.GetValue("description");
+                mDescription = culturalObject.GetValue("description");
                 TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
                 mTxtDescription.setText(mDescription);
                 TextView mTxtViewPosition = (TextView)findViewById(R.id.mTxtViewPosition);
                 mTxtViewPosition.setText(getStrLocation(mCulturalObjectMarker));
 
-                NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(aContext);
-                String lResourceUri = lCulturalObject.GetValue("image_url");
+                NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(context);
+                String lResourceUri = culturalObject.GetValue("image_url");
 
                 if(lNetworkConnectivity.isNetworkAvailable()) {
                     if (true) {
                         // Use of the Picasso library to load images
                         ImageView lImageView = (ImageView) findViewById(imageView);
-                        Picasso.with(aContext).load(lResourceUri).into(lImageView);
+                        Picasso.with(context).load(lResourceUri).into(lImageView);
                     }
                     else {
                             /*VideoView lVideoView = (VideoView) findViewById(R.id.video_view);

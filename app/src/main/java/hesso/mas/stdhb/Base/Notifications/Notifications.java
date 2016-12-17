@@ -31,13 +31,13 @@ public final class Notifications {
         String title,
         String positiveButtonText) {
 
-        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
-        lAlertDialog.setMessage(message);
-        lAlertDialog.setTitle(title);
-        lAlertDialog.setPositiveButton(positiveButtonText, null);
-        lAlertDialog.setCancelable(true);
-        lAlertDialog.create().show();
+        alertDialog.setMessage(message);
+        alertDialog.setTitle(title);
+        alertDialog.setPositiveButton(positiveButtonText, null);
+        alertDialog.setCancelable(true);
+        alertDialog.create().show();
     }
 
     /**
@@ -54,19 +54,19 @@ public final class Notifications {
         String title,
         String positiveButtonText) {
 
-        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
-        String lFormattedMsg = MyString.EMPTY_STRING;
+        String formattedMsg = MyString.EMPTY_STRING;
 
         for (String lMessage : valDescCollection.values()) {
-            lFormattedMsg += lMessage;
+            formattedMsg += lMessage;
         }
 
-        lAlertDialog.setMessage(lFormattedMsg);
-        lAlertDialog.setTitle(title);
-        lAlertDialog.setPositiveButton(positiveButtonText, null);
-        lAlertDialog.setCancelable(true);
-        lAlertDialog.create().show();
+        alertDialog.setMessage(formattedMsg);
+        alertDialog.setTitle(title);
+        alertDialog.setPositiveButton(positiveButtonText, null);
+        alertDialog.setCancelable(true);
+        alertDialog.create().show();
     }
 
     /**
@@ -85,13 +85,13 @@ public final class Notifications {
             String settingsAction,
             String negativeButtonText) {
 
-        AlertDialog.Builder lAlertDialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
-        lAlertDialog.setMessage(message);
-        lAlertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setTitle(title);
 
         // On pressing Settings button
-        lAlertDialog.setPositiveButton("Settings",
+        alertDialog.setPositiveButton("Settings",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface aDialog, int which) {
                         Intent lIntent = new Intent(
@@ -101,13 +101,13 @@ public final class Notifications {
                 });
 
         // on pressing cancel button
-        lAlertDialog.setNegativeButton("Cancel",
+        alertDialog.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface aDialog, int which) {
                         aDialog.cancel();
                     }
                 });
 
-        lAlertDialog.create().show();
+        alertDialog.create().show();
     }
 }
