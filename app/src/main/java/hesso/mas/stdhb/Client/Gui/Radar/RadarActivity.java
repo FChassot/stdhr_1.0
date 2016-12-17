@@ -121,11 +121,11 @@ public class RadarActivity
      *
      * The app uses the device's magnetometer (compass).
      *
-     * @param aSavedInstanceState
+     * @param savedInstanceState
      */
     @Override
-    protected void onCreate(Bundle aSavedInstanceState) {
-        super.onCreate(aSavedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_display);
@@ -180,7 +180,7 @@ public class RadarActivity
 
         mRadarView.Radius(mRadius);
 
-        this.startRadar(mRadarView);
+        this.startRadar();
 
         mNbrOfCulturalObjectsDetected.setText(getResources().getString(R.string.txt_radar_doing_first_search));
 
@@ -241,18 +241,18 @@ public class RadarActivity
 
         // An intent is an abstract description of an operation to be performed.
         // getIntent returns the intent that started this activity.
-        Intent lIntent = this.getIntent();
+        Intent intent = this.getIntent();
 
-        if (lIntent != null) {
+        if (intent != null) {
             // The bundle object contains a mapping from String keys to various Parcelable values.
-            Bundle lBundle = lIntent.getExtras();
+            Bundle bundle = intent.getExtras();
 
-            if (lBundle != null) {
+            if (bundle != null) {
                 // To retrieve the cultural object selected in the radar view
-                RadarMarker mSelectedMarker = lBundle.getParcelable(RADAR_MARKER);
+                RadarMarker selectedMarker = bundle.getParcelable(RADAR_MARKER);
 
-                if (mSelectedMarker != null) {
-                    mRadarView.mSelectedMarker = mSelectedMarker;
+                if (selectedMarker != null) {
+                    mRadarView.mSelectedMarker = selectedMarker;
                 }
             }
         }
@@ -314,7 +314,7 @@ public class RadarActivity
 
         // Stop the radar. When the radar is stopped, other services are stopped as well,
         // like the update of the markers and the update of the orientation.
-        this.stopRadar(mRadarView);
+        this.stopRadar();
 
         // Stop the listener and save battery
         mSensorManager.unregisterListener(this);
@@ -328,14 +328,14 @@ public class RadarActivity
          * Update the text displayed on the mBtnStopRadar Button
          */
         private void updateButtonText() {
-            Button lBtnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
+            Button btnStopRadar = (Button)findViewById(R.id.mBtnStopRadar);
 
-            if (lBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
+            if (btnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar))
             {
-                lBtnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
+                btnStopRadar.setText(getResources().getString(R.string.txt_btn_continue_radar));
             }
             else {
-                lBtnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
+                btnStopRadar.setText(getResources().getString(R.string.txt_btn_stop_radar));
             }
         }
 
@@ -344,30 +344,30 @@ public class RadarActivity
          */
         private void updateInfoTxtView() {
 
-            TextView mRadiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
+            TextView radiusInfo = (TextView)findViewById(R.id.mDtxtRadiusInfo);
 
             if (mRadius < 1000) {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + mRadius + " [m]";
                 lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimuth);
 
-                mRadiusInfo.setText(lText);
+                radiusInfo.setText(lText);
             }
             else {
                 String lText = getResources().getString(R.string.txt_radius_of_search) + ": " + (mRadius/1000) + " [km]";
                 lText += "      " + "Azimuth: " + IntegerUtil.roundToDecimal(mAzimuth);
 
-                mRadiusInfo.setText(lText);
+                radiusInfo.setText(lText);
             }
         }
 
         /**
          * Update the TextView which informs about the number of objects in proximity
          *
-         * @param aTextView
+         * @param textView
          */
-        private void updateRadarText(TextView aTextView) {
+        private void updateRadarText(TextView textView) {
             if (mRadarView.getMarkers() != null) {
-                aTextView.setText(
+                textView.setText(
                         mRadarView.getMarkers().size() +
                                 " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
             }
@@ -381,28 +381,28 @@ public class RadarActivity
          * The onClick() method is called when a button is actually clicked (or tapped).
          * This method is called by the listener.
          */
-        public void onClick(View aView){
-            if (aView.getId()==R.id.mBtnStopRadar){
+        public void onClick(View view){
+            if (view.getId()==R.id.mBtnStopRadar){
                 if (mBtnStopRadar.getText() == getResources().getString(R.string.txt_btn_stop_radar)) {
-                    this.stopRadar(this.mRadarView);
+                    this.stopRadar();
                 }
                 else {
-                    this.startRadar(this.mRadarView);
+                    this.startRadar();
                 }
 
                 this.updateButtonText();
             }
-            if (aView.getId()==R.id.mImgBack){
-                this.stopRadar(this.mRadarView);
+            if (view.getId()==R.id.mImgBack){
+                this.stopRadar();
 
-                Intent lIntent = new Intent(RadarActivity.this, MainActivity.class);
-                startActivity(lIntent);
+                Intent intent = new Intent(RadarActivity.this, MainActivity.class);
+                startActivity(intent);
             }
-            if (aView.getId()==R.id.mDtxtRadiusInfo){
-                Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
-                startActivity(lIntent);
+            if (view.getId()==R.id.mDtxtRadiusInfo){
+                Intent intent = new Intent(RadarActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
-            if (aView.getId()==R.id.imgBtnZoom){
+            if (view.getId()==R.id.imgBtnZoom){
                 if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {return;}
 
                 if ((mRadius / 2) <= 1) {
@@ -418,7 +418,7 @@ public class RadarActivity
                 startAsyncSearch();
                 updateInfoTxtView();
             }
-            if (aView.getId()==R.id.imgBtnReset){
+            if (view.getId()==R.id.imgBtnReset){
                 if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {return;}
                     mRadius =
                             mPreferences.getMyIntPref(
@@ -433,9 +433,9 @@ public class RadarActivity
                 startAsyncSearch();
                 updateInfoTxtView();
             }
-            if (aView.getId()==R.id.radarView){
+            if (view.getId()==R.id.radarView){
                 if (mBtnStopRadar.getText().equals(getResources().getString(R.string.txt_btn_continue_radar))) {
-                    this.startRadar(this.mRadarView);
+                    this.startRadar();
                     this.updateButtonText();
                 }
             }
@@ -459,26 +459,26 @@ public class RadarActivity
      * Update the list of marker (property mMarkers) of the view class.
      *
      *
-     * @param aMarkers The list of the markers to be updated on the view
+     * @param markers The list of the markers to be updated on the view
      */
-    public synchronized void updateMarkers(List<RadarMarker> aMarkers) {
-        if (mRadarView != null) mRadarView.updateMarkers(aMarkers);
+    public synchronized void updateMarkers(List<RadarMarker> markers) {
+        if (mRadarView != null) mRadarView.updateMarkers(markers);
     }
 
     /**
      *
-     * @param aAzimuth
+     * @param azimuth
      */
-    public synchronized void updateAzimuth(int aAzimuth) {
-        if (mRadarView != null) mRadarView.Azimuth(aAzimuth);
+    public synchronized void updateAzimuth(int azimuth) {
+        if (mRadarView != null) mRadarView.Azimuth(azimuth);
     }
 
     /**
      *
-     * @param aRadius
+     * @param radius
      */
-    public synchronized void updateRadius(double aRadius) {
-        if (mRadarView != null) mRadarView.Radius(aRadius);
+    public synchronized void updateRadius(double radius) {
+        if (mRadarView != null) mRadarView.Radius(radius);
     }
 
     /**
@@ -499,9 +499,8 @@ public class RadarActivity
     /**
      * Start the radar's animation
      *
-     * @param aView
      */
-    public void startRadar(View aView) {
+    public void startRadar() {
 
         if (mRadarView != null) {
             mRadarView.startRadar();
@@ -512,9 +511,8 @@ public class RadarActivity
     /**
      * Stop the radar's animation
      *
-     * @param aView
      */
-    public void stopRadar(View aView) {
+    public void stopRadar() {
 
         if (mRadarView != null) {
             mRadarView.stopRadar();
@@ -530,28 +528,28 @@ public class RadarActivity
      * Called when sensor values have changed. The length and contents of the values array
      * vary depending on which sensor is being monitored.
      *
-     * @param aEvent
+     * @param event
      */
     @Override
-    public void onSensorChanged(SensorEvent aEvent) {
+    public void onSensorChanged(SensorEvent event) {
 
-        if (aEvent.sensor == mAccelerometer) {
+        if (event.sensor == mAccelerometer) {
             System.arraycopy(
-                    aEvent.values,
+                    event.values,
                     0,
                     mLastAccelerometerValue,
                     0,
-                    aEvent.values.length);
+                    event.values.length);
 
             mLastAccelerometerSet = true;
         }
-        else if (aEvent.sensor == mMagnetometer) {
+        else if (event.sensor == mMagnetometer) {
             System.arraycopy(
-                    aEvent.values,
+                    event.values,
                     0,
                     mLastMagnetometerValue,
                     0,
-                    aEvent.values.length);
+                    event.values.length);
 
             mLastMagnetometerSet = true;
         }
@@ -590,33 +588,33 @@ public class RadarActivity
     /**
      * Called when the accuracy of a sensor has changed.
      *
-     * @param aSensor The ID of the sensor being monitored
-     * @param aAccuracy The new accuracy (exactitude) of this sensor.
+     * @param sensor The ID of the sensor being monitored
+     * @param accuracy The new accuracy (exactitude) of this sensor.
      */
     @Override
     public void onAccuracyChanged(
-        Sensor aSensor,
-        int aAccuracy) {
+        Sensor sensor,
+        int accuracy) {
 
         // In the function onAccuracyChanged(Sensor sensor, int accuracy), i can check
         // the accuracy of the device's magnetometer.
-        if (aSensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+        if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 
-            String lText = aSensor.getName();
+            String text = sensor.getName();
 
-            mHasInterference = (aAccuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+            mHasInterference = (accuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
-            if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
-                lText += " " + "Compass sensor seems to work correctly on your mobile!"; //"SENSOR_STATUS_ACCURACY_HIGH";
-            } else if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
-                lText += " " + "SENSOR_STATUS_ACCURACY_MEDIUM" + " " + "Try to calibrate compass on your Android!\"";
-            } else if (aAccuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
-                lText += " " + "SENSOR_STATUS_ACCURACY_LOW" + " " + "Try to calibrate compass on your Android!\"";
-            } else if (aAccuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
-                lText += " " + "SENSOR_STATUS_UNRELIABLE" + " " + "Try to calibrate compass on your Android!";
+            if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
+                text += " " + "Compass sensor seems to work correctly on your mobile!"; //"SENSOR_STATUS_ACCURACY_HIGH";
+            } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
+                text += " " + "SENSOR_STATUS_ACCURACY_MEDIUM" + " " + "Try to calibrate compass on your Android!\"";
+            } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
+                text += " " + "SENSOR_STATUS_ACCURACY_LOW" + " " + "Try to calibrate compass on your Android!\"";
+            } else if (accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+                text += " " + "SENSOR_STATUS_UNRELIABLE" + " " + "Try to calibrate compass on your Android!";
             }
 
-            Toast.makeText(this, lText, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -628,8 +626,8 @@ public class RadarActivity
      * Delegate the event to the gesture detector
      */
     @Override
-    public boolean onTouchEvent(MotionEvent aEvent) {
-        return mGestureDetector.onTouchEvent(aEvent);
+    public boolean onTouchEvent(MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
     }
 
     /**
@@ -638,19 +636,19 @@ public class RadarActivity
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onDown(MotionEvent aMotionEvent) {
+        public boolean onDown(MotionEvent motionEvent) {
             return true;
         }
 
         /**
          * Event when double tap occurs
          *
-         * @param aMotionEvent
+         * @param motionEvent
          *
          * @return
          */
         @Override
-        public boolean onDoubleTap(MotionEvent aMotionEvent) {
+        public boolean onDoubleTap(MotionEvent motionEvent) {
             return true;
         }
     }
@@ -666,32 +664,32 @@ public class RadarActivity
     private void startAsyncSearch() {
 
         //todo chf removes for the production
-        Location lCurrentUserLocation = null;
+        Location currentUserLocation = null;
                 //mGeolocationServices.getCurrentLocation();
 
         // TODO chf removes when the application works
-        if (lCurrentUserLocation == null) {
+        if (currentUserLocation == null) {
             mCurrentUserLocation = new Location(MyString.EMPTY_STRING);
             mCurrentUserLocation.setLatitude(46.2333d);
             mCurrentUserLocation.setLongitude(7.35d);
         }
 
-        RetrieveCitizenDataAsyncTask lRetrieveTask =
+        RetrieveCitizenDataAsyncTask retrieveTask =
                 new RetrieveCitizenDataAsyncTask(
                         this,
                         RetrieveCitizenDataAsyncTask.ACTION2);
 
-        String lClientServerCommunicationMode =
+        String clientServerCommunicationMode =
                 mPreferences.getMyStringPref(
                         this,
                         BaseConstants.Attr_ClientServer_Communication,
                         EnumClientServerCommunication.ANDROJENA.toString());
 
-        EnumClientServerCommunication lEnumValue =
+        EnumClientServerCommunication enumValue =
                 EnumClientServerCommunication.valueOf(
-                        lClientServerCommunicationMode);
+                        clientServerCommunicationMode);
 
-        if (lEnumValue != EnumClientServerCommunication.ANDROJENA) {
+        if (enumValue != EnumClientServerCommunication.ANDROJENA) {
             Notifications.ShowMessageBox(
                     this,
                     getResources().getString(R.string.txt_radar_possible_mode),
@@ -701,13 +699,13 @@ public class RadarActivity
             return;
         }
 
-        String lCulturalObjectType =
+        String culturalObjectType =
             mPreferences.getMyStringPref(
                 this,
                 BaseConstants.Attr_TypeOfSearch,
                 MyString.EMPTY_STRING);
 
-        int lRadiusOfSearch =
+        int radiusOfSearch =
             mPreferences.getMyIntPref(
                 this,
                 BaseConstants.Attr_Radius_Search,
@@ -716,31 +714,31 @@ public class RadarActivity
         double lRadius =
             mSpatialGeometryServices.getRadiusInRadian(
                 mCurrentUserLocation,
-                lRadiusOfSearch);
+                    radiusOfSearch);
 
-        String lSubject =
+        String subject =
             mPreferences.getMyStringPref(
                 this,
                 BaseConstants.Attr_Subject_Search_Type,
                 "Viticulture");
 
-        int lLimit = 200;
+        int limit = 200;
 
-        String lQuery =
+        String query =
                 CitizenRequests.getCulturalObjectsInProximityQuery(
-                        lCulturalObjectType,
+                        culturalObjectType,
                         (mCurrentUserLocation.getLatitude() - lRadius),
                         (mCurrentUserLocation.getLatitude() + lRadius),
                         (mCurrentUserLocation.getLongitude() - lRadius),
                         (mCurrentUserLocation.getLongitude() + lRadius),
-                        lSubject,
-                        lLimit);
+                        subject,
+                        limit);
 
-        lRetrieveTask.onPreExecuteMessageDisplay = false;
+        retrieveTask.onPreExecuteMessageDisplay = false;
 
-        lRetrieveTask.execute(
-                lQuery,
-                lClientServerCommunicationMode);
+        retrieveTask.execute(
+                query,
+                clientServerCommunicationMode);
     }
 
     /**
@@ -760,28 +758,28 @@ public class RadarActivity
          * implementation of onReceive().
          */
         @Override
-        public void onReceive(Context aContext, Intent aIntent)
+        public void onReceive(Context context, Intent intent)
         {
-            if (!aIntent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION2)) {
+            if (!intent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION2)) {
                 return;
             }
 
-            CitizenQueryResult lCitizenQueryResult = null;
+            CitizenQueryResult citizenQueryResult = null;
 
-            Bundle lBundle = aIntent.getExtras();
+            Bundle bundle = intent.getExtras();
 
             try {
-                lCitizenQueryResult =
-                        lBundle.getParcelable(
+                citizenQueryResult =
+                        bundle.getParcelable(
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
-            List<RadarMarker> lMarkers =
+            List<RadarMarker> markers =
                     RadarHelper.getRadarMarkersFromResponse(
-                            lCitizenQueryResult,
+                            citizenQueryResult,
                             mAzimuth,
                             mCurrentUserLocation,
                             mRadius,
@@ -789,7 +787,7 @@ public class RadarActivity
                             mRadarView.getWidth(),
                             true);
 
-            updateMarkers(lMarkers);
+            updateMarkers(markers);
             updateRadarText(mNbrOfCulturalObjectsDetected);
         }
     }
@@ -799,13 +797,13 @@ public class RadarActivity
     /**
      * This hook is called whenever an item in your options menu is selected.
      *
-     * @param aMenuItem The menu item that was selected.
+     * @param menuItem The menu item that was selected.
      *
      * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem aMenuItem) {
-        switch (aMenuItem.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case R.id.action_settings:
                 Intent lIntent = new Intent(RadarActivity.this, SettingsActivity.class);
                 startActivity(lIntent);
@@ -822,7 +820,7 @@ public class RadarActivity
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(aMenuItem);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 }

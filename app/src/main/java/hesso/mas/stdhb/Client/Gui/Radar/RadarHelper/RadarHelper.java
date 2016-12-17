@@ -30,32 +30,32 @@ public final class RadarHelper {
      * This method analyses the response from the sparql request and converts this one into a list
      * of radarMarker
      *
-     * @param aQueryResult The result of the query to be converted in a list of radarmarker
-     * @param aCurrentDegree
-     * @param aCurrentUserLocation The current location of the app's user
-     * @param aRadius The radius of the radar's search
-     * @param aHeightView the actual height size of the view
-     * @param aWidthView the actual width size of the view
-     * @param aMovementMode Define if the radar must work with an automatic update of the position
+     * @param queryResult The result of the query to be converted in a list of radarmarker
+     * @param currentDegree
+     * @param currentUserLocation The current location of the app's user
+     * @param radius The radius of the radar's search
+     * @param heightView the actual height size of the view
+     * @param widthView the actual width size of the view
+     * @param movementMode Define if the radar must work with an automatic update of the position
      * of the cultural objects according to the north.
      *
      * @return A list of RadarMarker
      */
     public static List<RadarMarker> getRadarMarkersFromResponse(
-        CitizenQueryResult aQueryResult,
-        int aCurrentDegree,
-        Location aCurrentUserLocation,
-        double aRadius,
-        int aHeightView,
-        int aWidthView,
-        boolean aMovementMode) {
+        CitizenQueryResult queryResult,
+        int currentDegree,
+        Location currentUserLocation,
+        double radius,
+        int heightView,
+        int widthView,
+        boolean movementMode) {
 
-        Checks.AssertNotNull(aQueryResult, "aQueryResult");
+        Checks.AssertNotNull(queryResult, "aQueryResult");
 
         List<RadarMarker> lMarkers = new ArrayList<>();
         List<RadarMarker> lLisOfMarkersFiltered = new ArrayList<>();
 
-        for (CitizenDbObject lCulturalObject : aQueryResult.Results()) {
+        for (CitizenDbObject lCulturalObject : queryResult.Results()) {
             //todo chf: removes when clarified
             for (RadarMarker lMarker : lLisOfMarkersFiltered) {
                 if ((lMarker.getTitle().equals(lCulturalObject.GetValue("title"))) &&
@@ -72,18 +72,18 @@ public final class RadarHelper {
             double lCulturalObjectLongitude = Double.parseDouble(lCulturalObject.GetValue("long"));
 
             SpatialGeometryServices lSpatialGeometryServices = new SpatialGeometryServices();
-            double lRadius = lSpatialGeometryServices.getRadiusInRadian(aCurrentUserLocation, (int)aRadius);
+            double lRadius = lSpatialGeometryServices.getRadiusInRadian(currentUserLocation, (int)radius);
 
             RadarViewPosition lRadarViewPosition =
                 calculateXYPositionOfTheMarkerInTheRadarView(
-                    aHeightView,
-                    aWidthView,
+                    heightView,
+                    widthView,
                     lCulturalObjectLatitude,
                     lCulturalObjectLongitude,
-                    aCurrentUserLocation.getLatitude() - lRadius,
-                    aCurrentUserLocation.getLatitude() + lRadius,
-                    aCurrentUserLocation.getLongitude() - lRadius,
-                    aCurrentUserLocation.getLongitude() + lRadius);
+                    currentUserLocation.getLatitude() - lRadius,
+                    currentUserLocation.getLatitude() + lRadius,
+                    currentUserLocation.getLongitude() - lRadius,
+                    currentUserLocation.getLongitude() + lRadius);
 
             RadarMarker lMarker =
                 new RadarMarker(
@@ -96,14 +96,14 @@ public final class RadarHelper {
                     lCulturalObjectId,
                     lDescription);
 
-            if (aMovementMode) {
-                int lCenter = (aHeightView / 2);
+            if (movementMode) {
+                int lCenter = (heightView / 2);
 
                 RadarViewPosition lPositionAccordingCurrentDegree =
                         getRadarViewPositionForMarker(
                                 lCenter,
                                 lMarker,
-                                aCurrentDegree);
+                                currentDegree);
 
                 lMarker.setPositionX(lPositionAccordingCurrentDegree.getX());
                 lMarker.setPositionY(lPositionAccordingCurrentDegree.getY());

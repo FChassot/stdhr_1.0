@@ -151,8 +151,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
-        this.registerReceiver(mReceiver, lFilter);
+        IntentFilter filter = new IntentFilter(RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
+        this.registerReceiver(mReceiver, filter);
 
         PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
@@ -163,13 +163,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Method to specify the options menu
      *
-     * @param aMenu
+     * @param menu
+     *
      * @return
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu aMenu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Add the actionmenu entries to the ActionBar
-        getMenuInflater().inflate(R.menu.actionsearchmenu, aMenu);
+        getMenuInflater().inflate(R.menu.actionsearchmenu, menu);
         return true;
     }
 
@@ -213,11 +214,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Method processed by the OnClickListener when one button is clicked
      *
-     * @param aView
+     * @param view
      */
-    public void onClick(View aView) {
+    public void onClick(View view) {
 
-        if (aView.getId() == R.id.mBtnSearch) {
+        if (view.getId() == R.id.mBtnSearch) {
             if (!mConnectivity.isActive() || !mConnectivity.isNetworkAvailable()) {
                 Notifications.ShowMessageBox(this, "Sorry! unable to search Cityzen Data [internet network not active]", "Warning", "Ok");
                 return;
@@ -225,7 +226,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
-            String lClientServerCommunicationMode =
+            String clientServerCommunicationMode =
                     mPrefs.getMyStringPref(
                             this,
                             BaseConstants.Attr_ClientServer_Communication,
@@ -234,15 +235,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
             TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
 
-            ValidationDescCollection lValDescCollection =
+            ValidationDescCollection valDescCollection =
                     Validator.ValidateSearch(
                             mTxtPlace.getText().toString(),
                             mTxtPeriod.getText().toString());
 
-            if (lValDescCollection.any()) {
+            if (valDescCollection.any()) {
                 Notifications.ShowMessageBox(
                         this,
-                        lValDescCollection,
+                        valDescCollection,
                         "Warning",
                         "Ok"
                 );
@@ -255,7 +256,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String lBegin = mTxtPeriod.getText().toString().substring(0, 4);
             String lEnd = mTxtPeriod.getText().toString().substring(5, 9);
 
-            String lRequest =
+            String request =
                     CitizenRequests.getCulturalObjectQueryByTitleAndDate(
                             lPlace,
                             Integer.parseInt(lBegin),
@@ -263,13 +264,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             lSubjectSpinner.getSelectedItem().toString());
 
             startAsyncSearch(
-                lRequest,
-                lClientServerCommunicationMode,
+                request,
+                clientServerCommunicationMode,
                 true);
         }
-        if (aView.getId() == R.id.mImgBack) {
-            Intent lIntent = new Intent(SearchActivity.this, MainActivity.class);
-            startActivity(lIntent);
+        if (view.getId() == R.id.mImgBack) {
+            Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     }
 

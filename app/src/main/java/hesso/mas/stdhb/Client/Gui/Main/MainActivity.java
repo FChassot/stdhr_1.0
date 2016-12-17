@@ -98,15 +98,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onStart() {
         super.onStart();  // Always call the superclass method first
 
-        Button lRadarButton = (Button)findViewById(R.id.mBtnradar);
+        Button radarButton = (Button)findViewById(R.id.mBtnradar);
 
-        boolean lRadarMode =
+        boolean radarMode =
                 mPrefs.getMyBooleanPref(
                     this,
                     BaseConstants.Attr_Radar_Switch,
                     true);
 
-        lRadarButton.setEnabled(lRadarMode);
+        radarButton.setEnabled(radarMode);
     }
 
     /**
@@ -123,15 +123,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
 
-        Button lRadarButton = (Button)findViewById(R.id.mBtnradar);
+        Button radarButton = (Button)findViewById(R.id.mBtnradar);
 
-        boolean lRadarMode =
+        boolean radarMode =
                 mPrefs.getMyBooleanPref(
                         this,
                         BaseConstants.Attr_Radar_Switch,
                         true);
 
-        lRadarButton.setEnabled(lRadarMode);
+        radarButton.setEnabled(radarMode);
     }
 
     /**
@@ -151,45 +151,45 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
      * The onClick() method is called when a button is actually clicked.
      * This method is called by the OnClickListener.
      */
-    public void onClick(View aView){
+    public void onClick(View view){
 
-        if (aView.getId()==R.id.mImgSettings){
-            Intent lIntent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(lIntent);
+        if (view.getId()==R.id.mImgSettings){
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
         }
-        if (aView.getId()==R.id.mBtnradar){
-            Intent lIntent = new Intent(MainActivity.this, RadarActivity.class);
-            startActivity(lIntent);
+        if (view.getId()==R.id.mBtnradar){
+            Intent intent = new Intent(MainActivity.this, RadarActivity.class);
+            startActivity(intent);
         }
-        if (aView.getId()==R.id.mBtnSearch){
-            Intent lIntent = new Intent(MainActivity.this, SearchActivity.class);
-            startActivity(lIntent);
+        if (view.getId()==R.id.mBtnSearch){
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(intent);
         }
-        if (aView.getId()==R.id.mBtnMap){
-            Intent lIntent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(lIntent);
+        if (view.getId()==R.id.mBtnMap){
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(intent);
         }
     }
 
     /**
      * This hook is called whenever an item in your options menu is selected.
      *
-     * @param aMenuItem The menu item that was selected.
+     * @param menuItem The menu item that was selected.
      *
      * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem aMenuItem) {
-        switch (aMenuItem.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case R.id.action_settings:
-                Intent lIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(lIntent);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
             case R.id.action_search:
-                Intent lIntent2 = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(lIntent2);
+                Intent intent2 = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent2);
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
                 return true;
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(aMenuItem);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
