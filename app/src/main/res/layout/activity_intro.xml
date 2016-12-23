@@ -20,17 +20,6 @@
         android:textSize="50dp"
         android:textColor="#DF013A"/>
 
-    <TextView
-        android:id="@+id/poweredBy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/title"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="20dp"
-        android:text="Powered by"
-        android:textSize="35dp" />
-
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -38,5 +27,15 @@
         android:layout_below="@id/poweredBy"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/poweredBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:text="Powered by"
+        android:textSize="35dp"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

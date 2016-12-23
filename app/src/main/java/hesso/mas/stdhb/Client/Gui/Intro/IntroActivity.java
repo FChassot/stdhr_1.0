@@ -1,6 +1,5 @@
 package hesso.mas.stdhb.Client.Gui.Intro;
 
-import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhbtests.R;
 
@@ -50,7 +49,7 @@ public class IntroActivity extends AppCompatActivity {
 
                 View detailsView = layoutInflater.inflate(R.layout.details_popup_layout, null);
 
-                final PopupWindow popupWindow = new PopupWindow(detailsView, 1200 , 900);
+                final PopupWindow popupWindow = new PopupWindow(detailsView, 1200, 900);
 
                 Button dismissButton = (Button) detailsView.findViewById(R.id.dismiss_button);
 

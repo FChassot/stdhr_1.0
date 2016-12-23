@@ -18,7 +18,7 @@
             android:textSize="15dp"
             android:layout_gravity="center"
             android:text="Team: \n Alex C. Olivieri \n Maria Sokhn \n Shaban Shabani \n Frédéric Chassot "
-            android:textColor="#faf9f9"
+            android:textColor="#DF013A"
             android:textAlignment="center"/>
 
         <Button

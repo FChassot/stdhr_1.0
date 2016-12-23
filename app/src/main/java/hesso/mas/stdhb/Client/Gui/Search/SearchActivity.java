@@ -154,8 +154,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         IntentFilter filter = new IntentFilter(RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
         this.registerReceiver(mReceiver, filter);
 
-        PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
         mWakeLock.acquire();
 
     }
@@ -295,28 +295,28 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Debug.startMethodTracing("myapp_stdhr");
 
         if (clientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
-            RetrieveCitizenDataAsyncTask lTask =
+            RetrieveCitizenDataAsyncTask retrieveTask =
                     new RetrieveCitizenDataAsyncTask(
                             this,
                             RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
 
-            lTask.onPreExecuteMessageDisplay = displaySearchmsg;
+            retrieveTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
-            lTask.execute(
+            retrieveTask.execute(
                     request,
                     clientServerArchitecture);
 
             return;
         }
         else {
-            RetrieveCitizenDataAsyncTask lTask =
+            RetrieveCitizenDataAsyncTask retrieveTask =
                     new RetrieveCitizenDataAsyncTask(
                             this,
                             RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
 
-            lTask.onPreExecuteMessageDisplay = displaySearchmsg;
+            retrieveTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
-            lTask.execute(
+            retrieveTask.execute(
                     request,
                     clientServerArchitecture);
 
@@ -362,14 +362,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             if (citizenQueryResult != null && citizenQueryResult.Count() > 0) {
-                CitizenDbObject lCulturalObject = citizenQueryResult.Results().get(0);
+                CitizenDbObject culturalObject = citizenQueryResult.Results().get(0);
 
-                String lTitle = lCulturalObject.GetValue("title");
-                String lObjectId = lCulturalObject.GetValue("culturalInterest");
+                String title = culturalObject.GetValue("title");
+                String objectId = culturalObject.GetValue("culturalInterest");
 
-                RadarMarker lSelectedMarker = new RadarMarker();
-                lSelectedMarker.setTitle(lTitle);
-                lSelectedMarker.setObjectId(lObjectId);
+                RadarMarker selectedMarker = new RadarMarker();
+                selectedMarker.setTitle(title);
+                selectedMarker.setObjectId(objectId);
 
                 Intent intent = new Intent(context, CityZenActivity.class);
 
@@ -377,7 +377,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 // to various Parcelable values.
                 bundle = new Bundle();
 
-                bundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+                bundle.putParcelable(MapsActivity.RADAR_MARKER, selectedMarker);
 
                 intent.putExtras(bundle);
 
@@ -398,23 +398,23 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * This hook is called whenever an item in your options menu is selected.
      *
-     * @param aMenuItem The menu item that was selected.
+     * @param menuItem The menu item that was selected.
      *
      * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem aMenuItem) {
-        switch (aMenuItem.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case R.id.action_settings:
-                Intent lIntent = new Intent(SearchActivity.this, SettingsActivity.class);
-                startActivity(lIntent);
+                Intent intent = new Intent(SearchActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(aMenuItem);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
