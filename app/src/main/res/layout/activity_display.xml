@@ -24,7 +24,7 @@
 
     <include layout="@layout/content_display" />
 
-    <hesso.mas.stdhb.Client.Gui.Radar.RenderView.RadarView
+    <hesso.mas.stdhb.Client.Gui.Radar.RadarView.RadarView
         android:id="@+id/radarView"
         android:layout_width="300dp"
         android:layout_height="300dp"

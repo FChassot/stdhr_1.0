@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Radar.RenderView;
+package hesso.mas.stdhb.Client.Gui.Radar.RadarView;
 
 import android.os.*;
 

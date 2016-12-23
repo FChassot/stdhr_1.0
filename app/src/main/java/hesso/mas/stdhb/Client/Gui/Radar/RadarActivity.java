@@ -42,7 +42,7 @@ import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.Client.Gui.Radar.RenderView.RadarView;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarView.RadarView;
 
 import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
