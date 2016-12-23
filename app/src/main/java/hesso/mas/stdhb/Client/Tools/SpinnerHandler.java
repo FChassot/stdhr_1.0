@@ -28,13 +28,13 @@ public class SpinnerHandler {
         Context context,
         int resource) {
 
-        ArrayAdapter lAdapter =
+        ArrayAdapter adapter =
             new ArrayAdapter(
                 context,
                 resource,
                 EnumClientServerCommunication.values());
 
-        spinner.setAdapter(lAdapter);
+        spinner.setAdapter(adapter);
     }
 
     /**
@@ -55,13 +55,13 @@ public class SpinnerHandler {
         int resource,
         List<String> values) {
 
-        ArrayAdapter lAdapter =
+        ArrayAdapter adapter =
                 new ArrayAdapter(
                         context,
                         resource,
                         values.toArray());
 
-        spinner.setAdapter(lAdapter);
+        spinner.setAdapter(adapter);
     }
 
     /**
