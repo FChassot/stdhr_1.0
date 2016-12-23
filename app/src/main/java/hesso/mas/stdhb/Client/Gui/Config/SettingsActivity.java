@@ -345,18 +345,18 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         super.onPause();
 
         // Finds the views that was identified by an id attribute
-        EditText lTxtRadius = (EditText)findViewById(R.id.mDTxtRadius);
-        Switch lSwitchRadar = (Switch)findViewById(R.id.RadarSwitch);
-        Spinner lCboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
-        Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSubject);
+        EditText txtRadius = (EditText)findViewById(R.id.mDTxtRadius);
+        Switch switchRadar = (Switch)findViewById(R.id.RadarSwitch);
+        Spinner cboCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
+        Spinner cboSubject = (Spinner) findViewById(R.id.mDcboSubject);
 
-        String lRadiusSearchStr = lTxtRadius.getText().toString();
+        String radiusSearchStr = txtRadius.getText().toString();
 
-        if (IntegerUtil.tryParseInt(lRadiusSearchStr)) {
+        if (IntegerUtil.tryParseInt(radiusSearchStr)) {
             mPrefs.setMyIntPref(
                     this,
                     BaseConstants.Attr_Radius_Search,
-                    Integer.parseInt(lRadiusSearchStr));
+                    Integer.parseInt(radiusSearchStr));
         }
         else {
             Notifications.ShowMessageBox(
@@ -366,25 +366,25 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                     "Ok");
         }
 
-        if(lCboSubject != null && lCboSubject.getSelectedItem() !=null ) {
-            String lValue = lCboSubject.getSelectedItem().toString();
+        if(cboSubject != null && cboSubject.getSelectedItem() !=null ) {
+            String value = cboSubject.getSelectedItem().toString();
 
-            if (!lValue.equals(MyString.EMPTY_STRING)) {
+            if (!value.equals(MyString.EMPTY_STRING)) {
                 mPrefs.setMyStringPref(
                         this,
                         BaseConstants.Attr_Subject_Search_Type,
-                        lCboSubject.getSelectedItem().toString());
+                        cboSubject.getSelectedItem().toString());
             }
         }
 
-        Boolean radarMode = lSwitchRadar.isChecked();
+        Boolean radarMode = switchRadar.isChecked();
 
         mPrefs.setMyBooleanPref(
                 this,
                 BaseConstants.Attr_Radar_Switch,
                 radarMode);
 
-        String clientServerCommunication = lCboCommunication.getSelectedItem().toString();
+        String clientServerCommunication = cboCommunication.getSelectedItem().toString();
 
         mPrefs.setMyStringPref(
                 this,
@@ -407,7 +407,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         mPrefs.setMyStringPref(
                 this,
                 BaseConstants.Attr_Subject_Selected,
-                lCboSubject.getSelectedItem().toString());
+                cboSubject.getSelectedItem().toString());
     }
 
     //region AsyncTask (used to search the cultural object Types)

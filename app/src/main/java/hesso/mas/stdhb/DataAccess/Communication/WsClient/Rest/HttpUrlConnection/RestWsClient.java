@@ -39,23 +39,23 @@ public class RestWsClient implements IWsClient {
      */
     public CitizenQueryResult executeRequest(String query) {
 
-        String lUrlStr = "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+*+where+%7B%0D%0A+++%3Fcategorie+rdfs%3Alabel+%22%C5%92uvre+conserv%C3%A9e+au+Louvre%22%40fr+.%0D%0A+++%3Foeuvre+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FwikiPageWikiLink%3E+%3Fcategorie%0D%0A+%7D+LIMIT+1000&format=text%2Fhtml&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=o";
+        String urlStr = "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+*+where+%7B%0D%0A+++%3Fcategorie+rdfs%3Alabel+%22%C5%92uvre+conserv%C3%A9e+au+Louvre%22%40fr+.%0D%0A+++%3Foeuvre+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FwikiPageWikiLink%3E+%3Fcategorie%0D%0A+%7D+LIMIT+1000&format=text%2Fhtml&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=o";
 
-        String lResult = "no response!";
+        String result = "no response!";
 
-        HttpURLConnection lUrlConnection = null;
+        HttpURLConnection urlConnection = null;
 
         try {
-            URL lUrl = new URL(lUrlStr);
+            URL url = new URL(urlStr);
 
-            lUrlConnection = (HttpURLConnection) lUrl.openConnection();
+            urlConnection = (HttpURLConnection) url.openConnection();
 
             try {
-                InputStream lInputStream = new BufferedInputStream(lUrlConnection.getInputStream());
-                lResult = readStream(lInputStream);
+                InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                result = readStream(inputStream);
             }
             finally {
-                lUrlConnection.disconnect();
+                urlConnection.disconnect();
             }
         }
         catch (MalformedURLException e) {
@@ -64,14 +64,14 @@ public class RestWsClient implements IWsClient {
             e.printStackTrace();
         }
         finally {
-            if (lUrlConnection != null) {
-                lUrlConnection.disconnect();
+            if (urlConnection != null) {
+                urlConnection.disconnect();
             }
         }
 
         CitizenQueryResult cityzenResult = new CitizenQueryResult();
         CitizenDbObject object = new CitizenDbObject();
-        object.put("test", lResult);
+        object.put("test", result);
         cityzenResult.Results().add(object);
 
         return new CitizenQueryResult();
@@ -90,12 +90,12 @@ public class RestWsClient implements IWsClient {
         InputStream inputStream) throws IOException {
 
         StringBuilder stringBuilder = new StringBuilder();
-        InputStreamReader lInputStreamReader = new InputStreamReader(inputStream);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-        BufferedReader lBufferedReader = new BufferedReader(lInputStreamReader, 1000);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader, 1000);
 
-        for (String lLine = lBufferedReader.readLine(); lLine != null; lLine =lBufferedReader.readLine()){
-            stringBuilder.append(lLine);
+        for (String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine()){
+            stringBuilder.append(line);
         }
 
         inputStream.close();

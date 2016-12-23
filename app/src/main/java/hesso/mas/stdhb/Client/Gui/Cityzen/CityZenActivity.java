@@ -126,7 +126,8 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                                     LinearLayout.LayoutParams.WRAP_CONTENT,
                                     LinearLayout.LayoutParams.WRAP_CONTENT));
                     mImageView.setAdjustViewBounds(true);
-                }else{
+                }
+                else{
                     lIsImageFitToScreen=true;
                     mImageView.setLayoutParams(new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,

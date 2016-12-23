@@ -105,9 +105,9 @@
     <string name="action_sign_in">action_sign_in</string>
 
     <!-- Strings for AsyncTask -->
-    <string name="citizen_search">Searching Cityzen Data..</string>
+    <string name="citizen_search">Searching CityZen Data..</string>
     <string name="wait">Please wait</string>
 
-    <string name="action_search">Cityzen search</string>
+    <string name="action_search">CityZen search</string>
     <string name="action_settings">Settings</string>
 </resources>

@@ -85,7 +85,13 @@ public class IntroActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
 
                 Intent intent = new Intent(IntroActivity.this, RadarActivity.class);
+
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                
                 startActivity(intent);
+                finish();
+                System.exit(0);
             }
         });
     }

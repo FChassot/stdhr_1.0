@@ -260,7 +260,8 @@ public class RadarActivity
         }
 
         // Start the radar
-        mRadarView.startRadar();
+        //mRadarView.startRadar();
+        this.startRadar();
 
         // For the system's orientation sensor registered listeners
         mSensorManager.registerListener(
