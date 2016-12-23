@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
@@ -339,8 +340,12 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                 if(lNetworkConnectivity.isNetworkAvailable()) {
                     if (true) {
                         // Use of the Picasso library to load images
+                        //ImageView lImageView = (ImageView) findViewById(imageView);
+                        //Picasso.with(context).load(lResourceUri).into(lImageView);
+
+                        // Use of Glide to load images
                         ImageView lImageView = (ImageView) findViewById(imageView);
-                        Picasso.with(context).load(lResourceUri).into(lImageView);
+                        Glide.with(context).load(lResourceUri).into(lImageView);
                     }
                     else {
                             /*VideoView lVideoView = (VideoView) findViewById(R.id.video_view);

@@ -1,6 +1,7 @@
 package hesso.mas.stdhb.Client.Gui.Intro;
 
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -81,7 +82,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
 
-                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+                Intent intent = new Intent(IntroActivity.this, RadarActivity.class);
                 startActivity(intent);
             }
         });

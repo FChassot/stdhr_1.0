@@ -98,6 +98,10 @@ public final class CitizenRequests {
 
         Checks.AssertNotEmpty(title, "title");
 
+        // image_url contains five types (mp4, jpg, pdf, png, mp3)
+        // thumbnail_ulr only contains the type jpg
+        // preview_image only contains the type jpg
+
         return
             "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
                 "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
@@ -162,7 +166,7 @@ public final class CitizenRequests {
                 "?cAggregator edm:hasView ?digitalrepresentation .\n" +
                 "?digitalrepresentation tm:hasPart ?digitalitem .\n" +
                 "?digitalrepresentation dc:format ?format .\n" +
-                "?digitalitem dbo:image_url ?image_url.\n" +
+                "?digitalitem dbo:image_url ?image_url .\n" +
                 "?location geo:long ?long .\n" +
                 "?location geo:lat ?lat .\n" +
                 "filter (?culturalInterest = <" + culturalInterest + ">) . }\n" +
