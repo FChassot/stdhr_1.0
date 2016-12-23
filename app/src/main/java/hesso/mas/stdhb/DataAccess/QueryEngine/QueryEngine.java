@@ -22,31 +22,31 @@ public class QueryEngine {
 
     public static List<CitizenDbObject> request(String aQuery) {
 
-        EnumClientServerCommunication lClientServerCommunicationMode =
+        EnumClientServerCommunication clientServerCommunicationMode =
                 EnumClientServerCommunication.ANDROJENA;
 
-        CitizenEndPoint lEndPointWs =
+        CitizenEndPoint endPointWs =
                 new CitizenEndPoint(
                         BaseConstants.Attr_Citizen_Server_URI,
                         BaseConstants.Attr_Citizen_Repository_NAME);
 
-        CitizenQueryResult lResponse;
+        CitizenQueryResult response;
 
         IWsClientFactory lFactory = new WsClientFactory();
 
-        IWsClient lWsClient =
+        IWsClient wsClient =
                 lFactory.Create(
-                        lClientServerCommunicationMode,
-                        lEndPointWs);
+                        clientServerCommunicationMode,
+                        endPointWs);
 
         try {
-            lResponse = lWsClient.executeRequest(aQuery);
+            response = wsClient.executeRequest(aQuery);
 
         } catch (Exception aExc) {
             aExc.printStackTrace();
             return null;
         }
 
-        return lResponse.Results();
+        return response.Results();
     }
 }

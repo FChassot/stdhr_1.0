@@ -23,7 +23,7 @@ import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 import hesso.mas.stdhb.Base.Tools.MyString;
-import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
+import hesso.mas.stdhb.Client.Gui.Cityzen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhbtests.R;

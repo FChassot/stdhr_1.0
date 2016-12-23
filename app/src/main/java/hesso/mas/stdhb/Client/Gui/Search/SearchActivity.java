@@ -1,9 +1,5 @@
 package hesso.mas.stdhb.Client.Gui.Search;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +8,6 @@ import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,7 +25,7 @@ import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
-import hesso.mas.stdhb.Client.Gui.Citizen.CityZenActivity;
+import hesso.mas.stdhb.Client.Gui.Cityzen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;

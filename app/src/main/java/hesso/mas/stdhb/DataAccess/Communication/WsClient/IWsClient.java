@@ -10,9 +10,9 @@ public interface IWsClient {
     /**
      * Method used to populate a request on a sparql server
      *
-     * @param aQuery The query to execute
+     * @param query The query to execute
      *
      * @return The result of the query
      */
-    CitizenQueryResult executeRequest(String aQuery);
+    CitizenQueryResult executeRequest(String query);
 }

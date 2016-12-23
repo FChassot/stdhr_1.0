@@ -1,11 +1,11 @@
 package hesso.mas.stdhb.DataAccess.Communication.WsClientFactory;
 
+import hesso.mas.stdhb.DataAccess.Communication.WsClient.Rest.HttpUrlConnection.RestWsClient;
 import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.Androjena.JenaSparqlWsClient;
-import hesso.mas.stdhb.DataAccess.Communication.WsClient.Rdf4j.Rdf4jSparqlWsClient;
 
 /**
  * Created by chf on 23.08.2016.
@@ -32,12 +32,8 @@ public class WsClientFactory implements IWsClientFactory {
             wsClient = new JenaSparqlWsClient(citizenEndPoint);
         }
 
-        /*if (aClientServerCommunication == EnumClientServerCommunication.RDF4J) {
-            lWsClient = new Rdf4jSparqlWsClient(aCitizenEndPoint);
-        }*/
-
         if (clientServerCommunication == EnumClientServerCommunication.REST) {
-            wsClient = new Rdf4jSparqlWsClient(citizenEndPoint);
+            wsClient = new RestWsClient(citizenEndPoint);
         }
 
         if (wsClient == null) {

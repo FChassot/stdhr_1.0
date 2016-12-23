@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Citizen;
+package hesso.mas.stdhb.Client.Gui.Cityzen;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;

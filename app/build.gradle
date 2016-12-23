@@ -66,9 +66,11 @@ dependencies {
     compile fileTree(dir: 'libs/Androjena', include: ['*.jar'])
     //compile fileTree(dir: 'libs/Rdf4j/1.0', include: ['*.jar'])
 
-    // Set up the libraries used for the rest client
+    // Set up the libraries used for the Rest Client
     //compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    //compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     // Set up the powerful image downloading and caching library for Android
     compile 'com.squareup.picasso:picasso:2.5.2'
