@@ -2,8 +2,10 @@ package hesso.mas.stdhb.Client.Gui.Config;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +38,7 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Tools.IntegerUtil;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
+import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 
@@ -104,6 +107,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         android.R.layout.simple_spinner_item,
                         EnumClientServerCommunication.values());
 
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+
         lCboClientServerCommunication.setAdapter(adapter);
 
         /*SpinnerHandler.fillComboClientServerTechnology(
@@ -156,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                             android.R.layout.simple_spinner_item,
                             culturalObjectSubjects);
 
-            subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            subjectAdapter.setDropDownViewResource(R.layout.spinner_item);
             subjectSpinner.setAdapter(subjectAdapter);
             subjectSpinner.setSelection(0);
         }
@@ -464,14 +469,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
          * implementation of onReceive().
          */
         @Override
-        public void onReceive(Context aContext, Intent aIntent)
+        public void onReceive(Context context, Intent intent)
         {
-            if (!aIntent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION3)) {
+            if (!intent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION3)) {
                 return;
             }
 
             // The bundle object contains a mapping from String keys to various Parcelable values.
-            Bundle bundle = aIntent.getExtras();
+            Bundle bundle = intent.getExtras();
 
             CitizenQueryResult citizenQueryResult = null;
 
@@ -492,16 +497,16 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             ArrayAdapter<String> subjectAdapter =
                     new ArrayAdapter<>(
-                            aContext,
+                            context,
                             android.R.layout.simple_spinner_item,
                             culturalObjectSubjects);
 
-            subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            subjectAdapter.setDropDownViewResource(R.layout.spinner_item);
             subjectSpinner.setAdapter(subjectAdapter);
 
             String subjectSelected =
                     mPrefs.getMyStringPref(
-                            aContext,
+                            context,
                             BaseConstants.Attr_Subject_Selected,
                             MyString.EMPTY_STRING);
 

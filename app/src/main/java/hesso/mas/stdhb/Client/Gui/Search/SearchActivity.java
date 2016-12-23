@@ -232,13 +232,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             BaseConstants.Attr_ClientServer_Communication,
                             EnumClientServerCommunication.ANDROJENA.toString());
 
-            TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
-            TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
+            TextView txtViewPlace = (TextView) findViewById(R.id.mTxtPlace);
+            TextView txtViewPeriod = (TextView) findViewById(R.id.mTxtPeriod);
 
             ValidationDescCollection valDescCollection =
                     Validator.ValidateSearch(
-                            mTxtPlace.getText().toString(),
-                            mTxtPeriod.getText().toString());
+                            txtViewPlace.getText().toString(),
+                            txtViewPeriod.getText().toString());
 
             if (valDescCollection.any()) {
                 Notifications.ShowMessageBox(
@@ -252,9 +252,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSujet);
-            String lPlace = mTxtPlace.getText().toString();
-            String lBegin = mTxtPeriod.getText().toString().substring(0, 4);
-            String lEnd = mTxtPeriod.getText().toString().substring(5, 9);
+            String lPlace = txtViewPlace.getText().toString();
+            String lBegin = txtViewPeriod.getText().toString().substring(0, 4);
+            String lEnd = txtViewPeriod.getText().toString().substring(5, 9);
 
             String request =
                     CitizenRequests.getCulturalObjectQueryByTitleAndDate(
@@ -279,32 +279,32 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * Start an Async Search on a Sparql endPoint
      *
-     * @param aRequest                  represents the sparql request
-     * @param aClientServerArchitecture provides the type of architecture choosen
+     * @param request                  represents the sparql request
+     * @param clientServerArchitecture provides the type of architecture choosen
      *                                  for the communication with the server
-     * @param aDisplaySearchmsg         when true a wait-message will be displayed on the
+     * @param displaySearchmsg         when true a wait-message will be displayed on the
      *                                  screen until the response has been received from the
      *                                  server
      */
     private void startAsyncSearch(
-            String aRequest,
-            String aClientServerArchitecture,
-            boolean aDisplaySearchmsg) {
+            String request,
+            String clientServerArchitecture,
+            boolean displaySearchmsg) {
 
         // Start method tracing with default log name and buffer size.
         Debug.startMethodTracing("myapp_stdhr");
 
-        if (aClientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
+        if (clientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
             RetrieveCitizenDataAsyncTask lTask =
                     new RetrieveCitizenDataAsyncTask(
                             this,
                             RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
 
-            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
+            lTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
             lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
+                    request,
+                    clientServerArchitecture);
 
             return;
         }
@@ -314,11 +314,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             this,
                             RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
 
-            lTask.onPreExecuteMessageDisplay = aDisplaySearchmsg;
+            lTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
             lTask.execute(
-                    aRequest,
-                    aClientServerArchitecture);
+                    request,
+                    clientServerArchitecture);
 
             return;
         }
@@ -341,28 +341,28 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
          * implementation of onReceive().
          */
         @Override
-        public void onReceive(Context aContext, Intent aIntent) {
+        public void onReceive(Context context, Intent aIntent) {
 
             // Stop method tracing.
             Debug.stopMethodTracing();
 
             // The bundle object contains a mapping from String keys to various Parcelable values.
-            Bundle lBundle = aIntent.getExtras();
+            Bundle bundle = aIntent.getExtras();
 
-            CitizenQueryResult lCitizenQueryResult = null;
+            CitizenQueryResult citizenQueryResult = null;
 
             try {
                 // The bundle should contain the SPARQL Result
-                lCitizenQueryResult =
-                        lBundle.getParcelable(
+                citizenQueryResult =
+                        bundle.getParcelable(
                                 RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
-            if (lCitizenQueryResult != null && lCitizenQueryResult.Count() > 0) {
-                CitizenDbObject lCulturalObject = lCitizenQueryResult.Results().get(0);
+            if (citizenQueryResult != null && citizenQueryResult.Count() > 0) {
+                CitizenDbObject lCulturalObject = citizenQueryResult.Results().get(0);
 
                 String lTitle = lCulturalObject.GetValue("title");
                 String lObjectId = lCulturalObject.GetValue("culturalInterest");
@@ -371,21 +371,21 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 lSelectedMarker.setTitle(lTitle);
                 lSelectedMarker.setObjectId(lObjectId);
 
-                Intent lIntent = new Intent(aContext, CityZenActivity.class);
+                Intent intent = new Intent(context, CityZenActivity.class);
 
                 // The bundle object contains a mapping from String keys
                 // to various Parcelable values.
-                lBundle = new Bundle();
+                bundle = new Bundle();
 
-                lBundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
+                bundle.putParcelable(MapsActivity.RADAR_MARKER, lSelectedMarker);
 
-                lIntent.putExtras(lBundle);
+                intent.putExtras(bundle);
 
-                aContext.startActivity(lIntent);
+                context.startActivity(intent);
             }
             else {
                 Notifications.ShowMessageBox(
-                        aContext,
+                        context,
                         "No results found! Try giving other parameters!",
                         "Information",
                         "Ok");

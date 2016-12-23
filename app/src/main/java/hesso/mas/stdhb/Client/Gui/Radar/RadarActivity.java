@@ -211,13 +211,13 @@ public class RadarActivity
     /**
      * Method to specify the options menu
      *
-     * @param aMenu
+     * @param menu
      * @return
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu aMenu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Add the actionmenu entries to the ActionBar
-        getMenuInflater().inflate(R.menu.actionmenu, aMenu);
+        getMenuInflater().inflate(R.menu.actionmenu, menu);
         return true;
     }
 
@@ -711,7 +711,7 @@ public class RadarActivity
                 BaseConstants.Attr_Radius_Search,
                 BaseConstants.Attr_Default_Radius_Search);
 
-        double lRadius =
+        double radius =
             mSpatialGeometryServices.getRadiusInRadian(
                 mCurrentUserLocation,
                     radiusOfSearch);
@@ -727,10 +727,10 @@ public class RadarActivity
         String query =
                 CitizenRequests.getCulturalObjectsInProximityQuery(
                         culturalObjectType,
-                        (mCurrentUserLocation.getLatitude() - lRadius),
-                        (mCurrentUserLocation.getLatitude() + lRadius),
-                        (mCurrentUserLocation.getLongitude() - lRadius),
-                        (mCurrentUserLocation.getLongitude() + lRadius),
+                        (mCurrentUserLocation.getLatitude() - radius),
+                        (mCurrentUserLocation.getLatitude() + radius),
+                        (mCurrentUserLocation.getLongitude() - radius),
+                        (mCurrentUserLocation.getLongitude() + radius),
                         subject,
                         limit);
 
