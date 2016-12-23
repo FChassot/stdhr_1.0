@@ -105,13 +105,13 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                             BaseConstants.Attr_ClientServer_Communication,
                             EnumClientServerCommunication.ANDROJENA.toString());
 
-            String lRequest =
+            String request =
                     CitizenRequests.getCulturalObjectInfoByObjectIdQuery(
                             mCulturalObjectMarker.getTitle(),
                             mCulturalObjectMarker.getObjectId());
 
             startAsyncSearch(
-                    lRequest,
+                    request,
                     clientServerCommunicationMode,
                     false);
         }
@@ -145,11 +145,11 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION1);
-        this.registerReceiver(mReceiver, lFilter);
+        IntentFilter filter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION1);
+        this.registerReceiver(mReceiver, filter);
 
-        PowerManager lPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = lPowerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
         mWakeLock.acquire();
 
     }
@@ -201,10 +201,6 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                     mDescription,
                     mTitle,
                     "Close");
-        }
-
-        if (aView.getId()== imageView) {
-
         }
         if (aView.getId()==R.id.mImgBack){
             Intent lIntent = new Intent(CityZenActivity.this, MainActivity.class);
@@ -334,18 +330,18 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                 TextView mTxtViewPosition = (TextView)findViewById(R.id.mTxtViewPosition);
                 mTxtViewPosition.setText(getStrLocation(mCulturalObjectMarker));
 
-                NetworkConnectivity lNetworkConnectivity = new NetworkConnectivity(context);
+                NetworkConnectivity networkConnectivity = new NetworkConnectivity(context);
                 String lResourceUri = culturalObject.GetValue("image_url");
 
-                if(lNetworkConnectivity.isNetworkAvailable()) {
+                if(networkConnectivity.isNetworkAvailable()) {
                     if (true) {
                         // Use of the Picasso library to load images
-                        //ImageView lImageView = (ImageView) findViewById(imageView);
-                        //Picasso.with(context).load(lResourceUri).into(lImageView);
+                        //ImageView imgView = (ImageView) findViewById(imageView);
+                        //Picasso.with(context).load(lResourceUri).into(imgView);
 
                         // Use of Glide to load images
-                        ImageView lImageView = (ImageView) findViewById(imageView);
-                        Glide.with(context).load(lResourceUri).into(lImageView);
+                        ImageView imgView = (ImageView) findViewById(imageView);
+                        Glide.with(context).load(lResourceUri).into(imgView);
                     }
                     else {
                             /*VideoView lVideoView = (VideoView) findViewById(R.id.video_view);

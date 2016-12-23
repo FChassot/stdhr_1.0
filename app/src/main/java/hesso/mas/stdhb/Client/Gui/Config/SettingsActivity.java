@@ -193,10 +193,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> aParent, View aView, int aPosition, long aId) {
                 // when clicked, show a toast with the TextView text
-                CulturalObjectType CulturalObjectType = (CulturalObjectType) aParent.getItemAtPosition(aPosition);
+                CulturalObjectType culturalObjectType = (CulturalObjectType) aParent.getItemAtPosition(aPosition);
 
                 Toast.makeText(getApplicationContext(),
-                        "Clicked on Row: " + CulturalObjectType.getName(),
+                        "Clicked on Row: " + culturalObjectType.getName(),
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -284,26 +284,26 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            Set<String> lListOfCulturalObjectType =
+            Set<String> listOfCulturalObjectType =
                     mPrefs.getMySetPref(
                         this.getContext(),
                         BaseConstants.Attr_CulturalObject_Type,
                         null);
 
-            CulturalObjectType llCulturalObjectType = mListOfCulturalObjectType.get(position);
+            CulturalObjectType culturalObjectType = mListOfCulturalObjectType.get(position);
 
-            holder.code.setText(" (" + llCulturalObjectType.getCode() + ")");
-            holder.name.setText(llCulturalObjectType.getName());
+            holder.code.setText(" (" + culturalObjectType.getCode() + ")");
+            holder.name.setText(culturalObjectType.getName());
 
-            if (lListOfCulturalObjectType != null) {
-                for (String aCulturalObjectType : lListOfCulturalObjectType) {
-                    if (llCulturalObjectType.getName().equals(aCulturalObjectType)) {
+            if (listOfCulturalObjectType != null) {
+                for (String culturalObjType : listOfCulturalObjectType) {
+                    if (culturalObjectType.getName().equals(culturalObjType)) {
                         holder.name.setChecked(true);
                     }
                 }
             }
             //lHolder.name.setChecked(llCulturalInterestType.isSelected());
-            holder.name.setTag(llCulturalObjectType);
+            holder.name.setTag(culturalObjectType);
 
             return convertView;
         }
