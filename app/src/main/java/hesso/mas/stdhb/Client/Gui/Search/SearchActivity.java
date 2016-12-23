@@ -93,18 +93,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         // To retrieve the button in that UI that you need to interact with programmatically
         Spinner lCboSubject = (Spinner) findViewById(R.id.mDcboSujet);
-        Button mBtnSearch = (Button) findViewById(R.id.mBtnSearch);
+        Button lBtnSearch = (Button) findViewById(R.id.mBtnSearch);
         ImageView lImgBack = (ImageView) findViewById(R.id.mImgBack);
 
         // Find the views that was identified by an id attribute
         final TextView mTxtPlace = (TextView) findViewById(R.id.mTxtPlace);
         final TextView mTxtPeriod = (TextView) findViewById(R.id.mTxtPeriod);
 
-        mBtnSearch.requestFocus();
-
-        // Set a listener of this button
-        assert mBtnSearch != null;
-        mBtnSearch.setOnClickListener(this);
+        lBtnSearch.requestFocus();
 
         mTxtPlace.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
@@ -140,6 +136,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         this.mSearchThread = new SearchThread(this.mSearchHandler);
         // The Thread is started
         this.mSearchThread.start();
+
+        // Set a listener of this button
+        assert lBtnSearch != null;
+        lBtnSearch.setOnClickListener(this);
 
         assert lImgBack != null;
         lImgBack.setOnClickListener(this);

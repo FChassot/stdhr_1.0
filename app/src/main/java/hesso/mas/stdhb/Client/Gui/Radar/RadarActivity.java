@@ -42,6 +42,7 @@ import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarSurfaceView.RadarSurfaceView;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarView.RadarView;
 
 import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
@@ -67,6 +68,8 @@ public class RadarActivity
 
     // Member variables
     private RadarView mRadarView;
+
+    private RadarSurfaceView mySurfaceView;
 
     private Preferences mPreferences;
 
@@ -115,6 +118,8 @@ public class RadarActivity
     private int mPitch = 0;
     private int mAzimuth = 0;
 
+    private boolean mSurfaceView = false;
+
     /**
      * Called when the activity is first created. This is where you should do all of your normal
      * static set up:create views, bind data to lists, etc. This method also provides you with a
@@ -137,6 +142,11 @@ public class RadarActivity
         mGeolocationServices = new GpsLocationListener(this);
 
         mSpatialGeometryServices = new SpatialGeometryServices();
+
+        if (mSurfaceView){
+            mySurfaceView = new RadarSurfaceView(this);
+            setContentView(mySurfaceView);
+        }
 
         if (!mGeolocationServices.isLocationRetrievePossible()) {
             mGeolocationServices.showSettingsAlert();
@@ -238,6 +248,10 @@ public class RadarActivity
 
         super.onResume();
 
+        if (mSurfaceView){
+            mySurfaceView.onResumeMySurfaceView();
+        }
+
         // Update the radar's information
         this.updateInfoTxtView();
 
@@ -314,6 +328,10 @@ public class RadarActivity
     @Override
     public void onPause() {
         super.onPause();
+
+        if (mSurfaceView) {
+            mySurfaceView.onPauseMySurfaceView();
+        }
 
         // Stop the radar. When the radar is stopped, other services are stopped as well,
         // like the update of the markers and the update of the orientation.

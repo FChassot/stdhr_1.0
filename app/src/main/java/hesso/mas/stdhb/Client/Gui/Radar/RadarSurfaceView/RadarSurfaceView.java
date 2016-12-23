@@ -19,17 +19,9 @@ import hesso.mas.stdhb.Base.Tools.DoubleUtil;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 
 /**
- * Created by chf on 15.07.2016.
- *
- * This class represents the basic building block for user interface components.
- * A View occupies a rectangular area on the screen and is responsible for drawing and event handling.
- * View is the base class for widgets, which are used to create interactive UI components (buttons,
- * text fields, etc.).
- * The ViewGroup subclass is the base class for layouts,
- * which are invisible containers that hold other Views (or other ViewGroups) and define their layout
- * properties.
+ * Created by chf on 23.12.2016.
  */
-class RadarSurfaceView extends SurfaceView implements Runnable {
+public class RadarSurfaceView extends SurfaceView implements Runnable {
 
     Thread thread = null;
     SurfaceHolder surfaceHolder;
@@ -115,10 +107,10 @@ class RadarSurfaceView extends SurfaceView implements Runnable {
                 canvas.drawPoint(x, y, paint);
 
                 surfaceHolder.unlockCanvasAndPost(canvas);*/
+                Canvas canvas = surfaceHolder.lockCanvas();
 
                 int lCanvasWidth = this.getWidth();
                 int lCanvasHeight = this.getHeight();
-                Canvas canvas = surfaceHolder.lockCanvas();
 
                 // Calculate the maximum diameter of the radar possible according
                 // to the dimensions of the view
@@ -170,6 +162,8 @@ class RadarSurfaceView extends SurfaceView implements Runnable {
                                 mLatestPaint[lIndex]);
                     }
                 }
+
+                surfaceHolder.unlockCanvasAndPost(canvas);
             }
         }
     }

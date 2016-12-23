@@ -75,28 +75,28 @@ public class RadarView extends android.view.View {
     //region Constructors
 
         // Constructor
-        public RadarView(Context aContext) {
+        public RadarView(Context context) {
 
-            this(aContext, null);
+            this(context, null);
         }
 
         // Constructor
         public RadarView(
-            Context aContext,
-            AttributeSet aAttributeSet) {
+            Context context,
+            AttributeSet attributeSet) {
 
-            this(aContext, aAttributeSet, 0);
+            this(context, attributeSet, 0);
         }
 
         // Constructor
         public RadarView(
-            Context aContext,
-            AttributeSet aAttributes,
-            int aDefStyleAttr) {
+            Context context,
+            AttributeSet attributeSet,
+            int defStyleAttr) {
 
-            super(aContext, aAttributes, aDefStyleAttr);
+            super(context, attributeSet, defStyleAttr);
 
-            mContext = aContext;
+            mContext = context;
 
             Paint lRadarPaint = new Paint();
 
@@ -133,9 +133,9 @@ public class RadarView extends android.view.View {
 
     //endregion
 
-        public void Radius(double aRadius) {mRadius = aRadius;}
+        public void Radius(double radius) {mRadius = radius;}
 
-        public void Azimuth(int aAzimuth) {mAzimuth = aAzimuth;}
+        public void Azimuth(int azimuth) {mAzimuth = azimuth;}
 
     //region Concurrency
 
@@ -200,11 +200,11 @@ public class RadarView extends android.view.View {
          * Before you can call any drawing methods, though, it's necessary to create a Paint object.
          * The next section discusses Paint in more detail.
          *
-         * @param aCanvas hosts the draw calls
+         * @param canvas hosts the draw calls
          */
         @Override
-        protected void onDraw(Canvas aCanvas) {
-            super.onDraw(aCanvas);
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
 
             int lCanvasWidth = this.getWidth();
             int lCanvasHeight = this.getHeight();
@@ -221,7 +221,7 @@ public class RadarView extends android.view.View {
 
             // Draw the radar on the view
             drawRadar(
-                    aCanvas,
+                    canvas,
                     lRadarPaint,
                     lPosX,
                     lPosY,
@@ -229,7 +229,7 @@ public class RadarView extends android.view.View {
 
             // Draw the marker on the view
             drawMarkers(
-                    aCanvas,
+                    canvas,
                     lMaxDiameterOfTheRadarView);
 
             mAlpha -= 3;
@@ -251,7 +251,7 @@ public class RadarView extends android.view.View {
                 Point lPoint = mLatestPoint[lIndex];
 
                 if (lPoint != null) {
-                    aCanvas.drawLine(
+                    canvas.drawLine(
                         lPosX,
                         lPosY,
                         lPoint.x,
@@ -264,49 +264,49 @@ public class RadarView extends android.view.View {
         /**
          * Draw the radar in the view
          *
-         * @param aCanvas hosts the draw calls
-         * @param aRadarPaint allows to describe the colors and styles for the radar
+         * @param canvas hosts the draw calls
+         * @param radarPaint allows to describe the colors and styles for the radar
          * @param aX the X position of the radar's draw
          * @param aY the Y position of the radar's draw
-         * @param aRadiusOfCircle the radius of the circle
+         * @param radiusOfCircle the radius of the circle
          */
         public void drawRadar(
-            Canvas aCanvas,
-            Paint aRadarPaint,
+            Canvas canvas,
+            Paint radarPaint,
             int aX,
             int aY,
-            Integer aRadiusOfCircle) {
+            Integer radiusOfCircle) {
 
             String lText1 = getText(mRadius, 4);
             String lText2 = getText(mRadius, 2);
             String lText3 = getText(mRadius, 1.3333333);
             String lText4 = getText(mRadius, 1);
 
-            addNordText(aCanvas, 650, 650);
-            aCanvas.drawCircle(aX, aY, aRadiusOfCircle, aRadarPaint);
-            addText(aCanvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
-            aCanvas.drawCircle(aX, aY, aRadiusOfCircle-25, aRadarPaint);
-            addText(aCanvas, lText2, aX, (aY/2)-2, mGridPaint);
-            aCanvas.drawCircle(aX, aY, aRadiusOfCircle * 3 / 4, aRadarPaint);
-            addText(aCanvas, lText3, aX, (aY/4)-2, mGridPaint);
-            aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 1, aRadarPaint);
-            aCanvas.drawCircle(aX, aY, aRadiusOfCircle >> 2, aRadarPaint);
-            addText(aCanvas, lText4, aX, 25, mGridPaint);
+            addNordText(canvas, 650, 650);
+            canvas.drawCircle(aX, aY, radiusOfCircle, radarPaint);
+            addText(canvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
+            canvas.drawCircle(aX, aY, radiusOfCircle-25, radarPaint);
+            addText(canvas, lText2, aX, (aY/2)-2, mGridPaint);
+            canvas.drawCircle(aX, aY, radiusOfCircle * 3 / 4, radarPaint);
+            addText(canvas, lText3, aX, (aY/4)-2, mGridPaint);
+            canvas.drawCircle(aX, aY, radiusOfCircle >> 1, radarPaint);
+            canvas.drawCircle(aX, aY, radiusOfCircle >> 2, radarPaint);
+            addText(canvas, lText4, aX, 25, mGridPaint);
         }
 
         /**
          * Add the text Nord in the view
          *
-         * @param aCanvas Canvas hosts the draw calls
+         * @param canvas Canvas hosts the draw calls
          * @param aX the X position of the text
          * @param aY the Y position of the text
          */
         private void addNordText(
-            Canvas aCanvas,
+            Canvas canvas,
             int aX,
             int aY) {
 
-            Checks.AssertNotNull(aCanvas, "aCanvas");
+            Checks.AssertNotNull(canvas, "canvas");
             Checks.AssertIsStrictPositive(aX, "aX");
             Checks.AssertIsStrictPositive(aY, "aY");
 
@@ -319,35 +319,35 @@ public class RadarView extends android.view.View {
             lPaint.setTextSize(120.0f);
             lPaint.setTextAlign(Paint.Align.CENTER);
 
-            addText(aCanvas, "NORD", aX, aY, lPaint);
+            addText(canvas, "NORD", aX, aY, lPaint);
         }
 
         /**
          * Defines the text which indicate the distance in the radar view
          *
-         * @param aRadius the radius of search in meter
-         * @param aQuotient
+         * @param radius the radius of search in meter
+         * @param quotient
          *
          * @return
          */
             private String getText(
-                double aRadius,
-                double aQuotient) {
+                double radius,
+                double quotient) {
 
-                Checks.AssertIsStrictPositive(aRadius, "aRadius");
-                Checks.AssertIsStrictPositive(aQuotient, "aQuotient");
+                Checks.AssertIsStrictPositive(radius, "radius");
+                Checks.AssertIsStrictPositive(quotient, "quotient");
 
                 double lRadius = 0.0;
 
-                if (aRadius >= 1000) {
-                    lRadius = (aRadius / 1000);
+                if (radius >= 1000) {
+                    lRadius = (radius / 1000);
                 }
 
-                lRadius = (lRadius / aQuotient);
+                lRadius = (lRadius / quotient);
 
                 lRadius = DoubleUtil.round(lRadius, 2);
 
-                if (aRadius < 1000) {
+                if (radius < 1000) {
                     return lRadius + "m";
                 } else {
                     return lRadius + "km";
@@ -357,22 +357,22 @@ public class RadarView extends android.view.View {
         /**
          * Draws the markers on the view.
          *
-         * @param aCanvas Canvas hosts the draw calls
-         * @param aMaxRadiusOfRadar
+         * @param canvas Canvas hosts the draw calls
+         * @param maxRadiusOfRadar
          */
         public void drawMarkers(
-            Canvas aCanvas,
-            int aMaxRadiusOfRadar) {
+            Canvas canvas,
+            int maxRadiusOfRadar) {
 
-            Checks.AssertNotNull(aCanvas, "aCanvas");
-            Checks.AssertIsStrictPositive(aMaxRadiusOfRadar, "aMaxRadiusOfRadar");
+            Checks.AssertNotNull(canvas, "canvas");
+            Checks.AssertIsStrictPositive(maxRadiusOfRadar, "maxRadiusOfRadar");
 
             // Paint object allows to describe the colors and styles for marker
-            Paint lMarkerPaint = new Paint();
+            Paint markerPaint = new Paint();
 
-            lMarkerPaint.setColor(Color.WHITE);
-            lMarkerPaint.setStrokeWidth(10);
-            lMarkerPaint.setStyle(Paint.Style.FILL);
+            markerPaint.setColor(Color.WHITE);
+            markerPaint.setStrokeWidth(10);
+            markerPaint.setStyle(Paint.Style.FILL);
 
             List<RadarMarker> lMarkers = getMarkers();
 
@@ -390,18 +390,18 @@ public class RadarView extends android.view.View {
                 for (RadarMarker lMarker : lMarkers) {
                     if (lColorMarker != null) {
                         if (lMarker.equals(lColorMarker)) {
-                            lMarkerPaint.setColor(Color.RED);
-                            addText(aCanvas, lColorMarker.getTitle(), lColorMarker.getPositionX()+10, lColorMarker.getPositionY(), mTextPaint);
+                            markerPaint.setColor(Color.RED);
+                            addText(canvas, lColorMarker.getTitle(), lColorMarker.getPositionX()+10, lColorMarker.getPositionY(), mTextPaint);
                         } else {
-                            lMarkerPaint.setColor(Color.WHITE);
+                            markerPaint.setColor(Color.WHITE);
                         }
                     }
 
-                    aCanvas.drawCircle(
+                    canvas.drawCircle(
                         lMarker.getPositionX(),
                         lMarker.getPositionY(),
-                        (((aMaxRadiusOfRadar / 2) - 1) >> 5),
-                        lMarkerPaint);
+                        (((maxRadiusOfRadar / 2) - 1) >> 5),
+                        markerPaint);
                     }
             }
         }
@@ -409,18 +409,18 @@ public class RadarView extends android.view.View {
         /**
          * Draws a marker on the view.
          *
-         * @param aCanvas Canvas hosts the draw calls
-         * @param aRadarMarker The marker to draw
-         * @param aMaxRadiusOfRadar
+         * @param canvas Canvas hosts the draw calls
+         * @param radarMarker The marker to draw
+         * @param maxRadiusOfRadar
          */
         private void drawMarker(
-            Canvas aCanvas,
-            RadarMarker aRadarMarker,
-            int aMaxRadiusOfRadar) {
+            Canvas  canvas,
+            RadarMarker radarMarker,
+            int maxRadiusOfRadar) {
 
-            Checks.AssertNotNull(aCanvas, "aCanvas");
-            Checks.AssertNotNull(aRadarMarker, "aRadarMarker");
-            Checks.AssertIsStrictPositive(aMaxRadiusOfRadar, "aMaxRadiusOfRadar");
+            Checks.AssertNotNull(canvas, "canvas");
+            Checks.AssertNotNull(radarMarker, "radarMarker");
+            Checks.AssertIsStrictPositive(maxRadiusOfRadar, "maxRadiusOfRadar");
 
             // Paint object allows to describe the colors and styles for marker
             Paint lMarkerPaint = new Paint();
@@ -428,10 +428,10 @@ public class RadarView extends android.view.View {
             lMarkerPaint.setColor(Color.WHITE);
             lMarkerPaint.setStyle(Paint.Style.FILL);
 
-            aCanvas.drawCircle(
-                    aRadarMarker.getPositionX(),
-                    aRadarMarker.getPositionY(),
-                    (((aMaxRadiusOfRadar / 2) - 1) >> 5),
+            canvas.drawCircle(
+                    radarMarker.getPositionX(),
+                    radarMarker.getPositionY(),
+                    (((maxRadiusOfRadar / 2) - 1) >> 5),
                     lMarkerPaint);
         }
 
@@ -439,29 +439,29 @@ public class RadarView extends android.view.View {
          * This method allows to add a label in the view. Used for example in
          * our view for indicating the radius of the circle
          *
-         * @param aCanvas Canvas hosts the draw calls
-         * @param aText The text of the label to draw in the view
+         * @param canvas Canvas hosts the draw calls
+         * @param text The text of the label to draw in the view
          * @param aX The position X of the label's rectangle
          * @param aY The position Y of the label's rectangle
-         * @param aTextPaint allows to describe the colors and styles for the text
+         * @param textPaint allows to describe the colors and styles for the text
          */
         private void addText(
-            Canvas aCanvas,
-            String aText,
+            Canvas canvas,
+            String text,
             double aX,
             double aY,
-            Paint aTextPaint) {
+            Paint textPaint) {
 
             int lX = (int)aX;
             int lY = (int)aY;
 
             Rect lTextBounds = new Rect();
 
-            mGridPaint.getTextBounds(aText, 0, aText.length(), lTextBounds);
+            mGridPaint.getTextBounds(text, 0, text.length(), lTextBounds);
             lTextBounds.offset(lX - (lTextBounds.width() >> 1), lY);
             lTextBounds.inset(-2, -2);
 
-            aCanvas.drawText(aText, lX, lY, aTextPaint);
+            canvas.drawText(text, lX, lY, textPaint);
         }
 
     //endregion
@@ -471,19 +471,19 @@ public class RadarView extends android.view.View {
         /**
          * Called when a touch screen motion event occurs.
          *
-         * @param aMotionEvent
+         * @param motionEvent
          *
          * @return True when a cultural object has been detected
          */
         @Override
-        public boolean onTouchEvent(MotionEvent aMotionEvent) {
+        public boolean onTouchEvent(MotionEvent motionEvent) {
 
             float lOnTouchXCoordinate;
             float lOnTouchYCoordinate;
 
-            if(aMotionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                lOnTouchXCoordinate = aMotionEvent.getX();
-                lOnTouchYCoordinate = aMotionEvent.getY();
+            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                lOnTouchXCoordinate = motionEvent.getX();
+                lOnTouchYCoordinate = motionEvent.getY();
             }
             else {
                 return false;
