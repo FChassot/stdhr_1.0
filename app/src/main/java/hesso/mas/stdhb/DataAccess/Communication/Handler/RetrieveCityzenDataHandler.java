@@ -10,6 +10,7 @@ import java.util.List;
 
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 
 /**
  * Created by chf on 10.12.2016.
@@ -20,22 +21,26 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
  * that is creating it -- from that point on, it will deliver messages and runnables to that message
  * queue and execute them as they come out of the message queue.
  */
-public class SearchHandler extends Handler {
+public class RetrieveCityzenDataHandler extends Handler {
 
     private Spinner mSpinner;
 
+    private CitizenQueryResult mCityzenQueryResult;
+
     private Context mContext;
 
-    public SearchHandler(
+    public RetrieveCityzenDataHandler(
         Spinner spinner,
+        CitizenQueryResult queryResult,
         Context context) {
 
         this.mSpinner = spinner;
+        this.mCityzenQueryResult = queryResult;
         this.mContext = context;
     }
 
     /*
-     * toute sous classe de la classe Handler doit redéfinir cette méthode.
+     * Toute sous classe de la classe Handler doit redéfinir cette méthode.
      * cette méthode sera invoquée dans/par le ThreadCreateur.
      * Si ce Thread est le Thread UI c'est lui qui modifiera l'IHM ...
      * possèdent une file de Messages
@@ -46,7 +51,7 @@ public class SearchHandler extends Handler {
     public void handleMessage(Message message) {
 
         List<CitizenDbObject> cityZenObjects =
-                message.getData().getParcelableArrayList(SearchThread.CityZenData);
+                message.getData().getParcelableArrayList(RetrieveCityzenDataThread.CityZenData);
 
         List<String> items = new ArrayList<>();
 

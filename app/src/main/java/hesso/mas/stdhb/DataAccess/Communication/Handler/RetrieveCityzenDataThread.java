@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
@@ -13,8 +15,6 @@ import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 
-import java.util.*;
-
 /**
  * Created by chf on 10.12.2016.
  *
@@ -22,20 +22,20 @@ import java.util.*;
  * application to have multiple threads of execution running concurrently.
  * Thread wo want to do a long task and to give the answer to the UI Thread.
  */
-public class SearchThread extends Thread {
+public class RetrieveCityzenDataThread extends Thread {
 
     // Dependency
-    private SearchHandler mSearchHandler;
+    private RetrieveCityzenDataHandler mRetrieveCityzenDataHandler;
 
     public static String CityZenData = "CityZenData";
 
     /**
      * Public constructor
      *
-     * @param searchHandler
+     * @param retrieveCityzenDataHandler
      */
-    public SearchThread(SearchHandler searchHandler) {
-        this.mSearchHandler = searchHandler;
+    public RetrieveCityzenDataThread(RetrieveCityzenDataHandler retrieveCityzenDataHandler) {
+        this.mRetrieveCityzenDataHandler = retrieveCityzenDataHandler;
     }
 
     /**
@@ -49,9 +49,9 @@ public class SearchThread extends Thread {
         // Permet d'obtenir du Handler un Message dans lequel on va «glisser» les informations
         // à transmettre (à la fonction handleMessage).
         // Returns a new Message from the global message pool.
-        Message message = mSearchHandler.obtainMessage();
+        Message message = mRetrieveCityzenDataHandler.obtainMessage();
 
-        // Do the CityZen Search
+        // Populate a CityZen Search
         IWsClientFactory factory = new WsClientFactory();
 
         String query = CitizenRequests.getSubjectQuery();
@@ -82,7 +82,7 @@ public class SearchThread extends Thread {
         message.setData(bundle);
 
         // Allow to deposit (FIFO) a message in the message's queue.
-        mSearchHandler.sendMessage(message);
+        mRetrieveCityzenDataHandler.sendMessage(message);
     }
 
 }

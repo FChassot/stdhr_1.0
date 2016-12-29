@@ -3,6 +3,8 @@ package hesso.mas.stdhbtests;
 import android.graphics.Color;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
@@ -20,7 +22,9 @@ import static org.junit.Assert.assertNotNull;
  *
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class RadarUnitTest {
+
     @Test
     public void calculate_distance_between_two_points_isCorrect() throws Exception {
 

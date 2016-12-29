@@ -30,8 +30,8 @@ import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchHandler;
-import hesso.mas.stdhb.DataAccess.Communication.Handler.SearchThread;
+import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityzenDataHandler;
+import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityzenDataThread;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
@@ -54,9 +54,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     // An handler allows you to send and process message
     // and Runnable objects associated with a thread's MessageQueue.
-    private SearchHandler mSearchHandler;
+    private RetrieveCityzenDataHandler mRetrieveCityzenDataHandler;
 
-    private SearchThread mSearchThread;
+    private RetrieveCityzenDataThread mRetrieveCityzenDataThread;
 
     // Constant
     private static final String TAG = "SearchActivity";
@@ -71,6 +71,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog progress;
 
     private PowerManager.WakeLock mWakeLock;
+
+    private CitizenQueryResult mCityZenQueryResult;
 
     /**
      * Called when the activity is first created. This is where you should do all of your
@@ -131,11 +133,17 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         // The Handler ist create in the UI Thread
-        this.mSearchHandler = new SearchHandler(lCboSubject, this);
-        // SearchThread share the Handler with the activity
-        this.mSearchThread = new SearchThread(this.mSearchHandler);
+        this.mRetrieveCityzenDataHandler =
+                new RetrieveCityzenDataHandler(
+                        lCboSubject,
+                        mCityZenQueryResult,
+                        this);
+
+        // RetrieveCityzenDataThread share the Handler with the activity
+        this.mRetrieveCityzenDataThread = new RetrieveCityzenDataThread(this.mRetrieveCityzenDataHandler);
+
         // The Thread is started
-        this.mSearchThread.start();
+        this.mRetrieveCityzenDataThread.start();
 
         // Set a listener of this button
         assert lBtnSearch != null;

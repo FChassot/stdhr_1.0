@@ -123,11 +123,11 @@ public class RadarView extends android.view.View {
             mTextPaint.setTextSize(50.0f);
             mTextPaint.setTextAlign(Paint.Align.LEFT);
 
-            int lAlpha_step = 255 / POINT_ARRAY_SIZE;
+            int alpha_step = 255 / POINT_ARRAY_SIZE;
 
             for (int i=0; i < mLatestPaint.length; i++) {
                 mLatestPaint[i] = new Paint(lRadarPaint);
-                mLatestPaint[i].setAlpha(255 - (i* lAlpha_step));
+                mLatestPaint[i].setAlpha(255 - (i* alpha_step));
             }
         }
 
@@ -206,57 +206,58 @@ public class RadarView extends android.view.View {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            int lCanvasWidth = this.getWidth();
-            int lCanvasHeight = this.getHeight();
+            int canvasWidth = this.getWidth();
+            int canvasHeight = this.getHeight();
 
             // Calculate the maximum diameter of the radar possible according
             // to the dimensions of the view
-            int lMaxDiameterOfTheRadarView = Math.min(lCanvasWidth, lCanvasHeight);
+            int maxDiameterOfTheRadarView = Math.min(canvasWidth, canvasHeight);
 
-            Paint lRadarPaint = mLatestPaint[0];
+            Paint radarPaint = mLatestPaint[0];
 
-            int lPosX = (lMaxDiameterOfTheRadarView / 2);
-            int lPosY = (lMaxDiameterOfTheRadarView / 2);
-            int lRadiusOfCircle = (lPosX - 1);
+            int posX = (maxDiameterOfTheRadarView / 2);
+            int posY = (maxDiameterOfTheRadarView / 2);
+
+            int radiusOfCircle = (posX - 1);
 
             // Draw the radar on the view
             drawRadar(
                     canvas,
-                    lRadarPaint,
-                    lPosX,
-                    lPosY,
-                    lRadiusOfCircle);
+                    radarPaint,
+                    posX,
+                    posY,
+                    radiusOfCircle);
 
             // Draw the marker on the view
             drawMarkers(
                     canvas,
-                    lMaxDiameterOfTheRadarView);
+                    maxDiameterOfTheRadarView);
 
             mAlpha -= 3;
 
             if (mAlpha < -360) mAlpha = 0;
 
-            double lAngle = Math.toRadians(mAlpha);
+            double angle = Math.toRadians(mAlpha);
 
-            int lOffsetX =  (int) (lPosX + (float)(lPosX * Math.cos(lAngle)));
-            int lOffsetY = (int) (lPosY - (float)(lPosY * Math.sin(lAngle)));
+            int offsetX =  (int) (posX + (float)(posX * Math.cos(angle)));
+            int offsetY = (int) (posY - (float)(posY * Math.sin(angle)));
 
-            mLatestPoint[0]= new Point(lOffsetX, lOffsetY);
+            mLatestPoint[0]= new Point(offsetX, offsetY);
 
-            for (int lIndex = POINT_ARRAY_SIZE-1; lIndex > 0; lIndex--) {
-                mLatestPoint[lIndex] = mLatestPoint[lIndex-1];
+            for (int index = POINT_ARRAY_SIZE-1; index > 0; index--) {
+                mLatestPoint[index] = mLatestPoint[index-1];
             }
 
-            for (int lIndex = 0; lIndex < POINT_ARRAY_SIZE; lIndex++) {
-                Point lPoint = mLatestPoint[lIndex];
+            for (int index = 0; index < POINT_ARRAY_SIZE; index++) {
+                Point point = mLatestPoint[index];
 
-                if (lPoint != null) {
+                if (point != null) {
                     canvas.drawLine(
-                        lPosX,
-                        lPosY,
-                        lPoint.x,
-                        lPoint.y,
-                        mLatestPaint[lIndex]);
+                        posX,
+                        posY,
+                        point.x,
+                        point.y,
+                        mLatestPaint[index]);
                 }
             }
         }
@@ -277,21 +278,21 @@ public class RadarView extends android.view.View {
             int aY,
             Integer radiusOfCircle) {
 
-            String lText1 = getText(mRadius, 4);
-            String lText2 = getText(mRadius, 2);
-            String lText3 = getText(mRadius, 1.3333333);
-            String lText4 = getText(mRadius, 1);
+            String text1 = getText(mRadius, 4);
+            String text2 = getText(mRadius, 2);
+            String text3 = getText(mRadius, 1.3333333);
+            String text4 = getText(mRadius, 1);
 
             addNordText(canvas, 650, 650);
             canvas.drawCircle(aX, aY, radiusOfCircle, radarPaint);
-            addText(canvas, lText1, aX, ((aY/4)*3)-2, mGridPaint);
+            addText(canvas, text1, aX, ((aY/4)*3)-2, mGridPaint);
             canvas.drawCircle(aX, aY, radiusOfCircle-25, radarPaint);
-            addText(canvas, lText2, aX, (aY/2)-2, mGridPaint);
+            addText(canvas, text2, aX, (aY/2)-2, mGridPaint);
             canvas.drawCircle(aX, aY, radiusOfCircle * 3 / 4, radarPaint);
-            addText(canvas, lText3, aX, (aY/4)-2, mGridPaint);
+            addText(canvas, text3, aX, (aY/4)-2, mGridPaint);
             canvas.drawCircle(aX, aY, radiusOfCircle >> 1, radarPaint);
             canvas.drawCircle(aX, aY, radiusOfCircle >> 2, radarPaint);
-            addText(canvas, lText4, aX, 25, mGridPaint);
+            addText(canvas, text4, aX, 25, mGridPaint);
         }
 
         /**
@@ -310,16 +311,16 @@ public class RadarView extends android.view.View {
             Checks.AssertIsStrictPositive(aX, "aX");
             Checks.AssertIsStrictPositive(aY, "aY");
 
-            Paint lPaint = new Paint();
+            Paint paint = new Paint();
 
-            lPaint.setColor(0x0000FFFF);
-            lPaint.setAntiAlias(true);
-            lPaint.setStyle(Paint.Style.STROKE);
-            lPaint.setStrokeWidth(1.0f);
-            lPaint.setTextSize(120.0f);
-            lPaint.setTextAlign(Paint.Align.CENTER);
+            paint.setColor(0x0000FFFF);
+            paint.setAntiAlias(true);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(1.0f);
+            paint.setTextSize(120.0f);
+            paint.setTextAlign(Paint.Align.CENTER);
 
-            addText(canvas, "NORD", aX, aY, lPaint);
+            addText(canvas, "NORD", aX, aY, paint);
         }
 
         /**
@@ -374,32 +375,32 @@ public class RadarView extends android.view.View {
             markerPaint.setStrokeWidth(10);
             markerPaint.setStyle(Paint.Style.FILL);
 
-            List<RadarMarker> lMarkers = getMarkers();
+            List<RadarMarker> markers = getMarkers();
 
-            if (lMarkers != null){
-                RadarMarker lColorMarker = null;
+            if (markers != null){
+                RadarMarker colorMarker = null;
 
-                for (RadarMarker lMarker : lMarkers) {
+                for (RadarMarker marker : markers) {
                     if (this.mSelectedMarker != null) {
-                        if (lMarker.getObjectId().equals(this.mSelectedMarker.getObjectId())) {
-                            lColorMarker = lMarker;
+                        if (marker.getObjectId().equals(this.mSelectedMarker.getObjectId())) {
+                            colorMarker = marker;
                         }
                     }
                 }
 
-                for (RadarMarker lMarker : lMarkers) {
-                    if (lColorMarker != null) {
-                        if (lMarker.equals(lColorMarker)) {
+                for (RadarMarker marker : markers) {
+                    if (colorMarker != null) {
+                        if (marker.equals(colorMarker)) {
                             markerPaint.setColor(Color.RED);
-                            addText(canvas, lColorMarker.getTitle(), lColorMarker.getPositionX()+10, lColorMarker.getPositionY(), mTextPaint);
+                            addText(canvas, colorMarker.getTitle(), colorMarker.getPositionX()+10, colorMarker.getPositionY(), mTextPaint);
                         } else {
                             markerPaint.setColor(Color.WHITE);
                         }
                     }
 
                     canvas.drawCircle(
-                        lMarker.getPositionX(),
-                        lMarker.getPositionY(),
+                        marker.getPositionX(),
+                        marker.getPositionY(),
                         (((maxRadiusOfRadar / 2) - 1) >> 5),
                         markerPaint);
                     }
@@ -423,16 +424,16 @@ public class RadarView extends android.view.View {
             Checks.AssertIsStrictPositive(maxRadiusOfRadar, "maxRadiusOfRadar");
 
             // Paint object allows to describe the colors and styles for marker
-            Paint lMarkerPaint = new Paint();
+            Paint markerPaint = new Paint();
 
-            lMarkerPaint.setColor(Color.WHITE);
-            lMarkerPaint.setStyle(Paint.Style.FILL);
+            markerPaint.setColor(Color.WHITE);
+            markerPaint.setStyle(Paint.Style.FILL);
 
             canvas.drawCircle(
                     radarMarker.getPositionX(),
                     radarMarker.getPositionY(),
                     (((maxRadiusOfRadar / 2) - 1) >> 5),
-                    lMarkerPaint);
+                    markerPaint);
         }
 
         /**
@@ -478,12 +479,12 @@ public class RadarView extends android.view.View {
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
 
-            float lOnTouchXCoordinate;
-            float lOnTouchYCoordinate;
+            float onTouchXCoordinate;
+            float onTouchYCoordinate;
 
-            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                lOnTouchXCoordinate = motionEvent.getX();
-                lOnTouchYCoordinate = motionEvent.getY();
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                onTouchXCoordinate = motionEvent.getX();
+                onTouchYCoordinate = motionEvent.getY();
             }
             else {
                 return false;
@@ -494,22 +495,22 @@ public class RadarView extends android.view.View {
                 //return false;
             //}
 
-            RadarMarker lCulturalObject =
+            RadarMarker culturalObject =
                 findTheNearestCulturalObject(
-                    lOnTouchXCoordinate,
-                    lOnTouchYCoordinate);
+                    onTouchXCoordinate,
+                        onTouchYCoordinate);
 
-            if (lCulturalObject != null) {
-                mSelectedMarker = lCulturalObject;
+            if (culturalObject != null) {
+                mSelectedMarker = culturalObject;
 
                     // Calculate the distance on the view between the point touched and the cultural
                     // object
                     double lDistance =
                         RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
-                        lOnTouchXCoordinate,
-                        lOnTouchYCoordinate,
-                        lCulturalObject.getPositionX(),
-                        lCulturalObject.getPositionY());
+                        onTouchXCoordinate,
+                        onTouchYCoordinate,
+                        culturalObject.getPositionX(),
+                        culturalObject.getPositionY());
 
                     // When the point touched by the user near enough from the cultural object then
                     // this one will be selected
@@ -518,69 +519,69 @@ public class RadarView extends android.view.View {
                     }
 
                     if (true) {
-                        Intent lIntent = new Intent(mContext, MapsActivity.class);
+                        Intent intent = new Intent(mContext, MapsActivity.class);
 
-                        Bundle lBundle = new Bundle();
+                        Bundle bundle = new Bundle();
 
-                        RadarMarker lCurrentUserMarker = new RadarMarker();
+                        RadarMarker currentUserMarker = new RadarMarker();
 
-                        Location lCurrentUserLocation = getCurrentLocation();
+                        Location currentUserLocation = getCurrentLocation();
 
-                        if (lCurrentUserLocation != null) {
-                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
-                            lCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
-                            lCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
+                        if (currentUserLocation != null) {
+                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setLatitude(currentUserLocation.getLatitude());
+                            currentUserMarker.setLongitude(currentUserLocation.getLongitude());
                         }
                         else {
-                            lCurrentUserMarker.setLatitude(46.2333);
-                            lCurrentUserMarker.setLongitude(7.35);
-                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setLatitude(46.2333);
+                            currentUserMarker.setLongitude(7.35);
+                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
                         }
 
-                        lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
-                        lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+                        bundle.putParcelable(MapsActivity.USER_MARKER, currentUserMarker);
+                        bundle.putParcelable(MapsActivity.RADAR_MARKER, culturalObject);
 
                         if (mMarkers != null && mMarkers.size() > 0) {
-                            lBundle.putParcelableArrayList(
+                            bundle.putParcelableArrayList(
                                     MapsActivity.RADAR_MARKER_ARRAY,
                                     (ArrayList<? extends Parcelable>) mMarkers);
                         }
 
-                        lIntent.putExtras(lBundle);
+                        intent.putExtras(bundle);
 
-                        mContext.startActivity(lIntent);
+                        mContext.startActivity(intent);
                     }
                     else {
                         this.stopRadar();
 
-                        Intent lIntent = new Intent(mContext, SearchActivity.class);
+                        Intent intent = new Intent(mContext, SearchActivity.class);
 
-                        Bundle lBundle = new Bundle();
+                        Bundle bundle = new Bundle();
 
-                        RadarMarker lCurrentUserMarker = new RadarMarker();
+                        RadarMarker currentUserMarker = new RadarMarker();
 
-                        Location lCurrentUserLocation = getCurrentLocation();
+                        Location currentUserLocation = getCurrentLocation();
 
-                        if (lCurrentUserLocation != null) {
-                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
-                            lCurrentUserMarker.setLatitude(lCurrentUserLocation.getLatitude());
-                            lCurrentUserMarker.setLongitude(lCurrentUserLocation.getLongitude());
+                        if (currentUserLocation != null) {
+                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setLatitude(currentUserLocation.getLatitude());
+                            currentUserMarker.setLongitude(currentUserLocation.getLongitude());
                         }
                         else {
-                            lCurrentUserMarker.setLatitude(46.2333);
-                            lCurrentUserMarker.setLongitude(7.35);
-                            lCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setLatitude(46.2333);
+                            currentUserMarker.setLongitude(7.35);
+                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
                         }
 
-                        lBundle.putParcelable(MapsActivity.USER_MARKER, lCurrentUserMarker);
+                        bundle.putParcelable(MapsActivity.USER_MARKER, currentUserMarker);
 
-                        if (lCulturalObject != null) {
-                            lBundle.putParcelable(MapsActivity.RADAR_MARKER, lCulturalObject);
+                        if (culturalObject != null) {
+                            bundle.putParcelable(MapsActivity.RADAR_MARKER, culturalObject);
                         }
 
-                        lIntent.putExtras(lBundle);
+                        intent.putExtras(bundle);
 
-                        mContext.startActivity(lIntent);
+                        mContext.startActivity(intent);
                     }
 
                 return true;
@@ -593,41 +594,41 @@ public class RadarView extends android.view.View {
          * This method searches the nearest Cultural object according
          * the point touched on the screen by the user
          *
-         * @param aOnTouchXCoordinate
-         * @param aOnTouchYCoordinate
+         * @param onTouchXCoordinate
+         * @param onTouchYCoordinate
          *
          * @return
          */
         private RadarMarker findTheNearestCulturalObject(
-            float aOnTouchXCoordinate,
-            float aOnTouchYCoordinate) {
+            float onTouchXCoordinate,
+            float onTouchYCoordinate) {
 
-            double lDistance = 0.0;
+            double distance = 0.0;
 
-            RadarMarker lNearestMarker = null;
+            RadarMarker nearestMarker = null;
 
             if (mMarkers != null){
                 for (RadarMarker lMarker : mMarkers) {
                     double lHypotenuse =
                         RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
-                            aOnTouchXCoordinate,
-                            aOnTouchYCoordinate,
+                            onTouchXCoordinate,
+                            onTouchYCoordinate,
                             lMarker.getPositionX(),
                             lMarker.getPositionY());
 
-                    if (lDistance == 0) {
-                        lDistance = Math.abs(lHypotenuse);
-                        lNearestMarker = lMarker;
+                    if (distance == 0) {
+                        distance = Math.abs(lHypotenuse);
+                        nearestMarker = lMarker;
                     }
 
-                    if (lDistance != 0 && (Math.abs(lHypotenuse) < Math.abs(lDistance))) {
-                        lNearestMarker = lMarker;
-                        lDistance = Math.abs(lHypotenuse);
+                    if (distance != 0 && (Math.abs(lHypotenuse) < Math.abs(distance))) {
+                        nearestMarker = lMarker;
+                        distance = Math.abs(lHypotenuse);
                     }
                 }
             }
 
-            return lNearestMarker;
+            return nearestMarker;
         }
 
         /**
@@ -635,23 +636,24 @@ public class RadarView extends android.view.View {
          *
          * @param aX
          * @param aY
-         * @param aView
+         * @param view
          *
          * @return yes, if the point is inside the view
          */
         private boolean isPointInsideView(
             float aX,
             float aY,
-            View aView) {
+            View view) {
 
-            int lLocation[] = new int[2];
+            int location[] = new int[2];
 
-            aView.getLocationOnScreen(lLocation);
-            int lXPositionOnScreen = lLocation[0];
-            int lYPositionOnScreen = lLocation[1];
+            view.getLocationOnScreen(location);
 
-            return ((aX > lXPositionOnScreen && aX <(lXPositionOnScreen + aView.getWidth())) &&
-                    (aY > lYPositionOnScreen && aY < (lYPositionOnScreen + aView.getHeight())));
+            int xPositionOnScreen = location[0];
+            int yPositionOnScreen = location[1];
+
+            return ((aX > xPositionOnScreen && aX <(xPositionOnScreen + view.getWidth())) &&
+                    (aY > yPositionOnScreen && aY < (yPositionOnScreen + view.getHeight())));
         }
 
     /**
@@ -662,59 +664,59 @@ public class RadarView extends android.view.View {
     public Location getCurrentLocation() {
 
         // Declaration of a Location Manager
-        LocationManager lLocationManager;
+        LocationManager locationManager;
 
         // Instantiate a GpsLocationListener
         LocationListener lLocationListener =
             new GpsLocationListener(this.getContext());
 
         // The minimum distance to change Updates in meters
-        final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
+        final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;         // 10 meters
 
         // The minimum time between updates in milliseconds
-        final long MIN_TIME_BW_UPDATES = 1; // 1 minute
+        final long MIN_TIME_BW_UPDATES = 1;                     // 1 minute
 
-        Location lCurrentLocation = null;
+        Location currentLocation = null;
 
         try {
-            lLocationManager = (LocationManager) mContext
+            locationManager = (LocationManager) mContext
                 .getSystemService(Context.LOCATION_SERVICE);
 
             // Get GPS services status
-            NetworkConnectivity lConnectivity =
+            NetworkConnectivity connectivity =
                  new NetworkConnectivity(this.getContext());
 
-            boolean lIsGpsEnabled = lConnectivity.isGpsEnabled();
+            boolean isGpsEnabled = connectivity.isGpsEnabled();
 
             // Get network status
-            boolean lIsNetworkEnabled = lConnectivity.isNetworkAvailable();
+            boolean isNetworkEnabled = connectivity.isNetworkAvailable();
 
-            if (lIsGpsEnabled || lIsNetworkEnabled) {
-                if (lIsNetworkEnabled) {
-                    lLocationManager.requestLocationUpdates(
+            if (isGpsEnabled || isNetworkEnabled) {
+                if (isNetworkEnabled) {
+                    locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
                         MIN_TIME_BW_UPDATES,
                         MIN_DISTANCE_CHANGE_FOR_UPDATES,
                         lLocationListener);
 
-                    if (lLocationManager != null) {
-                        lCurrentLocation =
-                            lLocationManager
+                    if (locationManager != null) {
+                        currentLocation =
+                            locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     }
                 }
 
                 // If GPS Enabled get Location using GPS Services
-                if (lIsGpsEnabled) {
-                    lLocationManager.requestLocationUpdates(
+                if (isGpsEnabled) {
+                    locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         MIN_TIME_BW_UPDATES,
                         MIN_DISTANCE_CHANGE_FOR_UPDATES,
                         lLocationListener);
 
-                        if (lLocationManager != null) {
-                            lCurrentLocation =
-                                    lLocationManager.getLastKnownLocation(
+                        if (locationManager != null) {
+                            currentLocation =
+                                    locationManager.getLastKnownLocation(
                                             LocationManager.GPS_PROVIDER);
                         }
                 }
@@ -724,7 +726,7 @@ public class RadarView extends android.view.View {
             aExc.printStackTrace();
         }
 
-        return lCurrentLocation;
+        return currentLocation;
     }
 
     //endregion
