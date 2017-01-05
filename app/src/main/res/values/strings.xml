@@ -82,7 +82,7 @@
 
     <!-- String for the google Map activity -->
 
-    <!-- String for the Citizen Search activity -->
+    <!-- String for the CityZen Search activity -->
     <string name="lbl_place">Place</string>
     <string name="lbl_description"></string>
     <string name="lbl_date">Date</string>

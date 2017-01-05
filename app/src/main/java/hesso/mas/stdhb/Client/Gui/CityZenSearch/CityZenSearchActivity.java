@@ -89,7 +89,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
 
         // Set the activity content to an explicit view
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_cityzen_search);
 
         mPrefs = new Preferences(this);
 

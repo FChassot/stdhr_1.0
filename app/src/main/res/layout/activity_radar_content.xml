@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="hesso.mas.stdhb.Client.Gui.Radar.RadarActivity"
-    tools:showIn="@layout/suactivity_display">
+    tools:showIn="@layout/activity_radar">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:id="@+id/mDtxtTitleRadar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cityzen Radar"
+        android:text="CityZen Radar"
         android:textColor="#da2424"
         android:textStyle="bold"
         android:textSize="20dp"

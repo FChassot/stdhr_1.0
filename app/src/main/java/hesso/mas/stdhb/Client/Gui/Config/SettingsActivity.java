@@ -93,7 +93,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         mConnectivity = new NetworkConnectivity(this);
 
         // Find the views that was identified by an id attribute
-        Spinner lCboClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
+        Spinner lSpinnerClientServerCommunication = (Spinner) findViewById(R.id.mDcboCommunication);
         EditText mDTxtRadius = (EditText) findViewById(R.id.mDTxtRadius);
         Switch lRadarSwitch = (Switch) findViewById(R.id.RadarSwitch);
 
@@ -108,7 +108,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         adapter.setDropDownViewResource(R.layout.spinner_item);
 
-        lCboClientServerCommunication.setAdapter(adapter);
+        lSpinnerClientServerCommunication.setAdapter(adapter);
 
         /*SpinnerHandler.fillComboClientServerTechnology(
                 lCboClientServerCommunication,
@@ -125,7 +125,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 EnumClientServerCommunication.valueOf(
                         clientServerCommunication);
 
-        lCboClientServerCommunication.setSelection(lEnumValue.showValue());
+        lSpinnerClientServerCommunication.setSelection(lEnumValue.showValue());
 
         Integer radiusOfSearch =
                 mPrefs.getMyIntPref(
@@ -181,7 +181,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         mListViewAdapter =
             new ListViewAdapter(
                 this,
-                R.layout.culturalinterest_info,
+                R.layout.cultural_interest_info,
                 mCulturalObjectTypes);
 
         ListView listView = (ListView) findViewById(R.id.mLstViewCITyp);
@@ -263,7 +263,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             if (convertView == null) {
                 LayoutInflater lLayoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                convertView = lLayoutInflater.inflate(R.layout.culturalinterest_info, null);
+                convertView = lLayoutInflater.inflate(R.layout.cultural_interest_info, null);
 
                 holder = new ViewHolder();
 

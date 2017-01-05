@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Citizen Search"
+                android:text="CityZen Search"
                 android:id="@+id/textView"
                 android:layout_column="13"
                 android:textColor="#f21c1c"

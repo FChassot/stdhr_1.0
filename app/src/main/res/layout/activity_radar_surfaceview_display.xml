@@ -8,7 +8,7 @@
     tools:context="hesso.mas.stdhb.Client.Gui.Radar.RadarActivity"
     android:background="#084B8A">
 
-    <include layout="@layout/sucontent_display" />
+    <include layout="@layout/activity_radar_surfaceview_content" />
 
     <hesso.mas.stdhb.Client.Gui.Radar.RadarSurfaceView.RadarSurfaceView
         android:id="@+id/radarSurfaceView"

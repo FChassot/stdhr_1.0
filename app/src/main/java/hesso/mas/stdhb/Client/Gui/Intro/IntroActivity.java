@@ -1,6 +1,5 @@
 package hesso.mas.stdhb.Client.Gui.Intro;
 
-import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhbtests.R;
 
@@ -50,7 +49,7 @@ public class IntroActivity extends AppCompatActivity {
                 LayoutInflater layoutInflater =
                         (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
-                View detailsView = layoutInflater.inflate(R.layout.details_popup_layout, null);
+                View detailsView = layoutInflater.inflate(R.layout.organisation_details_popup_layout, null);
 
                 final PopupWindow popupWindow = new PopupWindow(detailsView, 1200, 900);
 

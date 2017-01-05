@@ -6,14 +6,14 @@ package hesso.mas.stdhb.Base.Exceptions;
  * Exception class of the STDHR application
  *
  */
-public class CitizenExceptions extends Exception
+public class CityZenExceptions extends Exception
 {
     /**
      * Generate a new Exception
      *
      * @param message Message of the Exception
      */
-    public CitizenExceptions(String message) {
+    public CityZenExceptions(String message) {
         super(message);
     }
 
@@ -26,7 +26,7 @@ public class CitizenExceptions extends Exception
      *                   Only objects that are instances of this class (or one of its subclasses) are
      *                   thrown by the Java Virtual Machine or can be thrown by the Java throw statement.
      */
-    public CitizenExceptions(String message, Throwable throwable) {
+    public CityZenExceptions(String message, Throwable throwable) {
         super(message, throwable);
     }
 
@@ -35,7 +35,7 @@ public class CitizenExceptions extends Exception
      * @param message
      * @param innereException
      */
-    public CitizenExceptions(String message, Exception innereException) {
+    public CityZenExceptions(String message, Exception innereException) {
         super(message, innereException);
     }
 
@@ -43,7 +43,7 @@ public class CitizenExceptions extends Exception
      *
      * @param cause
      */
-    public CitizenExceptions(Throwable cause) {
+    public CityZenExceptions(Throwable cause) {
         super(cause);
         // TODO Auto-generated constructor stub
     }
