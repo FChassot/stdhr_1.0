@@ -105,13 +105,13 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 mCurrentUserMarker = new RadarMarker();
                 mCurrentUserMarker.setLatitude(mCurrentUserLocation.getLatitude());
                 mCurrentUserMarker.setLongitude(mCurrentUserLocation.getLongitude());
-                mCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                mCurrentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
             }
             else {
                 mCurrentUserMarker = new RadarMarker();
                 mCurrentUserMarker.setLatitude(46.2333);
                 mCurrentUserMarker.setLongitude(7.35);
-                mCurrentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                mCurrentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
             }
         }
 
@@ -267,25 +267,25 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     /**
      * Called when a marker has been clicked or tapped.
      *
-     * @param aMarker The marker that was clicked.
+     * @param marker The marker that was clicked.
      *
      * @return true if the listener has consumed the event (i.e., the default behavior should
      * not occur); false otherwise (i.e., the default behavior should occur).
      */
     @Override
-    public boolean onMarkerClick (Marker aMarker) {
+    public boolean onMarkerClick (Marker marker) {
 
-        if (aMarker.getTitle().equals(BaseConstants.Attr_Citizen_User_Text)) { return true; }
+        if (marker.getTitle().equals(BaseConstants.Attr_CityZen_User_Text)) { return true; }
 
         Location location = new Location(MyString.EMPTY_STRING);
-        location.setLatitude(aMarker.getPosition().latitude);
-        location.setLongitude(aMarker.getPosition().longitude);
+        location.setLatitude(marker.getPosition().latitude);
+        location.setLongitude(marker.getPosition().longitude);
 
         RadarMarker selectedMarker = new RadarMarker();
 
         selectedMarker.setLocation(location);
-        selectedMarker.setTitle(aMarker.getTitle());
-        selectedMarker.setObjectId(aMarker.getSnippet());
+        selectedMarker.setTitle(marker.getTitle());
+        selectedMarker.setObjectId(marker.getSnippet());
 
         Intent intent = new Intent(this, CityZenActivity.class);
 

@@ -59,7 +59,7 @@ public class RetrieveCityZenDataAsyncTask extends AsyncTask<String, CityZenQuery
             mProgress =
                 ProgressDialog.show(
                     mContext,
-                    mContext.getResources().getString(R.string.citizen_search),
+                    mContext.getResources().getString(R.string.cityZen_search),
                     mContext.getResources().getString(R.string.wait));
         }
     }

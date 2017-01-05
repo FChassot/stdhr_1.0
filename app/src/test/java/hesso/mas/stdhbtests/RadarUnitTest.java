@@ -28,7 +28,7 @@ public class RadarUnitTest {
     @Test
     public void calculate_distance_between_two_points_isCorrect() throws Exception {
 
-        double lDistance =
+        double distance =
                 SpatialGeometryServices.getDistanceBetweenTwoPoints(
                     45,
                     45,
@@ -37,7 +37,7 @@ public class RadarUnitTest {
                     45,
                     45);
 
-        assertEquals((int)lDistance, 0);
+        assertEquals((int)distance, 0);
     }
 
     /**
@@ -47,7 +47,7 @@ public class RadarUnitTest {
     @Test
     public void get_markers_from_sparql_response() throws Exception {
 
-        List<RadarMarker> lMarkers =
+        List<RadarMarker> markers =
                 RadarHelper.getRadarMarkersFromResponse(
                         null,
                         45,
@@ -57,7 +57,7 @@ public class RadarUnitTest {
                         900,
                         false);
 
-        assertNotNull(lMarkers);
+        assertNotNull(markers);
     }
 
     /**
@@ -69,14 +69,14 @@ public class RadarUnitTest {
     @Test
     public void calculate_distance_in_the_view_between_two_points() throws Exception {
 
-        double lDistance =
+        double distance =
                 RadarHelper.calculateDistanceInTheViewBetweenTwoPoints(
                         0.0,
                         0.0,
                         45.0,
                         45.0);
 
-        assertNotEquals(lDistance, 45);
+        assertNotEquals(distance, 45);
     }
 
     /**
@@ -87,7 +87,7 @@ public class RadarUnitTest {
     @Test
     public void get_RadarView_Position_For_Marker() throws Exception {
 
-        RadarMarker lMarker =
+        RadarMarker marker =
                 new RadarMarker(
                     550,
                     550,
@@ -101,7 +101,7 @@ public class RadarUnitTest {
         RadarViewPosition lPosition1 =
                 RadarHelper.getRadarViewPositionForMarker(
                         600,
-                        lMarker,
+                        marker,
                         360.0);
 
         assertEquals((int)lPosition1.getX(), 550);
@@ -110,7 +110,7 @@ public class RadarUnitTest {
         RadarViewPosition lPosition2 =
                 RadarHelper.getRadarViewPositionForMarker(
                         600,
-                        lMarker,
+                        marker,
                         90.0);
 
         assertEquals((int)lPosition2.getX(), 550);
@@ -119,7 +119,7 @@ public class RadarUnitTest {
         RadarViewPosition lPosition3 =
                 RadarHelper.getRadarViewPositionForMarker(
                         600,
-                        lMarker,
+                        marker,
                         180.0);
 
         assertEquals((int)lPosition3.getX(), 350);
@@ -128,7 +128,7 @@ public class RadarUnitTest {
         RadarViewPosition lPosition4 =
                 RadarHelper.getRadarViewPositionForMarker(
                         600,
-                        lMarker,
+                        marker,
                         270.0);
 
         assertEquals((int)lPosition4.getX(), 350);

@@ -50,7 +50,7 @@ public final class RadarHelper {
         int widthView,
         boolean movementMode) {
 
-        Checks.AssertNotNull(queryResult, "aQueryResult");
+        Checks.AssertNotNull(queryResult, "queryResult");
 
         List<RadarMarker> lMarkers = new ArrayList<>();
         List<RadarMarker> lLisOfMarkersFiltered = new ArrayList<>();
@@ -149,17 +149,17 @@ public final class RadarHelper {
     /**
      * This method extracts the subjects of a citizen SPARQL request
      *
-     * @param aQueryResult
+     * @param queryResult
      * @return
      */
     public static List<String> getCulturalObjectSubjectFromResponse(
-        CityZenQueryResult aQueryResult) {
+        CityZenQueryResult queryResult) {
 
-        Checks.AssertNotNull(aQueryResult, "aQueryResult");
+        Checks.AssertNotNull(queryResult, "queryResult");
 
         List<String> lSubjects = new ArrayList<>();
 
-        for (CityZenDbObject lObject : aQueryResult.Results()) {
+        for (CityZenDbObject lObject : queryResult.Results()) {
             String lSubject = lObject.GetValue("subject");
             lSubjects.add(lSubject);
         }
@@ -171,17 +171,17 @@ public final class RadarHelper {
      * This method analyses the response from the sparql server and convert this one into a list
      * of radarMarker
      *
-     * @param aQueryResult the response of the sparql server
+     * @param queryResult the response of the sparql server
      *
      * @return a list of RadarMarker
      */
     public static ArrayList<CulturalObjectType> getRadarMarkersFromResponse(
-        CityZenQueryResult aQueryResult) {
+        CityZenQueryResult queryResult) {
 
         // array list of type of cultural interest
         ArrayList<CulturalObjectType> lListOfCIType = new ArrayList<>();
 
-        if (aQueryResult == null) {
+        if (queryResult == null) {
             lListOfCIType.add(new CulturalObjectType("","Cultural place", false));
             lListOfCIType.add(new CulturalObjectType("","Cultural person", false));
             lListOfCIType.add(new CulturalObjectType("","Cultural event", false));
@@ -189,7 +189,7 @@ public final class RadarHelper {
             lListOfCIType.add(new CulturalObjectType("","Physical object", false));
         }
         else {
-            for (CityZenDbObject lCitizenObject : aQueryResult.Results()) {
+            for (CityZenDbObject lCityZenObject : queryResult.Results()) {
                 lListOfCIType.add(new CulturalObjectType("","cultural object conversion to do", false));
             }
         }

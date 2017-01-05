@@ -160,7 +160,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
         this.registerReceiver(mReceiver, filter);
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
+        mWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, TAG);
         mWakeLock.acquire();
 
     }

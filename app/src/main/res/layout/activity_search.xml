@@ -25,7 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="5dp"
-        android:text="Search Cityzen Data"
+        android:text="Search CityZen Data"
         android:textColor="#DF013A"
         android:textSize="20sp"
         android:textStyle="normal|bold" />

@@ -1,4 +1,4 @@
 // Date: 13.10.2016
 // Author: chf
-// The Data Access Layer contains logic to handle the communication with the Citizen Server API
+// The Data Access Layer contains logic to handle the communication with the CityZen Server API
 

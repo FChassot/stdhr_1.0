@@ -528,14 +528,14 @@ public class RadarView extends android.view.View {
                         Location currentUserLocation = getCurrentLocation();
 
                         if (currentUserLocation != null) {
-                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
                             currentUserMarker.setLatitude(currentUserLocation.getLatitude());
                             currentUserMarker.setLongitude(currentUserLocation.getLongitude());
                         }
                         else {
                             currentUserMarker.setLatitude(46.2333);
                             currentUserMarker.setLongitude(7.35);
-                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
                         }
 
                         bundle.putParcelable(MapsActivity.USER_MARKER, currentUserMarker);
@@ -563,14 +563,14 @@ public class RadarView extends android.view.View {
                         Location currentUserLocation = getCurrentLocation();
 
                         if (currentUserLocation != null) {
-                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
                             currentUserMarker.setLatitude(currentUserLocation.getLatitude());
                             currentUserMarker.setLongitude(currentUserLocation.getLongitude());
                         }
                         else {
                             currentUserMarker.setLatitude(46.2333);
                             currentUserMarker.setLongitude(7.35);
-                            currentUserMarker.setTitle(BaseConstants.Attr_Citizen_User_Text);
+                            currentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
                         }
 
                         bundle.putParcelable(MapsActivity.USER_MARKER, currentUserMarker);
