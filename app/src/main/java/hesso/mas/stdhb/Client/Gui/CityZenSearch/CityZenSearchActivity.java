@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Search;
+package hesso.mas.stdhb.Client.Gui.CityZenSearch;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -25,7 +25,7 @@ import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
-import hesso.mas.stdhb.Client.Gui.Cityzen.CityZenActivity;
+import hesso.mas.stdhb.Client.Gui.CityZen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
@@ -47,7 +47,7 @@ import hesso.mas.stdhbtests.R;
  * This is the Activity in which the user will be able to request the
  * semantic data stored on the external triplestore
  */
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
+public class CityZenSearchActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Variable of type OkHttpClient
     //OkHttpClient mOkHttpClient;
@@ -59,7 +59,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private RetrieveCityzenDataThread mRetrieveCityzenDataThread;
 
     // Constant
-    private static final String TAG = "SearchActivity";
+    private static final String TAG = "CityZenSearchActivity";
 
     // Member variables
     private Preferences mPrefs;
@@ -272,7 +272,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 true);
         }
         if (view.getId() == R.id.mImgBack) {
-            Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+            Intent intent = new Intent(CityZenSearchActivity.this, MainActivity.class);
             startActivity(intent);
         }
     }
@@ -409,7 +409,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(SearchActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(CityZenSearchActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 // User chose the "Settings" item, show the app settings UI...
                 return true;

@@ -18,7 +18,7 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
-import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
+import hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity;
 
 import hesso.mas.stdhbtests.R;
 
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             startActivity(intent);
         }
         if (view.getId()==R.id.mBtnSearch){
-            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+            Intent intent = new Intent(MainActivity.this, CityZenSearchActivity.class);
             startActivity(intent);
         }
         if (view.getId()==R.id.mBtnMap){
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 return true;
 
             case R.id.action_search:
-                Intent intent2 = new Intent(MainActivity.this, SearchActivity.class);
+                Intent intent2 = new Intent(MainActivity.this, CityZenSearchActivity.class);
                 startActivity(intent2);
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...

@@ -45,7 +45,7 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarSurfaceView.RadarSurfaceView;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarView.RadarView;
 
-import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
+import hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
@@ -832,7 +832,7 @@ public class RadarActivity
                 return true;
 
             case R.id.action_search:
-                Intent lIntent2 = new Intent(RadarActivity.this, SearchActivity.class);
+                Intent lIntent2 = new Intent(RadarActivity.this, CityZenSearchActivity.class);
                 startActivity(lIntent2);
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...

@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="hesso.mas.stdhb.Client.Gui.Search.SearchActivity"
+    tools:context="hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity"
     android:background="#084B8A"
     android:weightSum="1">
 

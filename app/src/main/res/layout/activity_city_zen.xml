@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="hesso.mas.stdhb.Client.Gui.Cityzen.CityZenActivity"
+    tools:context="hesso.mas.stdhb.Client.Gui.CityZen.CityZenActivity"
     android:background="#084B8A">
 
     <TableLayout
@@ -24,7 +24,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_logo"
+                android:src="@mipmap/ic_logo_valais_digital"
                 android:id="@+id/mImgLogo" />
 
             <TextView

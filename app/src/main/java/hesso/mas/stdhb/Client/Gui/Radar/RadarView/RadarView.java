@@ -27,7 +27,7 @@ import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
 import hesso.mas.stdhb.Base.Tools.DoubleUtil;
-import hesso.mas.stdhb.Client.Gui.Search.SearchActivity;
+import hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
@@ -554,7 +554,7 @@ public class RadarView extends android.view.View {
                     else {
                         this.stopRadar();
 
-                        Intent intent = new Intent(mContext, SearchActivity.class);
+                        Intent intent = new Intent(mContext, CityZenSearchActivity.class);
 
                         Bundle bundle = new Bundle();
 

@@ -61,7 +61,7 @@
 
         <activity android:name="hesso.mas.stdhb.Client.Gui.Main.MainActivity" />
 
-        <activity android:name="hesso.mas.stdhb.Client.Gui.Search.SearchActivity" />
+        <activity android:name="hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -100,7 +100,7 @@
             android:name="hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity"
             android:label="@string/title_activity_maps" />
 
-        <activity android:name="hesso.mas.stdhb.Client.Gui.Cityzen.CityZenActivity"></activity>
+        <activity android:name="hesso.mas.stdhb.Client.Gui.CityZen.CityZenActivity"></activity>
     </application>
 
 </manifest>

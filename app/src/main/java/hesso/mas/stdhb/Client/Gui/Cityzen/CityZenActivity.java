@@ -1,4 +1,4 @@
-package hesso.mas.stdhb.Client.Gui.Cityzen;
+package hesso.mas.stdhb.Client.Gui.CityZen;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -40,7 +40,7 @@ import static hesso.mas.stdhbtests.R.id.imageView;
 public class CityZenActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Constant
-    private static final String TAG = "SearchActivity";
+    private static final String TAG = "CityZenSearchActivity";
 
     // Member variables
     private Preferences mPrefs;
