@@ -31,7 +31,7 @@ import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
 import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityZenDataHandler;
-import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityzenDataThread;
+import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityZenDataThread;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
@@ -56,7 +56,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
     // and Runnable objects associated with a thread's MessageQueue.
     private RetrieveCityZenDataHandler mRetrieveCityZenDataHandler;
 
-    private RetrieveCityzenDataThread mRetrieveCityzenDataThread;
+    private RetrieveCityZenDataThread mRetrieveCityZenDataThread;
 
     // Constant
     private static final String TAG = "CityZenSearchActivity";
@@ -141,11 +141,11 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                         mCityZenQueryResult,
                         this);
 
-        // RetrieveCityzenDataThread share the Handler with the activity
-        this.mRetrieveCityzenDataThread = new RetrieveCityzenDataThread(this.mRetrieveCityZenDataHandler);
+        // RetrieveCityZenDataThread share the Handler with the activity
+        this.mRetrieveCityZenDataThread = new RetrieveCityZenDataThread(this.mRetrieveCityZenDataHandler);
 
         // The Thread is started
-        this.mRetrieveCityzenDataThread.start();
+        this.mRetrieveCityZenDataThread.start();
 
         // Set a listener of this button
         assert lBtnSearch != null;

@@ -22,7 +22,7 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
  * application to have multiple threads of execution running concurrently.
  * Thread wo want to do a long task and to give the answer to the UI Thread.
  */
-public class RetrieveCityzenDataThread extends Thread {
+public class RetrieveCityZenDataThread extends Thread {
 
     // Dependency
     private RetrieveCityZenDataHandler mRetrieveCityZenDataHandler;
@@ -34,7 +34,7 @@ public class RetrieveCityzenDataThread extends Thread {
      *
      * @param retrieveCityZenDataHandler
      */
-    public RetrieveCityzenDataThread(RetrieveCityZenDataHandler retrieveCityZenDataHandler) {
+    public RetrieveCityZenDataThread(RetrieveCityZenDataHandler retrieveCityZenDataHandler) {
         this.mRetrieveCityZenDataHandler = retrieveCityZenDataHandler;
     }
 

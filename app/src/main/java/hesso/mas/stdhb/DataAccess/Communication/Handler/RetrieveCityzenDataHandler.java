@@ -51,7 +51,7 @@ public class RetrieveCityZenDataHandler extends Handler {
     public void handleMessage(Message message) {
 
         List<CityZenDbObject> cityZenObjects =
-                message.getData().getParcelableArrayList(RetrieveCityzenDataThread.CityZenData);
+                message.getData().getParcelableArrayList(RetrieveCityZenDataThread.CityZenData);
 
         List<String> items = new ArrayList<>();
 
