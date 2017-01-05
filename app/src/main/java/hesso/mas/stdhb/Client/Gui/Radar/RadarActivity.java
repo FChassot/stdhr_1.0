@@ -628,7 +628,7 @@ public class RadarActivity
             mHasInterference = (accuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
             if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
-                text += " " + "Compass sensor seems to work correctly on your mobile!"; //"SENSOR_STATUS_ACCURACY_HIGH";
+                text += " " + "Compass sensor seems now to work correctly!"; //"SENSOR_STATUS_ACCURACY_HIGH";
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
                 text += " " + "SENSOR_STATUS_ACCURACY_MEDIUM" + " " + "Try to calibrate compass on your Android!\"";
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
@@ -792,9 +792,7 @@ public class RadarActivity
             Bundle bundle = intent.getExtras();
 
             try {
-                citizenQueryResult =
-                        bundle.getParcelable(
-                                RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
+                citizenQueryResult = bundle.getParcelable(AsyncTaskAction);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());

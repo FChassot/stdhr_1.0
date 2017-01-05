@@ -31,10 +31,6 @@ public class RetrieveCityZenDataAsyncTask extends AsyncTask<String, CityZenQuery
 
     private static final String TAG = "RetrieveCityZenDataTask";
 
-    public static final String ACTION1 = "EXECUTE_REQUEST";
-
-    public static final String HTTP_RESPONSE = "httpResponse";
-
     private Context mContext;
 
     private String mAction;
@@ -79,15 +75,15 @@ public class RetrieveCityZenDataAsyncTask extends AsyncTask<String, CityZenQuery
      */
     public CityZenQueryResult doInBackground(String... urls) {
 
-        String lQuery = urls[0];
+        String query = urls[0];
 
         EnumClientServerCommunication clientServerCommunicationMode =
                 EnumClientServerCommunication.valueOf(urls[1]);
 
         CityZenEndPoint endPointWs =
             new CityZenEndPoint(
-                BaseConstants.Attr_Citizen_Server_URI,
-                BaseConstants.Attr_Citizen_Repository_NAME);
+                BaseConstants.Attr_CityZen_Server_URI,
+                BaseConstants.Attr_CityZen_Repository_NAME);
 
         CityZenQueryResult response = null;
 
@@ -100,7 +96,7 @@ public class RetrieveCityZenDataAsyncTask extends AsyncTask<String, CityZenQuery
                     endPointWs);
 
             try {
-                response = wsClient.executeRequest(lQuery);
+                response = wsClient.executeRequest(query);
 
             } catch (Exception e) {
                     e.printStackTrace();
@@ -118,11 +114,11 @@ public class RetrieveCityZenDataAsyncTask extends AsyncTask<String, CityZenQuery
      * The specified result is the value returned by doInBackground(Params...).
      */
     protected void onPostExecute(
-        CityZenQueryResult aCitizenQueryResult) {
+        CityZenQueryResult aCityZenQueryResult) {
 
         // TODO: check this.exception
         // TODO: do something with the feed
-        Log.i(TAG, "RESULT = " + aCitizenQueryResult);
+        Log.i(TAG, "RESULT = " + aCityZenQueryResult);
 
         Intent intent = new Intent();
 
@@ -130,7 +126,7 @@ public class RetrieveCityZenDataAsyncTask extends AsyncTask<String, CityZenQuery
 
         Bundle bundle = new Bundle();
 
-        bundle.putParcelable(RetrieveCityZenDataAsyncTask.HTTP_RESPONSE, aCitizenQueryResult);
+        bundle.putParcelable(mAction, aCityZenQueryResult);
         intent.putExtras(bundle);
 
         // clear the progress indicator

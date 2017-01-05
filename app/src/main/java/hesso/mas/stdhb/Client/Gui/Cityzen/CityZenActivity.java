@@ -42,6 +42,8 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     // Constant
     private static final String TAG = "CityZenSearchActivity";
 
+    public static final String CityZenAction = "AsyncTask_for_CityZenActivity";
+
     // Member variables
     private Preferences mPrefs;
 
@@ -145,7 +147,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         mReceiver = new Receiver();
 
-        IntentFilter filter = new IntentFilter(RetrieveCityZenDataAsyncTask.ACTION1);
+        IntentFilter filter = new IntentFilter(CityZenAction);
         this.registerReceiver(mReceiver, filter);
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -229,7 +231,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             RetrieveCityZenDataAsyncTask task =
                     new RetrieveCityZenDataAsyncTask(
                             this,
-                            RetrieveCityZenDataAsyncTask.ACTION1);
+                            CityZenAction);
 
             task.onPreExecuteMessageDisplay = displaySearchmsg;
 
@@ -243,7 +245,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             RetrieveCityZenDataAsyncTask lTask =
                     new RetrieveCityZenDataAsyncTask(
                             this,
-                            RetrieveCityZenDataAsyncTask.ACTION1);
+                            CityZenAction);
 
             lTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
@@ -309,20 +311,18 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle bundle = intent.getExtras();
 
-            CityZenQueryResult citizenQueryResult = null;
+            CityZenQueryResult cityZenQueryResult = null;
 
             try {
                 // The bundle should contain the SPARQL Result
-                citizenQueryResult =
-                        bundle.getParcelable(
-                                RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
+                cityZenQueryResult = bundle.getParcelable(CityZenAction);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
-            if (citizenQueryResult != null && citizenQueryResult.Count() > 0) {
-                CityZenDbObject culturalObject = citizenQueryResult.Results().get(0);
+            if (cityZenQueryResult != null && cityZenQueryResult.Count() > 0) {
+                CityZenDbObject culturalObject = cityZenQueryResult.Results().get(0);
 
                 mDescription = culturalObject.GetValue("description");
                 TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);

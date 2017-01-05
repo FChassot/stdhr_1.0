@@ -481,8 +481,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             try {
                 citizenQueryResult =
-                    bundle.getParcelable(
-                        RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
+                    bundle.getParcelable(AsyncTaskAction);
             }
             catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());

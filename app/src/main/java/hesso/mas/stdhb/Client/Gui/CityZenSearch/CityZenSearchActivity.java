@@ -225,7 +225,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
         if (view.getId() == R.id.mBtnSearch) {
             if (!mConnectivity.isActive() || !mConnectivity.isNetworkAvailable()) {
-                Notifications.ShowMessageBox(this, "Sorry! unable to search Cityzen Data [internet network not active]", "Warning", "Ok");
+                Notifications.ShowMessageBox(this, "Sorry! unable to search CityZen Data [internet network not active]", "Warning", "Ok");
                 return;
             }
 
@@ -359,8 +359,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             try {
                 // The bundle should contain the SPARQL Result
                 citizenQueryResult =
-                        bundle.getParcelable(
-                                RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
+                        bundle.getParcelable(AsyncTaskAction);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());

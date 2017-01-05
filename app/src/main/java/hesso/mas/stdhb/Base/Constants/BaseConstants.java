@@ -11,11 +11,11 @@ package hesso.mas.stdhb.Base.Constants;
 public final class BaseConstants {
 
     // constant which contains the URI of the Citizen (sparql) server
-    public static final String Attr_Citizen_Server_URI =
+    public static final String Attr_CityZen_Server_URI =
             "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
 
     // constant which contains the name of the repository
-    public static final String Attr_Citizen_Repository_NAME = "CityZenDM";
+    public static final String Attr_CityZen_Repository_NAME = "CityZenDM";
 
     // constant used to define the default radius of search
     public static final int Attr_Default_Radius_Search = 15000;

@@ -27,8 +27,8 @@ public class QueryEngine {
 
         CityZenEndPoint endPointWs =
                 new CityZenEndPoint(
-                        BaseConstants.Attr_Citizen_Server_URI,
-                        BaseConstants.Attr_Citizen_Repository_NAME);
+                        BaseConstants.Attr_CityZen_Server_URI,
+                        BaseConstants.Attr_CityZen_Repository_NAME);
 
         CityZenQueryResult response;
 

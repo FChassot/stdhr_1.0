@@ -32,7 +32,7 @@ public class SpatialGeometryServices {
             getDistanceForOneLatitudeDegree(
                     currentUserLocation);
 
-        double latDelta = (distanceInMetersForOneLatitudeDegree/1000) / radiusInKm;
+        double latDelta = (distanceInMetersForOneLatitudeDegree / 1000) / radiusInKm;
 
         return 1 / latDelta;
     }
