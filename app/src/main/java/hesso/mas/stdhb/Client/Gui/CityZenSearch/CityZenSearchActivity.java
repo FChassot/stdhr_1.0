@@ -30,14 +30,14 @@ import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;
-import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityzenDataHandler;
+import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityZenDataHandler;
 import hesso.mas.stdhb.DataAccess.Communication.Handler.RetrieveCityzenDataThread;
 import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
 
 import hesso.mas.stdhbtests.R;
 
@@ -54,12 +54,14 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
     // An handler allows you to send and process message
     // and Runnable objects associated with a thread's MessageQueue.
-    private RetrieveCityzenDataHandler mRetrieveCityzenDataHandler;
+    private RetrieveCityZenDataHandler mRetrieveCityZenDataHandler;
 
     private RetrieveCityzenDataThread mRetrieveCityzenDataThread;
 
     // Constant
     private static final String TAG = "CityZenSearchActivity";
+
+    public static final String AsyncTaskAction = "AsyncTask_for_SearchActivity";
 
     // Member variables
     private Preferences mPrefs;
@@ -72,7 +74,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
     private PowerManager.WakeLock mWakeLock;
 
-    private CitizenQueryResult mCityZenQueryResult;
+    private CityZenQueryResult mCityZenQueryResult;
 
     /**
      * Called when the activity is first created. This is where you should do all of your
@@ -133,14 +135,14 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
         });
 
         // The Handler ist create in the UI Thread
-        this.mRetrieveCityzenDataHandler =
-                new RetrieveCityzenDataHandler(
+        this.mRetrieveCityZenDataHandler =
+                new RetrieveCityZenDataHandler(
                         lCboSubject,
                         mCityZenQueryResult,
                         this);
 
         // RetrieveCityzenDataThread share the Handler with the activity
-        this.mRetrieveCityzenDataThread = new RetrieveCityzenDataThread(this.mRetrieveCityzenDataHandler);
+        this.mRetrieveCityzenDataThread = new RetrieveCityzenDataThread(this.mRetrieveCityZenDataHandler);
 
         // The Thread is started
         this.mRetrieveCityzenDataThread.start();
@@ -154,7 +156,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
         mReceiver = new Receiver();
 
-        IntentFilter filter = new IntentFilter(RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
+        IntentFilter filter = new IntentFilter(AsyncTaskAction);
         this.registerReceiver(mReceiver, filter);
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -260,7 +262,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             String lEnd = txtViewPeriod.getText().toString().substring(5, 9);
 
             String request =
-                    CitizenRequests.getCulturalObjectQueryByTitleAndDate(
+                    CityZenRequests.getCulturalObjectQueryByTitleAndDate(
                             lPlace,
                             Integer.parseInt(lBegin),
                             Integer.parseInt(lEnd),
@@ -298,10 +300,10 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
         Debug.startMethodTracing("myapp_stdhr");
 
         if (clientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
-            RetrieveCitizenDataAsyncTask retrieveTask =
-                    new RetrieveCitizenDataAsyncTask(
+            RetrieveCityZenDataAsyncTask retrieveTask =
+                    new RetrieveCityZenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
+                            AsyncTaskAction);
 
             retrieveTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
@@ -312,10 +314,10 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             return;
         }
         else {
-            RetrieveCitizenDataAsyncTask retrieveTask =
-                    new RetrieveCitizenDataAsyncTask(
+            RetrieveCityZenDataAsyncTask retrieveTask =
+                    new RetrieveCityZenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask.HTTP_CITYZEN_DATA);
+                            AsyncTaskAction);
 
             retrieveTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
@@ -352,20 +354,20 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle bundle = aIntent.getExtras();
 
-            CitizenQueryResult citizenQueryResult = null;
+            CityZenQueryResult citizenQueryResult = null;
 
             try {
                 // The bundle should contain the SPARQL Result
                 citizenQueryResult =
                         bundle.getParcelable(
-                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                                RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
             if (citizenQueryResult != null && citizenQueryResult.Count() > 0) {
-                CitizenDbObject culturalObject = citizenQueryResult.Results().get(0);
+                CityZenDbObject culturalObject = citizenQueryResult.Results().get(0);
 
                 String title = culturalObject.GetValue("title");
                 String objectId = culturalObject.GetValue("culturalInterest");

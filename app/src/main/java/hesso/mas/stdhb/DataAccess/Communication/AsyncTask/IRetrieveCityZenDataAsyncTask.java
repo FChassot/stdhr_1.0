@@ -15,7 +15,7 @@ package hesso.mas.stdhb.DataAccess.Communication.AsyncTask;
  * on the UI thread. An asynchronous task is defined by 3 generic types, called Params, Progress and Result,
  * and 4 steps, called onPreExecute, doInBackground, onProgressUpdate and onPostExecute.
  */
-public interface IRetrieveCitizenDataAsyncTask {
+public interface IRetrieveCityZenDataAsyncTask {
 
     /**
      * Perform a computation on a background thread.

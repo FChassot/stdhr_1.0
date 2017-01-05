@@ -1,6 +1,6 @@
 package hesso.mas.stdhb.DataAccess.Communication.WsClientFactory;
 
-import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 
@@ -15,11 +15,11 @@ public interface IWsClientFactory {
      * Factory for the generation of IWsClient instance.
      *
      * @param clientServerCommunication
-     * @param citizenEndPoint
+     * @param cityZenEndPoint
      *
      * @return
      */
     IWsClient Create(
             EnumClientServerCommunication clientServerCommunication,
-            CitizenEndPoint citizenEndPoint);
+            CityZenEndPoint cityZenEndPoint);
 }

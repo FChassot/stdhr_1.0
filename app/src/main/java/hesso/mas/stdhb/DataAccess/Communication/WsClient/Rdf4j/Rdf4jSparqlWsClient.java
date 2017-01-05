@@ -8,10 +8,10 @@ import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.http.HTTPRepository;*/
 
 import hesso.mas.stdhb.Base.Checks.Checks;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
-import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 
 /**
@@ -21,13 +21,13 @@ import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
  */
 public class Rdf4jSparqlWsClient implements IWsClient {
 
-    private CitizenEndPoint mWsEndpoint;
+    private CityZenEndPoint mWsEndpoint;
 
     // It's not possible to use the default constructor to instanciate this class
     private Rdf4jSparqlWsClient() {}
 
     // Constructor
-    public Rdf4jSparqlWsClient(CitizenEndPoint aWsEndpoint) {
+    public Rdf4jSparqlWsClient(CityZenEndPoint aWsEndpoint) {
 
         Checks.AssertNotNull(aWsEndpoint, "aWsEndpoint");
 
@@ -41,7 +41,7 @@ public class Rdf4jSparqlWsClient implements IWsClient {
      *
      * @return The result of the request
      */
-    public CitizenQueryResult executeRequest(
+    public CityZenQueryResult executeRequest(
         String aQuery) {
 
         // Request Sparql using Rdf4j

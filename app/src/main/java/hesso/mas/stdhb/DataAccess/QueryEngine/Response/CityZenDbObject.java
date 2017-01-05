@@ -11,17 +11,17 @@ import java.util.Map;
  *
  * Represents an object retrieved from the Citizen Endpoint
  */
-public class CitizenDbObject implements Parcelable {
+public class CityZenDbObject implements Parcelable {
 
     // Member variable
     private Map<String, String> mMap = new HashMap<>();
 
     // Constructor
-    public CitizenDbObject() {
+    public CityZenDbObject() {
     }
 
     // Constructor
-    private CitizenDbObject(Parcel in) {
+    private CityZenDbObject(Parcel in) {
         in.readMap(mMap, getClass().getClassLoader());
     }
 
@@ -66,12 +66,12 @@ public class CitizenDbObject implements Parcelable {
      * interface.
      */
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public CitizenDbObject createFromParcel(Parcel in) {
-            return new CitizenDbObject(in);
+        public CityZenDbObject createFromParcel(Parcel in) {
+            return new CityZenDbObject(in);
         }
 
-        public CitizenDbObject[] newArray(int size) {
-            return new CitizenDbObject[size];
+        public CityZenDbObject[] newArray(int size) {
+            return new CityZenDbObject[size];
         }
     };
 

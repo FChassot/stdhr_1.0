@@ -11,8 +11,8 @@ import hesso.mas.stdhb.Base.Models.Class.CulturalObjectType;
 
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 
 /**
  * Created by chf on 01.09.2016.
@@ -42,7 +42,7 @@ public final class RadarHelper {
      * @return A list of RadarMarker
      */
     public static List<RadarMarker> getRadarMarkersFromResponse(
-        CitizenQueryResult queryResult,
+        CityZenQueryResult queryResult,
         int currentDegree,
         Location currentUserLocation,
         double radius,
@@ -55,7 +55,7 @@ public final class RadarHelper {
         List<RadarMarker> lMarkers = new ArrayList<>();
         List<RadarMarker> lLisOfMarkersFiltered = new ArrayList<>();
 
-        for (CitizenDbObject lCulturalObject : queryResult.Results()) {
+        for (CityZenDbObject lCulturalObject : queryResult.Results()) {
             //todo chf: removes when clarified
             for (RadarMarker lMarker : lLisOfMarkersFiltered) {
                 if ((lMarker.getTitle().equals(lCulturalObject.GetValue("title"))) &&
@@ -153,13 +153,13 @@ public final class RadarHelper {
      * @return
      */
     public static List<String> getCulturalObjectSubjectFromResponse(
-        CitizenQueryResult aQueryResult) {
+        CityZenQueryResult aQueryResult) {
 
         Checks.AssertNotNull(aQueryResult, "aQueryResult");
 
         List<String> lSubjects = new ArrayList<>();
 
-        for (CitizenDbObject lObject : aQueryResult.Results()) {
+        for (CityZenDbObject lObject : aQueryResult.Results()) {
             String lSubject = lObject.GetValue("subject");
             lSubjects.add(lSubject);
         }
@@ -176,7 +176,7 @@ public final class RadarHelper {
      * @return a list of RadarMarker
      */
     public static ArrayList<CulturalObjectType> getRadarMarkersFromResponse(
-        CitizenQueryResult aQueryResult) {
+        CityZenQueryResult aQueryResult) {
 
         // array list of type of cultural interest
         ArrayList<CulturalObjectType> lListOfCIType = new ArrayList<>();
@@ -189,7 +189,7 @@ public final class RadarHelper {
             lListOfCIType.add(new CulturalObjectType("","Physical object", false));
         }
         else {
-            for (CitizenDbObject lCitizenObject : aQueryResult.Results()) {
+            for (CityZenDbObject lCitizenObject : aQueryResult.Results()) {
                 lListOfCIType.add(new CulturalObjectType("","cultural object conversion to do", false));
             }
         }

@@ -2,8 +2,6 @@ package hesso.mas.stdhb.DataAccess.Communication.WsClient.Androjena;
 
 import android.util.Log;
 
-import junit.framework.Assert;
-
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -18,12 +16,12 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
-import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
 
 /**
  * Created by chf on 27.08.2016.
@@ -32,13 +30,13 @@ import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
  */
 public class JenaSparqlWsClient implements IWsClient {
 
-    private CitizenEndPoint mWsEndpoint;
+    private CityZenEndPoint mWsEndpoint;
 
     // It's not possible to use the default constructor to instanciate this class
     private JenaSparqlWsClient() {}
 
     // Constructor
-    public JenaSparqlWsClient(CitizenEndPoint wsEndpoint) {
+    public JenaSparqlWsClient(CityZenEndPoint wsEndpoint) {
 
         Checks.AssertNotNull(wsEndpoint, "wsEndpoint");
 
@@ -52,9 +50,9 @@ public class JenaSparqlWsClient implements IWsClient {
      *
      * @return The result of the request
      */
-    public CitizenQueryResult executeRequest(String query) {
+    public CityZenQueryResult executeRequest(String query) {
 
-        CitizenQueryResult citizenQueryResult = new CitizenQueryResult();
+        CityZenQueryResult citizenQueryResult = new CityZenQueryResult();
 
         System.out.println(query);
 
@@ -74,7 +72,7 @@ public class JenaSparqlWsClient implements IWsClient {
 
             while (results.hasNext())
             {
-                CitizenDbObject citizenDbObject = new CitizenDbObject();
+                CityZenDbObject citizenDbObject = new CityZenDbObject();
                 QuerySolution binding = results.nextSolution();
 
                 for (String variable : resultsVar) {

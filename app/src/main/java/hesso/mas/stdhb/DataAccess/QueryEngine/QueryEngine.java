@@ -6,9 +6,9 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.WsClientFactory;
-import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 
 import java.util.List;
 
@@ -20,17 +20,17 @@ import java.util.List;
  */
 public class QueryEngine {
 
-    public static List<CitizenDbObject> request(String aQuery) {
+    public static List<CityZenDbObject> request(String aQuery) {
 
         EnumClientServerCommunication clientServerCommunicationMode =
                 EnumClientServerCommunication.ANDROJENA;
 
-        CitizenEndPoint endPointWs =
-                new CitizenEndPoint(
+        CityZenEndPoint endPointWs =
+                new CityZenEndPoint(
                         BaseConstants.Attr_Citizen_Server_URI,
                         BaseConstants.Attr_Citizen_Repository_NAME);
 
-        CitizenQueryResult response;
+        CityZenQueryResult response;
 
         IWsClientFactory lFactory = new WsClientFactory();
 

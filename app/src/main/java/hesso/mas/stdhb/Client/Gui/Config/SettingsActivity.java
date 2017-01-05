@@ -39,9 +39,9 @@ import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 
-import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 import hesso.mas.stdhbtests.R;
 
 /**
@@ -53,6 +53,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
     // Constant
     private static final String TAG = "Config AsyncTask";
+
+    public static final String AsyncTaskAction = "Search_for_Config";
 
     // Member variables
     private Preferences mPrefs;
@@ -83,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // components of the application are not running.
         Receiver mReceiver = new Receiver();
 
-        IntentFilter filter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION3);
+        IntentFilter filter = new IntentFilter(AsyncTaskAction);
         this.registerReceiver(mReceiver, filter);
 
         mPrefs = new Preferences(this);
@@ -414,10 +416,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
      */
     private void startAsyncSearch() {
 
-        RetrieveCitizenDataAsyncTask retrieveTask =
-            new RetrieveCitizenDataAsyncTask(
+        RetrieveCityZenDataAsyncTask retrieveTask =
+            new RetrieveCityZenDataAsyncTask(
                 this,
-                RetrieveCitizenDataAsyncTask.ACTION3);
+                AsyncTaskAction);
 
         String clientServerCommunicationMode =
             mPrefs.getMyStringPref(
@@ -441,8 +443,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         retrieveTask.onPreExecuteMessageDisplay = false;
 
-        //String lQuery = CitizenRequests.getCulturalObjectTypeQuery();
-        String query = CitizenRequests.getSubjectQuery();
+        //String lQuery = CityZenRequests.getCulturalObjectTypeQuery();
+        String query = CityZenRequests.getSubjectQuery();
 
         retrieveTask.execute(
             query,
@@ -468,19 +470,19 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            if (!intent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION3)) {
+            if (!intent.getAction().equals(AsyncTaskAction)) {
                 return;
             }
 
             // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle bundle = intent.getExtras();
 
-            CitizenQueryResult citizenQueryResult = null;
+            CityZenQueryResult citizenQueryResult = null;
 
             try {
                 citizenQueryResult =
                     bundle.getParcelable(
-                        RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                        RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
             }
             catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());

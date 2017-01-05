@@ -1,6 +1,6 @@
 package hesso.mas.stdhb.DataAccess.Communication.WsClient;
 
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 
 /**
  * Created by chf on 23.08.2016.
@@ -14,5 +14,5 @@ public interface IWsClient {
      *
      * @return The result of the query
      */
-    CitizenQueryResult executeRequest(String query);
+    CityZenQueryResult executeRequest(String query);
 }

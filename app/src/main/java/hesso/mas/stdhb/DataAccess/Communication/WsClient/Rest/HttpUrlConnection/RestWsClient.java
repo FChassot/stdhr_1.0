@@ -7,9 +7,9 @@ import java.io.InputStream;
 
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
-import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 
 /**
  * Created by chf on 11.05.2016.
@@ -18,13 +18,13 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
  */
 public class RestWsClient implements IWsClient {
 
-    private CitizenEndPoint mWsEndpoint;
+    private CityZenEndPoint mWsEndpoint;
 
     // It's not possible to use the default constructor to instanciate this class
     private RestWsClient() {}
 
     // Constructor
-    public RestWsClient(CitizenEndPoint wsEndpoint) {
+    public RestWsClient(CityZenEndPoint wsEndpoint) {
 
         Checks.AssertNotNull(wsEndpoint, "wsEndpoint");
 
@@ -37,7 +37,7 @@ public class RestWsClient implements IWsClient {
      *
      * @return result from the request
      */
-    public CitizenQueryResult executeRequest(String query) {
+    public CityZenQueryResult executeRequest(String query) {
 
         String urlStr = "http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&query=select+*+where+%7B%0D%0A+++%3Fcategorie+rdfs%3Alabel+%22%C5%92uvre+conserv%C3%A9e+au+Louvre%22%40fr+.%0D%0A+++%3Foeuvre+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2FwikiPageWikiLink%3E+%3Fcategorie%0D%0A+%7D+LIMIT+1000&format=text%2Fhtml&CXML_redir_for_subjs=121&CXML_redir_for_hrefs=&timeout=30000&debug=o";
 
@@ -69,12 +69,12 @@ public class RestWsClient implements IWsClient {
             }
         }
 
-        CitizenQueryResult cityzenResult = new CitizenQueryResult();
-        CitizenDbObject object = new CitizenDbObject();
+        CityZenQueryResult cityzenResult = new CityZenQueryResult();
+        CityZenDbObject object = new CityZenDbObject();
         object.put("test", result);
         cityzenResult.Results().add(object);
 
-        return new CitizenQueryResult();
+        return new CityZenQueryResult();
     }
 
     /**

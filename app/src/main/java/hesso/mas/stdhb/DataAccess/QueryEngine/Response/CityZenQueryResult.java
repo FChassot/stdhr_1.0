@@ -12,39 +12,39 @@ import java.util.List;
  * This class represents the result of a sparql query. This class implements
  * the class Parcelable.
  */
-public class CitizenQueryResult implements Parcelable {
+public class CityZenQueryResult implements Parcelable {
 
     // Member variable
-    private List<CitizenDbObject> mList = new ArrayList<>();
+    private List<CityZenDbObject> mList = new ArrayList<>();
 
     // Constructor
-    public CitizenQueryResult() {}
+    public CityZenQueryResult() {}
 
     // Constructor
-    private CitizenQueryResult(Parcel in) {
+    private CityZenQueryResult(Parcel in) {
         in.readList(mList, getClass().getClassLoader());
     }
 
     /**
-     * Add an CitizenDbObject in the CitizenQueryResult's list
+     * Add an CityZenDbObject in the CityZenQueryResult's list
      *
-     * @param citizenDbObject The object to add in the list
+     * @param cityZenDbObject The object to add in the list
      */
-    public void Add(CitizenDbObject citizenDbObject) {
-        mList.add(citizenDbObject);
+    public void Add(CityZenDbObject cityZenDbObject) {
+        mList.add(cityZenDbObject);
     }
 
     /**
      * Add a list of objects in the list
      *
-     * @param citizenDbObjects The list of objects to add in the list
+     * @param cityZenDbObjects The list of objects to add in the list
      */
-    public void AddRange(List<CitizenDbObject> citizenDbObjects) {
-        mList = citizenDbObjects;
+    public void AddRange(List<CityZenDbObject> cityZenDbObjects) {
+        mList = cityZenDbObjects;
     }
 
     /**
-     * Returns the size of the CitizenQueryResult's list
+     * Returns the size of the CityZenQueryResult's list
      *
      */
     public int Count() {
@@ -52,11 +52,11 @@ public class CitizenQueryResult implements Parcelable {
     }
 
     /**
-     * Exposes the list of CitizenDbObject
+     * Exposes the list of CityZenDbObject
      *
-     * @return The list of CitizenDbObject
+     * @return The list of CityZenDbObject
      */
-    public List<CitizenDbObject> Results() { return mList; }
+    public List<CityZenDbObject> Results() { return mList; }
 
     /**
      * Flatten this object in to a Parcel.
@@ -74,12 +74,12 @@ public class CitizenQueryResult implements Parcelable {
      * interface.
      */
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public CitizenQueryResult createFromParcel(Parcel in) {
-            return new CitizenQueryResult(in);
+        public CityZenQueryResult createFromParcel(Parcel in) {
+            return new CityZenQueryResult(in);
         }
 
-        public CitizenQueryResult[] newArray(int size) {
-            return new CitizenQueryResult[size];
+        public CityZenQueryResult[] newArray(int size) {
+            return new CityZenQueryResult[size];
         }
     };
 

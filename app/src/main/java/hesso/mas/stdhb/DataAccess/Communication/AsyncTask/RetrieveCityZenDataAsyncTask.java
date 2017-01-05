@@ -9,9 +9,9 @@ import android.util.Log;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 
-import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.WsClientFactory;
@@ -23,23 +23,17 @@ import hesso.mas.stdhbtests.R;
  * This class represents a thread used to retrieve Data of the City-Stories
  * Endpoint Sparql.
  */
-public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQueryResult, CitizenQueryResult> {
+public class RetrieveCityZenDataAsyncTask extends AsyncTask<String, CityZenQueryResult, CityZenQueryResult> {
 
     private Exception mException;
 
     public Boolean onPreExecuteMessageDisplay = false;
 
-    private static final String TAG = "RetrieveCitizenDataTask";
+    private static final String TAG = "RetrieveCityZenDataTask";
 
     public static final String ACTION1 = "EXECUTE_REQUEST";
 
-    public static final String ACTION2 = "SEARCH_CULTURAL_OBJECTS";
-
-    public static final String ACTION3 = "SEARCH_SUBJECTS";
-
     public static final String HTTP_RESPONSE = "httpResponse";
-
-    public static final String HTTP_CITYZEN_DATA = "SEARCH_CITYZEN_DATA";
 
     private Context mContext;
 
@@ -52,7 +46,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
      * @param context
      * @param action
      */
-    public RetrieveCitizenDataAsyncTask(
+    public RetrieveCityZenDataAsyncTask(
         Context context,
         String action)
     {
@@ -83,19 +77,19 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
      *
      * @param urls
      */
-    public CitizenQueryResult doInBackground(String... urls) {
+    public CityZenQueryResult doInBackground(String... urls) {
 
         String lQuery = urls[0];
 
         EnumClientServerCommunication clientServerCommunicationMode =
                 EnumClientServerCommunication.valueOf(urls[1]);
 
-        CitizenEndPoint endPointWs =
-            new CitizenEndPoint(
+        CityZenEndPoint endPointWs =
+            new CityZenEndPoint(
                 BaseConstants.Attr_Citizen_Server_URI,
                 BaseConstants.Attr_Citizen_Repository_NAME);
 
-        CitizenQueryResult response = null;
+        CityZenQueryResult response = null;
 
         try {
             IWsClientFactory factory = new WsClientFactory();
@@ -123,7 +117,9 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
      * Runs on the UI thread after doInBackground(Params...).
      * The specified result is the value returned by doInBackground(Params...).
      */
-    protected void onPostExecute(CitizenQueryResult aCitizenQueryResult) {
+    protected void onPostExecute(
+        CityZenQueryResult aCitizenQueryResult) {
+
         // TODO: check this.exception
         // TODO: do something with the feed
         Log.i(TAG, "RESULT = " + aCitizenQueryResult);
@@ -134,7 +130,7 @@ public class RetrieveCitizenDataAsyncTask extends AsyncTask<String, CitizenQuery
 
         Bundle bundle = new Bundle();
 
-        bundle.putParcelable(RetrieveCitizenDataAsyncTask.HTTP_RESPONSE, aCitizenQueryResult);
+        bundle.putParcelable(RetrieveCityZenDataAsyncTask.HTTP_RESPONSE, aCitizenQueryResult);
         intent.putExtras(bundle);
 
         // clear the progress indicator

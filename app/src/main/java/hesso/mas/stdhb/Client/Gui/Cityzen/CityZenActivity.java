@@ -29,10 +29,10 @@ import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
-import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
 import hesso.mas.stdhbtests.R;
 
 import static hesso.mas.stdhbtests.R.id.imageView;
@@ -106,7 +106,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                             EnumClientServerCommunication.ANDROJENA.toString());
 
             String request =
-                    CitizenRequests.getCulturalObjectInfoByObjectIdQuery(
+                    CityZenRequests.getCulturalObjectInfoByObjectIdQuery(
                             mCulturalObjectMarker.getTitle(),
                             mCulturalObjectMarker.getObjectId());
 
@@ -145,7 +145,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
         mReceiver = new Receiver();
 
-        IntentFilter filter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION1);
+        IntentFilter filter = new IntentFilter(RetrieveCityZenDataAsyncTask.ACTION1);
         this.registerReceiver(mReceiver, filter);
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -226,10 +226,10 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             boolean displaySearchmsg) {
 
         if (clientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA)) {
-            RetrieveCitizenDataAsyncTask task =
-                    new RetrieveCitizenDataAsyncTask(
+            RetrieveCityZenDataAsyncTask task =
+                    new RetrieveCityZenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask.ACTION1);
+                            RetrieveCityZenDataAsyncTask.ACTION1);
 
             task.onPreExecuteMessageDisplay = displaySearchmsg;
 
@@ -240,10 +240,10 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             return;
         }
         else {
-            RetrieveCitizenDataAsyncTask lTask =
-                    new RetrieveCitizenDataAsyncTask(
+            RetrieveCityZenDataAsyncTask lTask =
+                    new RetrieveCityZenDataAsyncTask(
                             this,
-                            RetrieveCitizenDataAsyncTask.ACTION1);
+                            RetrieveCityZenDataAsyncTask.ACTION1);
 
             lTask.onPreExecuteMessageDisplay = displaySearchmsg;
 
@@ -309,20 +309,20 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle bundle = intent.getExtras();
 
-            CitizenQueryResult citizenQueryResult = null;
+            CityZenQueryResult citizenQueryResult = null;
 
             try {
                 // The bundle should contain the SPARQL Result
                 citizenQueryResult =
                         bundle.getParcelable(
-                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                                RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
             if (citizenQueryResult != null && citizenQueryResult.Count() > 0) {
-                CitizenDbObject culturalObject = citizenQueryResult.Results().get(0);
+                CityZenDbObject culturalObject = citizenQueryResult.Results().get(0);
 
                 mDescription = culturalObject.GetValue("description");
                 TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);

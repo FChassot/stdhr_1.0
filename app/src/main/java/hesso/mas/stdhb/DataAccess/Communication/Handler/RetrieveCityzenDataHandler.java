@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenDbObject;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 
 /**
  * Created by chf on 10.12.2016.
@@ -21,17 +21,17 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
  * that is creating it -- from that point on, it will deliver messages and runnables to that message
  * queue and execute them as they come out of the message queue.
  */
-public class RetrieveCityzenDataHandler extends Handler {
+public class RetrieveCityZenDataHandler extends Handler {
 
     private Spinner mSpinner;
 
-    private CitizenQueryResult mCityZenQueryResult;
+    private CityZenQueryResult mCityZenQueryResult;
 
     private Context mContext;
 
-    public RetrieveCityzenDataHandler(
+    public RetrieveCityZenDataHandler(
         Spinner spinner,
-        CitizenQueryResult queryResult,
+        CityZenQueryResult queryResult,
         Context context) {
 
         this.mSpinner = spinner;
@@ -50,12 +50,12 @@ public class RetrieveCityzenDataHandler extends Handler {
      */
     public void handleMessage(Message message) {
 
-        List<CitizenDbObject> cityZenObjects =
+        List<CityZenDbObject> cityZenObjects =
                 message.getData().getParcelableArrayList(RetrieveCityzenDataThread.CityZenData);
 
         List<String> items = new ArrayList<>();
 
-        for (CitizenDbObject object : cityZenObjects) {
+        for (CityZenDbObject object : cityZenObjects) {
             items.add(object.GetValue("subject"));
         }
 

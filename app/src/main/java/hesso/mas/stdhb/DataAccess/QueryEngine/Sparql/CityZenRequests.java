@@ -8,10 +8,10 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  *
  * This class contains all the necessary Requests for this application.
  */
-public final class CitizenRequests {
+public final class CityZenRequests {
 
     // Constructor
-    private CitizenRequests() {}
+    private CityZenRequests() {}
 
     /**
      * Points around a given co-ordinate can be retrieved with the following query

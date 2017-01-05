@@ -5,10 +5,10 @@ package hesso.mas.stdhb.DataAccess.Communication.WsEndPoint;
  *
  * This class represents the Citizen Endpoint.
  */
-public class CitizenEndPoint extends WsEndPoint {
+public class CityZenEndPoint extends WsEndPoint {
 
     // Constructor
-    public CitizenEndPoint(
+    public CityZenEndPoint(
         String serverUri,
         String repositoryName) {
 

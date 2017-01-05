@@ -46,9 +46,9 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarSurfaceView.RadarSurfaceView;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarView.RadarView;
 
 import hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
-import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCitizenDataAsyncTask;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
 import static hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity.RADAR_MARKER;
@@ -65,6 +65,8 @@ public class RadarActivity
 
     // Constant
     private static final String TAG = "RadarActivity";
+
+    public static final String AsyncTaskAction = "Search_for_Radar";
 
     // Member variables
     private RadarView mRadarView;
@@ -179,7 +181,7 @@ public class RadarActivity
         // are not running.
         mReceiver = new Receiver();
 
-        IntentFilter lFilter = new IntentFilter(RetrieveCitizenDataAsyncTask.ACTION2);
+        IntentFilter lFilter = new IntentFilter(AsyncTaskAction);
         this.registerReceiver(mReceiver, lFilter);
 
         mRadius =
@@ -695,10 +697,10 @@ public class RadarActivity
             mCurrentUserLocation.setLongitude(7.35d);
         }
 
-        RetrieveCitizenDataAsyncTask retrieveTask =
-                new RetrieveCitizenDataAsyncTask(
+        RetrieveCityZenDataAsyncTask retrieveTask =
+                new RetrieveCityZenDataAsyncTask(
                         this,
-                        RetrieveCitizenDataAsyncTask.ACTION2);
+                        AsyncTaskAction);
 
         String clientServerCommunicationMode =
                 mPreferences.getMyStringPref(
@@ -746,7 +748,7 @@ public class RadarActivity
         int limit = 200;
 
         String query =
-                CitizenRequests.getCulturalObjectsInProximityQuery(
+                CityZenRequests.getCulturalObjectsInProximityQuery(
                         culturalObjectType,
                         (mCurrentUserLocation.getLatitude() - radius),
                         (mCurrentUserLocation.getLatitude() + radius),
@@ -781,18 +783,18 @@ public class RadarActivity
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            if (!intent.getAction().equals(RetrieveCitizenDataAsyncTask.ACTION2)) {
+            if (!intent.getAction().equals(AsyncTaskAction)) {
                 return;
             }
 
-            CitizenQueryResult citizenQueryResult = null;
+            CityZenQueryResult citizenQueryResult = null;
 
             Bundle bundle = intent.getExtras();
 
             try {
                 citizenQueryResult =
                         bundle.getParcelable(
-                                RetrieveCitizenDataAsyncTask.HTTP_RESPONSE);
+                                RetrieveCityZenDataAsyncTask.HTTP_RESPONSE);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());

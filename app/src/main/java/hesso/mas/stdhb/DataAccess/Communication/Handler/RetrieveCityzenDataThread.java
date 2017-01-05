@@ -11,9 +11,9 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.DataAccess.Communication.WsClient.IWsClient;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.IWsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.WsClientFactory;
-import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CitizenEndPoint;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CitizenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
+import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
 
 /**
  * Created by chf on 10.12.2016.
@@ -25,17 +25,17 @@ import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CitizenRequests;
 public class RetrieveCityzenDataThread extends Thread {
 
     // Dependency
-    private RetrieveCityzenDataHandler mRetrieveCityzenDataHandler;
+    private RetrieveCityZenDataHandler mRetrieveCityZenDataHandler;
 
     public static String CityZenData = "CityZenData";
 
     /**
      * Public constructor
      *
-     * @param retrieveCityzenDataHandler
+     * @param retrieveCityZenDataHandler
      */
-    public RetrieveCityzenDataThread(RetrieveCityzenDataHandler retrieveCityzenDataHandler) {
-        this.mRetrieveCityzenDataHandler = retrieveCityzenDataHandler;
+    public RetrieveCityzenDataThread(RetrieveCityZenDataHandler retrieveCityZenDataHandler) {
+        this.mRetrieveCityZenDataHandler = retrieveCityZenDataHandler;
     }
 
     /**
@@ -49,19 +49,19 @@ public class RetrieveCityzenDataThread extends Thread {
         // Permet d'obtenir du Handler un Message dans lequel on va «glisser» les informations
         // à transmettre (à la fonction handleMessage).
         // Returns a new Message from the global message pool.
-        Message message = mRetrieveCityzenDataHandler.obtainMessage();
+        Message message = mRetrieveCityZenDataHandler.obtainMessage();
 
         // Populate a CityZen Search
         IWsClientFactory factory = new WsClientFactory();
 
-        String query = CitizenRequests.getSubjectQuery();
+        String query = CityZenRequests.getSubjectQuery();
 
-        CitizenEndPoint endPointWs =
-            new CitizenEndPoint(
+        CityZenEndPoint endPointWs =
+            new CityZenEndPoint(
                 BaseConstants.Attr_Citizen_Server_URI,
                 BaseConstants.Attr_Citizen_Repository_NAME);
 
-        CitizenQueryResult response = null;
+        CityZenQueryResult response = null;
 
         IWsClient wsClient =
             factory.Create(
@@ -82,7 +82,7 @@ public class RetrieveCityzenDataThread extends Thread {
         message.setData(bundle);
 
         // Allow to deposit (FIFO) a message in the message's queue.
-        mRetrieveCityzenDataHandler.sendMessage(message);
+        mRetrieveCityZenDataHandler.sendMessage(message);
     }
 
 }
