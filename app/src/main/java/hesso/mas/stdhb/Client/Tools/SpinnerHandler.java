@@ -53,7 +53,12 @@ public class SpinnerHandler {
         Spinner spinner,
         Context context,
         int resource,
-        List<String> values) {
+        List<String> values,
+        boolean aDisplayTheFirstElement,
+        boolean aInsertNothingIfMoreThanOneElement) {
+
+        boolean lInsertNothingValue =
+            (aInsertNothingIfMoreThanOneElement && (values.size() > 1));
 
         ArrayAdapter adapter =
                 new ArrayAdapter(
@@ -62,6 +67,11 @@ public class SpinnerHandler {
                         values.toArray());
 
         spinner.setAdapter(adapter);
+
+        if (aDisplayTheFirstElement && (values.size() > 0)) {
+            //int index = SpinnerHandler.getPositionByItem(spinner, "Mountain");
+            spinner.setSelection(0);
+        }
     }
 
     /**

@@ -72,7 +72,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
         // Set the activity content to an explicit view
-        setContentView(R.layout.activity_city_zen);
+        setContentView(R.layout.activity_cityzen);
 
         mPrefs = new Preferences(this);
 

@@ -135,7 +135,7 @@ public class RadarActivity
         super.onCreate(savedInstanceState);
 
         // Set the activity content to an explicit view
-        setContentView(R.layout.activity_display);
+        setContentView(R.layout.activity_radar);
 
         mPreferences = new Preferences(this);
 

@@ -25,7 +25,7 @@ public class RetrieveCityzenDataHandler extends Handler {
 
     private Spinner mSpinner;
 
-    private CitizenQueryResult mCityzenQueryResult;
+    private CitizenQueryResult mCityZenQueryResult;
 
     private Context mContext;
 
@@ -35,7 +35,7 @@ public class RetrieveCityzenDataHandler extends Handler {
         Context context) {
 
         this.mSpinner = spinner;
-        this.mCityzenQueryResult = queryResult;
+        this.mCityZenQueryResult = queryResult;
         this.mContext = context;
     }
 
@@ -60,13 +60,12 @@ public class RetrieveCityzenDataHandler extends Handler {
         }
 
         SpinnerHandler.fillComboSubject(
-                mSpinner,
-                mContext,
-                android.R.layout.simple_spinner_item,
-                items);
-
-        int index = SpinnerHandler.getPositionByItem(mSpinner, "Mountain");
-        mSpinner.setSelection(index);
+            mSpinner,
+            mContext,
+            android.R.layout.simple_spinner_item,
+            items,
+            true,
+            false);
 
     }
 }

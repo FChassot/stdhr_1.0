@@ -2,10 +2,8 @@ package hesso.mas.stdhb.Client.Gui.Config;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +36,6 @@ import hesso.mas.stdhb.Base.Models.Basemodel;
 import hesso.mas.stdhb.Base.Tools.IntegerUtil;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
-import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 
@@ -78,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         super.onCreate(savedInstanceState);
 
         // Set the activity content to an explicit view
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_config);
 
         // Declares a broadcast receiver as one of the application's components.
         // Broadcast receivers enable applications to receive intents that are

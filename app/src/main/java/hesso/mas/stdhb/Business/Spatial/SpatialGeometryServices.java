@@ -26,13 +26,13 @@ public class SpatialGeometryServices {
         Location currentUserLocation,
         int radiusSearch) {
 
-        double lRadiusInKm = (radiusSearch / 1000);             // convert to kilometers
+        double radiusInKm = (radiusSearch / 1000);             // convert to kilometers
 
         double distanceInMetersForOneLatitudeDegree =
             getDistanceForOneLatitudeDegree(
                     currentUserLocation);
 
-        double latDelta = (distanceInMetersForOneLatitudeDegree/1000) / lRadiusInKm;
+        double latDelta = (distanceInMetersForOneLatitudeDegree/1000) / radiusInKm;
 
         return 1 / latDelta;
     }
@@ -105,23 +105,23 @@ public class SpatialGeometryServices {
         double elevation1,
         double elevation2) {
 
-        double lLatitudeDistance = Math.toRadians(latitude2 - latitude1);
-        double lLongitudeDistance = Math.toRadians(longitude2 - longitude1);
+        double latitudeDistance = Math.toRadians(latitude2 - latitude1);
+        double longitudeDistance = Math.toRadians(longitude2 - longitude1);
 
         double lA =
-            Math.sin(lLatitudeDistance / 2) * Math.sin(lLatitudeDistance / 2)
+            Math.sin(latitudeDistance / 2) * Math.sin(latitudeDistance / 2)
             + Math.cos(Math.toRadians(latitude1)) * Math.cos(Math.toRadians(latitude2))
-            * Math.sin(lLongitudeDistance / 2) * Math.sin(lLongitudeDistance / 2);
+            * Math.sin(longitudeDistance / 2) * Math.sin(longitudeDistance / 2);
 
         double lC = 2 * Math.atan2(Math.sqrt(lA), Math.sqrt(1 - lA));
 
-        double lDistance = EARTH_RADIUS_KM * lC * 1000;   // convert to meters
+        double distance = EARTH_RADIUS_KM * lC * 1000;   // convert to meters
 
-        double lHeight = elevation1 - elevation2;
+        double height = elevation1 - elevation2;
 
-        lDistance = Math.pow(lDistance, 2) + Math.pow(lHeight, 2);
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-        return Math.sqrt(lDistance);
+        return Math.sqrt(distance);
     }
 
     /**
