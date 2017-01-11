@@ -114,7 +114,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                     }
                 } else {
                     if (mTxtPlace.getText().toString().equals("Place")) {
-                        mTxtPlace.setText("Louvie");
+                        mTxtPlace.setText("");
                     }
                 }
             }
