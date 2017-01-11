@@ -1,5 +1,7 @@
 package hesso.mas.stdhb.DataAccess.QueryEngine.Sparql;
 
+import java.util.List;
+
 import hesso.mas.stdhb.Base.Checks.Checks;
 import hesso.mas.stdhb.Base.Tools.MyString;
 
@@ -16,25 +18,23 @@ public final class CityZenRequests {
     /**
      * Points around a given co-ordinate can be retrieved with the following query
      *
-     * @param culturalObjectType The type of the cultural object to search
      * @param minLatitude The min latitude for the search of the cultural objects
      * @param maxLatitude The max latitude for the search of the cultural objects
      * @param minLongitude The min longitude for the search of the cultural objects
      * @param maxLongitude The max longitude for the search of the cultural objects
+     * @param listOfCulturalInterestType The type of the cultural object to search
      *
      * @return a SPARQL query
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectsInProximityQuery(
-        String culturalObjectType,
         double minLatitude,
         double maxLatitude,
         double minLongitude,
         double maxLongitude,
+        List<String> listOfCulturalInterestType,
         String subject,
         Integer limit) {
-
-        //Checks.AssertNotEmpty(aCulturalObjectType, "aCulturalObjectType");
 
         String query;
 
@@ -58,23 +58,48 @@ public final class CityZenRequests {
                         "LIMIT " + limit;
         }
         else {
-            query =
-                    "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                    "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                    "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-                    "prefix tm: <http://purl.org/dc/terms/>\n" +
-                    "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                        "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
+            if (listOfCulturalInterestType.size() == 0) {
+                query =
+                        "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                                "prefix tm: <http://purl.org/dc/terms/>\n" +
+                                "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                                "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
+                                "?culturalInterest tm:subject ?subject .\n" +
+                                "?culturalInterest dc:title ?title .\n" +
+                                "?culturalInterest dc:description ?description .\n" +
+                                "?culturalInterest geo:location ?x .\n" +
+                                "?x geo:long ?long .\n" +
+                                "?x geo:lat ?lat .\n" +
+                                "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
+                                "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "') .\n" +
+                                "}\n" +
+                                "LIMIT " + limit;
+            } else {
+
+                String culturalInterestType = listOfCulturalInterestType.get(0);
+
+                query =
+                        "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                        "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                        "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                        "prefix tm: <http://purl.org/dc/terms/>\n" +
+                        "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                        "prefix tt: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                        "select ?culturalInterest ?title ?subject ?citype ?description ?lat ?long where {\n" +
                         "?culturalInterest tm:subject ?subject .\n" +
                         "?culturalInterest dc:title ?title .\n" +
+                        "?culturalInterest tt:type ?citype .\n" +
                         "?culturalInterest dc:description ?description .\n" +
                         "?culturalInterest geo:location ?x .\n" +
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
                         "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
-                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "') .\n" +
+                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "'" + " && ?citype = '" + culturalInterestType + "') .\n" +
                         "}\n" +
                         "LIMIT " + limit;
+            }
         }
 
         return query;

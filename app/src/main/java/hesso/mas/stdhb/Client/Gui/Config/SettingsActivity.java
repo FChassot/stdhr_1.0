@@ -269,6 +269,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
                 holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+
                 convertView.setTag(holder);
 
                 holder.name.setOnClickListener(new View.OnClickListener() {
@@ -276,6 +277,16 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         CheckBox lCheckbox = (CheckBox) aView;
                         CulturalObjectType lCulturalObjectType = (CulturalObjectType) lCheckbox.getTag();
                         lCulturalObjectType.setSelected(lCheckbox.isChecked());
+                        int lIndex = 0;
+
+                        for (CulturalObjectType culturalObjType : mCulturalObjectTypes) {
+                            if (culturalObjType.getName().equals(lCulturalObjectType.getName())) {
+                                break;
+                            }
+                            else {lIndex += 1;}
+                        }
+
+                        mCulturalObjectTypes.add(lIndex, lCulturalObjectType);
                     }
                 });
             }
@@ -283,25 +294,28 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            Set<String> listOfCulturalObjectType =
+            /*Set<String> listOfCulturalObjectType =
                     mPrefs.getMySetPref(
                         this.getContext(),
                         BaseConstants.Attr_CulturalObject_Type,
-                        null);
+                        null);*/
+
+            //List<String> listOfCulturalObjectTypeChoosen = getListOfCulturalObjectChoosen();
 
             CulturalObjectType culturalObjectType = mListOfCulturalObjectType.get(position);
 
             holder.code.setText(" (" + culturalObjectType.getCode() + ")");
             holder.name.setText(culturalObjectType.getName());
+            holder.name.setChecked(culturalObjectType.isSelected());
 
-            if (listOfCulturalObjectType != null) {
-                for (String culturalObjType : listOfCulturalObjectType) {
+            /*if (listOfCulturalObjectTypeChoosen != null) {
+                for (String culturalObjType : listOfCulturalObjectTypeChoosen) {
                     if (culturalObjectType.getName().equals(culturalObjType)) {
                         holder.name.setChecked(true);
                     }
                 }
-            }
-            //lHolder.name.setChecked(llCulturalInterestType.isSelected());
+            }*/
+
             holder.name.setTag(culturalObjectType);
 
             return convertView;
@@ -390,7 +404,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 BaseConstants.Attr_ClientServer_Communication,
                 clientServerCommunication);
 
-        Set<String> listOfCulturalObjectType = new HashSet<>();
+        List<String> listOfCulturalObjectType = new ArrayList<>();
 
         for (CulturalObjectType aCulturalObjectType : mCulturalObjectTypes) {
             if (aCulturalObjectType.isSelected()) {
@@ -398,10 +412,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             }
         }
 
-        mPrefs.setMySetPref(
-                this,
-                BaseConstants.Attr_CulturalObject_Type,
-                listOfCulturalObjectType);
+        setCulturalObjectTypeInPrefs(mCulturalObjectTypes);
 
         mPrefs.setMyStringPref(
                 this,
@@ -518,20 +529,98 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     }
 
     /**
-     *
+     * This method persist the cultural object types choosen in the settings
+     * @return
+     */
+    private void setCulturalObjectTypeInPrefs(
+         List<CulturalObjectType> listCulturalObjectType) {
+
+        for (CulturalObjectType culturalObjectType : listCulturalObjectType) {
+            String lAttributeName =
+                    getCorrespondingAttributeName(culturalObjectType.getName());
+
+            if (culturalObjectType.isSelected()) {
+                mPrefs.setMyStringPref(
+                        this,
+                        lAttributeName,
+                        "1");
+            } else {
+                mPrefs.setMyStringPref(
+                        this,
+                        lAttributeName,
+                        "0");
+            }
+        }
+    }
+
+    /**
+     * Give the list of cultural interest to fill in the ListView
      */
     private ArrayList<CulturalObjectType> getCulturalInterestTypes() {
 
         // array list of type of cultural interest
         ArrayList<CulturalObjectType> listOfCIType = new ArrayList<>();
 
-        listOfCIType.add(new CulturalObjectType("","Cultural place", false));
-        listOfCIType.add(new CulturalObjectType("","Cultural person", false));
-        listOfCIType.add(new CulturalObjectType("","Cultural event", false));
-        listOfCIType.add(new CulturalObjectType("","Folklore", false));
-        listOfCIType.add(new CulturalObjectType("","Physical object", false));
+        listOfCIType.add(getCulturalObjectTypeAccordingToPrefs("Cultural place", "1"));
+        listOfCIType.add(getCulturalObjectTypeAccordingToPrefs("Cultural person", "2"));
+        listOfCIType.add(getCulturalObjectTypeAccordingToPrefs("Cultural event", "3"));
+        listOfCIType.add(getCulturalObjectTypeAccordingToPrefs("Folklore", "4"));
+        listOfCIType.add(getCulturalObjectTypeAccordingToPrefs("Physical object", "5"));
 
         return listOfCIType;
+    }
+
+    /**
+     *
+     * @param aCulturalInterestName
+     * @param code
+     * @return
+     */
+    private CulturalObjectType getCulturalObjectTypeAccordingToPrefs(
+        String aCulturalInterestName,
+        String code) {
+
+        String lCiType = getCorrespondingAttributeName(aCulturalInterestName);
+
+        String culturalObjectValue =
+                mPrefs.getMyStringPref(
+                        this,
+                        lCiType,
+                        MyString.EMPTY_STRING);
+
+        if (!culturalObjectValue.equals(MyString.EMPTY_STRING) && culturalObjectValue == "1") {
+            return new CulturalObjectType(code, aCulturalInterestName, true);
+        }
+        else {
+            return new CulturalObjectType(code, aCulturalInterestName, false);
+        }
+    }
+
+    /**
+     *
+     * @param culturalObjectType
+     *
+     * @return
+     */
+    private String getCorrespondingAttributeName(String culturalObjectType) {
+
+        if (culturalObjectType.equals("Cultural place")) {
+            return BaseConstants.Attr_CulturalPlace;
+        }
+        if (culturalObjectType.equals("Cultural person")) {
+            return BaseConstants.Attr_CulturalPerson;
+        }
+        if (culturalObjectType.equals("Cultural event")) {
+            return BaseConstants.Attr_CulturalEvent;
+        }
+        if (culturalObjectType.equals("Folklore")) {
+            return BaseConstants.Attr_Folklore;
+        }
+        if (culturalObjectType.equals("Physical object")) {
+            return BaseConstants.Attr_PhysicalObject;
+        }
+
+        return MyString.EMPTY_STRING;
     }
 
     //endregion

@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
@@ -722,11 +723,11 @@ public class RadarActivity
             return;
         }
 
-        String culturalObjectType =
+        /*String ListOfCulturalObjectType2 =
             mPreferences.getMyStringPref(
                 this,
                 BaseConstants.Attr_TypeOfSearch,
-                MyString.EMPTY_STRING);
+                MyString.EMPTY_STRING);*/
 
         int radiusOfSearch =
             mPreferences.getMyIntPref(
@@ -747,13 +748,15 @@ public class RadarActivity
 
         int limit = 200;
 
+        List<String> listOfCulturalObjectType = getListOfCulturalInterestToSearch();
+
         String query =
                 CityZenRequests.getCulturalObjectsInProximityQuery(
-                        culturalObjectType,
                         (mCurrentUserLocation.getLatitude() - radius),
                         (mCurrentUserLocation.getLatitude() + radius),
                         (mCurrentUserLocation.getLongitude() - radius),
                         (mCurrentUserLocation.getLongitude() + radius),
+                        listOfCulturalObjectType,
                         subject,
                         limit);
 
@@ -762,6 +765,71 @@ public class RadarActivity
         retrieveTask.execute(
                 query,
                 clientServerCommunicationMode);
+    }
+
+    /**
+     *
+     * @return
+     */
+    private List<String> getListOfCulturalInterestToSearch() {
+
+        List<String> listOfCulturalObjectType = new ArrayList<>();
+
+        String lCIType = getCulturalObjectType(BaseConstants.Attr_CulturalPlace,
+                "<http://www.hevs.ch/datasemlab/cityzen/schema#CulturalPlace>");
+        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+            listOfCulturalObjectType.add(lCIType);
+        }
+
+        String lCIType2 = getCulturalObjectType(BaseConstants.Attr_CulturalPerson,
+                "<http://www.hevs.ch/datasemlab/cityzen/schema#CulturalPerson>");
+        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+            listOfCulturalObjectType.add(lCIType2);
+        }
+
+        String lCIType3 = getCulturalObjectType(BaseConstants.Attr_CulturalPerson,
+                "<http://www.hevs.ch/datasemlab/cityzen/schema#CulturalEvent>");
+        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+            listOfCulturalObjectType.add(lCIType3);
+        }
+
+        String lCIType4 = getCulturalObjectType(BaseConstants.Attr_Folklore,
+                "<http://www.hevs.ch/datasemlab/cityzen/schema#CulturalPerson>");
+        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+            listOfCulturalObjectType.add(lCIType4);
+        }
+
+        String lCIType5 = getCulturalObjectType(BaseConstants.Attr_PhysicalObject,
+                "<http://www.hevs.ch/datasemlab/cityzen/schema#PhysicalObject>");
+        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+            listOfCulturalObjectType.add(lCIType5);
+        }
+
+        return listOfCulturalObjectType;
+    }
+
+    /**
+     *
+     * @param aCulturalObjectAttributeName
+     * @param aCulturalObjectType
+     */
+    private String getCulturalObjectType(
+        String aCulturalObjectAttributeName,
+        String aCulturalObjectType) {
+
+        String value =
+                mPreferences.getMyStringPref(
+                        this,
+                        aCulturalObjectAttributeName,
+                        MyString.EMPTY_STRING);
+
+        if (!value.equals(MyString.EMPTY_STRING)) {
+            if (value == "1") {
+                return aCulturalObjectType;
+            }
+        }
+
+        return MyString.EMPTY_STRING;
     }
 
     /**

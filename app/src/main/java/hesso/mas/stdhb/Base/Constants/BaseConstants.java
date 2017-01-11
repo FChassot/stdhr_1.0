@@ -18,7 +18,7 @@ public final class BaseConstants {
     public static final String Attr_CityZen_Repository_NAME = "CityZenDM";
 
     // constant used to define the default radius of search
-    public static final int Attr_Default_Radius_Search = 15000;
+    public static final int Attr_Default_Radius_Search = 500;
 
     // constant used to save the radius of search of the radar
     public static final String Attr_Radius_Search = "Attr_Radius_Search";
@@ -40,6 +40,21 @@ public final class BaseConstants {
 
     // constant used to save the type of search
     public static final String Attr_TypeOfSearch = "Attr_Type_of_Search";
+
+    // constant used to save the type of search
+    public static final String Attr_CulturalPerson = "Attr_CulturalPerson";
+
+    // constant used to save the type of search
+    public static final String Attr_CulturalPlace = "Attr_CulturalPlace";
+
+    // constant used to save the type of search
+    public static final String Attr_CulturalEvent = "Attr_CulturalEvent";
+
+    // constant used to save the type of search
+    public static final String Attr_Folklore = "Attr_Folklore";
+
+    // constant used to save the type of search
+    public static final String Attr_PhysicalObject = "Attr_PhysicalObject";
 
     // constant used to save the type of search
     public static final String Attr_CityZen_User_Text = "CityZen radar's user";
