@@ -64,8 +64,11 @@ public class RadarView extends android.view.View {
         private float mAlpha = 0;
 
         private Point mLatestPoint[] = new Point[POINT_ARRAY_SIZE];
+
         private Paint mLatestPaint[] = new Paint[POINT_ARRAY_SIZE];
+
         private Paint mGridPaint;
+
         private Paint mTextPaint;
 
         public RadarMarker mSelectedMarker;
@@ -283,7 +286,7 @@ public class RadarView extends android.view.View {
             String text3 = getText(mRadius, 1.3333333);
             String text4 = getText(mRadius, 1);
 
-            addNordText(canvas, 650, 650);
+            //addNordText(canvas, 650, 650);
             canvas.drawCircle(aX, aY, radiusOfCircle, radarPaint);
             addText(canvas, text1, aX, ((aY/4)*3)-2, mGridPaint);
             canvas.drawCircle(aX, aY, radiusOfCircle-25, radarPaint);
@@ -302,7 +305,7 @@ public class RadarView extends android.view.View {
          * @param aX the X position of the text
          * @param aY the Y position of the text
          */
-        private void addNordText(
+        /*private void addNordText(
             Canvas canvas,
             int aX,
             int aY) {
@@ -321,7 +324,7 @@ public class RadarView extends android.view.View {
             paint.setTextAlign(Paint.Align.CENTER);
 
             addText(canvas, "NORD", aX, aY, paint);
-        }
+        }*/
 
         /**
          * Defines the text which indicate the distance in the radar view
@@ -414,7 +417,7 @@ public class RadarView extends android.view.View {
          * @param radarMarker The marker to draw
          * @param maxRadiusOfRadar
          */
-        private void drawMarker(
+        /*private void drawMarker(
             Canvas  canvas,
             RadarMarker radarMarker,
             int maxRadiusOfRadar) {
@@ -434,7 +437,7 @@ public class RadarView extends android.view.View {
                     radarMarker.getPositionY(),
                     (((maxRadiusOfRadar / 2) - 1) >> 5),
                     markerPaint);
-        }
+        }*/
 
         /**
          * This method allows to add a label in the view. Used for example in

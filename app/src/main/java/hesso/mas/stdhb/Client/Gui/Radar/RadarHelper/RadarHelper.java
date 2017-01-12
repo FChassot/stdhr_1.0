@@ -31,7 +31,7 @@ public final class RadarHelper {
      * of radarMarker
      *
      * @param queryResult The result of the query to be converted in a list of radarmarker
-     * @param currentDegree
+     * @param currentDegree ...
      * @param currentUserLocation The current location of the app's user
      * @param radius The radius of the radar's search
      * @param heightView the actual height size of the view
@@ -119,19 +119,19 @@ public final class RadarHelper {
      * This method calculates the new position of the marker according to the new
      * value of the azimuth.
      *
-     * @param aMarker The center of the rotation
-     * @param aMarker The marker
-     * @param aAngle The current degree (Azimuth)
+     * @param center The center of the rotation
+     * @param marker The marker
+     * @param angle The current degree (Azimuth)
      */
     public static RadarViewPosition getRadarViewPositionForMarker(
-            int aCenter,
-            RadarMarker aMarker,
-            double aAngle)  {
+            int center,
+            RadarMarker marker,
+            double angle)  {
 
-        int lX = aMarker.getPositionX();
-        int lY = aMarker.getPositionY();
+        int lX = marker.getPositionX();
+        int lY = marker.getPositionY();
 
-        double lAngle = 360 - aAngle;
+        double lAngle = 360 - angle;
 
         // The angles must be in radians
 
@@ -140,8 +140,8 @@ public final class RadarHelper {
         // Y = BY+(AY−BY)cosϕ+(AX−BX)sinϕ
 
         double lAngleInRadians = Math.toRadians(lAngle);
-        double lDeltaX = aCenter + ((lX-aCenter) * Math.cos(lAngleInRadians)) - ((lY-aCenter) * Math.sin(lAngleInRadians));
-        double lDeltaY = aCenter + ((lY-aCenter) * Math.cos(lAngleInRadians)) + ((lX-aCenter) * Math.sin(lAngleInRadians));
+        double lDeltaX = center + ((lX-center) * Math.cos(lAngleInRadians)) - ((lY-center) * Math.sin(lAngleInRadians));
+        double lDeltaY = center + ((lY-center) * Math.cos(lAngleInRadians)) + ((lX-center) * Math.sin(lAngleInRadians));
 
         return new RadarViewPosition((int)lDeltaX, (int)lDeltaY);
     }
@@ -149,8 +149,9 @@ public final class RadarHelper {
     /**
      * This method extracts the subjects of a citizen SPARQL request
      *
-     * @param queryResult
-     * @return
+     * @param queryResult result of the query to handle
+     *
+     * @return a list of the different subjects
      */
     public static List<String> getCulturalObjectSubjectFromResponse(
         CityZenQueryResult queryResult) {
@@ -175,7 +176,7 @@ public final class RadarHelper {
      *
      * @return a list of RadarMarker
      */
-    public static ArrayList<CulturalObjectType> getRadarMarkersFromResponse(
+    /*public static ArrayList<CulturalObjectType> getRadarMarkersFromResponse(
         CityZenQueryResult queryResult) {
 
         // array list of type of cultural interest
@@ -195,7 +196,7 @@ public final class RadarHelper {
         }
 
         return lListOfCIType;
-    }
+    }*/
 
     /**
      * This method calculates the position of the marker in the view taking
@@ -273,10 +274,6 @@ public final class RadarHelper {
     /**
      * Get the GPS Location corresponding to a point touched on the view
      *
-     * @param aXOnScreen
-     * @param aYOnScreen
-     *
-     * @return
      */
     public static Location determineGpsPositionOnTheView(
         double aXOnScreen,

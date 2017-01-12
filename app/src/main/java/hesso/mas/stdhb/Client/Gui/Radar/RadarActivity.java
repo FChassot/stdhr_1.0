@@ -48,7 +48,7 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarView.RadarView;
 
 import hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.SparqlRequests;
 import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
 import hesso.mas.stdhbtests.R;
 
@@ -117,8 +117,8 @@ public class RadarActivity
     private String[] mOldOrientationString =  new String[3];
 
     private double mRadius;
-    private int mRoll = 0;
-    private int mPitch = 0;
+    //private int mRoll = 0;
+    //private int mPitch = 0;
     private int mAzimuth = 0;
 
     private boolean mSurfaceView = false;
@@ -601,8 +601,8 @@ public class RadarActivity
             }
 
             mAzimuth = (int) (Math.toDegrees(mOrientation[0])+360)%360;
-            mPitch = (int) Math.round(Math.toDegrees(mOrientation[1]));
-            mRoll = (int) Math.round(Math.toDegrees(mOrientation[2]));
+            //mPitch = (int) Math.round(Math.toDegrees(mOrientation[1]));
+            //mRoll = (int) Math.round(Math.toDegrees(mOrientation[2]));
 
             updateAzimuth(mAzimuth);
             updateInfoTxtView();
@@ -751,7 +751,7 @@ public class RadarActivity
         List<String> listOfCulturalObjectType = getListOfCulturalInterestToSearch();
 
         String query =
-                CityZenRequests.getCulturalObjectsInProximityQuery(
+                SparqlRequests.getCulturalObjectsInProximityQuery(
                         (mCurrentUserLocation.getLatitude() - radius),
                         (mCurrentUserLocation.getLatitude() + radius),
                         (mCurrentUserLocation.getLongitude() - radius),

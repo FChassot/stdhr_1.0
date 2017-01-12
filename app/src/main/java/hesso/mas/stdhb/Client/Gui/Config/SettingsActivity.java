@@ -22,9 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -40,7 +38,7 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarHelper;
 import hesso.mas.stdhb.Client.Tools.SpinnerHandler;
 
 import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.SparqlRequests;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
 import hesso.mas.stdhbtests.R;
 
@@ -294,28 +292,11 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            /*Set<String> listOfCulturalObjectType =
-                    mPrefs.getMySetPref(
-                        this.getContext(),
-                        BaseConstants.Attr_CulturalObject_Type,
-                        null);*/
-
-            //List<String> listOfCulturalObjectTypeChoosen = getListOfCulturalObjectChoosen();
-
             CulturalObjectType culturalObjectType = mListOfCulturalObjectType.get(position);
 
             holder.code.setText(" (" + culturalObjectType.getCode() + ")");
             holder.name.setText(culturalObjectType.getName());
             holder.name.setChecked(culturalObjectType.isSelected());
-
-            /*if (listOfCulturalObjectTypeChoosen != null) {
-                for (String culturalObjType : listOfCulturalObjectTypeChoosen) {
-                    if (culturalObjectType.getName().equals(culturalObjType)) {
-                        holder.name.setChecked(true);
-                    }
-                }
-            }*/
-
             holder.name.setTag(culturalObjectType);
 
             return convertView;
@@ -454,8 +435,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         retrieveTask.onPreExecuteMessageDisplay = false;
 
-        //String lQuery = CityZenRequests.getCulturalObjectTypeQuery();
-        String query = CityZenRequests.getSubjectQuery();
+        //String lQuery = SparqlRequests.getCulturalObjectTypeQuery();
+        String query = SparqlRequests.getSubjectQuery();
 
         retrieveTask.execute(
             query,

@@ -13,7 +13,7 @@ import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.IWsClientFactory
 import hesso.mas.stdhb.DataAccess.Communication.WsClientFactory.WsClientFactory;
 import hesso.mas.stdhb.DataAccess.Communication.WsEndPoint.CityZenEndPoint;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.SparqlRequests;
 
 /**
  * Created by chf on 10.12.2016.
@@ -54,7 +54,7 @@ public class RetrieveCityZenDataThread extends Thread {
         // Populate a CityZen Search
         IWsClientFactory factory = new WsClientFactory();
 
-        String query = CityZenRequests.getSubjectQuery();
+        String query = SparqlRequests.getSubjectQuery();
 
         CityZenEndPoint endPointWs =
             new CityZenEndPoint(

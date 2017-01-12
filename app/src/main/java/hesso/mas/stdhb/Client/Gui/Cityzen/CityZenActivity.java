@@ -1,6 +1,5 @@
 package hesso.mas.stdhb.Client.Gui.CityZen;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +31,7 @@ import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
 import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.SparqlRequests;
 import hesso.mas.stdhbtests.R;
 
 import static hesso.mas.stdhbtests.R.id.imageView;
@@ -48,8 +47,6 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     private Preferences mPrefs;
 
     private Receiver mReceiver;
-
-    private ProgressDialog progress;
 
     private String mDescription = MyString.EMPTY_STRING;
     private String mTitle = MyString.EMPTY_STRING;
@@ -108,7 +105,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                             EnumClientServerCommunication.ANDROJENA.toString());
 
             String request =
-                    CityZenRequests.getCulturalObjectInfoByObjectIdQuery(
+                    SparqlRequests.getCulturalObjectInfoByObjectIdQuery(
                             mCulturalObjectMarker.getTitle(),
                             mCulturalObjectMarker.getObjectId());
 
@@ -364,41 +361,4 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     //endregion
 
     //region AsyncTask
-
-    //region Handler
-
-    public void startProgress(View view) {
-        // do something long
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i <= 10; i++) {
-                    final int value = i;
-
-                    doFakeWork();
-
-                    /*progress.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            text.setText("Updating");
-                            progress.setProgress(value);
-                        }
-                    });*/
-                }
-            }
-        };
-
-        new Thread(runnable).start();
-    }
-
-    // Simulating something timeconsuming
-    private void doFakeWork() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //endregion
 }

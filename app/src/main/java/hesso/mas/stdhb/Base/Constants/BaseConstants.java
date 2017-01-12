@@ -36,10 +36,7 @@ public final class BaseConstants {
     public static final String Attr_Subject_Selected = "Attr_Subject_Selected";
 
     // constant used to save the type of the cultural object to search
-    public static final String Attr_CulturalObject_Type = "Attr_Cultural_Object_Type";
-
-    // constant used to save the type of search
-    public static final String Attr_TypeOfSearch = "Attr_Type_of_Search";
+    //public static final String Attr_CulturalObject_Type = "Attr_Cultural_Object_Type";
 
     // constant used to save the type of search
     public static final String Attr_CulturalPerson = "Attr_CulturalPerson";

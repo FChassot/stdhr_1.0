@@ -91,13 +91,9 @@ public final class GpsLocationListener implements LocationListener {
             mIsGpsEnabled = mLocationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-           // Log.v("isGPSEnabled", "=" + mIsGpsEnabled);
-
             // get network status
             mIsNetworkEnabled = mLocationManager
                 .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            //Log.v("isNetworkEnabled", "=" + mIsNetworkEnabled);
 
             if (mIsGpsEnabled || mIsNetworkEnabled) {
                 this.mGetLocationPossible = true;
@@ -107,8 +103,6 @@ public final class GpsLocationListener implements LocationListener {
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-                    //Log.d("Network", "Network");
 
                     if (mLocationManager != null) {
                         location = mLocationManager
@@ -126,8 +120,6 @@ public final class GpsLocationListener implements LocationListener {
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 
-                        //Log.d("GPS Enabled", "GPS Enabled");
-
                         if (mLocationManager != null) {
                             location = mLocationManager
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -139,10 +131,6 @@ public final class GpsLocationListener implements LocationListener {
         } catch (Exception aExc) {
             aExc.printStackTrace();
         }
-
-        /*if (lLocation != null) {
-            Notifications.ShowMessageBox(this.mContext, "Location " + lLocation.getLatitude() + "" + lLocation.getLongitude(), "info", "ok");
-        }*/
 
         return location;
     }

@@ -10,10 +10,10 @@ import hesso.mas.stdhb.Base.Tools.MyString;
  *
  * This class contains all the necessary Requests for this application.
  */
-public final class CityZenRequests {
+public final class SparqlRequests {
 
     // Constructor
-    private CityZenRequests() {}
+    private SparqlRequests() {}
 
     /**
      * Points around a given co-ordinate can be retrieved with the following query

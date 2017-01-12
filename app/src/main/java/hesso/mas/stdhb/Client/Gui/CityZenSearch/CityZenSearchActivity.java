@@ -36,7 +36,7 @@ import hesso.mas.stdhb.Client.Gui.Validation.Validator;
 
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenQueryResult;
-import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.CityZenRequests;
+import hesso.mas.stdhb.DataAccess.QueryEngine.Sparql.SparqlRequests;
 import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
 
 import hesso.mas.stdhbtests.R;
@@ -262,7 +262,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             String lEnd = txtViewPeriod.getText().toString().substring(5, 9);
 
             String request =
-                    CityZenRequests.getCulturalObjectQueryByTitleAndDate(
+                    SparqlRequests.getCulturalObjectQueryByTitleAndDate(
                             lPlace,
                             Integer.parseInt(lBegin),
                             Integer.parseInt(lEnd),
