@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.IntegerUtil;
@@ -68,6 +70,11 @@ public class RadarActivity
     private static final String TAG = "RadarActivity";
 
     public static final String AsyncTaskAction = "Search_for_Radar";
+
+    // L'AtomicBoolean qui gère la destruction de la Thread de background
+    AtomicBoolean mCancelled = new AtomicBoolean(false);
+    // L'AtomicBoolean qui gère la mise en pause de la Thread de background
+    AtomicBoolean mTaskInvolved = new AtomicBoolean(false);
 
     // Member variables
     private RadarView mRadarView;
@@ -136,6 +143,8 @@ public class RadarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_radar);
@@ -390,10 +399,14 @@ public class RadarActivity
          * @param textView
          */
         private void updateRadarText(TextView textView) {
+            String lSubject = mPreferences.getMyStringPref(
+                    this,
+                    BaseConstants.Attr_Subject_Selected,
+                    "");
             if (mRadarView.getMarkers() != null) {
                 textView.setText(
                         mRadarView.getMarkers().size() +
-                                " " + getResources().getString(R.string.txt_cultural_objects_in_proximity));
+                                " " + getResources().getString(R.string.txt_cultural_objects_in_proximity) + "     sujet:" + lSubject);
             }
         }
 
@@ -915,7 +928,11 @@ public class RadarActivity
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
+        super.onBackPressed();
+
+        finish();
+
+        /*new AlertDialog.Builder(this)
                 .setTitle("Really Exit?")
                 .setMessage("Are you sure you want to exit?")
                 .setNegativeButton(android.R.string.no, null)
@@ -924,6 +941,6 @@ public class RadarActivity
                     public void onClick(DialogInterface arg0, int arg1) {
                         RadarActivity.super.onBackPressed();
                     }
-                }).create().show();
+                }).create().show();*/
     }
 }

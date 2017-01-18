@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +74,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_config);
@@ -281,10 +284,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                             if (culturalObjType.getName().equals(lCulturalObjectType.getName())) {
                                 break;
                             }
-                            else {lIndex += 1;}
+                            else {
+                                lIndex += 1;
+                            }
                         }
 
-                        mCulturalObjectTypes.add(lIndex, lCulturalObjectType);
+                        if (mCulturalObjectTypes != null) {
+                            mCulturalObjectTypes.add(lIndex, lCulturalObjectType);
+                        }
                     }
                 });
             }
@@ -561,13 +568,14 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         String aCulturalInterestName,
         String code) {
 
-        String lCiType = getCorrespondingAttributeName(aCulturalInterestName);
+        String lAttributeName =
+                getCorrespondingAttributeName(aCulturalInterestName);
 
         String culturalObjectValue =
                 mPrefs.getMyStringPref(
                         this,
-                        lCiType,
-                        MyString.EMPTY_STRING);
+                        lAttributeName,
+                        "1");
 
         if (!culturalObjectValue.equals(MyString.EMPTY_STRING) && culturalObjectValue == "1") {
             return new CulturalObjectType(code, aCulturalInterestName, true);

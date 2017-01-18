@@ -1,6 +1,7 @@
 package hesso.mas.stdhb.Client.Gui.Main;
 
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);  // Always call the superclass method first
+
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_main);

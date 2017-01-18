@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
@@ -87,6 +88,8 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_cityzen_search);
