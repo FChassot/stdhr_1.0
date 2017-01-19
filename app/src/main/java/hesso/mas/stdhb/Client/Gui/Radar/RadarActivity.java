@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,8 +16,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -264,6 +267,12 @@ public class RadarActivity
             mySurfaceView.onResumeMySurfaceView();
         }
 
+        mRadius =
+                mPreferences.getMyIntPref(
+                        this,
+                        BaseConstants.Attr_Radius_Search,
+                        BaseConstants.Attr_Default_Radius_Search);
+
         // Update the radar's information
         this.updateInfoTxtView();
 
@@ -299,6 +308,25 @@ public class RadarActivity
             this,
             mMagnetometer,
             SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mRadius =
+                mPreferences.getMyIntPref(
+                        this,
+                        BaseConstants.Attr_Radius_Search,
+                        BaseConstants.Attr_Default_Radius_Search);
+
+        updateInfoTxtView();
     }
 
     /**
@@ -401,12 +429,12 @@ public class RadarActivity
         private void updateRadarText(TextView textView) {
             String lSubject = mPreferences.getMyStringPref(
                     this,
-                    BaseConstants.Attr_Subject_Selected,
+                    BaseConstants.Attr_Subject_Search_Type,
                     "");
             if (mRadarView.getMarkers() != null) {
                 textView.setText(
                         mRadarView.getMarkers().size() +
-                                " " + getResources().getString(R.string.txt_cultural_objects_in_proximity) + "     sujet:" + lSubject);
+                                " " + getResources().getString(R.string.txt_cultural_objects_in_proximity) + "     sujet: " + lSubject);
             }
         }
 
@@ -637,22 +665,43 @@ public class RadarActivity
         // the accuracy of the device's magnetometer.
         if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 
-            String text = sensor.getName();
+            String text = "[SENSOR: " + sensor.getName() + "]";
 
             mHasInterference = (accuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
             if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
-                text += " " + "Compass sensor seems now to work correctly!"; //"SENSOR_STATUS_ACCURACY_HIGH";
+                text += " " + "The compass seems to be now correctly calibrated!"; //"SENSOR_STATUS_ACCURACY_HIGH";
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
-                text += " " + "SENSOR_STATUS_ACCURACY_MEDIUM" + " " + "Try to calibrate compass on your Android!\"";
+                text += " " + "Try to calibrate the compass on your Android!\""; //"SENSOR_STATUS_ACCURACY_MEDIUM"
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
-                text += " " + "SENSOR_STATUS_ACCURACY_LOW" + " " + "Try to calibrate compass on your Android!\"";
+                text += " " + "Try to calibrate the compass on your Android!\""; //"SENSOR_STATUS_ACCURACY_LOW"
             } else if (accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
-                text += " " + "SENSOR_STATUS_UNRELIABLE" + " " + "Try to calibrate compass on your Android!";
+                text += " " + "Try to calibrate the compass on your Android!"; //"SENSOR_STATUS_UNRELIABLE"
             }
 
-            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+            ShowToast(this, text);
         }
+    }
+
+    /**
+     *
+     * @param context
+     * @param info
+     */
+    public void ShowToast(Context context, String info) {
+        Toast toast = Toast.makeText(context, info, Toast.LENGTH_LONG);
+        View view = toast.getView();
+
+        //To change the Background of Toast
+        view.setBackgroundColor(Color.BLUE);
+        TextView text = (TextView) view.findViewById(android.R.id.message);
+
+        //Shadow of the Of the Text Color
+        text.setShadowLayer(1, 1, 1, Color.YELLOW);
+        text.setTextColor(Color.RED);
+        //text.setTextSize(20);
+        toast.show();
     }
 
     //endregion
@@ -688,6 +737,7 @@ public class RadarActivity
         public boolean onDoubleTap(MotionEvent motionEvent) {
             return true;
         }
+
     }
 
     //endregion
@@ -773,6 +823,8 @@ public class RadarActivity
                         subject,
                         limit);
 
+        //Notifications.ShowMessageBox(this, query, "SPARQL query", "Ok");
+
         retrieveTask.onPreExecuteMessageDisplay = false;
 
         retrieveTask.execute(
@@ -796,25 +848,25 @@ public class RadarActivity
 
         String lCIType2 = getCulturalObjectType(BaseConstants.Attr_CulturalPerson,
                 "<http://www.hevs.ch/datasemlab/cityzen/schema#CulturalPerson>");
-        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+        if (!lCIType2.equals(MyString.EMPTY_STRING)) {
             listOfCulturalObjectType.add(lCIType2);
         }
 
-        String lCIType3 = getCulturalObjectType(BaseConstants.Attr_CulturalPerson,
+        String lCIType3 = getCulturalObjectType(BaseConstants.Attr_CulturalEvent,
                 "<http://www.hevs.ch/datasemlab/cityzen/schema#CulturalEvent>");
-        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+        if (!lCIType3.equals(MyString.EMPTY_STRING)) {
             listOfCulturalObjectType.add(lCIType3);
         }
 
         String lCIType4 = getCulturalObjectType(BaseConstants.Attr_Folklore,
-                "<http://www.hevs.ch/datasemlab/cityzen/schema#CulturalPerson>");
-        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+                "<http://www.hevs.ch/datasemlab/cityzen/schema#Folklore>");
+        if (!lCIType4.equals(MyString.EMPTY_STRING)) {
             listOfCulturalObjectType.add(lCIType4);
         }
 
         String lCIType5 = getCulturalObjectType(BaseConstants.Attr_PhysicalObject,
                 "<http://www.hevs.ch/datasemlab/cityzen/schema#PhysicalObject>");
-        if (!lCIType.equals(MyString.EMPTY_STRING)) {
+        if (!lCIType5.equals(MyString.EMPTY_STRING)) {
             listOfCulturalObjectType.add(lCIType5);
         }
 

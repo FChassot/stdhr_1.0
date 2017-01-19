@@ -100,8 +100,8 @@
     <string name="title_settings_raysearch">Radius of search [m]</string>
     <string name="activate_radar">Activate the radar</string>
     <string name="action_clientserver_communication">Client-server communication</string>
-    <string name="action_subject">Search restrictions</string>
-    <string name="themes_restrictions">Search restrictions</string>
+    <string name="action_subject">Subject restrictions</string>
+    <string name="themes_restrictions">Cultural interests restrictions</string>
     <string name="action_sign_in">action_sign_in</string>
 
     <!-- Strings for AsyncTask -->

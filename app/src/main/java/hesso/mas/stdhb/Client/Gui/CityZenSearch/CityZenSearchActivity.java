@@ -242,11 +242,14 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
             TextView txtViewPlace = (TextView) findViewById(R.id.mTxtPlace);
             TextView txtViewPeriod = (TextView) findViewById(R.id.mTxtPeriod);
+            Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSujet);
+            String lSubject = lSubjectSpinner.getSelectedItem().toString();
 
             ValidationDescCollection valDescCollection =
                     Validator.ValidateSearch(
                             txtViewPlace.getText().toString(),
-                            txtViewPeriod.getText().toString());
+                            txtViewPeriod.getText().toString(),
+                            lSubject);
 
             if (valDescCollection.any()) {
                 Notifications.ShowMessageBox(
@@ -259,7 +262,6 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                 return;
             }
 
-            Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSujet);
             String lPlace = txtViewPlace.getText().toString();
             String lBegin = txtViewPeriod.getText().toString().substring(0, 4);
             String lEnd = txtViewPeriod.getText().toString().substring(5, 9);
@@ -269,7 +271,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                             lPlace,
                             Integer.parseInt(lBegin),
                             Integer.parseInt(lEnd),
-                            lSubjectSpinner.getSelectedItem().toString());
+                            lSubject);
 
             startAsyncSearch(
                 request,
@@ -300,7 +302,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             boolean displaySearchmsg) {
 
         // Start method tracing with default log name and buffer size.
-        Debug.startMethodTracing("myapp_stdhr");
+        Debug.startMethodTracing("STDHR_Trace");
 
         if (clientServerArchitecture.equals(EnumClientServerCommunication.ANDROJENA.toString())) {
             RetrieveCityZenDataAsyncTask retrieveTask =

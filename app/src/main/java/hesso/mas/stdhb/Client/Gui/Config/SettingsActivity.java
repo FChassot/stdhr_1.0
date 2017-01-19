@@ -150,7 +150,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             String subjectSelected =
                     mPrefs.getMyStringPref(
                             this,
-                            BaseConstants.Attr_Subject_Selected,
+                            BaseConstants.Attr_Subject_Search_Type,
                             MyString.EMPTY_STRING);
 
             culturalObjectSubjects.add(subjectSelected);
@@ -193,7 +193,8 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> aParent, View aView, int aPosition, long aId) {
                 // when clicked, show a toast with the TextView text
-                CulturalObjectType culturalObjectType = (CulturalObjectType) aParent.getItemAtPosition(aPosition);
+                CulturalObjectType culturalObjectType =
+                        (CulturalObjectType) aParent.getItemAtPosition(aPosition);
 
                 Toast.makeText(getApplicationContext(),
                         "Clicked on Row: " + culturalObjectType.getName(),
@@ -404,7 +405,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         mPrefs.setMyStringPref(
                 this,
-                BaseConstants.Attr_Subject_Selected,
+                BaseConstants.Attr_Subject_Search_Type,
                 cboSubject.getSelectedItem().toString());
     }
 
@@ -476,10 +477,10 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle bundle = intent.getExtras();
 
-            CityZenQueryResult citizenQueryResult = null;
+            CityZenQueryResult cityzenQueryResult = null;
 
             try {
-                citizenQueryResult =
+                cityzenQueryResult =
                     bundle.getParcelable(AsyncTaskAction);
             }
             catch (Exception aExc) {
@@ -488,7 +489,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
             List<String> culturalObjectSubjects =
                     RadarHelper.getCulturalObjectSubjectFromResponse(
-                        citizenQueryResult);
+                        cityzenQueryResult);
 
             Spinner subjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
 
@@ -504,7 +505,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
             String subjectSelected =
                     mPrefs.getMyStringPref(
                             context,
-                            BaseConstants.Attr_Subject_Selected,
+                            BaseConstants.Attr_Subject_Search_Type,
                             MyString.EMPTY_STRING);
 
             Integer itemPosition =

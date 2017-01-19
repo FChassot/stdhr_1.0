@@ -10,7 +10,7 @@ package hesso.mas.stdhb.Base.Constants;
  */
 public final class BaseConstants {
 
-    // constant which contains the URI of the Citizen (sparql) server
+    // constant which contains the URI of the Cityzen (sparql) server
     public static final String Attr_CityZen_Server_URI =
             "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
 
@@ -29,11 +29,11 @@ public final class BaseConstants {
     // constant used to save the mode of communication client-server
     public static final String Attr_ClientServer_Communication = "Attr_Client_Server_Communication";
 
-    // constant used to save the mode of communication client-server
+    // constant used to save the type of subject to search
     public static final String Attr_Subject_Search_Type = "Attr_Subject_Search_Type";
 
     // constant used to save the mode of communication client-server
-    public static final String Attr_Subject_Selected = "Attr_Subject_Selected";
+    //public static final String Attr_Subject_Selected = "Attr_Subject_Selected";
 
     // constant used to save the type of the cultural object to search
     //public static final String Attr_CulturalObject_Type = "Attr_Cultural_Object_Type";

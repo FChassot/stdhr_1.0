@@ -23,11 +23,19 @@ public class Validator {
      */
     public static ValidationDescCollection ValidateSearch(
             String aPlace,
-            String aPeriod) {
+            String aPeriod,
+            String aSubject) {
 
         ValidationDescCollection lValDescCollection = new ValidationDescCollection();
 
+        if (aSubject.equals(MyString.EMPTY_STRING)) {
+            lValDescCollection.add("* A subject has to be choosen!");
+        }
+
         if (aPlace.equals(MyString.EMPTY_STRING) || aPlace.equals("Place")) {
+            if (lValDescCollection.count() > 0) {
+                lValDescCollection.add("\n");
+            }
             lValDescCollection.add("* A place has to be given!");
         }
 

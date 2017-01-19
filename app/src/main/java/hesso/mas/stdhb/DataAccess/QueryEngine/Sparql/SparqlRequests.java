@@ -85,15 +85,21 @@ public final class SparqlRequests {
 
                     for (String culturalInterestType : listOfCulturalInterestType) {
                         if (lIndex == 0) {
-                            culturalInterestTypes = "?citype = '" + culturalInterestType + "'";
+                            culturalInterestTypes = "(?citype = " + culturalInterestType;
                             lIndex += 1;
                         }
                         else {
-                            culturalInterestTypes += culturalInterestTypes + " || ?citype = '" + culturalInterestType + "'";
+                            if (lIndex == listOfCulturalInterestType.size()-1) {
+                                culturalInterestTypes += " || ?citype = " + culturalInterestType + ")";
+                            } else {
+                                culturalInterestTypes += " || ?citype = " + culturalInterestType;
+                            }
+
+                            lIndex += 1;
                         }
                     }
                 } else {
-                    culturalInterestTypes = "(?citype = '" + listOfCulturalInterestType.get(0) + "')";
+                    culturalInterestTypes = "?citype = " + listOfCulturalInterestType.get(0);
                 }
 
                 query =
@@ -112,7 +118,7 @@ public final class SparqlRequests {
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
                         "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
-                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "'" + " && ?citype = '" + culturalInterestTypes + "'" + ") .\n" +
+                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "'" + " && " + culturalInterestTypes + ") .\n" +
                         "}\n" +
                         "LIMIT " + limit;
             }
