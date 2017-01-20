@@ -699,7 +699,7 @@ public class RadarActivity
 
         //Shadow of the Of the Text Color
         text.setShadowLayer(1, 1, 1, Color.YELLOW);
-        text.setTextColor(Color.RED);
+        text.setTextColor(Color.WHITE);
         //text.setTextSize(20);
         toast.show();
     }

@@ -47,9 +47,9 @@ public class Rdf4jSparqlWsClient implements IWsClient {
         // Request Sparql using Rdf4j
         System.out.println(aQuery);
 
-        String lResult = MyString.EMPTY_STRING;
+        /*String lResult = MyString.EMPTY_STRING;
 
-        /*Repository lCitizenRepository =
+        Repository lCitizenRepository =
                 new HTTPRepository(
                         mWsEndpoint.CitizenServerUri(),
                         mWsEndpoint.CitizenRepositoryName());

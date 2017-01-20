@@ -426,6 +426,4 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                 return super.onOptionsItemSelected(menuItem);
         }
     }
-
-
 }

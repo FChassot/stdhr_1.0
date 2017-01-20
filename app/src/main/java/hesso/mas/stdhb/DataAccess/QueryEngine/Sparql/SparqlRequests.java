@@ -172,8 +172,6 @@ public final class SparqlRequests {
                 "filter (?subject = '" + subject + "' && regex(?title, '" + title + "', 'i')) . }\n" +
                 "LIMIT 1\n";
 
-        // ceci fonctionne filter (?subject = "Mountain" && regex(?title, "Louvie", "i")) . }
-
         //"' && ?date " + aBegin + " && ?date < " + aEnd +
 
                 /*"?x owl:hasEnd ?End .\n" +

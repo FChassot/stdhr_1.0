@@ -10,6 +10,7 @@ import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,8 +27,11 @@ import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Tools.StringUtil;
 import hesso.mas.stdhb.Business.Spatial.SpatialGeometryServices;
+import hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity;
+import hesso.mas.stdhb.Client.Gui.Config.SettingsActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;
 import hesso.mas.stdhb.Client.Gui.Main.MainActivity;
+import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarHelper.RadarMarker;;
 import hesso.mas.stdhb.DataAccess.Communication.AsyncTask.RetrieveCityZenDataAsyncTask;
 import hesso.mas.stdhb.DataAccess.QueryEngine.Response.CityZenDbObject;
@@ -364,4 +368,35 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     //endregion
 
     //region AsyncTask
+
+    /**
+     * This hook is called whenever an item in your options menu is selected.
+     *
+     * @param menuItem The menu item that was selected.
+     *
+     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(CityZenActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.action_search:
+                Intent intent2 = new Intent(CityZenActivity.this, CityZenSearchActivity.class);
+                startActivity(intent2);
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(menuItem);
+        }
+    }
+
 }

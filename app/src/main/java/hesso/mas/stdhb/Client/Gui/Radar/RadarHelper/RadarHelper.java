@@ -52,7 +52,7 @@ public final class RadarHelper {
 
         Checks.AssertNotNull(queryResult, "queryResult");
 
-        List<RadarMarker> lMarkers = new ArrayList<>();
+        List<RadarMarker> markers = new ArrayList<>();
         List<RadarMarker> lLisOfMarkersFiltered = new ArrayList<>();
 
         for (CityZenDbObject lCulturalObject : queryResult.Results()) {
@@ -109,10 +109,10 @@ public final class RadarHelper {
                 lMarker.setPositionY(lPositionAccordingCurrentDegree.getY());
             }
 
-            lMarkers.add(lMarker);
+            markers.add(lMarker);
         }
 
-        return lMarkers;
+        return markers;
     }
 
     /**
@@ -139,11 +139,11 @@ public final class RadarHelper {
         // X = BX+(AX−BX)cosϕ−(AY−BY)sinϕ
         // Y = BY+(AY−BY)cosϕ+(AX−BX)sinϕ
 
-        double lAngleInRadians = Math.toRadians(lAngle);
-        double lDeltaX = center + ((lX-center) * Math.cos(lAngleInRadians)) - ((lY-center) * Math.sin(lAngleInRadians));
-        double lDeltaY = center + ((lY-center) * Math.cos(lAngleInRadians)) + ((lX-center) * Math.sin(lAngleInRadians));
+        double angleInRadians = Math.toRadians(lAngle);
+        double deltaX = center + ((lX-center) * Math.cos(angleInRadians)) - ((lY-center) * Math.sin(angleInRadians));
+        double deltaY = center + ((lY-center) * Math.cos(angleInRadians)) + ((lX-center) * Math.sin(angleInRadians));
 
-        return new RadarViewPosition((int)lDeltaX, (int)lDeltaY);
+        return new RadarViewPosition((int)deltaX, (int)deltaY);
     }
 
     /**
@@ -158,45 +158,15 @@ public final class RadarHelper {
 
         Checks.AssertNotNull(queryResult, "queryResult");
 
-        List<String> lSubjects = new ArrayList<>();
+        List<String> subjects = new ArrayList<>();
 
         for (CityZenDbObject lObject : queryResult.Results()) {
-            String lSubject = lObject.GetValue("subject");
-            lSubjects.add(lSubject);
+            String subject = lObject.GetValue("subject");
+            subjects.add(subject);
         }
 
-        return lSubjects;
+        return subjects;
     }
-
-    /**
-     * This method analyses the response from the sparql server and convert this one into a list
-     * of radarMarker
-     *
-     * @param queryResult the response of the sparql server
-     *
-     * @return a list of RadarMarker
-     */
-    /*public static ArrayList<CulturalObjectType> getRadarMarkersFromResponse(
-        CityZenQueryResult queryResult) {
-
-        // array list of type of cultural interest
-        ArrayList<CulturalObjectType> lListOfCIType = new ArrayList<>();
-
-        if (queryResult == null) {
-            lListOfCIType.add(new CulturalObjectType("","Cultural place", false));
-            lListOfCIType.add(new CulturalObjectType("","Cultural person", false));
-            lListOfCIType.add(new CulturalObjectType("","Cultural event", false));
-            lListOfCIType.add(new CulturalObjectType("","Folklore", false));
-            lListOfCIType.add(new CulturalObjectType("","Physical object", false));
-        }
-        else {
-            for (CityZenDbObject lCityZenObject : queryResult.Results()) {
-                lListOfCIType.add(new CulturalObjectType("","cultural object conversion to do", false));
-            }
-        }
-
-        return lListOfCIType;
-    }*/
 
     /**
      * This method calculates the position of the marker in the view taking
@@ -224,21 +194,21 @@ public final class RadarHelper {
         double aMaxLongitude) {
 
         // First, calculate the position in X
-        double lDeltaLongitude = (aMaxLongitude - aMinLongitude);
-        double lDeltaLongitudeForOneUnitView = (lDeltaLongitude / aWidthView);
+        double deltaLongitude = (aMaxLongitude - aMinLongitude);
+        double deltaLongitudeForOneUnitView = (deltaLongitude / aWidthView);
 
-        double lObjectCulturalDeltaLongitude = (aCulturalObjectLongitude - aMinLongitude);
-        double lPosX = (lObjectCulturalDeltaLongitude / lDeltaLongitudeForOneUnitView);
+        double objectCulturalDeltaLongitude = (aCulturalObjectLongitude - aMinLongitude);
+        double posX = (objectCulturalDeltaLongitude / deltaLongitudeForOneUnitView);
 
         // Second, calculate the position in Y
-        double lDeltaLatitude = (aMaxLatitude - aMinLatitude);
-        double lDeltaLatitudeForOneUnitView = (lDeltaLatitude / aHeightView);
+        double deltaLatitude = (aMaxLatitude - aMinLatitude);
+        double deltaLatitudeForOneUnitView = (deltaLatitude / aHeightView);
 
-        double lObjectCulturalDeltaLatitude = (aMaxLatitude - aCulturalObjectLatitude);
-        double lPosY = (lObjectCulturalDeltaLatitude / lDeltaLatitudeForOneUnitView);
+        double objectCulturalDeltaLatitude = (aMaxLatitude - aCulturalObjectLatitude);
+        double posY = (objectCulturalDeltaLatitude / deltaLatitudeForOneUnitView);
 
         // Instantiate an object to return
-        return new RadarViewPosition( (int)lPosX, (int)lPosY);
+        return new RadarViewPosition( (int)posX, (int)posY);
     }
 
     /**
@@ -260,15 +230,15 @@ public final class RadarHelper {
             double aXPosition2OnScreen,
             double aYPosition2OnScreen) {
 
-        double lDeltaX = Math.abs((aXPosition1OnScreen - aXPosition2OnScreen));
-        double lDeltaY = Math.abs((aYPosition1OnScreen - aYPosition2OnScreen));
-        double lTangent = (lDeltaY / lDeltaX);                          // Tangente = côté opposé / côté adjacent
+        double deltaX = Math.abs((aXPosition1OnScreen - aXPosition2OnScreen));
+        double deltaY = Math.abs((aYPosition1OnScreen - aYPosition2OnScreen));
+        double tangent = (deltaY / deltaX);                          // Tangente = côté opposé / côté adjacent
 
-        double lAngle = Math.atan(lTangent);
+        double angle = Math.atan(tangent);
 
-        double lDistance = (lDeltaY / Math.cos(lAngle));
+        double distance = (deltaY / Math.cos(angle));
 
-        return lDistance;
+        return distance;
     }
 
     /**
@@ -285,19 +255,19 @@ public final class RadarHelper {
         double aHeight,
         double aWidth) {
 
-        double lDeltaLatitude = (aMaxLatitude - aMinLatitude);
-        double lRapportY = (aHeight / aYOnScreen);
-        double lY = aMinLatitude + (lDeltaLatitude / lRapportY);
+        double deltaLatitude = (aMaxLatitude - aMinLatitude);
+        double rapportY = (aHeight / aYOnScreen);
+        double lY = aMinLatitude + (deltaLatitude / rapportY);
 
-        double lDeltaLongitude = (aMaxLongitude - aMinLongitude);
-        double lRapportX = (aWidth / aXOnScreen);
-        double lX = aMinLatitude + (lDeltaLongitude / lRapportX);
+        double deltaLongitude = (aMaxLongitude - aMinLongitude);
+        double rapportX = (aWidth / aXOnScreen);
+        double lX = aMinLatitude + (deltaLongitude / rapportX);
 
-        Location lLocation = new Location(MyString.EMPTY_STRING);
-        lLocation.setLongitude(lX);
-        lLocation.setLatitude(lY);
+        Location location = new Location(MyString.EMPTY_STRING);
+        location.setLongitude(lX);
+        location.setLatitude(lY);
 
-        return lLocation;
+        return location;
     }
 
     /**
@@ -314,9 +284,9 @@ public final class RadarHelper {
             float aOnTouchXCoordinate,
             float aOnTouchYCoordinate) {
 
-        double lDistance = 0.0;
+        double distance = 0.0;
 
-        RadarMarker lNearestMarker = null;
+        RadarMarker nearestMarker = null;
 
         if (aMarkers != null){
             for (RadarMarker lMarker : aMarkers) {
@@ -327,18 +297,18 @@ public final class RadarHelper {
                                 lMarker.getPositionX(),
                                 lMarker.getPositionY());
 
-                if (lDistance == 0) {
-                    lDistance = Math.abs(lHypotenuse);
-                    lNearestMarker = lMarker;
+                if (distance == 0) {
+                    distance = Math.abs(lHypotenuse);
+                    nearestMarker = lMarker;
                 }
 
-                if (lDistance != 0 && (Math.abs(lHypotenuse) < Math.abs(lDistance))) {
-                    lNearestMarker = lMarker;
-                    lDistance = Math.abs(lHypotenuse);
+                if (distance != 0 && (Math.abs(lHypotenuse) < Math.abs(distance))) {
+                    nearestMarker = lMarker;
+                    distance = Math.abs(lHypotenuse);
                 }
             }
         }
 
-        return lNearestMarker;
+        return nearestMarker;
     }
 }

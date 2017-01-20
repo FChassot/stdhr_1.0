@@ -66,6 +66,5 @@ public class RetrieveCityZenDataHandler extends Handler {
             items,
             true,
             false);
-
     }
 }
