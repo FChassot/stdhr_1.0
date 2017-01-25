@@ -1,11 +1,14 @@
 package hesso.mas.stdhb.Client.Gui.CityZenSearch;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Debug;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
+import hesso.mas.stdhb.Base.Permissions.PermissionUtil;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
@@ -77,6 +81,8 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
     private CityZenQueryResult mCityZenQueryResult;
 
+    final int PERMISSION_ALL = 1;
+
     /**
      * Called when the activity is first created. This is where you should do all of your
      * normal static set up: create views, bind data to lists, etc. This method also provides
@@ -90,6 +96,18 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
 
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        String[] PERMISSIONS = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_WIFI_STATE
+        };
+
+        if(!PermissionUtil.hasPermissions(this, PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_cityzen_search);
@@ -166,6 +184,34 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
         mWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, TAG);
         mWakeLock.acquire();
 
+    }
+
+    /**
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String permissions[],
+            int[] grantResults) {
+
+        switch (requestCode) {
+            case PERMISSION_ALL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted! Do the task you need to do.
+                } else {
+                    // permission denied! Disable the functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     /**
