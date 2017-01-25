@@ -1,9 +1,12 @@
 package hesso.mas.stdhb.Client.Gui.GoogleMap;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +25,7 @@ import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
+import hesso.mas.stdhb.Base.Permissions.PermissionUtil;
 import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Client.Gui.CityZen.CityZenActivity;
 import hesso.mas.stdhb.Client.Gui.Radar.RadarActivity;
@@ -63,6 +67,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
     // GoogleMap instance
     private GoogleMap mMapFragment;
 
+    final int PERMISSION_ALL = 1;
+
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
      * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
@@ -76,6 +82,17 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_maps);
+
+        String[] PERMISSIONS = {
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+
+        if(!PermissionUtil.hasPermissions(this, PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
 
         // ToDo chf: this dependencies has to be injected
         mGeolocationServices = new GpsLocationListener(this);
@@ -133,6 +150,34 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                     "Sorry! unable to create maps", Toast.LENGTH_SHORT)
                     .show();
             }
+        }
+    }
+
+    /**
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String permissions[],
+            int[] grantResults) {
+
+        switch (requestCode) {
+            case PERMISSION_ALL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted! Do the task you need to do.
+                } else {
+                    // permission denied! Disable the functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 
