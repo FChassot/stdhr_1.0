@@ -69,6 +69,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
 
     final int PERMISSION_ALL = 1;
 
+    private Boolean NoPermission = true;
+
     /**
      * Called when the activity is first created. This is where you should do all of your normal static set up: create views,
      * bind data to lists, etc. This method also provides you with a Bundle containing the activity's previously frozen state,
@@ -170,6 +172,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback, Google
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted! Do the task you need to do.
+                    NoPermission = false;
                 } else {
                     // permission denied! Disable the functionality that depends on this permission.
                 }

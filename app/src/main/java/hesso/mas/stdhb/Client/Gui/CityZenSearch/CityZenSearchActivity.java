@@ -83,6 +83,8 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
     final int PERMISSION_ALL = 1;
 
+    private Boolean NoPermission = true;
+
     /**
      * Called when the activity is first created. This is where you should do all of your
      * normal static set up: create views, bind data to lists, etc. This method also provides
@@ -98,11 +100,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         String[] PERMISSIONS = {
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CAMERA,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_WIFI_STATE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
 
         if(!PermissionUtil.hasPermissions(this, PERMISSIONS)){
@@ -202,6 +200,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             case PERMISSION_ALL: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    NoPermission = false;
                     // permission was granted! Do the task you need to do.
                 } else {
                     // permission denied! Disable the functionality that depends on this permission.
@@ -320,6 +319,15 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                             lSubject);
 
             //Notifications.ShowMessageBox(this, request, "test", "test");
+
+            if (NoPermission == true) {
+                Notifications.ShowMessageBox(
+                        this,
+                        "You don't have the permission to do a CityZen search",
+                        "Permission",
+                        "Ok");
+                return;
+            }
 
             startAsyncSearch(
                 request,
