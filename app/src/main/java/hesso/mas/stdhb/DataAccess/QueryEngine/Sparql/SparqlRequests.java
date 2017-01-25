@@ -46,6 +46,26 @@ public final class SparqlRequests {
                     "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
                     "prefix tm: <http://purl.org/dc/terms/>\n" +
                     "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+                    "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
+                    "?culturalInterest tm:subject ?subject .\n" +
+                    "?culturalInterest dc:title ?title .\n" +
+                    "?culturalInterest dc:description ?description .\n" +
+                    "?culturalInterest geo:location ?x .\n" +
+                    "?x geo:long ?long .\n" +
+                    "?x geo:lat ?lat .\n" +
+                    "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
+                    "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + ") .\n" +
+                    "}\n" +
+                    "LIMIT " + limit;
+        }
+        else {
+            if (listOfCulturalInterestType.size() == 0) {
+                query =
+                        "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
+                        "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                        "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+                        "prefix tm: <http://purl.org/dc/terms/>\n" +
+                        "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
                         "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
                         "?culturalInterest tm:subject ?subject .\n" +
                         "?culturalInterest dc:title ?title .\n" +
@@ -54,29 +74,9 @@ public final class SparqlRequests {
                         "?x geo:long ?long .\n" +
                         "?x geo:lat ?lat .\n" +
                         "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
-                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + ") .\n" +
+                        "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "') .\n" +
                         "}\n" +
                         "LIMIT " + limit;
-        }
-        else {
-            if (listOfCulturalInterestType.size() == 0) {
-                query =
-                        "prefix citizen: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-                                "prefix tm: <http://purl.org/dc/terms/>\n" +
-                                "prefix xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
-                                "select ?culturalInterest ?title ?subject ?description ?lat ?long where {\n" +
-                                "?culturalInterest tm:subject ?subject .\n" +
-                                "?culturalInterest dc:title ?title .\n" +
-                                "?culturalInterest dc:description ?description .\n" +
-                                "?culturalInterest geo:location ?x .\n" +
-                                "?x geo:long ?long .\n" +
-                                "?x geo:lat ?lat .\n" +
-                                "FILTER (xsd:double(?long) > " + minLongitude + " && xsd:double(?long) < " + maxLongitude + " && \n" +
-                                "xsd:double(?lat) > " + minLatitude + " && xsd:double(?lat) < " + maxLatitude + " && ?subject = '" + subject + "') .\n" +
-                                "}\n" +
-                                "LIMIT " + limit;
             } else {
                 String culturalInterestTypes = MyString.EMPTY_STRING;
 
@@ -151,34 +151,31 @@ public final class SparqlRequests {
 
         return
             "prefix dbo: <http://www.hevs.ch/datasemlab/cityzen/schema#>\n" +
-                "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
-                "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
-                "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
-                "prefix tm: <http://purl.org/dc/terms/>\n" +
-                "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
-                "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
-                "SELECT ?culturalInterest ?description ?title ?subject ?long ?lat ?image_url WHERE {\n" +
-                "?culturalInterest dc:title ?title .\n" +
-                "?culturalInterest tm:subject ?subject .\n" +
-                "?culturalInterest dc:description ?description .\n" +
-                "?culturalInterest geo:location ?x .\n" +
-                "?culturalInterest dc:creator ?creator .\n" +
-                "?cAggregator edm:aggregatedCHO ?CulturalInterest .\n" +
-                "?cAggregator edm:hasView ?digitalrepresentation .\n" +
-                "?digitalrepresentation tm:hasPart ?digitalitem .\n" +
-                "?digitalitem dbo:image_url ?image_url .\n" +
-                "?x geo:long ?long .\n" +
-                "?x geo:lat ?lat .\n" +
-                "filter (?subject = '" + subject + "' && regex(?title, '" + title + "', 'i')) . }\n" +
-                "LIMIT 1\n";
-
-        //"' && ?date " + aBegin + " && ?date < " + aEnd +
-
-                /*"?x owl:hasEnd ?End .\n" +
-                "?x owl:hasBeginning ?Begin .\n" +
-                "?x dbo:City ?City .\n" +
-                "FILTER (?End < " + aEnd + "&& ?Begin > " + aBegin + "&&\n" +
-                " ?City == " + aPlace + ". })";*/
+            "prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+            "prefix dc: <http://purl.org/dc/elements/1.1/>\n" +
+            "prefix edm: <http://www.europeana.eu/schemas/edm#>\n" +
+            "prefix tm: <http://purl.org/dc/terms/>\n" +
+            "prefix cr: <http://purl.org/dc/elements/1.1/creator>\n" +
+            "prefix owl: <http://www.w3.org/2002/07/owl#>\n" +
+            "prefix owltime: <http://www.w3.org/TR/owl-time#>\n" +
+            "SELECT ?culturalInterest ?description ?title ?subject ?long ?lat ?image_url ?start ?end WHERE {\n" +
+            "?culturalInterest dc:title ?title .\n" +
+            "?culturalInterest tm:subject ?subject .\n" +
+            "?culturalInterest dc:description ?description .\n" +
+            "?culturalInterest geo:location ?x .\n" +
+            "?culturalInterest dc:creator ?creator .\n" +
+            "?cAggregator edm:aggregatedCHO ?CulturalInterest .\n" +
+            "?cAggregator edm:hasView ?digitalrepresentation .\n" +
+            "?digitalrepresentation tm:hasPart ?digitalitem .\n" +
+            "?digitalitem dbo:image_url ?image_url .\n" +
+            "?x geo:long ?long .\n" +
+            "?x geo:lat ?lat .\n" +
+            "?cAggregator owltime:hasBeginning ?hasBeginning .\n" +
+            "?cAggregator owltime:hasEnd ?hasEnd .\n" +
+            "?hasBeginning owltime:inXSDDateTime ?start .\n" +
+            "?hasEnd owltime:inXSDDateTime ?end .\n" +
+            "filter (?subject = '" + subject + "' && regex(?title, '" + title + "', 'i') && ?start >= '" + begin + "' && ?end <= '" + end + "') . }\n" +
+            "LIMIT 1\n";
     }
 
     /**

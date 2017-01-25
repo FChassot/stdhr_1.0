@@ -47,41 +47,6 @@ public class Rdf4jSparqlWsClient implements IWsClient {
         // Request Sparql using Rdf4j
         System.out.println(aQuery);
 
-        /*String lResult = MyString.EMPTY_STRING;
-
-        Repository lCitizenRepository =
-                new HTTPRepository(
-                        mWsEndpoint.CitizenServerUri(),
-                        mWsEndpoint.CitizenRepositoryName());
-
-        RepositoryConnection lRepositoryConnection = null;
-
-        try {
-            lRepositoryConnection = lCitizenRepository.getConnection();
-
-            lRepositoryConnection.begin();
-
-            TupleQueryResult lResponse =
-                    lRepositoryConnection.prepareTupleQuery(
-                            QueryLanguage.SPARQL,
-                            aQuery).evaluate();
-
-            while (lResponse.hasNext())
-            {
-                BindingSet lBindingSet = lResponse.next();
-                lResult += lBindingSet.toString();
-            }
-        } catch(Exception aException) {
-            aException.printStackTrace();
-        }
-        finally
-        {
-            if(lRepositoryConnection != null)
-            {
-                lRepositoryConnection.close();
-            }
-        }*/
-
         return null;
     }
 }

@@ -273,6 +273,8 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                             Integer.parseInt(lEnd),
                             lSubject);
 
+            //Notifications.ShowMessageBox(this, request, "test", "test");
+
             startAsyncSearch(
                 request,
                 clientServerCommunicationMode,
@@ -359,19 +361,19 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             // The bundle object contains a mapping from String keys to various Parcelable values.
             Bundle bundle = aIntent.getExtras();
 
-            CityZenQueryResult citizenQueryResult = null;
+            CityZenQueryResult cityzenQueryResult = null;
 
             try {
                 // The bundle should contain the SPARQL Result
-                citizenQueryResult =
+                cityzenQueryResult =
                         bundle.getParcelable(AsyncTaskAction);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
             }
 
-            if (citizenQueryResult != null && citizenQueryResult.Count() > 0) {
-                CityZenDbObject culturalObject = citizenQueryResult.Results().get(0);
+            if (cityzenQueryResult != null && cityzenQueryResult.Count() > 0) {
+                CityZenDbObject culturalObject = cityzenQueryResult.Results().get(0);
 
                 String title = culturalObject.GetValue("title");
                 String objectId = culturalObject.GetValue("culturalInterest");

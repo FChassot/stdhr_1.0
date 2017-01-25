@@ -19,8 +19,8 @@ public abstract class WsEndPoint {
     public WsEndPoint() {}
 
     // Setter
-    public void ServerUri(String citizenServerUri) {
-        mServerUri = citizenServerUri;
+    public void ServerUri(String cityZenServerUri) {
+        mServerUri = cityZenServerUri;
     }
 
     // Getter

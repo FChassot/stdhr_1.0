@@ -47,6 +47,16 @@ public class Validator {
             lValDescCollection.add("* A period has to be given!");
         }
 
+        if (!aPeriod.equals(MyString.EMPTY_STRING)) {
+            if (lValDescCollection.count() > 0) {
+                lValDescCollection.add("\n");
+            }
+
+            if (aPeriod.length() != 9) {
+                lValDescCollection.add("* The dateformat must be {year{}-year{}}!");
+            }
+        }
+
         return lValDescCollection;
     }
 }

@@ -52,7 +52,7 @@ public class JenaSparqlWsClient implements IWsClient {
      */
     public CityZenQueryResult executeRequest(String query) {
 
-        CityZenQueryResult citizenQueryResult = new CityZenQueryResult();
+        CityZenQueryResult cityZenQueryResult = new CityZenQueryResult();
 
         System.out.println(query);
 
@@ -72,14 +72,14 @@ public class JenaSparqlWsClient implements IWsClient {
 
             while (results.hasNext())
             {
-                CityZenDbObject citizenDbObject = new CityZenDbObject();
+                CityZenDbObject cityZenDbObject = new CityZenDbObject();
                 QuerySolution binding = results.nextSolution();
 
                 for (String variable : resultsVar) {
-                    citizenDbObject.put(variable, GetValue(binding, variable));
+                    cityZenDbObject.put(variable, GetValue(binding, variable));
                 }
 
-                citizenQueryResult.Add(citizenDbObject);
+                cityZenQueryResult.Add(cityZenDbObject);
             }
         }
         catch (Exception aException) {
@@ -88,7 +88,7 @@ public class JenaSparqlWsClient implements IWsClient {
         finally {
         }
 
-        return citizenQueryResult;
+        return cityZenQueryResult;
     }
 
     /**

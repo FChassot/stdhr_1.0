@@ -920,12 +920,12 @@ public class RadarActivity
                 return;
             }
 
-            CityZenQueryResult citizenQueryResult = null;
+            CityZenQueryResult cityZenQueryResult = null;
 
             Bundle bundle = intent.getExtras();
 
             try {
-                citizenQueryResult = bundle.getParcelable(AsyncTaskAction);
+                cityZenQueryResult = bundle.getParcelable(AsyncTaskAction);
 
             } catch (Exception aExc) {
                 Log.i(TAG, aExc.getMessage());
@@ -933,7 +933,7 @@ public class RadarActivity
 
             List<RadarMarker> markers =
                     RadarHelper.getRadarMarkersFromResponse(
-                            citizenQueryResult,
+                            cityZenQueryResult,
                             mAzimuth,
                             mCurrentUserLocation,
                             mRadius,

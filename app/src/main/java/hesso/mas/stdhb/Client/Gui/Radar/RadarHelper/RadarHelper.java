@@ -147,7 +147,7 @@ public final class RadarHelper {
     }
 
     /**
-     * This method extracts the subjects of a citizen SPARQL request
+     * This method extracts the subjects of a cityZen SPARQL request
      *
      * @param queryResult result of the query to handle
      *
@@ -214,7 +214,7 @@ public final class RadarHelper {
     /**
      * This method gives the distance in the view between two points.
      * This method will be used to determine the nearest cultural objects compared
-     * the citizen's user.
+     * the cityZen's user.
      *
      * @param aXPosition1OnScreen ...
      * @param aYPosition1OnScreen ...

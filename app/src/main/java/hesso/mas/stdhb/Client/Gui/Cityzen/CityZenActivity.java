@@ -10,6 +10,7 @@ import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -158,6 +159,20 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
         mWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "My Tag");
         mWakeLock.acquire();
 
+    }
+
+    /**
+     * Method to specify the options menu
+     *
+     * @param menu
+     *
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Add the actionmenu entries to the ActionBar
+        getMenuInflater().inflate(R.menu.actionsearchmenu, menu);
+        return true;
     }
 
     /**
