@@ -99,9 +99,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        String[] PERMISSIONS = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
+        String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         if(!PermissionUtil.hasPermissions(this, PERMISSIONS)){
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
@@ -203,6 +201,7 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                     NoPermission = false;
                     // permission was granted! Do the task you need to do.
                 } else {
+                    NoPermission = true;
                     // permission denied! Disable the functionality that depends on this permission.
                 }
                 return;
@@ -277,6 +276,19 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                 return;
             }
 
+            if (NoPermission == true) {
+                String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+                if(!PermissionUtil.hasPermissions(this, PERMISSIONS)){
+                    ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+                    NoPermission = true;
+                } {
+                    NoPermission = false;
+                }
+
+                return;
+            }
+
             // Get the technology used for the communication between the
             // client and the server. This is configured in the shared-preferences.
             String clientServerCommunicationMode =
@@ -319,15 +331,6 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                             lSubject);
 
             //Notifications.ShowMessageBox(this, request, "test", "test");
-
-            if (NoPermission == true) {
-                Notifications.ShowMessageBox(
-                        this,
-                        "You don't have the permission to do a CityZen search",
-                        "Permission",
-                        "Ok");
-                return;
-            }
 
             startAsyncSearch(
                 request,
