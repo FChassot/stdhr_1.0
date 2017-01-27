@@ -297,16 +297,21 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                             BaseConstants.Attr_ClientServer_Communication,
                             EnumClientServerCommunication.ANDROJENA.toString());
 
-            TextView txtViewPlace = (TextView) findViewById(R.id.mTxtPlace);
+            TextView txtViewKeyword = (TextView) findViewById(R.id.mTxtPlace);
             TextView txtViewPeriod = (TextView) findViewById(R.id.mTxtPeriod);
             Spinner lSubjectSpinner = (Spinner) findViewById(R.id.mDcboSujet);
-            String lSubject = lSubjectSpinner.getSelectedItem().toString();
+
+            String subject = lSubjectSpinner.getSelectedItem().toString();
+            String keyWord = txtViewKeyword.getText().toString();
+            String period = txtViewPeriod.getText().toString();
+            String periodBegin = txtViewPeriod.getText().toString().substring(0, 4);
+            String periodEnd = txtViewPeriod.getText().toString().substring(5, 9);
 
             ValidationDescCollection valDescCollection =
                     Validator.ValidateSearch(
-                            txtViewPlace.getText().toString(),
-                            txtViewPeriod.getText().toString(),
-                            lSubject);
+                            keyWord,
+                            period,
+                            subject);
 
             if (valDescCollection.any()) {
                 Notifications.ShowMessageBox(
@@ -319,16 +324,12 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                 return;
             }
 
-            String lPlace = txtViewPlace.getText().toString();
-            String lBegin = txtViewPeriod.getText().toString().substring(0, 4);
-            String lEnd = txtViewPeriod.getText().toString().substring(5, 9);
-
             String request =
                     SparqlRequests.getCulturalObjectQueryByTitleAndDate(
-                            lPlace,
-                            Integer.parseInt(lBegin),
-                            Integer.parseInt(lEnd),
-                            lSubject);
+                            subject,
+                            keyWord,
+                            Integer.parseInt(periodBegin),
+                            Integer.parseInt(periodEnd));
 
             //Notifications.ShowMessageBox(this, request, "test", "test");
 

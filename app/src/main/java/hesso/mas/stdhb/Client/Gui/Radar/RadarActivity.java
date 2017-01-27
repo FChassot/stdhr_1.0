@@ -80,9 +80,9 @@ public class RadarActivity
 
     public static final String AsyncTaskAction = "Search_for_Radar";
 
-    // L'AtomicBoolean qui gère la destruction de la Thread de background
+    // L'AtomicBoolean qui gère la destruction du Thread de background
     AtomicBoolean mCancelled = new AtomicBoolean(false);
-    // L'AtomicBoolean qui gère la mise en pause de la Thread de background
+    // L'AtomicBoolean qui gère la mise en pause du Thread de background
     AtomicBoolean mTaskInvolved = new AtomicBoolean(false);
 
     // Member variables
@@ -161,7 +161,6 @@ public class RadarActivity
 
         String[] PERMISSIONS = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CAMERA,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_WIFI_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -478,14 +477,15 @@ public class RadarActivity
          * @param textView
          */
         private void updateRadarText(TextView textView) {
-            String lSubject = mPreferences.getMyStringPref(
+            String subject =
+                mPreferences.getMyStringPref(
                     this,
                     BaseConstants.Attr_Subject_Search_Type,
-                    "");
+                    "None");
             if (mRadarView.getMarkers() != null) {
                 textView.setText(
                         mRadarView.getMarkers().size() +
-                                " " + getResources().getString(R.string.txt_cultural_objects_in_proximity) + "     sujet: " + lSubject);
+                                " " + getResources().getString(R.string.txt_cultural_objects_in_proximity) + "     sujet: " + subject);
             }
         }
 

@@ -277,6 +277,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
+     * Calculate the distance between the mobile system and an CityZen object.
      *
      * @param currentLocation
      * @param culturalObjectMarker
@@ -350,17 +351,17 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                 mTxtViewPosition.setText(getStrLocation(mCulturalObjectMarker));
 
                 NetworkConnectivity networkConnectivity = new NetworkConnectivity(context);
-                String lResourceUri = culturalObject.GetValue("image_url");
+                String resourceUri = culturalObject.GetValue("image_url");
 
                 if(networkConnectivity.isNetworkAvailable()) {
                     if (true) {
                         // Use of the Picasso library to load images
                         //ImageView imgView = (ImageView) findViewById(imageView);
                         //Picasso.with(context).load(lResourceUri).into(imgView);
-
+                        //Notifications.ShowMessageBox(context, lResourceUri, "Image Url", "ok");
                         // Use of Glide to load images
                         ImageView imgView = (ImageView) findViewById(imageView);
-                        Glide.with(context).load(lResourceUri).into(imgView);
+                        Glide.with(context).load(resourceUri).into(imgView);
                     }
                     else {
                             /*VideoView lVideoView = (VideoView) findViewById(R.id.video_view);

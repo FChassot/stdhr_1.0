@@ -80,8 +80,6 @@
             android:name="hesso.mas.stdhb.Client.Gui.Radar.RadarActivity"
             android:label="@string/app_name" />
 
-        <!-- Added by chf -->
-
         <activity
             android:name="hesso.mas.stdhb.Client.Gui.Config.SettingsActivity"
             android:label="@string/app_name" />

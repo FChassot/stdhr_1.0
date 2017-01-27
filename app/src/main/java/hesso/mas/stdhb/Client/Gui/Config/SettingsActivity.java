@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -140,7 +142,9 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         lRadarSwitch.setChecked(radarMode);
 
         if (mConnectivity.isActive() && mConnectivity.isNetworkAvailable()) {
-            startAsyncSearch();
+            if (isNetworkAvailable(this)) {
+                startAsyncSearch();
+            }
         }
         else {
             Spinner subjectSpinner = (Spinner) findViewById(R.id.mDcboSubject);
@@ -403,13 +407,39 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
         setCulturalObjectTypeInPrefs(mCulturalObjectTypes);
 
-        mPrefs.setMyStringPref(
-                this,
-                BaseConstants.Attr_Subject_Search_Type,
-                cboSubject.getSelectedItem().toString());
+        if (cboSubject.getSelectedItem() != null) {
+            mPrefs.setMyStringPref(
+                    this,
+                    BaseConstants.Attr_Subject_Search_Type,
+                    cboSubject.getSelectedItem().toString());
+        }
     }
 
     //region AsyncTask (used to search the cultural object Types)
+
+    /**
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        int[] networkTypes = {ConnectivityManager.TYPE_MOBILE, ConnectivityManager.TYPE_WIFI};
+        try {
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            for (int networkType : networkTypes) {
+                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+                if (activeNetworkInfo != null && activeNetworkInfo.getType() == networkType)
+                    return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
+        return false;
+    }
 
     /**
      * Start an Async search on the endPoint Sparql Server

@@ -18,8 +18,8 @@ android {
 
     defaultConfig {
         applicationId "hesso.mas.stdhb"
-        minSdkVersion 14
-        targetSdkVersion 21
+        minSdkVersion 23
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 

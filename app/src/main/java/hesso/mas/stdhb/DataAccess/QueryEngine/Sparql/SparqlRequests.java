@@ -130,6 +130,7 @@ public final class SparqlRequests {
     /**
      * A specific search of cultural objects can be retrieved with the following query
      *
+     * @param subject the category of the object to search
      * @param title the title of the object to search
      * @param begin the begin date of the picture
      * @param end the end date of the picture
@@ -138,10 +139,10 @@ public final class SparqlRequests {
      */
     @SuppressWarnings("UnnecessaryLocalVariable")
     public static String getCulturalObjectQueryByTitleAndDate(
+        String subject,
         String title,
         int begin,
-        int end,
-        String subject) {
+        int end) {
 
         Checks.AssertNotEmpty(title, "title");
 

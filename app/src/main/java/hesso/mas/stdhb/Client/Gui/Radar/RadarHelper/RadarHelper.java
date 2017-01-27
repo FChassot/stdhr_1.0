@@ -65,11 +65,11 @@ public final class RadarHelper {
                 }
             }
 
-            String lCulturalObjectId = lCulturalObject.GetValue("culturalInterest");
-            String lTitle = lCulturalObject.GetValue("title");
-            String lDescription = lCulturalObject.GetValue("description");
-            double lCulturalObjectLatitude = Double.parseDouble(lCulturalObject.GetValue("lat"));
-            double lCulturalObjectLongitude = Double.parseDouble(lCulturalObject.GetValue("long"));
+            String culturalObjectId = lCulturalObject.GetValue("culturalInterest");
+            String title = lCulturalObject.GetValue("title");
+            String description = lCulturalObject.GetValue("description");
+            double culturalObjectLatitude = Double.parseDouble(lCulturalObject.GetValue("lat"));
+            double culturalObjectLongitude = Double.parseDouble(lCulturalObject.GetValue("long"));
 
             SpatialGeometryServices lSpatialGeometryServices = new SpatialGeometryServices();
             double lRadius = lSpatialGeometryServices.getRadiusInRadian(currentUserLocation, (int)radius);
@@ -78,38 +78,38 @@ public final class RadarHelper {
                 calculateXYPositionOfTheMarkerInTheRadarView(
                     heightView,
                     widthView,
-                    lCulturalObjectLatitude,
-                    lCulturalObjectLongitude,
+                    culturalObjectLatitude,
+                    culturalObjectLongitude,
                     currentUserLocation.getLatitude() - lRadius,
                     currentUserLocation.getLatitude() + lRadius,
                     currentUserLocation.getLongitude() - lRadius,
                     currentUserLocation.getLongitude() + lRadius);
 
-            RadarMarker lMarker =
+            RadarMarker marker =
                 new RadarMarker(
                     lRadarViewPosition.getX(),
                     lRadarViewPosition.getY(),
-                    lCulturalObjectLatitude,
-                    lCulturalObjectLongitude,
+                    culturalObjectLatitude,
+                    culturalObjectLongitude,
                     Color.RED,
-                    lTitle,
-                    lCulturalObjectId,
-                    lDescription);
+                    title,
+                    culturalObjectId,
+                    description);
 
             if (movementMode) {
-                int lCenter = (heightView / 2);
+                int center = (heightView / 2);
 
                 RadarViewPosition lPositionAccordingCurrentDegree =
                         getRadarViewPositionForMarker(
-                                lCenter,
-                                lMarker,
+                                center,
+                                marker,
                                 currentDegree);
 
-                lMarker.setPositionX(lPositionAccordingCurrentDegree.getX());
-                lMarker.setPositionY(lPositionAccordingCurrentDegree.getY());
+                marker.setPositionX(lPositionAccordingCurrentDegree.getX());
+                marker.setPositionY(lPositionAccordingCurrentDegree.getY());
             }
 
-            markers.add(lMarker);
+            markers.add(marker);
         }
 
         return markers;

@@ -53,7 +53,7 @@ public class Validator {
             }
 
             if (aPeriod.length() != 9) {
-                lValDescCollection.add("* The dateformat must be {year{}-year{}}!");
+                lValDescCollection.add("* Date must be in format 'yyyy-yyyy'!");
             }
         }
 

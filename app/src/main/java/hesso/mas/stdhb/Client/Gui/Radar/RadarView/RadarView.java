@@ -299,34 +299,6 @@ public class RadarView extends android.view.View {
         }
 
         /**
-         * Add the text Nord in the view
-         *
-         * @param canvas Canvas hosts the draw calls
-         * @param aX the X position of the text
-         * @param aY the Y position of the text
-         */
-        /*private void addNordText(
-            Canvas canvas,
-            int aX,
-            int aY) {
-
-            Checks.AssertNotNull(canvas, "canvas");
-            Checks.AssertIsStrictPositive(aX, "aX");
-            Checks.AssertIsStrictPositive(aY, "aY");
-
-            Paint paint = new Paint();
-
-            paint.setColor(0x0000FFFF);
-            paint.setAntiAlias(true);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(1.0f);
-            paint.setTextSize(120.0f);
-            paint.setTextAlign(Paint.Align.CENTER);
-
-            addText(canvas, "NORD", aX, aY, paint);
-        }*/
-
-        /**
          * Defines the text which indicate the distance in the radar view
          *
          * @param radius the radius of search in meter
@@ -409,35 +381,6 @@ public class RadarView extends android.view.View {
                     }
             }
         }
-
-        /**
-         * Draws a marker on the view.
-         *
-         * @param canvas Canvas hosts the draw calls
-         * @param radarMarker The marker to draw
-         * @param maxRadiusOfRadar
-         */
-        /*private void drawMarker(
-            Canvas  canvas,
-            RadarMarker radarMarker,
-            int maxRadiusOfRadar) {
-
-            Checks.AssertNotNull(canvas, "canvas");
-            Checks.AssertNotNull(radarMarker, "radarMarker");
-            Checks.AssertIsStrictPositive(maxRadiusOfRadar, "maxRadiusOfRadar");
-
-            // Paint object allows to describe the colors and styles for marker
-            Paint markerPaint = new Paint();
-
-            markerPaint.setColor(Color.WHITE);
-            markerPaint.setStyle(Paint.Style.FILL);
-
-            canvas.drawCircle(
-                    radarMarker.getPositionX(),
-                    radarMarker.getPositionY(),
-                    (((maxRadiusOfRadar / 2) - 1) >> 5),
-                    markerPaint);
-        }*/
 
         /**
          * This method allows to add a label in the view. Used for example in

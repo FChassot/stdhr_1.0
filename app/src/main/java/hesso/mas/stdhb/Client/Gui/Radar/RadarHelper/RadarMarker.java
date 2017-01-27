@@ -23,10 +23,6 @@ public class RadarMarker extends Paint implements Parcelable {
 
     private int mYViewPosition = 0;
 
-    private int mXViewCurrentPosition = 0;
-
-    private int mYViewCurrentPosition = 0;
-
     /**
      * The color of the marker
      */
@@ -91,9 +87,7 @@ public class RadarMarker extends Paint implements Parcelable {
 
         mLocation = in.readParcelable(Location.class.getClassLoader());
         mXViewPosition = in.readInt();
-        mYViewPosition = in.readInt();
-        mXViewCurrentPosition = in.readInt();
-        mYViewCurrentPosition = in.readInt();
+        mYViewPosition = in.readInt();;
         mColor = in.readInt();
         mTitle = in.readString();
         mObjectId = in.readString();
@@ -113,18 +107,6 @@ public class RadarMarker extends Paint implements Parcelable {
 
     // Getter
     public int getPositionY() { return mYViewPosition; }
-
-    // Setter
-    public void setCurrentPositionX(int x) { mXViewCurrentPosition = x; }
-
-    // Getter
-    public int getCurrentPositionX() { return mXViewCurrentPosition; }
-
-    // Setter
-    public void setCurrentPositionY(int y) { mYViewCurrentPosition = y; }
-
-    // Getter
-    public int getCurrentPositionY() { return mYViewCurrentPosition; }
 
     // Getter
     public int getColor() { return mColor; }
@@ -185,8 +167,6 @@ public class RadarMarker extends Paint implements Parcelable {
         dest.writeParcelable(mLocation, flags);
         dest.writeInt(mXViewPosition);
         dest.writeInt(mYViewPosition);
-        dest.writeInt(mXViewCurrentPosition);
-        dest.writeInt(mYViewCurrentPosition);
         dest.writeInt(mColor);
         dest.writeString(mTitle);
         dest.writeString(mObjectId);
