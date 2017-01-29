@@ -8,7 +8,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hesso.mas.stdhb.Client.Gui.Config.SettingsActivity"
-    android:background="#084B8A">
+    android:background="#084B8A"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <TableLayout
         android:layout_width="match_parent"

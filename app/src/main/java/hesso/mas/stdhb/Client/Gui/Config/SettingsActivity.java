@@ -82,6 +82,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
         // Set the activity content to an explicit view
         setContentView(R.layout.activity_config);
 
+
         // Declares a broadcast receiver as one of the application's components.
         // Broadcast receivers enable applications to receive intents that are
         // broadcast by the system or by other applications, even when other
