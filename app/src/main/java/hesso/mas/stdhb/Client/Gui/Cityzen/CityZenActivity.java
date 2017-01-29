@@ -346,7 +346,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
                 mDescription = culturalObject.GetValue("description");
                 TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
-                mTxtDescription.setText(mDescription);
+                mTxtDescription.setText(mDescription + " start: " + mCulturalObjectMarker.getStart() + " end: " + mCulturalObjectMarker.getEnd());
                 TextView mTxtViewPosition = (TextView)findViewById(R.id.mTxtViewPosition);
                 mTxtViewPosition.setText(getStrLocation(mCulturalObjectMarker));
 

@@ -36,6 +36,16 @@ public class RadarMarker extends Paint implements Parcelable {
     /**
      *
      */
+    private String mStart = MyString.EMPTY_STRING;
+
+    /**
+     *
+     */
+    private String mEnd = MyString.EMPTY_STRING;
+
+    /**
+     *
+     */
     private String mObjectId = MyString.EMPTY_STRING;
 
     /**
@@ -92,6 +102,9 @@ public class RadarMarker extends Paint implements Parcelable {
         mTitle = in.readString();
         mObjectId = in.readString();
         mDescription = in.readString();
+        mStart = in.readString();
+        mEnd = in.readString();
+
     }
 
     //endregion
@@ -126,6 +139,18 @@ public class RadarMarker extends Paint implements Parcelable {
 
     // Getter
     public String getObjectId() { return mObjectId; }
+
+    // Setter
+    public void setStart(String aStart) { mStart = aStart; }
+
+    // Getter
+    public String getStart() { return mStart; }
+
+    // Setter
+    public void setEnd(String aEnd) { mEnd = aEnd; }
+
+    // Getter
+    public String getEnd() { return mEnd; }
 
     // Setter
     public void setDescription(String description) { mDescription = description; }
@@ -171,6 +196,8 @@ public class RadarMarker extends Paint implements Parcelable {
         dest.writeString(mTitle);
         dest.writeString(mObjectId);
         dest.writeString(mDescription);
+        dest.writeString(mStart);
+        dest.writeString(mEnd);
     }
 
     /**

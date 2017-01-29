@@ -456,10 +456,14 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
                 String title = culturalObject.GetValue("title");
                 String objectId = culturalObject.GetValue("culturalInterest");
+                String start = culturalObject.GetValue("start");
+                String end = culturalObject.GetValue("end");
 
                 RadarMarker selectedMarker = new RadarMarker();
                 selectedMarker.setTitle(title);
                 selectedMarker.setObjectId(objectId);
+                selectedMarker.setStart(start);
+                selectedMarker.setEnd(end);
 
                 Intent intent = new Intent(context, CityZenActivity.class);
 
