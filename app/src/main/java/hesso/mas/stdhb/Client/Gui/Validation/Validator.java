@@ -29,14 +29,14 @@ public class Validator {
         ValidationDescCollection lValDescCollection = new ValidationDescCollection();
 
         if (aSubject.equals(MyString.EMPTY_STRING)) {
-            lValDescCollection.add("* A subject has to be choosen!");
+            lValDescCollection.add("* Please select a category!");
         }
 
-        if (aPlace.equals(MyString.EMPTY_STRING) || aPlace.equals("Place")) {
+        if (aPlace.equals(MyString.EMPTY_STRING) || aPlace.equals("Keyword")) {
             if (lValDescCollection.count() > 0) {
                 lValDescCollection.add("\n");
             }
-            lValDescCollection.add("* A place has to be given!");
+            lValDescCollection.add("* Please give a keyword!");
         }
 
         if (aPeriod.equals(MyString.EMPTY_STRING) || aPeriod.equals("Period")) {
@@ -44,7 +44,7 @@ public class Validator {
                 lValDescCollection.add("\n");
             }
             //Resources.getSystem().getString(R.string.not_valid_place
-            lValDescCollection.add("* A period has to be given!");
+            lValDescCollection.add("* Please give a period!");
         }
 
         if (!aPeriod.equals(MyString.EMPTY_STRING)) {
@@ -53,7 +53,7 @@ public class Validator {
             }
 
             if (aPeriod.length() != 9) {
-                lValDescCollection.add("* Date must be in format 'yyyy-yyyy'!");
+                lValDescCollection.add("* Period must be in format <yyyy-yyyy>!");
             }
         }
 

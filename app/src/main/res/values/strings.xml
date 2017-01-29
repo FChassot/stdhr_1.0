@@ -83,7 +83,7 @@
     <!-- String for the google Map activity -->
 
     <!-- String for the CityZen Search activity -->
-    <string name="lbl_place">Place</string>
+    <string name="lbl_place">Keyword</string>
     <string name="lbl_description"></string>
     <string name="lbl_date">Date</string>
     <string name="date">Period</string>
@@ -92,9 +92,9 @@
     <string name="lbl_request">SEARCH</string>
     <string name="txt_no_reponse_from_the_server">no response from the server!</string>
 
-    <string name="not_valid_place">* A place has to be given!</string>
-    <string name="not_valid_period">* A period has to be given!</string>
-    <string name="place">Place</string>
+    <string name="not_valid_place">* Give a keyword!</string>
+    <string name="not_valid_period">* Give a period!</string>
+    <string name="place">Keyword</string>
 
     <!-- Strings for settings activity -->
     <string name="title_settings_raysearch">Radius of search [m]</string>

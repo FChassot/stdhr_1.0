@@ -1,5 +1,6 @@
 package hesso.mas.stdhb.Client.Gui.Radar.RadarView;
 
+import android.Manifest;
 import android.os.*;
 
 import android.graphics.Rect;
@@ -14,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import android.support.v4.app.ActivityCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.util.AttributeSet;
@@ -26,6 +28,7 @@ import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
 import hesso.mas.stdhb.Base.Geolocation.GpsLocationListener;
 
+import hesso.mas.stdhb.Base.Permissions.PermissionUtil;
 import hesso.mas.stdhb.Base.Tools.DoubleUtil;
 import hesso.mas.stdhb.Client.Gui.CityZenSearch.CityZenSearchActivity;
 import hesso.mas.stdhb.Client.Gui.GoogleMap.MapsActivity;

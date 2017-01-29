@@ -28,6 +28,7 @@ import hesso.mas.stdhb.Base.Models.Enum.EnumClientServerCommunication;
 import hesso.mas.stdhb.Base.Notifications.Notifications;
 import hesso.mas.stdhb.Base.Permissions.PermissionUtil;
 import hesso.mas.stdhb.Base.Storage.Local.Preferences;
+import hesso.mas.stdhb.Base.Tools.MyString;
 import hesso.mas.stdhb.Base.Validation.ValidationDescCollection;
 
 import hesso.mas.stdhb.Client.Gui.CityZen.CityZenActivity;
@@ -127,10 +128,10 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (mTxtPlace.getText().toString().equals("")) {
-                        mTxtPlace.setText("Place");
+                        mTxtPlace.setText("Keyword");
                     }
                 } else {
-                    if (mTxtPlace.getText().toString().equals("Place")) {
+                    if (mTxtPlace.getText().toString().equals("Keyword")) {
                         mTxtPlace.setText("");
                     }
                 }
@@ -304,14 +305,16 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             String subject = lSubjectSpinner.getSelectedItem().toString();
             String keyWord = txtViewKeyword.getText().toString();
             String period = txtViewPeriod.getText().toString();
-            String periodBegin = txtViewPeriod.getText().toString().substring(0, 4);
-            String periodEnd = txtViewPeriod.getText().toString().substring(5, 9);
 
             ValidationDescCollection valDescCollection =
                     Validator.ValidateSearch(
                             keyWord,
                             period,
                             subject);
+
+            String examplePeriod = getExamplePeriod(period);
+
+            if (!examplePeriod.equals(MyString.EMPTY_STRING)) {txtViewPeriod.setText(examplePeriod);}
 
             if (valDescCollection.any()) {
                 Notifications.ShowMessageBox(
@@ -323,6 +326,9 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
 
                 return;
             }
+
+            String periodBegin = txtViewPeriod.getText().toString().substring(0, 4);
+            String periodEnd = txtViewPeriod.getText().toString().substring(5, 9);
 
             String request =
                     SparqlRequests.getCulturalObjectQueryByTitleAndDate(
@@ -342,6 +348,21 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             Intent intent = new Intent(CityZenSearchActivity.this, MainActivity.class);
             startActivity(intent);
         }
+    }
+
+    /**
+     *
+     * @param aPeriod
+     * @return
+     */
+    private String getExamplePeriod(String aPeriod) {
+        if (!aPeriod.equals(MyString.EMPTY_STRING)) {
+            if (aPeriod.length() != 9) {
+                return "1900-2016";
+            } else {
+                return MyString.EMPTY_STRING;
+            }
+        } else {return "1900-2016";}
     }
 
     //region asyncTask (to request the Citizen Endpoint)

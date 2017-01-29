@@ -715,23 +715,24 @@ public class RadarActivity
         // In the function onAccuracyChanged(Sensor sensor, int accuracy), i can check
         // the accuracy of the device's magnetometer.
         if (sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-
             String text = "[SENSOR: " + sensor.getName() + "]";
 
             mHasInterference = (accuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
             if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
-                text += " " + "The compass seems to be now correctly calibrated!"; //"SENSOR_STATUS_ACCURACY_HIGH";
+                //text += " " + "The compass seems to be now correctly calibrated!"; //"SENSOR_STATUS_ACCURACY_HIGH";
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
                 text += " " + "Try to calibrate the compass on your Android!\""; //"SENSOR_STATUS_ACCURACY_MEDIUM"
+                ShowToast(this, text);
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
                 text += " " + "Try to calibrate the compass on your Android!\""; //"SENSOR_STATUS_ACCURACY_LOW"
+                ShowToast(this, text);
             } else if (accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
                 text += " " + "Try to calibrate the compass on your Android!"; //"SENSOR_STATUS_UNRELIABLE"
+                ShowToast(this, text);
             }
 
             //Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-            ShowToast(this, text);
         }
     }
 

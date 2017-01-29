@@ -316,35 +316,6 @@ public class RadarSurfaceView extends SurfaceView implements Runnable {
     }
 
     /**
-     * Draws a marker on the view.
-     *
-     * @param canvas Canvas hosts the draw calls
-     * @param radarMarker The marker to draw
-     * @param maxRadiusOfRadar
-     */
-    private void drawMarker(
-            Canvas canvas,
-            RadarMarker radarMarker,
-            int maxRadiusOfRadar) {
-
-        Checks.AssertNotNull(canvas, "canvas");
-        Checks.AssertNotNull(radarMarker, "radarMarker");
-        Checks.AssertIsStrictPositive(maxRadiusOfRadar, "maxRadiusOfRadar");
-
-        // Paint object allows to describe the colors and styles for marker
-        Paint markerPaint = new Paint();
-
-        markerPaint.setColor(Color.WHITE);
-        markerPaint.setStyle(Paint.Style.FILL);
-
-        canvas.drawCircle(
-                radarMarker.getPositionX(),
-                radarMarker.getPositionY(),
-                (((maxRadiusOfRadar / 2) - 1) >> 5),
-                markerPaint);
-    }
-
-    /**
      * This method allows to add a label in the view. Used for example in
      * our view for indicating the radius of the circle
      *
