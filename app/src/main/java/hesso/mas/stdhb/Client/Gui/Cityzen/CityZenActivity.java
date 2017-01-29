@@ -171,7 +171,7 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Add the actionmenu entries to the ActionBar
-        getMenuInflater().inflate(R.menu.actionsearchmenu, menu);
+        getMenuInflater().inflate(R.menu.actionmenu, menu);
         return true;
     }
 
