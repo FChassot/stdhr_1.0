@@ -281,22 +281,27 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
 
                 holder.name.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View aView) {
-                        CheckBox lCheckbox = (CheckBox) aView;
-                        CulturalObjectType lCulturalObjectType = (CulturalObjectType) lCheckbox.getTag();
-                        lCulturalObjectType.setSelected(lCheckbox.isChecked());
-                        int lIndex = 0;
+                        if (aView instanceof CheckBox) {
+                            CheckBox lCheckbox = (CheckBox) aView;
 
-                        for (CulturalObjectType culturalObjType : mCulturalObjectTypes) {
-                            if (culturalObjType.getName().equals(lCulturalObjectType.getName())) {
-                                break;
-                            }
-                            else {
-                                lIndex += 1;
-                            }
-                        }
+                            if (lCheckbox != null) {
+                                CulturalObjectType lCulturalObjectType = (CulturalObjectType) lCheckbox.getTag();
+                                lCulturalObjectType.setSelected(lCheckbox.isChecked());
+                                int lIndex = 0;
 
-                        if (mCulturalObjectTypes != null) {
-                            mCulturalObjectTypes.add(lIndex, lCulturalObjectType);
+                                for (CulturalObjectType culturalObjType : mCulturalObjectTypes) {
+                                    if (culturalObjType.getName().equals(lCulturalObjectType.getName())) {
+                                        break;
+                                    }
+                                    else {
+                                        lIndex += 1;
+                                    }
+                                }
+
+                                if (mCulturalObjectTypes != null) {
+                                    mCulturalObjectTypes.add(lIndex, lCulturalObjectType);
+                                }
+                            }
                         }
                     }
                 });
