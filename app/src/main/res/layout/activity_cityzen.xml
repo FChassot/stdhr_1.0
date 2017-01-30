@@ -95,11 +95,10 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_back"
+        android:src="@mipmap/ic_gmap"
         android:id="@+id/mImgBack"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

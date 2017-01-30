@@ -458,12 +458,25 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
                 String objectId = culturalObject.GetValue("culturalInterest");
                 String start = culturalObject.GetValue("start");
                 String end = culturalObject.GetValue("end");
+                String latitude = culturalObject.GetValue("lat");
+                String longitude = culturalObject.GetValue("long");
+                Double lDblLat = 0.0;
+                Double lDblLong = 0.0;
+
+                if (!latitude.equals(MyString.EMPTY_STRING)) {
+                    lDblLat  = Double.parseDouble(latitude);
+                }
+                if (!longitude.equals(MyString.EMPTY_STRING)) {
+                    lDblLong  = Double.parseDouble(longitude);
+                }
 
                 RadarMarker selectedMarker = new RadarMarker();
                 selectedMarker.setTitle(title);
                 selectedMarker.setObjectId(objectId);
                 selectedMarker.setStart(start);
                 selectedMarker.setEnd(end);
+                selectedMarker.setLatitude(lDblLat);
+                selectedMarker.setLongitude(lDblLong);
 
                 Intent intent = new Intent(context, CityZenActivity.class);
 

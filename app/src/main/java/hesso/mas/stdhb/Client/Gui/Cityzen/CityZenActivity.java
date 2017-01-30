@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
+import android.os.Parcelable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
+
+import java.util.ArrayList;
 
 import hesso.mas.stdhb.Base.Connectivity.NetworkConnectivity;
 import hesso.mas.stdhb.Base.Constants.BaseConstants;
@@ -224,8 +228,31 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
                     "Close");
         }
         if (aView.getId()==R.id.mImgBack){
-            Intent lIntent = new Intent(CityZenActivity.this, MainActivity.class);
-            startActivity(lIntent);
+            Intent intent = new Intent(this, MapsActivity.class);
+
+            Bundle bundle = new Bundle();
+
+            RadarMarker currentUserMarker = new RadarMarker();
+
+            Location currentUserLocation = null; //= getCurrentLocation();
+
+            if (currentUserLocation != null) {
+                currentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
+                currentUserMarker.setLatitude(currentUserLocation.getLatitude());
+                currentUserMarker.setLongitude(currentUserLocation.getLongitude());
+            }
+            else {
+                currentUserMarker.setLatitude(46.2333);
+                currentUserMarker.setLongitude(7.35);
+                currentUserMarker.setTitle(BaseConstants.Attr_CityZen_User_Text);
+            }
+
+            bundle.putParcelable(MapsActivity.USER_MARKER, currentUserMarker);
+            bundle.putParcelable(MapsActivity.RADAR_MARKER, mCulturalObjectMarker);
+
+            intent.putExtras(bundle);
+
+            this.startActivity(intent);
         }
     }
 
@@ -346,7 +373,9 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
 
                 mDescription = culturalObject.GetValue("description");
                 TextView mTxtDescription = (TextView)findViewById(R.id.mTxtDescription);
-                mTxtDescription.setText(mDescription + " start: " + mCulturalObjectMarker.getStart() + " end: " + mCulturalObjectMarker.getEnd());
+
+                mTxtDescription.setText(mDescription);
+                //+ " start: " + mCulturalObjectMarker.getStart() + " end: " + mCulturalObjectMarker.getEnd()
                 TextView mTxtViewPosition = (TextView)findViewById(R.id.mTxtViewPosition);
                 mTxtViewPosition.setText(getStrLocation(mCulturalObjectMarker));
 
