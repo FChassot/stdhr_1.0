@@ -398,13 +398,13 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                 BaseConstants.Attr_ClientServer_Communication,
                 clientServerCommunication);
 
-        List<String> listOfCulturalObjectType = new ArrayList<>();
+        /*List<String> listOfCulturalObjectType = new ArrayList<>();
 
         for (CulturalObjectType aCulturalObjectType : mCulturalObjectTypes) {
             if (aCulturalObjectType.isSelected()) {
                 listOfCulturalObjectType.add(aCulturalObjectType.getName());
             }
-        }
+        }*/
 
         setCulturalObjectTypeInPrefs(mCulturalObjectTypes);
 
@@ -555,20 +555,22 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
     private void setCulturalObjectTypeInPrefs(
          List<CulturalObjectType> listCulturalObjectType) {
 
-        for (CulturalObjectType culturalObjectType : listCulturalObjectType) {
-            String lAttributeName =
-                    getCorrespondingAttributeName(culturalObjectType.getName());
+        if (listCulturalObjectType != null) {
+            for (CulturalObjectType culturalObjectType : listCulturalObjectType) {
+                String lAttributeName =
+                        getCorrespondingAttributeName(culturalObjectType.getName());
 
-            if (culturalObjectType.isSelected()) {
-                mPrefs.setMyStringPref(
-                        this,
-                        lAttributeName,
-                        "1");
-            } else {
-                mPrefs.setMyStringPref(
-                        this,
-                        lAttributeName,
-                        "0");
+                if (culturalObjectType.isSelected()) {
+                    mPrefs.setMyStringPref(
+                            this,
+                            lAttributeName,
+                            "1");
+                } else {
+                    mPrefs.setMyStringPref(
+                            this,
+                            lAttributeName,
+                            "0");
+                }
             }
         }
     }
@@ -609,7 +611,7 @@ public class SettingsActivity extends AppCompatActivity implements OnClickListen
                         lAttributeName,
                         "1");
 
-        if (!culturalObjectValue.equals(MyString.EMPTY_STRING) && culturalObjectValue == "1") {
+        if ((!culturalObjectValue.equals(MyString.EMPTY_STRING)) && culturalObjectValue == "1") {
             return new CulturalObjectType(code, aCulturalInterestName, true);
         }
         else {

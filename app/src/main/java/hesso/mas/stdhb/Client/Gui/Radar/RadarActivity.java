@@ -720,16 +720,17 @@ public class RadarActivity
             mHasInterference = (accuracy < SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 
             if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
-                //text += " " + "The compass seems to be now correctly calibrated!"; //"SENSOR_STATUS_ACCURACY_HIGH";
+                text = "The compass seems to work correctly!\"" + text; //"SENSOR_STATUS_ACCURACY_HIGH";
+                ShowToast(this, text, Color.BLUE, Color.WHITE);
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) {
-                text += " " + "Try to calibrate the compass on your Android!\""; //"SENSOR_STATUS_ACCURACY_MEDIUM"
-                ShowToast(this, text);
+                text = " " + "Try to calibrate the compass on your Android!\"" + text; //"SENSOR_STATUS_ACCURACY_MEDIUM"
+                ShowToast(this, text, Color.WHITE, Color.RED);
             } else if (accuracy == SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
-                text += " " + "Try to calibrate the compass on your Android!\""; //"SENSOR_STATUS_ACCURACY_LOW"
-                ShowToast(this, text);
+                text = " " + "Try to calibrate the compass on your Android!\"" + text; //"SENSOR_STATUS_ACCURACY_LOW"
+                ShowToast(this, text, Color.WHITE, Color.RED);
             } else if (accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
-                text += " " + "Try to calibrate the compass on your Android!"; //"SENSOR_STATUS_UNRELIABLE"
-                ShowToast(this, text);
+                text = " " + "Try to calibrate the compass on your Android!\"" + text; //"SENSOR_STATUS_UNRELIABLE"
+                ShowToast(this, text, Color.WHITE, Color.RED);
             }
 
             //Toast.makeText(this, text, Toast.LENGTH_LONG).show();
@@ -741,17 +742,17 @@ public class RadarActivity
      * @param context
      * @param info
      */
-    public void ShowToast(Context context, String info) {
-        Toast toast = Toast.makeText(context, info, Toast.LENGTH_LONG);
+    public void ShowToast(Context context, String info, int textColor, int backgroundColor) {
+        Toast toast = Toast.makeText(context, info, Toast.LENGTH_SHORT);
         View view = toast.getView();
 
         //To change the Background of Toast
-        view.setBackgroundColor(Color.WHITE);
+        view.setBackgroundColor(backgroundColor);
         TextView text = (TextView) view.findViewById(android.R.id.message);
 
         //Shadow of the Of the Text Color
         text.setShadowLayer(1, 1, 1, Color.YELLOW);
-        text.setTextColor(Color.BLUE);
+        text.setTextColor(textColor);
         //text.setTextSize(20);
         toast.show();
     }

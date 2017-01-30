@@ -315,9 +315,30 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
             Location culturalObjectMarker) {
 
         return SpatialGeometryServices.getDistanceBetweenTwoPoints(
-                0,
-                0,
+                currentLocation.getLatitude(),
+                currentLocation.getLongitude(),
                 culturalObjectMarker.getLatitude(),
+                culturalObjectMarker.getLongitude(),
+                0,
+                0);
+
+    }
+
+    /**
+     * Calculate the distance between the mobile system and an CityZen object.
+     *
+     * @param currentMarker
+     * @param culturalObjectMarker
+     * @return
+     */
+    private double getDistance(
+            RadarMarker currentMarker,
+            RadarMarker culturalObjectMarker) {
+
+        return SpatialGeometryServices.getDistanceBetweenTwoPoints(
+                currentMarker.getLatitude(),
+                culturalObjectMarker.getLatitude(),
+                currentMarker.getLongitude(),
                 culturalObjectMarker.getLongitude(),
                 0,
                 0);
@@ -329,10 +350,20 @@ public class CityZenActivity extends AppCompatActivity implements View.OnClickLi
      * @param culturalObjectMarker
      * @return
      */
-    private String getStrLocation(
+    private StringBuilder getStrLocation(
             RadarMarker culturalObjectMarker) {
 
-        return "Position Lat " + culturalObjectMarker.getLatitude() + " Lon " + culturalObjectMarker.getLongitude();
+        StringBuilder lString = new StringBuilder();
+
+        lString.append("Position Lat " + culturalObjectMarker.getLatitude() + " Long " + culturalObjectMarker.getLongitude());
+        lString.append(System.getProperty("line.separator"));
+        RadarMarker currentUserLocation = new RadarMarker();
+        currentUserLocation.setLatitude(46.2333);
+        currentUserLocation.setLongitude(7.35);
+        lString.append("Distance " + getDistance(currentUserLocation, culturalObjectMarker)/1000 + "[Km]");
+
+        return lString;
+        //return "Position Lat " + culturalObjectMarker.getLatitude() + " Lon " + culturalObjectMarker.getLongitude();
 
     }
 

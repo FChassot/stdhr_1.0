@@ -142,10 +142,10 @@ public class CityZenSearchActivity extends AppCompatActivity implements View.OnC
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (mTxtPeriod.getText().toString().equals("")) {
-                        mTxtPeriod.setText("Period");
+                        mTxtPeriod.setText("1900-2016");
                     }
                 } else {
-                    if (mTxtPeriod.getText().toString().equals("Period")) {
+                    if (mTxtPeriod.getText().toString().equals("1900-2016")) {
                         mTxtPeriod.setText("1900-2016");
                     }
                 }
