@@ -11,8 +11,11 @@ package hesso.mas.stdhb.Base.Constants;
 public final class BaseConstants {
 
     // constant which contains the URI of the Cityzen (SPARQL) server
+    /*public static final String Attr_CityZen_Server_URI =
+        "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";*/
+
     public static final String Attr_CityZen_Server_URI =
-        "http://ec2-52-39-53-29.us-west-2.compute.amazonaws.com:8080/openrdf-sesame/";
+        "http://88.99.66.215:8080/rdf4j-server/";
 
     // constant which contains the name of the repository
     public static final String Attr_CityZen_Repository_NAME = "CityZenDM";
